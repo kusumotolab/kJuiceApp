@@ -28,14 +28,6 @@ docker-compose down -v
 ```
 
 
-## 動作例
-
-https://user-images.githubusercontent.com/82633228/191949624-00512f5f-d5ff-4df6-a332-996e9fb08469.mp4
-
-
-
-
-
 ## 各種API
 ### GET
 #### 購入履歴管理周り
