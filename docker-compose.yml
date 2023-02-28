@@ -1,12 +1,7 @@
 version: '3.3'
 
 volumes:
-  postgres_volume:
-    driver_opts:
-      type: none
-      device: ./dbdata
-      o: bind
-
+  dbdata:
 
 services:
   frontend:
@@ -48,7 +43,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./backend/dbdata:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data
       - ./backend/script/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: admin
