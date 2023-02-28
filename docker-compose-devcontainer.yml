@@ -1,0 +1,100 @@
+version: '3.3'
+
+volumes:
+  postgres_volume:
+    driver_opts:
+      type: none
+      device: ${LOCAL_WS}/dbdata
+      o: bind
+
+
+services:
+  frontend:
+    build:
+      context: ${LOCAL_WS}
+    image: juiceapp_frontend
+    working_dir: /frontend/
+    # restart: always
+    volumes:
+      - type: bind
+        source: ${LOCAL_WS}/package.json
+        target: /frontend/package.json
+      - type: bind
+        source: ${LOCAL_WS}/package-lock.json
+        target: /frontend/package-lock.json
+      - type: bind
+        source: ${LOCAL_WS}/src
+        target: /frontend/src
+      - type: bind
+        source: ${LOCAL_WS}/vite.config.js
+        target: /frontend/vite.config.js
+      - type: bind
+        source: ${LOCAL_WS}/public
+        target: /frontend/public
+      - type: bind
+        source: ${LOCAL_WS}/tsconfig.json
+        target: /frontend/tsconfig.json
+    tty: true
+    ports:
+      - 3000:3000
+    command: >
+      bash -c "npm install &&
+      npm start"
+
+
+  postgresql:
+    container_name: postgresql
+    build: ${LOCAL_WS}/backend/postgresql
+    ports:
+      - 5432:5432
+    volumes:
+      - ${LOCAL_WS}/backend/dbdata:/var/lib/postgresql/data
+      - ${LOCAL_WS}/backend/script/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test-db
+    restart: always
+
+
+  backend:
+    image: eclipse-temurin:17-jdk-focal
+    ports:
+      - 55050:5050
+    tty: true
+    working_dir: /backend/
+    volumes:
+      - type: bind
+        source: ${LOCAL_WS}/backend/src
+        target: /backend/src
+      - type: bind
+        source: ${LOCAL_WS}/backend/gradle
+        target: /backend/gradle/
+      - type: bind
+        source: ${LOCAL_WS}/backend/gradlew
+        target: /backend/gradlew
+      - type: bind
+        source: ${LOCAL_WS}/backend/build.gradle
+        target: /backend/build.gradle
+      - type: bind
+        source: ${LOCAL_WS}/backend/settings.gradle
+        target: /backend/settings.gradle
+    depends_on:
+      - postgresql
+    command:
+      - ./gradlew
+      - bootRun
+
+  nginx:
+    image: nginx:1.21
+    ports:
+      - '80:80'
+    command: [nginx-debug, '-g', 'daemon off;']
+    volumes:
+      - type: bind
+        source: ${LOCAL_WS}/nginx/default.conf
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+      - postgresql
