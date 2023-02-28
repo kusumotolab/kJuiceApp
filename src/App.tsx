@@ -20,6 +20,7 @@ import {
   faHouse,
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
+import ImageUploadPane from "./ImageUpload/ImageUploadPane";
 
 function App() {
   const logState = (state) => {
@@ -44,6 +45,7 @@ function App() {
           <FontAwesomeIcon style={iconStyle} icon={faHammer} />
         </Tab>
         <Tab>Chat<FontAwesomeIcon style={iconStyle} icon={faMessage} /></Tab>
+        <Tab>Image Upload<FontAwesomeIcon style={iconStyle} icon={faMessage} /></Tab>
       </TabList>
       <TabPanel>
         <HomePageParent />
@@ -56,6 +58,9 @@ function App() {
       </TabPanel>
       <TabPanel>
         <ChatPane />
+      </TabPanel>
+      <TabPanel>
+        <ImageUploadPane/>
       </TabPanel>
     </Tabs>
   );
