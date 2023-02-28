@@ -11,7 +11,7 @@ volumes:
 services:
   frontend:
     build:
-      context: ${LOCAL_WS}
+      context: .
     image: juiceapp_frontend
     working_dir: /frontend/
     # restart: always
@@ -44,7 +44,7 @@ services:
 
   postgresql:
     container_name: postgresql
-    build: ${LOCAL_WS}/backend/postgresql
+    build: ./backend/postgresql
     ports:
       - 5432:5432
     volumes:

@@ -20,5 +20,6 @@
 	"remoteEnv": {
 		"LOCAL_WS": "${localWorkspaceFolder}"
 	},
-	"postAttachCommand": "export LOCAL_WS=`echo $LOCAL_WS | sed -e 's/\\\\/\\//g; s/://; s/^\\([^/]\\)/\\/\\1/'`"
+	"postCreateCommand": "./.devcontainer/replaceEnvVar.sh"
 }
+  
