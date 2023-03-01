@@ -2,11 +2,30 @@ import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+
+
+const fetchBase64Img = async (setBase64Img) => {
+    const inputdata = await fetch(
+      `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=h-yosiok`,
+      {
+        method: "GET",
+        mode: "cors",
+      }
+    )
+      .then((res) => res.text())
+      .then((items) => {
+        setBase64Img(items);
+      });
+  };
+
+  
+
 // ローカルフォルダから画像を選択し，画面に出力できるようにする．
 function ImageUploadPane(): JSX.Element{
 
     const [profileImage,setProfileImage] = useState("");
     const [image,setImage] = useState<FileList>();
+    const [base64Img,setBase64Img] = useState<string>();
 
     let fileObject: File;
 
@@ -42,7 +61,12 @@ function ImageUploadPane(): JSX.Element{
         <div className="flex justify-center items-center mt-8">
         <ImagePreview src={profileImage} className="h-32 w-32 rounded-full" />o
         <input type="file" multiple accept="image/*" onChange={onFileInputChange} className="pl-4" />
-        <button>アップロード</button>
+        <img src={base64Img} />
+        <button
+        onClick={() => {
+            fetchBase64Img(setBase64Img);
+        }}
+        >ロードする</button>
       </div>
     )
 }
