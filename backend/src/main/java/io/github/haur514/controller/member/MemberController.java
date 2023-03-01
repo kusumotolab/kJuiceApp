@@ -91,6 +91,6 @@ public class MemberController {
     @PostMapping(value="/member/image/upload")
     public String uploadMemberImage(
         @RequestPart("image") MultipartFile file) throws IOException {
-            return "hoge";
+            return file.getOriginalFilename();
         }
 }
