@@ -1,6 +1,8 @@
 package io.github.haur514.controller.member;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,6 +21,8 @@ import io.github.haur514.controller.member.requestbody.MemberAddRequestBody;
 import io.github.haur514.controller.member.requestbody.MemberDeleteBody;
 import io.github.haur514.controller.member.requestbody.MemberSetActivityBody;
 import io.github.haur514.entity.MemberEntity;
+import io.github.haur514.entity.MemberImageEntity;
+import io.github.haur514.repository.MemberImageRepository;
 import io.github.haur514.repository.MemberRepository;
 import io.github.haur514.service.HistoryService;
 import io.github.haur514.service.MemberService;
@@ -34,6 +38,9 @@ public class MemberController {
     MemberRepository memberRepository;
 
     @Autowired
+    MemberImageRepository memberImageRepository;
+
+    @Autowired
     HistoryService historyService;
 
     @PostMapping("/member/add")
@@ -41,9 +48,9 @@ public class MemberController {
     public String addMember(
             @RequestBody MemberAddRequestBody memberAddRequestBody) {
         return memberService.addMember(
-            memberAddRequestBody.name, 
-            memberAddRequestBody.displayName, 
-            memberAddRequestBody.attribute);
+                memberAddRequestBody.name,
+                memberAddRequestBody.displayName,
+                memberAddRequestBody.attribute);
     }
 
     @PostMapping
@@ -76,26 +83,46 @@ public class MemberController {
     }
 
     @RequestMapping("/member/unpayed")
-     public String getMemberWithUnpayedAmount(){
+    public String getMemberWithUnpayedAmount() {
         return memberService.getMemberWithUnpayedAmount();
-     }
+    }
 
     @PostMapping("/member/setactivity")
     @ResponseBody
-     public String setMemberActivity(
-        @RequestBody MemberSetActivityBody memberSetActivityBody){
-        MemberEntity memberEntity= memberService.findByName(memberSetActivityBody.name);
+    public String setMemberActivity(
+            @RequestBody MemberSetActivityBody memberSetActivityBody) {
+        MemberEntity memberEntity = memberService.findByName(memberSetActivityBody.name);
         memberEntity.setActive(memberSetActivityBody.activity);
         memberRepository.save(memberEntity);
         return "success";
     }
 
-    @PostMapping(value="/member/image/upload")
+    @PostMapping(value = "/member/image/upload")
     public String uploadMemberImage(
-        @RequestPart("image") MultipartFile file) throws IOException {
-            if(!memberService.storeUserIcon(file)){
-                return "failed";
-            }
-            return new Gson().toJson(memberService.findAll());
+            @RequestPart("image") MultipartFile file) throws IOException {
+        if (!memberService.storeUserIcon(file)) {
+            return "failed";
         }
+        return new Gson().toJson(memberService.findAll());
+    }
+
+    @RequestMapping("/member/image")
+    @ResponseBody
+    public String getMemberImage(
+        @RequestParam(name="name") String name
+    ){
+        List<MemberImageEntity> memberImageEntities = memberImageRepository.findByName(name);
+        if(memberImageEntities.isEmpty()){
+            return "";
+        }
+        MemberImageEntity memberImageEntity = memberImageEntities.get(memberImageEntities.size()-1);
+        String base64str = Base64.getEncoder().encodeToString(memberImageEntity.getData());
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("data:");
+        sb.append(memberImageEntity.getType());
+        sb.append(";base64,");
+        sb.append(base64str);
+        return sb.toString();
+    }
 }
