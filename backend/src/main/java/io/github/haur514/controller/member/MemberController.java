@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
 import io.github.haur514.controller.member.requestbody.MemberAddRequestBody;
 import io.github.haur514.controller.member.requestbody.MemberDeleteBody;
 import io.github.haur514.controller.member.requestbody.MemberSetActivityBody;
@@ -91,6 +93,9 @@ public class MemberController {
     @PostMapping(value="/member/image/upload")
     public String uploadMemberImage(
         @RequestPart("image") MultipartFile file) throws IOException {
-            return file.getOriginalFilename();
+            if(!memberService.storeUserIcon(file)){
+                return "failed";
+            }
+            return new Gson().toJson(memberService.findAll());
         }
 }

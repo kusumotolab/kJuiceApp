@@ -7,11 +7,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
 import io.github.haur514.common.ManipulateMemberList;
 import io.github.haur514.entity.MemberEntity;
+import io.github.haur514.entity.MemberImageEntity;
+import io.github.haur514.repository.MemberImageRepository;
 import io.github.haur514.repository.MemberRepository;
 
 @Service
@@ -19,6 +22,9 @@ import io.github.haur514.repository.MemberRepository;
 public class MemberService {
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    MemberImageRepository memberImageRepository;
 
 
     public List<MemberEntity> findAll(){
@@ -144,6 +150,20 @@ public class MemberService {
         }
         memberEntity.setUmpayedAmount(memberEntity.getUmpayedAmount()-price);
         memberRepository.save(memberEntity);
+        return true;
+    }
+
+    // ユーザのアイコンをデータベースに保存する．成功したらtrue, 失敗したらfalseを返す．
+    public boolean storeUserIcon(MultipartFile file){
+        try{
+            MemberImageEntity memberImageEntity = new MemberImageEntity();
+            memberImageEntity.setData(file.getBytes());
+            memberImageEntity.setName(file.getName());
+            memberImageEntity.setType(file.getContentType());
+            memberImageRepository.save(memberImageEntity);
+        }catch(Exception e){
+            return false;
+        }
         return true;
     }
 }
