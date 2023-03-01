@@ -1,13 +1,17 @@
 package io.github.haur514.controller.member;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.github.haur514.controller.member.requestbody.MemberAddRequestBody;
 import io.github.haur514.controller.member.requestbody.MemberDeleteBody;
@@ -82,5 +86,11 @@ public class MemberController {
         memberEntity.setActive(memberSetActivityBody.activity);
         memberRepository.save(memberEntity);
         return "success";
-     }
+    }
+
+    @PostMapping(value="/member/image/upload")
+    public String uploadMemberImage(
+        @RequestPart("image") MultipartFile file) throws IOException {
+            return "hoge";
+        }
 }
