@@ -158,7 +158,7 @@ public class MemberService {
         try{
             MemberImageEntity memberImageEntity = new MemberImageEntity();
             memberImageEntity.setData(file.getBytes());
-            memberImageEntity.setName(file.getName());
+            memberImageEntity.setName("h-yosiok");
             memberImageEntity.setType(file.getContentType());
             memberImageRepository.save(memberImageEntity);
         }catch(Exception e){

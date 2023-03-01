@@ -14,11 +14,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="memberImage")
+@Table(name="memberimage")
 public class MemberImageEntity {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private String id;
 
     @Column(name="name")
