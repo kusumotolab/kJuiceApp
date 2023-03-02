@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../component/Button";
 import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 
 import { useSpring, animated } from "react-spring";
 import { isAbsolute } from "node:path/win32";
 import styled from "styled-components";
+import axios from "axios";
 
 const default_member_card_color: string = "#303030";
 const selected_member_card_color: string = "#303030";
@@ -25,14 +26,54 @@ const fetchBase64Img = async (setBase64Img,userId:string) => {
     });
 };
 
+const handleSubmit = async (fileObject:File,userId: string) => {
+  if(fileObject == undefined){return;}
+  if(userId==""){
+      alert("userIdが指定されていません");
+      return;
+  }
+
+  const file = new FormData();
+  file.append('image',fileObject);
+  file.append('userId',userId);
+
+  let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image/upload?userId=${userId}`;
+  
+  try{
+      await axios.post(url,file)
+      .then(function(response){
+          console.log(response);
+      })
+  }catch(error){
+      console.log("ファイルのアップに失敗しました");
+  }
+}
+
 function MemberCard({selected,member,setSelectedMember,key}) {
 
   const [userIcon,setUserIcon] = useState("");
+  const [profileImage,setProfileImage] = useState("");
+
+  const inputRef = useRef(null);
+  let fileObject: File;
+
 
   useEffect(() => {
     fetchBase64Img(setUserIcon,member.name);
   }, []);
   
+
+  function userIconClicked(e: React.MouseEvent<HTMLElement>){
+    inputRef.current.click();
+  }
+
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!e.target.files) return;
+    fileObject = e.target.files[0];
+    setProfileImage(window.URL.createObjectURL(fileObject));
+
+    handleSubmit(fileObject,member.name);
+  };
 
   const styles = useSpring({
     opacity: selected ? 1 : 0,
@@ -57,7 +98,11 @@ function MemberCard({selected,member,setSelectedMember,key}) {
         fontColor={font_color}
         children={
           <MemberCardChildren>
-            <MemberCardImage src={userIcon==""?DefaultIcon:userIcon} />
+            <MemberCardImage 
+              src={userIcon==""?DefaultIcon:userIcon} 
+              onClick={userIconClicked}/>
+            <input type="file" ref={inputRef} hidden multiple accept="image/*" onChange={onFileInputChange}/>
+            
             <MemberCardChildrenContent>
               <span>{member.displayName}</span>
             </MemberCardChildrenContent>
@@ -103,8 +148,9 @@ const MemberCardChildrenContent = styled.div`
 `;
 
 const MemberCardImage = styled.img`
-  display: block;
+  overflow: hidden;
   height: 1em;
+  width: 1em;
   padding-left: auto;
   margin-right: 0.5em;
   margin-left: 0.5em;
