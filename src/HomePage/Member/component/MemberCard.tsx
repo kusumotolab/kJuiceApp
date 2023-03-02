@@ -44,7 +44,12 @@ const handleSubmit = async (fileObject:File,userId: string) => {
       .then(function(response){
           console.log(response);
       })
+
+      // TODO
+      // 綺麗な実装ではない．即時に画像の変更を反映させるために利用する．
+    window.location.reload();
   }catch(error){
+      alert("画像ファイルに問題があります．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．");
       console.log("ファイルのアップに失敗しました");
   }
 }
@@ -67,16 +72,12 @@ function MemberCard({selected,member,setSelectedMember,key}) {
     inputRef.current.click();
   }
 
-  const onFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(!e.target.files) return;
     fileObject = e.target.files[0];
     setProfileImage(window.URL.createObjectURL(fileObject));
 
-    await handleSubmit(fileObject,member.name);
-    
-    // TODO
-    // 綺麗な実装ではない．即時に画像の変更を反映させるために利用する．
-    window.location.reload();
+    handleSubmit(fileObject,member.name);
   };
 
   const styles = useSpring({
