@@ -1,6 +1,5 @@
 CREATE TABLE memberimage(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR PRIMARY KEY,
     type VARCHAR,
     data BYTEA
 )
