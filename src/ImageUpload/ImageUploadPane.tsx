@@ -4,9 +4,9 @@ import styled from "styled-components";
 
 
 
-const fetchBase64Img = async (setBase64Img) => {
+const fetchBase64Img = async (setBase64Img,userId: string) => {
     const inputdata = await fetch(
-      `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=h-yosiok`,
+      `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
       {
         method: "GET",
         mode: "cors",
@@ -27,6 +27,8 @@ function ImageUploadPane(): JSX.Element{
     const [image,setImage] = useState<FileList>();
     const [base64Img,setBase64Img] = useState<string>();
 
+    const [userId,setUserId] = useState<string>("");
+
     let fileObject: File;
 
     const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,13 +40,22 @@ function ImageUploadPane(): JSX.Element{
 
     };
 
+    const onTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserId(e.target.value);
+    }
+
     const handleSubmit = async (fileObject:File) => {
         if(fileObject == undefined){return;}
+        if(userId==""){
+            alert("userIdが指定されていません");
+            return;
+        }
 
         const file = new FormData();
         file.append('image',fileObject);
+        file.append('userId',userId);
 
-        let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image/upload`;
+        let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image/upload?userId=${userId}`;
         
         try{
             await axios.post(url,file)
@@ -59,12 +70,15 @@ function ImageUploadPane(): JSX.Element{
 
     return(
         <div className="flex justify-center items-center mt-8">
-        <ImagePreview src={profileImage} className="h-32 w-32 rounded-full" />o
-        <input type="file" multiple accept="image/*" onChange={onFileInputChange} className="pl-4" />
+        <ImagePreview src={profileImage} />
+        <input type="file" multiple accept="image/*" onChange={onFileInputChange}/>
         <img src={base64Img} />
+        <input type="text" onChange={onTextInputChange} />
         <button
         onClick={() => {
-            fetchBase64Img(setBase64Img);
+            console.log(userId)
+            if( userId == ""){return;}
+            fetchBase64Img(setBase64Img,userId);
         }}
         >ロードする</button>
       </div>

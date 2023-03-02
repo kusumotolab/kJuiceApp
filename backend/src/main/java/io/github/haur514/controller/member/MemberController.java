@@ -99,8 +99,9 @@ public class MemberController {
 
     @PostMapping(value = "/member/image/upload")
     public String uploadMemberImage(
-            @RequestPart("image") MultipartFile file) throws IOException {
-        if (!memberService.storeUserIcon(file)) {
+            @RequestPart("image") MultipartFile file,
+            @RequestPart("userId") String userId ) throws IOException {
+        if (!memberService.storeUserIcon(file,userId)) {
             return "failed";
         }
         return new Gson().toJson(memberService.findAll());

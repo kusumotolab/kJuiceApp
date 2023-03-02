@@ -154,11 +154,11 @@ public class MemberService {
     }
 
     // ユーザのアイコンをデータベースに保存する．成功したらtrue, 失敗したらfalseを返す．
-    public boolean storeUserIcon(MultipartFile file){
+    public boolean storeUserIcon(MultipartFile file,String userId){
         try{
             MemberImageEntity memberImageEntity = new MemberImageEntity();
             memberImageEntity.setData(file.getBytes());
-            memberImageEntity.setName("h-yosiok");
+            memberImageEntity.setName(userId);
             memberImageEntity.setType(file.getContentType());
             memberImageRepository.save(memberImageEntity);
         }catch(Exception e){
