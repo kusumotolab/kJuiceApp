@@ -67,12 +67,16 @@ function MemberCard({selected,member,setSelectedMember,key}) {
     inputRef.current.click();
   }
 
-  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if(!e.target.files) return;
     fileObject = e.target.files[0];
     setProfileImage(window.URL.createObjectURL(fileObject));
 
-    handleSubmit(fileObject,member.name);
+    await handleSubmit(fileObject,member.name);
+    
+    // TODO
+    // 綺麗な実装ではない．即時に画像の変更を反映させるために利用する．
+    window.location.reload();
   };
 
   const styles = useSpring({
@@ -148,7 +152,7 @@ const MemberCardChildrenContent = styled.div`
 `;
 
 const MemberCardImage = styled.img`
-  overflow: hidden;
+  object-fit:cover;
   height: 1em;
   width: 1em;
   padding-left: auto;
