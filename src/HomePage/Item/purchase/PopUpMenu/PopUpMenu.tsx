@@ -40,6 +40,7 @@ function PopUpMenu({
   selectedMember,
   setUpdate,
   update,
+  setShowCompleteMessage,
 }) {
   const Background = styled.div`
     position: fixed;
@@ -70,7 +71,8 @@ function PopUpMenu({
             setSumPurchased={setSumPurchased}
             closePopUp={closePopUp}
             setUpdate={setUpdate}
-            update
+            update={update}
+            setShowCompleteMessage={setShowCompleteMessage}
         />
       </div>
     </Background>

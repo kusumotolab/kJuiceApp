@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import FoodPane from "./Food/FoodPane";
 import JuicePane from "./Juice/JuicePane";
 import HistoryPane from "../History/HistoryPane";
-import PopUpMenu from "./PopUpMenu/PopUpMenu";
+import PopUpMenu from "./purchase/PopUpMenu/PopUpMenu";
 
 import LogoCola from "./../../image/logo_coca_cora.jpg";
 import LogoFanta from "./../../image/logo_fanta.jpg";
@@ -13,9 +13,12 @@ import LogoPotechi from "./../../image/logo_potechi.jpeg";
 import LogoDagashi from "./../../image/logo_dagashi.jpeg";
 import MemberInformation from "./MemberInformation/MemberInformation";
 import styled from "styled-components";
+import CompleteMessage from "./purchase/CompleteMessage/completeMessage";
 
 function ItemPane(props) {
   const [is_popup_visible, setPopUpVisivility] = useState(false);
+
+  const [showCompleteMessage,setShowCompleteMessage] = useState(false);
 
   let logoDictionary = {
     CocaCola: LogoCola,
@@ -64,7 +67,11 @@ function ItemPane(props) {
           selectedMember={props.selectedMember}
           setUpdate={props.setUpdate}
           update={props.update}
+          setShowCompleteMessage={setShowCompleteMessage}
        />
+      <CompleteMessage
+        show={showCompleteMessage}
+        setShow={setShowCompleteMessage}/>
     </MainItemPane>
   );
 }

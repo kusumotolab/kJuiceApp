@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../../../../component/Button";
+import Button from "../../../../../component/Button";
 import styled from "styled-components";
 
 function SelectCancelPurchaseButtonPane({
@@ -10,6 +10,7 @@ function SelectCancelPurchaseButtonPane({
   closePopUp,
   setUpdate,
   update,
+  setShowCompleteMessage
 }) {
   return (
     <SelectButtonPane>
@@ -37,6 +38,10 @@ function SelectCancelPurchaseButtonPane({
             closePopUp();
             setSumPurchased(selectedItem.salesFigure + 1);
             setUpdate(!update);
+            setShowCompleteMessage(true);
+            setTimeout(function(){
+              setShowCompleteMessage(false);
+            }.bind(this),2100);
           }}
           radius="0.2em"
           fontColor="white"
