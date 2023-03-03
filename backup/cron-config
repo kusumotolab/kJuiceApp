@@ -1,1 +1,1 @@
-* * * * * /root/backup.sh > /root/cronlog > /root/cronlog 2>&1
+* 6 * * * /root/backup.sh > /root/cronlog > /root/cronlog 2>&1
