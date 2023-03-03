@@ -101,6 +101,8 @@ services:
       PGPASSWORD: pass
       PGDATABASE: test-db
       PGHOST: postgresql
+      BACKUP_HOST: ${BACKUP_HOST}
+      BACKUP_USER: ${BACKUP_USER}
     volumes:
       - type: bind
         source: ./backup/cron-config
@@ -108,3 +110,6 @@ services:
       - type: bind
         source: ./backup/backup.sh
         target: /root/backup.sh
+      - type: bind
+        source: ./secret/private_key
+        target: /root/.ssh/private_key

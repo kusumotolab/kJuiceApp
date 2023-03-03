@@ -66,3 +66,5 @@ HELP.md
 /backend/figure/fig_factory.pptx
 
 /backend/.gradle/*
+
+.env
