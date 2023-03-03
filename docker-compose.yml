@@ -93,3 +93,18 @@ services:
       - frontend
       - backend
       - postgresql
+
+  backup:
+    build: ./backup
+    environment:
+      PGUSER: admin
+      PGPASSWORD: pass
+      PGDATABASE: test-db
+      PGHOST: postgresql
+    volumes:
+      - type: bind
+        source: ./backup/cron-config
+        target: /etc/crontabs/root
+      - type: bind
+        source: ./backup/backup.sh
+        target: /root/backup.sh
