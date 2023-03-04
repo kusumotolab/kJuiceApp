@@ -22,4 +22,3 @@
 	},
 	"postCreateCommand": "./.devcontainer/replaceEnvVar.sh"
 }
-  
