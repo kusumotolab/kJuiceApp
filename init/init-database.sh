@@ -7,10 +7,10 @@ readonly DOCKER_HOST="gateway.docker.internal"
 # arg: (api_host, name, displayName, attribute)
 # example: ("localhost", "r-takaic", "髙市", "m2")
 function add_user() {
-    header="Content-Type:application/json"
-    api_path="/backend/member/add"
-    uri="http://$1$api_path"
-    data="{\"name\":\"$2\",\"displayName\":\"$3\",\"attribute\":\"$4\"}"
+    local header="Content-Type:application/json"
+    local api_path="/backend/member/add"
+    local uri="http://$1$api_path"
+    local data="{\"name\":\"$2\",\"displayName\":\"$3\",\"attribute\":\"$4\"}"
 
     curl -X POST -H $header -d $data $uri
     
@@ -21,10 +21,10 @@ function add_user() {
 # arg: (api_host, name, sellingprice, costprice, grouping)
 # example: ("localhost", "CocaCola", "80", "70", "juice")
 function add_item() {
-    header="Content-Type:application/json"
-    api_path="/backend/item/add"
-    uri="http://$1$api_path"
-    data="{\"name\":\"$2\",\"sellingprice\":\"$3\",\"costprice\":\"$4\",\"grouping\":\"$5\"}"
+    local header="Content-Type:application/json"
+    local api_path="/backend/item/add"
+    local uri="http://$1$api_path"
+    local data="{\"name\":\"$2\",\"sellingprice\":\"$3\",\"costprice\":\"$4\",\"grouping\":\"$5\"}"
 
     curl -X POST -H $header -d $data $uri
     
