@@ -6,5 +6,3 @@ CREATE TABLE item (
     salesfigure integer,
     active boolean default true
 );
-
-SELECT * FROM item;
