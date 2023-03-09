@@ -24,9 +24,9 @@ http://localhost:80 にアクセス．
 ## Restore
 1. バックアップ先のホストから`yyyymmddhhMM.sql`を`./restore.sql`にコピー
 2. dbボリュームが存在しないことを確認（`docker volume ls | grep kjuiceapp_dbdata`が空）
-3. `docker compoose up restore-db`
+3. `docker compose up restore-db`
 4. `database system is ready to accept connections`が出たらリストア完了
-5. `Ctrl+C`でコンテナを終了し，`docker compose down`で削除
+5. `Ctrl+C`でコンテナを終了し，`docker compose rm restore-db`で削除
 5. （`docker compose up`で起動）
 
 # How to Contribute
