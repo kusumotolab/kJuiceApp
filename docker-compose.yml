@@ -105,20 +105,20 @@ services:
       BACKUP_USER: ${BACKUP_USER}
     volumes:
       - type: bind
-        source: ./backup/cron-config
+        source: ${KJA_LOCAL_WS-.}/backup/cron-config
         target: /etc/crontabs/root
       - type: bind
-        source: ./backup/backup.sh
+        source: ${KJA_LOCAL_WS-.}/backup/backup.sh
         target: /root/backup.sh
       - type: bind
-        source: ./secret/private_key
+        source: ${KJA_LOCAL_WS-.}/secret/private_key
         target: /root/.ssh/private_key
 
   restore-db:
     build: ./backend/postgresql
     volumes:
       - dbdata:/var/lib/postgresql/data
-      - ./restore.sql:/docker-entrypoint-initdb.d/restore.sql
+      - ${KJA_LOCAL_WS-.}/restore.sql:/docker-entrypoint-initdb.d/restore.sql
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
