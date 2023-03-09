@@ -68,3 +68,4 @@ HELP.md
 /backend/.gradle/*
 
 .env
+restore.sql

@@ -2,6 +2,7 @@
 ジュース会販売管理アプリケーション
 
 # How to Use
+## Start Server
 ```
 git clone git@github.com:kusumotolab/kJuiceApp
 cd kJuiceApp
@@ -13,6 +14,20 @@ http://localhost:80 にアクセス．
 ```
 ./init/init-database.sh
 ```
+
+## Backup
+1. `.env.template`を`.env`にコピー
+2. バックアップ先のホスト名とそのホスト上のアカウント名を指定
+3. バックアップ先の`authorized_keys`に公開鍵を設置
+4. `./secret/private_key`ファイルに秘密鍵を設置
+
+## Restore
+1. バックアップ先のホストから`yyyymmddhhMM.sql`を`./restore.sql`にコピー
+2. dbボリュームが存在しないことを確認（`docker volume ls | grep kjuiceapp_dbdata`が空）
+3. `docker compoose up restore-db`
+4. `database system is ready to accept connections`が出たらリストア完了
+5. `Ctrl+C`でコンテナを終了し，`docker compose down`で削除
+5. （`docker compose up`で起動）
 
 # How to Contribute
 Devcontainerで開発環境を立ち上げられます．
