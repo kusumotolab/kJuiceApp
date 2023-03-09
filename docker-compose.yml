@@ -113,3 +113,15 @@ services:
       - type: bind
         source: ./secret/private_key
         target: /root/.ssh/private_key
+
+  restore-db:
+    build: ./backend/postgresql
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./restore.sql:/docker-entrypoint-initdb.d/restore.sql
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test-db
+    profiles:
+      - restore
