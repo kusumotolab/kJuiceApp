@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Select from "react-select";
+import FileSelect from "./FileSelect/FileSelect";
 
 const fetchMemberList = async (setMemberList) => {
   const inputdata = await fetch(
@@ -89,6 +90,7 @@ function IconSetting() {
     try {
       await axios.post(url, file).then(function(response) {
       });
+      alert("送信に成功しました");
     } catch (error) {
         alert(
             "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
@@ -100,15 +102,7 @@ function IconSetting() {
     <IconSettingPane>
       <IconSettingTitle>ユーザアイコンの設定</IconSettingTitle>
       <ImagePreview src={profileImage} />
-      <input
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={onFileInputChange}
-        style={{
-            fontSize:".5em"
-        }}
-      />
+      <FileSelect onFileInputChange={onFileInputChange} />
       <Select
         options={memberSelectOptions}
         onChange={(target) => {

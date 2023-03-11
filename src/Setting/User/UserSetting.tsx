@@ -17,6 +17,7 @@ const UserSettingPane = styled.div`
     bottom:0em;
     left:0em;
     right:0em;
+    font-size:1em;
 `
 
 

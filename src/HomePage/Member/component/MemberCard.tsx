@@ -26,41 +26,11 @@ const fetchBase64Img = async (setBase64Img,userId:string) => {
     });
 };
 
-const handleSubmit = async (fileObject:File,userId: string) => {
-  if(fileObject == undefined){return;}
-  if(userId==""){
-      alert("userIdが指定されていません");
-      return;
-  }
-
-  const file = new FormData();
-  file.append('image',fileObject);
-  file.append('userId',userId);
-
-  let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image/upload?userId=${userId}`;
-  
-  try{
-      await axios.post(url,file)
-      .then(function(response){
-          console.log(response);
-      })
-
-      // TODO
-      // 綺麗な実装ではない．即時に画像の変更を反映させるために利用する．
-    window.location.reload();
-  }catch(error){
-      alert("画像ファイルに問題があります．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．");
-      console.log("ファイルのアップに失敗しました");
-  }
-}
-
 function MemberCard({selected,member,setSelectedMember,key}) {
 
   const [userIcon,setUserIcon] = useState("");
-  const [profileImage,setProfileImage] = useState("");
 
   const inputRef = useRef(null);
-  let fileObject: File;
 
 
   useEffect(() => {
@@ -72,13 +42,6 @@ function MemberCard({selected,member,setSelectedMember,key}) {
     inputRef.current.click();
   }
 
-  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(!e.target.files) return;
-    fileObject = e.target.files[0];
-    setProfileImage(window.URL.createObjectURL(fileObject));
-
-    handleSubmit(fileObject,member.name);
-  };
 
   const styles = useSpring({
     opacity: selected ? 1 : 0,
@@ -106,7 +69,6 @@ function MemberCard({selected,member,setSelectedMember,key}) {
             <MemberCardImage 
               src={userIcon==""?DefaultIcon:userIcon} 
               onClick={userIconClicked}/>
-            <input type="file" ref={inputRef} hidden multiple accept="image/*" onChange={onFileInputChange}/>
             
             <MemberCardChildrenContent>
               <span>{member.displayName}</span>
