@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import Select from "react-select";
-import Button from "../../component/Button";
+import Button from "../../../component/Button";
 import "./UnpaidMember.css";
 
 const fetchMemberList = async (setMemberList) => {
