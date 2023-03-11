@@ -36,11 +36,6 @@ function MemberCard({selected,member,setSelectedMember,key}) {
   useEffect(() => {
     fetchBase64Img(setUserIcon,member.name);
   }, []);
-  
-
-  function userIconClicked(e: React.MouseEvent<HTMLElement>){
-    inputRef.current.click();
-  }
 
 
   const styles = useSpring({
@@ -67,8 +62,7 @@ function MemberCard({selected,member,setSelectedMember,key}) {
         children={
           <MemberCardChildren>
             <MemberCardImage 
-              src={userIcon==""?DefaultIcon:userIcon} 
-              onClick={userIconClicked}/>
+              src={userIcon==""?DefaultIcon:userIcon} />
             
             <MemberCardChildrenContent>
               <span>{member.displayName}</span>

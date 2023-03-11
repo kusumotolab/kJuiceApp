@@ -105,17 +105,18 @@ function IconSetting() {
       <FileSelect onFileInputChange={onFileInputChange} />
       <Select
         options={memberSelectOptions}
+        defaultValue={{label:"ユーザを選択してください", value:""}}
         onChange={(target) => {
           setUserId(target.value);
         }}
       />
-      <button
+      <SubmitButton
         onClick={() => {
           handleSubmit(fileObject);
         }}
       >
         送信する
-      </button>
+      </SubmitButton>
     </IconSettingPane>
   );
 }
@@ -142,5 +143,9 @@ const IconSettingTitle = styled.div`
   position: relative;
   border-bottom: 0.1em solid #303f43;
 `;
+
+const SubmitButton = styled.button`
+    margin:10px 0;
+`
 
 export default IconSetting;
