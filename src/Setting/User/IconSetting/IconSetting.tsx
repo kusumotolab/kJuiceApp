@@ -21,60 +21,24 @@ const fetchMemberList = async (setMemberList) => {
     });
 };
 
-const submitIconImage = async (fileObject: File, userId: string) => {
-  if (fileObject == undefined) {
-    alert("画像ファイルを選択してください")
-    return;
-  }
-  if (userId == "") {
-    alert("ユーザを選択してください");
-    return;
-  }
-
-  const file = new FormData();
-  file.append("image", fileObject);
-  file.append("userId", userId);
-
-  let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image/upload?userId=${userId}`;
-
-  try {
-    await axios.post(url, file).then(function(response) {
-      console.log(response);
-    });
-  } catch (error) {
-    alert(
-      "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
-    );
-    console.log("ファイルのアップに失敗しました");
-  }
-};
-
 function setMemberSelectOptionsFromMemberList(
   setMemberSelectOptions,
   memberList
 ) {
   let ret = [];
-  console.log(memberList);
-  console.log(memberList[0]);
   for (let member in memberList) {
     let tmp = {
       value: memberList[member]["name"],
       label: memberList[member]["displayName"],
     };
-    console.log(member);
     ret.push(tmp);
   }
-  console.log(ret);
   setMemberSelectOptions(ret);
 }
 
 function IconSetting() {
   const [profileImage, setProfileImage] = useState("");
-  const [image, setImage] = useState<FileList>();
-  const [base64Img, setBase64Img] = useState<string>();
-
   const [userId, setUserId] = useState<string>("");
-
   const [memberList, setMemberList] = useState([
     {
       name: "",
@@ -106,10 +70,6 @@ function IconSetting() {
     setProfileImage(window.URL.createObjectURL(e.target.files[0]));
   };
 
-  const onTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserId(e.target.value);
-  };
-
   const handleSubmit = async (fileObject: File) => {
     if (fileObject == undefined) {
         alert("画像が選択されていません");
@@ -128,10 +88,11 @@ function IconSetting() {
 
     try {
       await axios.post(url, file).then(function(response) {
-        console.log(response);
       });
     } catch (error) {
-      console.log("ファイルのアップに失敗しました");
+        alert(
+            "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
+          );
     }
   };
 
@@ -144,6 +105,9 @@ function IconSetting() {
         multiple
         accept="image/*"
         onChange={onFileInputChange}
+        style={{
+            fontSize:".5em"
+        }}
       />
       <Select
         options={memberSelectOptions}
