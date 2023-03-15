@@ -93,3 +93,35 @@ services:
       - frontend
       - backend
       - postgresql
+
+  backup:
+    build: ./backup
+    environment:
+      PGUSER: admin
+      PGPASSWORD: pass
+      PGDATABASE: test-db
+      PGHOST: postgresql
+      BACKUP_HOST: ${BACKUP_HOST}
+      BACKUP_USER: ${BACKUP_USER}
+    volumes:
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/backup/cron-config
+        target: /etc/crontabs/root
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/backup/backup.sh
+        target: /root/backup.sh
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/secret/private_key
+        target: /root/.ssh/private_key
+
+  restore-db:
+    build: ./backend/postgresql
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ${KJA_LOCAL_WS-.}/restore.sql:/docker-entrypoint-initdb.d/restore.sql
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test-db
+    profiles:
+      - restore

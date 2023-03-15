@@ -1,11 +1,7 @@
-CREATE TABLE history (
+CREATE TABLE chat (
     id serial primary key,
-    name varchar(20),
-    item varchar(20),
-    price integer,
+    message varchar(140),
     date timestamp with time zone default (now() at time zone 'jp')
 );
 
 SET SESSION timezone TO 'Asia/Tokyo';
-
-SELECT * FROM history;
