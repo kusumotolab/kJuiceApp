@@ -7,7 +7,7 @@
 		{
 			"type": "volume",
 			"source": "kJuiceApp-node_modules",
-			"target": "${containerWorkspaceFolder}/node_modules"
+			"target": "${containerWorkspaceFolder}/frontend/node_modules"
 		}
 	],
 	"features": {

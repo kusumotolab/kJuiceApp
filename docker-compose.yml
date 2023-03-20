@@ -9,22 +9,22 @@ services:
     working_dir: /frontend/
     volumes:
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/package.json
+        source: ${KJA_LOCAL_WS-.}/frontend/package.json
         target: /frontend/package.json
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/package-lock.json
+        source: ${KJA_LOCAL_WS-.}/frontend/package-lock.json
         target: /frontend/package-lock.json
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/src
+        source: ${KJA_LOCAL_WS-.}/frontend/src
         target: /frontend/src
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/vite.config.js
+        source: ${KJA_LOCAL_WS-.}/frontend/vite.config.js
         target: /frontend/vite.config.js
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/public
+        source: ${KJA_LOCAL_WS-.}/frontend/public
         target: /frontend/public
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/tsconfig.json
+        source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.json
         target: /frontend/tsconfig.json
     tty: true
     ports:
