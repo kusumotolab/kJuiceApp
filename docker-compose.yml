@@ -108,7 +108,7 @@ services:
         target: /root/.ssh/private_key
 
   restore-db:
-    build: ./backend/postgresql
+    image: postgres:15-alpine
     volumes:
       - dbdata:/var/lib/postgresql/data
       - ${KJA_LOCAL_WS-.}/restore.sql:/docker-entrypoint-initdb.d/restore.sql
