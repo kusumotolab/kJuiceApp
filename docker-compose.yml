@@ -18,9 +18,6 @@ services:
         source: ${KJA_LOCAL_WS-.}/frontend/src
         target: /frontend/src
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/frontend/vite.config.js
-        target: /frontend/vite.config.js
-      - type: bind
         source: ${KJA_LOCAL_WS-.}/frontend/public
         target: /frontend/public
       - type: bind
