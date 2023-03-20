@@ -74,7 +74,7 @@ services:
       - bootRun
 
   nginx:
-    image: nginx:1.21
+    image: nginx:alpine
     ports:
       - '80:80'
     command: [nginx-debug, '-g', 'daemon off;']
