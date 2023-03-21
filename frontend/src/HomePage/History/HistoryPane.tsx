@@ -58,5 +58,4 @@ const CategoryName = styled.div`
     font-size:2em;
 `
 
-
 export default HistoryPane;
