@@ -1,19 +1,15 @@
 import React from "react";
-import Button from "../component/Button";
 import "./ChatMessageComponent.css";
 import DefaultIcon from "./../image/userimg/defaultimg.png"
 
-
 const fetchChatDelete = async (id) =>{
-    const inputdata = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat/delete?id=${id}`, {
+    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat/delete?id=${id}`, {
         method: 'GET',
         mode: 'cors'
     });
 }
 
-
 function ChatMessageComponent(props){
-
     return(
         <div className="ChatMessageComponent">
             <img src={DefaultIcon}/>
@@ -33,15 +29,6 @@ function ChatMessageComponent(props){
                         }}>
                         Delete
                     </button> 
-                    {/* <div className="GoodReactionButton" onClick={() => {
-                        
-                    }}> */}
-                        {/* <FontAwesomeIcon icon="fa-solid fa-thumbs-up" /> */}
-                        {/* Good
-                    </div>
-                    <div className="LoveReactionButton">
-                        Love
-                    </div> */}
                 </div>
             </div>
         </div>

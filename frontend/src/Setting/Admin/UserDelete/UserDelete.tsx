@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import Select from "react-select";
 import Button from "../../../component/Button";
-import "./UserDelete.css";
 import { Toggle } from "../../../component/Toggle";
 
 const fetchMemberList = async (setMemberList) => {
-  const inputdata = await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
+  await fetch("./backend/member")
     .then((res) => res.json())
     .then((members) => {
       setMemberList(members);
@@ -24,10 +16,9 @@ const switchMemberActivity = async (name: string, activity: boolean) => {
     activity: activity,
   };
   await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/setactivity`,
+    "backend/member/setactivity",
     {
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -41,10 +32,9 @@ const deleteMember = async (member) => {
     name: member,
   };
   await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/delete`,
+    "./backend/member/delete",
     {
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },

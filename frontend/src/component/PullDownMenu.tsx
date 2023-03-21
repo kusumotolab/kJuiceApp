@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import internal from "stream";
-import { isPropertySignature } from "typescript";
+import React, { useState } from "react";
 import "./PullDownMenu.css";
 import { useSpring, animated } from "react-spring";
 
@@ -10,7 +8,6 @@ interface Props {
   children;
 }
 
-
 const PullDownMenu: React.FC<Props> = ({ summary, onClick, children }) => {
   const [isVisible, setVisibility] = useState(false);
 
@@ -18,8 +15,6 @@ const PullDownMenu: React.FC<Props> = ({ summary, onClick, children }) => {
     to: { height: isVisible ? "auto": 0 },
     from: { height: isVisible ? 0 : "auto" },
   });
-
-  useEffect(() => {}, []);
 
   return (
     <div className="PullDownMenu">

@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 
 function CompleteMessage({show,setShow}){
-
-    const close= function(){
-        setShow(false);
-    }
-    const open=function(){
-        setShow(true);
-    }
     const styles = useSpring({
         right: show? "0em":"-8em",
     })

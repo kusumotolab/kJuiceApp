@@ -29,10 +29,6 @@ function ItemPane(props) {
     Dagashi: LogoDagashi,
   };
 
-  const closePopUp = () => {
-    setPopUpVisivility(false);
-  };
-
   return (
     <MainItemPane>
       <MemberInformation

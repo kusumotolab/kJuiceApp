@@ -14,8 +14,6 @@
     min-width: 15em;
   }
 
-
-
   .MessageBox::before {
     content: "";
     position: absolute;
@@ -69,7 +67,6 @@
   .ChatMessageComponent{
     margin: 1em 0;
     display: flex;
-    /* background-color: rgba(48,48,48,0.3); */
   }
 
   .ChatMessageComponent img{

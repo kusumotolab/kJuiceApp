@@ -1,11 +1,9 @@
 class HistoryEntity{
-    
     id_: Number;
     name_: string;
     item_: string;
     price_: Number;
     date_: string;
-
 
     constructor(
         id:string,
@@ -19,7 +17,6 @@ class HistoryEntity{
         this.price_ = parseInt(price);
         this.date_ = date;
     }
-
 
     toString(){
         return this.name_;

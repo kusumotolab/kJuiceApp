@@ -70,7 +70,7 @@ export const options = {
 };
 
 const fetchItemList = async (setItemList) => {
-  const inputdata = await fetch(
+  await fetch(
     `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item`,
     {
       method: "GET",

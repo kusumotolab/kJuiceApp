@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import MemberCard from "./component/MemberCard";
+import React from "react";
 import styled from "styled-components";
 import MemberPanePerAttribute from "./component/MemberPanePerAttribute";
 

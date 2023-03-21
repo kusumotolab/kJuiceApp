@@ -1,15 +1,8 @@
 import React from "react";
-// import Select from "react-select";
 import Button from "../../../component/Button";
 import "./SendSlack.css"
 
 function SendSlack(){
-    const options = [
-        { value: 'value1', label: '値1'},
-        { value: 'value2', label: '値2'},
-        { value: 'value2', label: '値3'},
-      ]
-
     return(
         <div className="SendSlack">
                 <label>

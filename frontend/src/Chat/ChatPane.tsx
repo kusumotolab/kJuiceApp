@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ChatMessageComponent from "./ChatMessageComponent";
 import "./ChatPane.css";
-import DefaultIcon from "./../image/userimg/defaultimg.png";
 import ChatInputPane from "./input/ChatInputPane";
 
 const fetchMessagesList = async (setMessagesList) => {
-  const inputdata = await fetch(
+  await fetch(
     `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat`,
     {
       method: "GET",

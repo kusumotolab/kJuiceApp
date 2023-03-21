@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import Select from "react-select";
 import Button from "../../../component/Button";
 
 const addItem = async (itemId,sellingPrice,costPrice,grouping) =>{
@@ -21,7 +20,6 @@ const addItem = async (itemId,sellingPrice,costPrice,grouping) =>{
 }
 
 function ItemAdd(){
-    
     const [itemId,setItemId] = useState("");
     const [sellingPrice,setSellingPrice] = useState(0);
     const [costPrice,setCostPrice] =  useState(0);

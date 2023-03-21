@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 
 const fetchMemberList = async (setMemberList) =>{
-    const inputdata = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
+    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
         method: 'GET',
         mode: 'cors'
     })
@@ -18,7 +18,7 @@ const fetchMemberList = async (setMemberList) =>{
 }
 
 const fetchItemList = async (setJuiceList,setFoodList) => {
-    const inputdata = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item`, {
+    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item`, {
         method: 'GET',
         mode: 'cors'
     })
@@ -55,12 +55,10 @@ function memberFindByName(memberList,searchName){
 }
 
 function HomePageParent(){
-
     const [selectedMemberId, setSelectedMemberId] = useState("");
     const [selectedMember, setSelectedMember] = useState({name:"",displayName:"",umpayedAmount:0,attribute:"",active:true});
     const [selectedItem,setSelectedItem] = useState(null);
     const [memberList,setMemberList] = useState([]);
-    // const [itemList,setItemList] = useState([]);
     const [juiceList,setJuiceList] = useState([]);
     const [foodList,setFoodList] = useState([]);
 
@@ -77,11 +75,6 @@ function HomePageParent(){
         setSelectedMember(memberFindByName(memberList,selectedMember.name));
     },[sumPurchased])
 
-    const forseRender = () => {
-        setUpdate(!update);
-    }
-
-    
     return(
         <HomePageParentPane>
             <MemberPane 

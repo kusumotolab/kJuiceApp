@@ -4,8 +4,6 @@ import styled from "styled-components";
 function MemberInformation({
     selectedMember
 }){
-
-
     return(
         <MemberInformationPane>
             <CategoryName>ユーザ情報</CategoryName>

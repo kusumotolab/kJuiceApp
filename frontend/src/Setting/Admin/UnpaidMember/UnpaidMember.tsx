@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import Select from "react-select";
 import Button from "../../../component/Button";
 import "./UnpaidMember.css";
 
 const fetchMemberList = async (setMemberList) => {
-  const inputdata = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
+  await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
     method: "GET",
     mode: "cors",
   })
@@ -19,7 +18,6 @@ const fetchMemberList = async (setMemberList) => {
 };
 
 function UnpaidMember() {
-
     const [memberList,setMemberList] = useState([])
 
     useEffect(() => {

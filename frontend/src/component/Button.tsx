@@ -1,5 +1,4 @@
 import React from "react";
-import internal from "stream";
 
 interface Props {
   border?: string;

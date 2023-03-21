@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../../../../../component/Button";
 import styled from "styled-components";
 
@@ -41,7 +41,7 @@ function SelectCancelPurchaseButtonPane({
             setShowCompleteMessage(true);
             setTimeout(function(){
               setShowCompleteMessage(false);
-            }.bind(this),2100);
+            }, 2100);
           }}
           radius="0.2em"
           fontColor="white"

@@ -9,7 +9,6 @@
 
 .PullDownMenu .SummaryButton{
     background-color: white;
-    /* opacity:0.8; */
     width:100%;
     border:none;
     border-radius: 0.2em;
@@ -21,27 +20,18 @@
 .PullDownMenu .PullDownMenu-Content{
     margin-top:0.3em;
     background-color: white;
-    /* opacity:0.8; */
     border:none;
     border-radius: 0.2em;
     font-size:2em;
     padding-left:0.5em;
-
     visibility: hidden;
-
-    /* transform:scale(1,0);
-    transform-origin: top;
-    transition: transform 0.2s; */
 }
 
 .PullDownMenu .visible{
     visibility: visible;
-    /* transform: scale(1,1); */
 }
 .pull-down-menu-summary{
     display: flex;
-    
-
 }
 
 .rotate-0{

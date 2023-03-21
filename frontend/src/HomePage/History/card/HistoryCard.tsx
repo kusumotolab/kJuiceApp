@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import CancelButton from "./cancell/CancelButton";
-
-
-type CancelButtonProps = {
-  updateHistory: () => any;
-  history: any;
-}
 
 function HistoryCard(props) {
 

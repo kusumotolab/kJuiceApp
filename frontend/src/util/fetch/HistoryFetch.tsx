@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import HistoryEntity from '../../entity/HistoryEntity'
-// import { data } from '../../Graph/Graph';
 
-let protocol = "http"
-
-const fetchHistoryData = async (histories,setHistories) =>{
-    const inputdata = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/history`, {
+const fetchHistoryData = async (setHistories) =>{
+    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/history`, {
         method: 'GET',
         mode: 'cors'
     })
@@ -29,7 +26,7 @@ const HistoryFetch = () => {
     const [histories, setHistories] = useState([]);
 
     useEffect(() => {
-        fetchHistoryData(histories,setHistories);
+        fetchHistoryData(setHistories);
     },[])
 
     return (

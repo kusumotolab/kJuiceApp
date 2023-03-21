@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import internal from "stream";
-import { isPropertySignature } from "typescript";
 import { useGetElementProperty } from "./../../../customhook/useGetElementProperty"
 import './ItemCard.css'
 import styled from "styled-components";
@@ -13,8 +11,6 @@ interface Props {
   imgSrc: string;
   width: string;
 }
-
-
 
 const ItemCard: React.FC<Props> = ({ 
     name,

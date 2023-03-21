@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ChatInputPane.css";
-import DefaultIcon from "./../image/userimg/defaultimg.png"
 
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -8,7 +7,7 @@ import { Button } from "react-bootstrap";
 
 
 const addMessage = async (message) =>{
-    const inputdata = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat/add?message=${message}`, {
+    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat/add?message=${message}`, {
         method: 'GET',
         mode: 'cors'
     });
@@ -16,11 +15,6 @@ const addMessage = async (message) =>{
 
 function ChatInputPane(props){
     const [message,setMessage] = useState("");
-
-    // useEffect(() => {
-    //     (props.selectedMemberId,setHistories);
-    // },[props.selectedMemberId,props.sumPurchased])
-
 
     return(
         <div className="ChatInputPane">
