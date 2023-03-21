@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./PullDownMenu.css";
 import { useSpring, animated } from "react-spring";
 

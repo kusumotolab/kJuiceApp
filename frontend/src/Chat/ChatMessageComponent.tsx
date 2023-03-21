@@ -1,4 +1,3 @@
-import React from "react";
 import "./ChatMessageComponent.css";
 import DefaultIcon from "./../image/userimg/defaultimg.png"
 

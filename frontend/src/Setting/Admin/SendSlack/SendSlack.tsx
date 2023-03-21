@@ -1,6 +1,4 @@
-import React from "react";
-import Button from "../../../component/Button";
-import "./SendSlack.css"
+import Button from "../../component/Button";
 
 function SendSlack(){
     return(

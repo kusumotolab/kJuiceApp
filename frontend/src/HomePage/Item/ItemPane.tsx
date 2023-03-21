@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import FoodPane from "./Food/FoodPane";
 import JuicePane from "./Juice/JuicePane";
 import HistoryPane from "../History/HistoryPane";

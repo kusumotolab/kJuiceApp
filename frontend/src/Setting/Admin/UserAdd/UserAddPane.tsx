@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "../../../component/Button";
+import { useState } from "react";
+import Button from "../../component/Button";
 import "./UserAddPane.css";
 
 const addUser = async (userId, displayName, attribute) => {

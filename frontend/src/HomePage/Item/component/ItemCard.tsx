@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetElementProperty } from "./../../../customhook/useGetElementProperty"
 import './ItemCard.css'
 import styled from "styled-components";

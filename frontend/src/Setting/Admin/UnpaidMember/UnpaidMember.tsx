@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Button from "../../../component/Button";
+import { useEffect, useState } from "react";
+import Button from "../../component/Button";
 import "./UnpaidMember.css";
 
 const fetchMemberList = async (setMemberList) => {

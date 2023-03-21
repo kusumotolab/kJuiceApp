@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./ChatInputPane.css";
 
 import Form from 'react-bootstrap/Form';

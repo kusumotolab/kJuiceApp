@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "../../../component/Button";
+import { useState } from "react";
+import Button from "../../component/Button";
 
 const addItem = async (itemId,sellingPrice,costPrice,grouping) =>{
     let data = {

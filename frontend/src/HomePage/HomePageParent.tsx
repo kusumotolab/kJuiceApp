@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ItemPane from "./Item/ItemPane";
 import MemberPane from "./Member/MemberPane";
 import styled from "styled-components";
-
 
 const fetchMemberList = async (setMemberList) =>{
     await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
