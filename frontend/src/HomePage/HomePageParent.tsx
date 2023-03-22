@@ -3,6 +3,7 @@ import ItemPane from "./Item/ItemPane";
 import MemberPane from "./Member/MemberPane";
 import styled from "styled-components";
 import { Backend } from "util/Backend";
+import { Member } from "types";
 
 const fetchMemberList = async (setMemberList) =>{
     const memberList = await Backend.getMemberList();
@@ -27,17 +28,11 @@ const fetchItemList = async (setJuiceList,setFoodList) => {
     setFoodList(itemList.filter((item) => item.active && item.grouping === "food"));
 }
 
-function memberFindByName(memberList,searchName){
-    memberList.map((member) => {
-        if(member.name == searchName){
-            return member;
-        }
-    })
-    return {name:"",displayName:"",umpayedAmount:0,attribute:"",active:true};
+function memberFindByName(memberList: Member[], searchName:string){
+    return memberList.find(member => member.name === searchName) ?? {name:"",displayName:"",umpayedAmount:0,attribute:"",active:true};
 }
 
 function HomePageParent(){
-    const [selectedMemberId, setSelectedMemberId] = useState("");
     const [selectedMember, setSelectedMember] = useState({name:"",displayName:"",umpayedAmount:0,attribute:"",active:true});
     const [selectedItem,setSelectedItem] = useState(null);
     const [memberList,setMemberList] = useState([]);
@@ -70,7 +65,6 @@ function HomePageParent(){
                 update={update}
                 setUpdate={setUpdate}
                 foodList={foodList}
-                selectedMemberId={selectedMemberId}
                 selectedMember={selectedMember}
                 setSumPurchased={setSumPurchased}
                 sumPurchased={sumPurchased}/>
