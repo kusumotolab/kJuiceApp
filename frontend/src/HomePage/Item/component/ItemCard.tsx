@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { useGetElementProperty } from "./../../../customhook/useGetElementProperty"
 import './ItemCard.css'
 import styled from "styled-components";
 
@@ -18,29 +16,17 @@ const ItemCard: React.FC<Props> = ({
     imgSrc,
     item,
     width
-  }) => { 
-
-  const targetRef = useRef<HTMLInputElement>(null);
-
-  const { getElementProperty } =
-    useGetElementProperty<HTMLDivElement>(targetRef);
-
-  const [imgHeight,setImgHeight] = useState(getElementProperty("height")*0.8-32);
-
-  useEffect(() =>{
-    setImgHeight(getElementProperty("height")*0.8-32);
-  },[])
-
+  }) => {
   return (
     <ItemCardPane
       onClick={onClick}
-      ref={targetRef}
     >
-    <img 
-      src={imgSrc}
-      width={imgHeight}
-      height={imgHeight}
-    ></img>
+      <div className="square">
+        <img 
+          src={imgSrc}
+          alt={name}
+        />
+      </div>
     <span>{name+" "+item.sellingPrice+"円"}</span>
     </ItemCardPane>
   );
@@ -61,6 +47,7 @@ const ItemCardPane = styled.button`
   margin-bottom: 0.5em;
   flex-shrink: 0;
   font-size: 1.2em;
+  width: 11em;
 `
 
 export default ItemCard;
