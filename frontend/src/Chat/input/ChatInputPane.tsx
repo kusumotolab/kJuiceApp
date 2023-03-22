@@ -4,13 +4,10 @@ import "./ChatInputPane.css";
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 import { Button } from "react-bootstrap";
-
+import { Backend } from "util/Backend";
 
 const addMessage = async (message) =>{
-    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat/add?message=${message}`, {
-        method: 'GET',
-        mode: 'cors'
-    });
+    if (!await Backend.addMessage(message)) console.error("addMessage: failed");
 }
 
 function ChatInputPane(props){

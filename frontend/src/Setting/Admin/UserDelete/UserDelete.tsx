@@ -1,50 +1,30 @@
 import { useEffect, useState } from "react";
 import Button from "../../component/Button";
 import { Toggle } from "../../component/Toggle";
+import { Member } from "types";
+import { Backend } from "util/Backend";
 
 const fetchMemberList = async (setMemberList) => {
-  await fetch("./backend/member")
-    .then((res) => res.json())
-    .then((members) => {
-      setMemberList(members);
-    });
+  const memberList = await Backend.getMemberList();
+
+  if (memberList === null){
+      console.error("fetchMemberList: failed");
+      return;
+  } 
+
+  setMemberList(memberList);
 };
 
 const switchMemberActivity = async (name: string, activity: boolean) => {
-  let data = {
-    name: name,
-    activity: activity,
-  };
-  await fetch(
-    "backend/member/setactivity",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
-  );
+  if (!await Backend.setMemberActivity(name, activity)) console.error("switchMemberActivity: failed");
 };
 
-const deleteMember = async (member) => {
-  let data = {
-    name: member,
-  };
-  await fetch(
-    "./backend/member/delete",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
-  );
+const deleteMember = async (member: string) => {
+  if (!await Backend.deleteMember(member)) console.error("deleteMember: failed");
 };
 
 function UserAddPane() {
-  const [memberList, setMemberList] = useState([]);
+  const [memberList, setMemberList] = useState<Member[]>([]);
 
   useEffect(() => {
     fetchMemberList(setMemberList);

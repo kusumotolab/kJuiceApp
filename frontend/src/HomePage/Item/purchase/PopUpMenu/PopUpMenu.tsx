@@ -3,31 +3,16 @@ import styled from "styled-components";
 import SelectCancelPurchaseButtonPane from "./component/SelectCancelPurchaseButtonPane";
 import UserInformationPane from "./component/UserInformationPane";
 import ItemInformationPane from "./component/ItemInformationPane";
+import { Backend } from "util/Backend";
 
-const purchaseItem = async (selectedMember, selectedItem, setSumPurchased) => {
-  if (selectedMember == null) {
+const purchaseItem = async (selectedMember: string, selectedItem: string, setSumPurchased) => {
+  if (selectedMember === null) {
     return;
   }
 
-  let data = {
-    name: selectedMember.name,
-    item: selectedItem.name,
-  };
-  console.log(JSON.stringify(data));
-  const response = await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/purchase`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify(data),
-    }
-  );
+  if (!await Backend.purchase(selectedMember, selectedItem)) console.error("purchaseItem: failed");
 
   setSumPurchased((prev) => prev + 1);
-  console.log(response.json());
 };
 
 function PopUpMenu({

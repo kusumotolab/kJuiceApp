@@ -1,22 +1,9 @@
 import { useState } from "react";
 import Button from "../../component/Button";
+import { Backend } from "util/Backend";
 
 const addItem = async (itemId,sellingPrice,costPrice,grouping) =>{
-    let data = {
-        name: itemId,
-        sellingprice: sellingPrice,
-        costprice: costPrice,
-        grouping: grouping
-    }
-    const response = await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item/add`, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-    });
-    console.log(response);
+    if (!await Backend.addItem(itemId, sellingPrice, costPrice, grouping)) console.error("addItem: failed");
 }
 
 function ItemAdd(){

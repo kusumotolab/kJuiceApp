@@ -2,19 +2,17 @@ import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import styled from "styled-components";
+import { Backend } from "util/Backend";
 
 const fetchHistoryOfEachMonth = async (setHistoryOfEachMonth) => {
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/history/eachmonth`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
-    .then((res) => res.json())
-    .then((historyOfEachMonth) => {
-      setHistoryOfEachMonth(historyOfEachMonth);
-    });
+  const histories = await Backend.getHistoryEachMonth();
+
+  if (histories === null){
+    console.error("fetchHistoryOfEachMonth: failed");
+    return;
+  }
+
+  setHistoryOfEachMonth(histories);
 };
 
 function LineChart() {

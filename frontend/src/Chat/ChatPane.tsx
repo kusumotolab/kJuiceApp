@@ -2,23 +2,22 @@ import { useEffect, useState } from "react";
 import ChatMessageComponent from "./ChatMessageComponent";
 import "./ChatPane.css";
 import ChatInputPane from "./input/ChatInputPane";
+import { Chat } from "types";
+import { Backend } from "util/Backend";
 
 const fetchMessagesList = async (setMessagesList) => {
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
-    .then((res) => res.json())
-    .then((messages) => {
-      setMessagesList(messages.reverse());
-    });
+  const messageList = await Backend.getMessageList();
+
+  if (messageList === null) {
+    console.error("fetchMessagesList: failed");
+    return;
+  }
+
+  setMessagesList(messageList.reverse())
 };
 
-function Chat() {
-  const [messages, setMessagesList] = useState([]);
+function ChatPane() {
+  const [messages, setMessagesList] = useState<Chat[]>([]);
 
   const [lastUpdated, setLastUpdated] = useState("");
 
@@ -36,4 +35,4 @@ function Chat() {
   );
 }
 
-export default Chat;
+export default ChatPane;

@@ -1,17 +1,15 @@
 import "./ChatMessageComponent.css";
 import DefaultIcon from "./../image/userimg/defaultimg.png"
+import { Backend } from "util/Backend";
 
-const fetchChatDelete = async (id) =>{
-    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/chat/delete?id=${id}`, {
-        method: 'GET',
-        mode: 'cors'
-    });
+const fetchChatDelete = async (id: string) =>{
+  if (!await Backend.deleteChat(id)) console.error("fetchChatDelete: failed");
 }
 
 function ChatMessageComponent(props){
     return(
         <div className="ChatMessageComponent">
-            <img src={DefaultIcon}/>
+            <img src={DefaultIcon} alt="icon"/>
             <div className="MessageBox">
                 {props.chat.message}
                 <div className="MessageBox-bottom-pane">

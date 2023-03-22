@@ -1,59 +1,28 @@
 import { useEffect, useState } from "react";
 import Button from "../../component/Button";
 import { Toggle } from "../../component/Toggle";
+import { Backend } from "util/Backend";
+import { Item } from "types";
 
 const fetchItemList = async (setItemList) => {
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
-    .then((res) => res.json())
-    .then((items) => {
-      setItemList(items);
-    });
+  const itemList = await Backend.getItemList();
+  if (itemList !== null) {
+    setItemList(itemList);
+  } else {
+    console.error("fetchItemList: failed");
+  }
 };
 
 const switchItemActivity = async (id: string, activity: boolean) => {
-  let data = {
-    id: id,
-    activity: activity,
-  };
-  let response = await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item/setactivity`,
-    {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
-  );
-  console.log(response);
+  if (!await Backend.setItemActivity(id, activity)) console.error("setItemactivity: failed");
 };
 
-const deleteItem = async (item) => {
-    let data = {
-        name: item
-    }
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item/delete`,
-    {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
-  );
+const deleteItem = async (id: string) => {
+  if (!await Backend.deleteItem(id)) console.error("deleteItem: failed");
 };
 
 function UserAddPane() {
-  const [itemList, setItemList] = useState([]);
+  const [itemList, setItemList] = useState<Item[]>([]);
 
   useEffect(() => {
     fetchItemList(setItemList);

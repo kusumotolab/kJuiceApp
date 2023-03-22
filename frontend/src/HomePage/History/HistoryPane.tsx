@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import HistoryCard from "./card/HistoryCard";
 import styled from "styled-components";
+import { History } from "types";
+import { Backend } from "util/Backend";
 
 const fetchHistoryData = async (selectedMemberId: string,setHistories) =>{
-    if(selectedMemberId==""){
+    if(selectedMemberId===""){
         setHistories([]);
         return;
     }
-    await fetch(
-        `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/history?name=${selectedMemberId}`, {
-        method: 'GET',
-        mode: 'cors'
-    })
-    .then(res => res.json())
-    .then(histories => {
-        setHistories(histories);
-    });
+
+    const histories = await Backend.getUserHistory(selectedMemberId);
+
+    if (histories === null) {
+        console.error("fetchHistoryData: failed");
+        return;
+    }
+
+    setHistories(histories);
 }
 
 function HistoryPane({
     selectedMember
 }){
 
-    const [histories, setHistories] = useState([]);
+    const [histories, setHistories] = useState<History[]>([]);
 
     useEffect(() => {
         fetchHistoryData(selectedMember.name,setHistories);

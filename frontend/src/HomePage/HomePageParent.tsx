@@ -2,46 +2,29 @@ import { useEffect, useState } from "react";
 import ItemPane from "./Item/ItemPane";
 import MemberPane from "./Member/MemberPane";
 import styled from "styled-components";
+import { Backend } from "util/Backend";
 
 const fetchMemberList = async (setMemberList) =>{
-    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
-        method: 'GET',
-        mode: 'cors'
-    })
-    .then(res => res.json())
-    .then(members => {
-        setMemberList(members.filter((member) => {
-            return member.active;
-        }));
-    });
+    const memberList = await Backend.getMemberList();
+
+    if (memberList === null){
+        console.error("fetchMemberList: failed");
+        return;
+    } 
+
+    setMemberList(memberList.filter((member) => member.active));
 }
 
 const fetchItemList = async (setJuiceList,setFoodList) => {
-    await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item`, {
-        method: 'GET',
-        mode: 'cors'
-    })
-    .then(res => res.json())
-    .then(itemList => {
-        setJuiceList(
-            itemList
-            .filter((item) => {
-                return item.active;
-            })
-            .filter(
-                item => item.grouping == "juice"
-            )
-        );
-        setFoodList(
-            itemList
-            .filter((item) => {
-                return item.active;
-            })
-            .filter(
-                item => item.grouping == "food"
-            )
-        );
-    });
+    const itemList = await Backend.getItemList();
+
+    if (itemList === null) {
+        console.error("fetchItemList: failed");
+        return;
+    }
+
+    setJuiceList(itemList.filter((item) => item.active && item.grouping === "juice"));
+    setFoodList(itemList.filter((item) => item.active && item.grouping === "food"));
 }
 
 function memberFindByName(memberList,searchName){

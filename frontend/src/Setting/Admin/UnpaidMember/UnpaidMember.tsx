@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
 import Button from "../../component/Button";
 import "./UnpaidMember.css";
+import { Member } from "types";
+import { Backend } from "util/Backend";
 
 const fetchMemberList = async (setMemberList) => {
-  await fetch(`${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`, {
-    method: "GET",
-    mode: "cors",
-  })
-    .then((res) => res.json())
-    .then((members) => {
-      setMemberList(
-        members.filter(function(member) {
-          return member.umpayedAmount > 0;
-        })
-      )
-    });
+    const memberList = await Backend.getMemberList();
+
+    if (memberList === null){
+        console.error("fetchMemberList: failed");
+        return;
+    } 
+
+    setMemberList(memberList.filter((member) => member.umpayedAmount > 0));
 };
 
 function UnpaidMember() {
-    const [memberList,setMemberList] = useState([])
+    const [memberList,setMemberList] = useState<Member[]>([])
 
     useEffect(() => {
         fetchMemberList(setMemberList)

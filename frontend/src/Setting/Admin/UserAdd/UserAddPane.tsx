@@ -1,25 +1,10 @@
 import { useState } from "react";
+import { Backend } from "util/Backend";
 import Button from "../../component/Button";
 import "./UserAddPane.css";
 
 const addUser = async (userId, displayName, attribute) => {
-  let data = {
-    name: userId,
-    displayName: displayName,
-    attribute: attribute
-  }
-  const response = await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/add`,
-    {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-    }
-  );
-  console.log(response);
+  if (!await Backend.addMember(userId, displayName, attribute)) console.error("addUser: failed");
 };
 
 function UserAddPane() {

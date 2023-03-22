@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
+import { Backend } from "util/Backend";
 
 ChartJS.register(
   CategoryScale,
@@ -70,17 +71,12 @@ export const options = {
 };
 
 const fetchItemList = async (setItemList) => {
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/item`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
-    .then((res) => res.json())
-    .then((itemList) => {
-      setItemList(itemList);
-    });
+  const itemList = await Backend.getItemList();
+  if (itemList !== null) {
+    setItemList(itemList);
+  } else {
+    console.error("fetchItemList: failed");
+  }
 };
 
 const setItemNameList = (itemList) => {

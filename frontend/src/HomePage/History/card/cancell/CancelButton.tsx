@@ -1,15 +1,11 @@
 import { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
+import { History } from "types";
+import { Backend } from "util/Backend";
 
-const postRecall = async (history) => {
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/recall?name=${history.name}&item=${history.item}&id=${history.id}&price=${history.price}`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  );
+const postRecall = async (history: History) => {
+  if (!await Backend.recall(history)) console.error("postRecall: failed");
 };
 
 function CancelButton(props) {
