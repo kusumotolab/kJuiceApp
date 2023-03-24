@@ -5,7 +5,6 @@ import java.util.Base64;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +28,6 @@ import io.github.haur514.service.HistoryService;
 import io.github.haur514.service.MemberService;
 
 @RestController
-@EnableAutoConfiguration
 public class MemberController {
 
     @Autowired
@@ -46,7 +43,6 @@ public class MemberController {
     HistoryService historyService;
 
     @PostMapping("/member/add")
-    @ResponseBody
     public String addMember(
             @RequestBody MemberAddRequestBody memberAddRequestBody) {
         return memberService.addMember(
@@ -66,7 +62,6 @@ public class MemberController {
     }
 
     @PostMapping("/member/delete")
-    @ResponseBody
     public String deleteMember(
             @RequestBody MemberDeleteBody memberDeleteBody) {
         return memberService.deleteMember(memberDeleteBody.name);
@@ -90,10 +85,9 @@ public class MemberController {
     }
 
     @PostMapping("/member/setactivity")
-    @ResponseBody
-    public String setMemberActivity(
-            @RequestBody MemberSetActivityBody memberSetActivityBody) {
-        MemberEntity memberEntity = memberService.findByName(memberSetActivityBody.name);
+     public String setMemberActivity(
+        @RequestBody MemberSetActivityBody memberSetActivityBody){
+        MemberEntity memberEntity= memberService.findByName(memberSetActivityBody.name);
         memberEntity.setActive(memberSetActivityBody.activity);
         memberRepository.save(memberEntity);
         return "success";
@@ -110,7 +104,6 @@ public class MemberController {
     }
 
     @GetMapping("/member/image")
-    @ResponseBody
     public String getMemberImage(
         @RequestParam(name="name") String name
     ){

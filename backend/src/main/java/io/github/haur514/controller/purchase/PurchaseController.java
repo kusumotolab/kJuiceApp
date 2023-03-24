@@ -3,10 +3,8 @@ package io.github.haur514.controller.purchase;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -23,7 +21,6 @@ import io.github.haur514.service.MemberService;
 import io.github.haur514.service.SalesService;
 
 @RestController
-@EnableAutoConfiguration
 public class PurchaseController {
     @Autowired HistoryService historyService;
     @Autowired ItemService itemService;
@@ -37,13 +34,11 @@ public class PurchaseController {
 
 
     @PostMapping("/purchase")
-    @ResponseBody
     public String purchaseItem(
         @RequestBody PurchaseData purchaseData
     ){
         String name = purchaseData.name;
         String item = purchaseData.item;
-
 
         ItemEntity purchasedItem = itemRepository.findByName(item);
         if(purchasedItem == null){

@@ -1,7 +1,6 @@
 package io.github.haur514.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,6 @@ import io.github.haur514.service.ItemService;
 import io.github.haur514.service.MemberService;
 
 @RestController
-@EnableAutoConfiguration
 public class RecallController {
     @Autowired HistoryService historyService;
     @Autowired ItemService itemService;
@@ -40,7 +38,6 @@ public class RecallController {
         if(purchasedMember == null){
             return "failed";
         }
-        // int price = purchasedItem.getSellingPrice();
         if(!canRecall(Integer.parseInt(id), name, item)){
             return "failed";
         }
