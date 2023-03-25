@@ -1,0 +1,725 @@
+openapi: "3.0.3"
+
+info:
+  title: "kJuiceApp API"
+  description: "kJuiceApp バックエンドの各種操作を提供する"
+  version: "0.1.0"
+
+servers:
+  - url: "http://localhost/backend"
+    description: "local"
+
+tags:
+  - name: "chat"
+  - name: "items"
+  - name: "members"
+  - name: "purchases"
+  - name: "stats"
+
+paths:
+  /messages:
+    get:
+      tags:
+        - chat
+      summary: Get messages
+      description: チャットメッセージを取得する
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+    post:
+      tags:
+        - chat
+      summary: Create new message
+      description: 新しいメッセージを投稿する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  maxLength: 140
+      responses:
+        "201":
+          description: 投稿成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "400":
+          description: 文字数制限超過
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /messages/{messageId}:
+    delete:
+      tags:
+        - chat
+      summary: Delete message by ID
+      description: 指定したIDのメッセージを削除する
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: integer
+          required: true
+          description: 削除対象のメッセージID
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: 指定されたIDが存在しない
+
+  /items:
+    get:
+      tags:
+        - items
+      summary: Get item list
+      description: 商品リストを取得する
+      parameters:
+        - in: query
+          name: isActive
+          schema:
+            type: boolean
+          description: activeが一致する商品のみ取得する．未指定の場合すべての商品を取得する.
+        - in: query
+          name: group
+          schema:
+            $ref: "#/components/schemas/ItemGroup"
+          description: 指定されたグループの商品のみ取得する．未指定の場合すべての商品を取得する．
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ItemResponse"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - items
+      summary: Create new item
+      description: 新しい商品を追加する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemPost"
+      responses:
+        "201":
+          description: 追加成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemResponse"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: ID重複
+
+  /items/{itemId}:
+    patch:
+      tags:
+        - items
+      summary: Update item information by ID
+      description: 指定したIDの商品情報を更新する
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: integer
+          description: 更新対象の商品ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemPatch"
+        required: true
+      responses:
+        "200":
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemResponse" 
+        "404":
+          description: 指定されたIDが存在しない
+    delete:
+      tags:
+        - items
+      summary: Delete item by ID
+      description: 指定されたIDの商品を削除する
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: integer
+          description: 削除対象の商品ID
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: 指定されたIDが存在しない
+    
+  /members:
+    get:
+      tags:
+        - members
+      summary: Get members list
+      description: メンバーリストを取得する．取得するメンバーの条件を設定できる．
+      parameters:
+        - in: query
+          name: isActive
+          schema:
+            type: boolean
+          description: activeが一致するメンバーのみ取得する．未指定の場合activeにかかわらず取得する．
+        - in: query
+          name: attribute
+          schema:
+            $ref: "#/components/schemas/MemberAttribute"
+          description: attributeが一致するメンバーのみ取得する．未指定の場合attributeにかかわらず取得する．
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MemberResponse"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - members
+      summary: Create new member
+      description: 新しいメンバーを追加する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberPost"
+      responses:
+        "201":
+          description: 追加成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemberResponse"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: ID重複
+
+  /members/{memberId}:
+    patch:
+      tags:
+        - members
+      summary: Update member by ID
+      description: 指定されたIDのメンバー情報を更新する．更新したい値のみRequest bodyに持たせる．
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberPatch"
+      responses:
+        "200":
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemberResponse"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: 指定されたIDが存在しない
+    delete:
+      tags:
+        - members
+      summary: Delete member by ID
+      description: 指定されたIDのメンバーを削除する
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: 指定されたIDが存在しない
+
+  /purchase:
+    post:
+      tags:
+        - purchases
+      summary: Purchase item
+      description: 指定されたIDのメンバーと商品で購入処理を行う
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Purchase"
+      responses:
+        "201":
+          description: 購入成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/History"
+        "404":
+          description: 指定されたIDが存在しない
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - purchases
+      summary: Get histories
+      description: 購入履歴を取得する
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          description: userIdが一致するメンバーのみ取得する．未指定の場合userIdにかかわらず取得する．
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/History"
+        "404":
+          description: 指定されたIDが存在しない
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /purchase/{historyId}:
+    delete:
+      tags:
+        - purchases
+      summary: Cancel purchase
+      description: 指定されたIDの購入履歴を削除する
+      parameters:
+        - in: path
+          name: historyId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: 指定されたIDが存在しない
+
+  /stats/members:
+    get:
+      tags:
+        - stats
+      summary: Get purchase stats on member
+      description: 全メンバーについてメンバーごとの購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+      parameters:
+        - in: query
+          name: isActive
+          schema:
+            type: string
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalAmount:
+                    type: string
+                  totalCount:
+                    type: string
+                  statistics:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/StatisticsOnId"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /stats/members/{memberId}:
+    get:
+      tags:
+        - stats
+      summary: Get purchase stats on specific member
+      description: 指定されたIDのメンバーについて購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+      parameters:
+        - in: path
+          name: memberId
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatisticsOnId"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: 指定されたIDが存在しない
+
+  /stats/items:
+    get:
+      tags:
+        - stats
+      summary: Get sales stats on item
+      description: 全商品について商品ごとの売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+      parameters:
+        - in: query
+          name: isActive
+          schema:
+            type: string
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalAmount:
+                    type: string
+                  totalCount:
+                    type: string
+                  statistics:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/StatisticsOnId"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /stats/items/{itemId}:
+    get:
+      tags:
+        - stats
+      summary: Get sales stats on specific item
+      description: 指定されたIDの商品について売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+      parameters:
+        - in: path
+          name: itemId
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatisticsOnId"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: 指定されたIDが存在しない
+
+components:
+  schemas:
+    ItemGroup:
+      type: string
+      enum:
+        - juice
+        - food
+    MemberAttribute:
+      type: string
+      enum:
+        - teacher
+        - m2
+        - m1
+        - b4
+      example: m1
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        message:
+          type: string
+        date:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+    ItemPost:
+      type: object
+      properties:
+        id:
+          type: string
+          example: gogotea
+        name:
+          type: string
+          example: 午後の紅茶
+        sellingPrice:
+          type: integer
+          description: 売値
+        costPrice:
+          type: integer
+          description: 仕入れ値
+        group:
+          type: string
+          enum:
+            - juice
+            - food
+      required:
+        - id
+        - name
+        - sellingPrice
+        - costPrice
+        - group
+    ItemPatch:        
+      type: object
+      properties:
+        name:
+          type: string
+          example: 午後の紅茶
+        sellingPrice:
+          type: integer
+          description: 売値
+        costPrice:
+          type: integer
+          description: 仕入れ値
+        group:
+          type: string
+          enum:
+            - juice
+            - food
+        isActive:
+          type: boolean
+    ItemResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: gogotea
+        name:
+          type: string
+          example: 午後の紅茶
+        sellingPrice:
+          type: integer
+          description: 売値
+        costPrice:
+          type: integer
+          description: 仕入れ値
+        group:
+          type: string
+          enum:
+            - juice
+            - food
+        isActive:
+          type: boolean
+        salesCount:
+          type: integer
+    MemberResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: h-takesg
+        name:
+          type: string
+          example: 竹重
+        unpaidAmount:
+          type: integer
+        attribute:
+          $ref: "#/components/schemas/MemberAttribute"
+        active:
+          type: boolean
+    MemberPost:
+      type: object
+      properties:
+        id:
+          type: string
+          example: h-takesg
+        name:
+          type: string
+          example: 竹重
+        attribute:
+          $ref: "#/components/schemas/MemberAttribute"
+      required:
+        - id
+        - name
+        - attribute
+    MemberPatch:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 竹重
+        attribute:
+          $ref: "#/components/schemas/MemberAttribute"
+        active:
+          type: boolean
+    Purchase:
+      type: object
+      properties:
+        memberId:
+          type: string
+          example: h-takesg
+        itemId:
+          type: string
+          example: gogotea
+      required:
+        - memberId
+        - itemId
+    History:
+      type: object
+      properties:
+        historyId:
+          type: integer
+        userId:
+          type: string
+        userName:
+          type: string
+        itemId:
+          type: string
+        itemName:
+          type: string
+        price:
+          type: integer
+        date:
+          type: string
+          format: date-time
+    StatisticElement:
+      type: object
+      properties:
+        label:
+          type: string
+        count:
+          type: integer
+          description: 購入回数
+        amount:
+          type: integer
+          description: 利用金額
+    StatisticsOnId:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        totalCount:
+          type: integer
+        totalAmount:
+          type: integer
+        elements:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatisticElement"

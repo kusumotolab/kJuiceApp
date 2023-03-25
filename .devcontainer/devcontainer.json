@@ -20,5 +20,14 @@
 	"remoteEnv": {
 		"KJA_LOCAL_WS": "${localWorkspaceFolder}"
 	},
-	"postCreateCommand": "./.devcontainer/replace_env_var.sh"
+	"postCreateCommand": "./.devcontainer/replace_env_var.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Arjun.swagger-viewer",
+				"redhat.vscode-yaml",
+				"42Crunch.vscode-openapi"
+			]
+		}
+	}
 }
