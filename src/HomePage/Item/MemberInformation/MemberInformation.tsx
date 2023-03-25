@@ -10,7 +10,7 @@ function MemberInformation({
         <MemberInformationPane>
             <CategoryName>ユーザ情報</CategoryName>
             <MemberInformationPaneContent>
-                <span>名前：{selectedMember.name==""?"---":selectedMember.displayName}さん</span><br></br>
+                <span>名前：{selectedMember.name==""?"---":selectedMember.displayName}さん</span><br />
                 <span>今月の支払い分：{selectedMember.umpayedAmount}円</span>
             </MemberInformationPaneContent>
         </MemberInformationPane>
