@@ -12,7 +12,7 @@ const PullDownMenu: React.FC<Props> = ({ summary, onClick, children }) => {
   const [isVisible, setVisibility] = useState(false);
 
   const styles = useSpring({
-    to: { height: isVisible ? "auto": 0 },
+    to: { height: isVisible ? "auto" : 0 },
     from: { height: isVisible ? 0 : "auto" },
   });
 
@@ -25,8 +25,8 @@ const PullDownMenu: React.FC<Props> = ({ summary, onClick, children }) => {
         }}
       >
         <div className="pull-down-menu-summary">
-        <div className={`${isVisible?"rotate-90":"rotate-0"}`}>▶︎</div>
-        {summary}
+          <div className={`${isVisible ? "rotate-90" : "rotate-0"}`}>▶︎</div>
+          {summary}
         </div>
       </button>
       <animated.div

@@ -7,20 +7,22 @@ import { Backend } from "util/Backend";
 const fetchMemberList = async (setMemberList) => {
   const memberList = await Backend.getMemberList();
 
-  if (memberList === null){
-      console.error("fetchMemberList: failed");
-      return;
-  } 
+  if (memberList === null) {
+    console.error("fetchMemberList: failed");
+    return;
+  }
 
   setMemberList(memberList);
 };
 
 const switchMemberActivity = async (name: string, activity: boolean) => {
-  if (!await Backend.setMemberActivity(name, activity)) console.error("switchMemberActivity: failed");
+  if (!(await Backend.setMemberActivity(name, activity)))
+    console.error("switchMemberActivity: failed");
 };
 
 const deleteMember = async (member: string) => {
-  if (!await Backend.deleteMember(member)) console.error("deleteMember: failed");
+  if (!(await Backend.deleteMember(member)))
+    console.error("deleteMember: failed");
 };
 
 function UserAddPane() {
@@ -49,7 +51,7 @@ function UserAddPane() {
                   await switchMemberActivity(member.name, !member.active)
                 }
                 toggled={member.active}
-              ></Toggle>
+              />
             </th>
             <th>
               <Button

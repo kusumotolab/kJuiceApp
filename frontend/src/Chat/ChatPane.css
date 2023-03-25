@@ -1,9 +1,9 @@
-.ChatPane{
-    border:solid 1px black;
-    position:absolute;
-    bottom:0em;
-    top:3em;
-    right:0em;
-    left:0em;
-    background-color: rgb(126, 171, 255);
+.ChatPane {
+  border: solid 1px black;
+  position: absolute;
+  bottom: 0em;
+  top: 3em;
+  right: 0em;
+  left: 0em;
+  background-color: rgb(126, 171, 255);
 }

@@ -1,37 +1,33 @@
 import styled from "styled-components";
 import MemberPanePerAttribute from "./component/MemberPanePerAttribute";
 
-function MemberPane({
-  selectedMember,
-  setSelectedMember,
-  memberList,
-}) {
+function MemberPane({ selectedMember, setSelectedMember, memberList }) {
   return (
     <MainMemberPane>
       <MemberPanePerAttribute
-        description={"先生"}
-        attribute={"teature"}
+        description="先生"
+        attribute="teature"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
       <MemberPanePerAttribute
-        description={"修士2年"}
-        attribute={"m2"}
+        description="修士2年"
+        attribute="m2"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
       <MemberPanePerAttribute
-        description={"修士1年"}
-        attribute={"m1"}
+        description="修士1年"
+        attribute="m1"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
       <MemberPanePerAttribute
-        description={"学部4年"}
-        attribute={"b4"}
+        description="学部4年"
+        attribute="b4"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
@@ -48,7 +44,7 @@ const MainMemberPane = styled.div`
   border-color: black;
   border: solid 1px #333;
   margin: 5px;
-  
+
   background-color: rgb(47, 47, 47);
   color: greenyellow;
 `;

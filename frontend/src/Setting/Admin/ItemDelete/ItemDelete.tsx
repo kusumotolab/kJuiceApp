@@ -14,11 +14,12 @@ const fetchItemList = async (setItemList) => {
 };
 
 const switchItemActivity = async (id: string, activity: boolean) => {
-  if (!await Backend.setItemActivity(id, activity)) console.error("setItemactivity: failed");
+  if (!(await Backend.setItemActivity(id, activity)))
+    console.error("setItemactivity: failed");
 };
 
 const deleteItem = async (id: string) => {
-  if (!await Backend.deleteItem(id)) console.error("deleteItem: failed");
+  if (!(await Backend.deleteItem(id))) console.error("deleteItem: failed");
 };
 
 function UserAddPane() {
@@ -47,7 +48,7 @@ function UserAddPane() {
                 onClick={async () => {
                   await switchItemActivity(item.name, !item.active);
                 }}
-              ></Toggle>
+              />
             </th>
             <th>
               <Button

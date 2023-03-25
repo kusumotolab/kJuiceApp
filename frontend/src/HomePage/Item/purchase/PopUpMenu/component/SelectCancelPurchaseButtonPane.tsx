@@ -9,7 +9,7 @@ function SelectCancelPurchaseButtonPane({
   closePopUp,
   setUpdate,
   update,
-  setShowCompleteMessage
+  setShowCompleteMessage,
 }) {
   return (
     <SelectButtonPane>
@@ -38,7 +38,7 @@ function SelectCancelPurchaseButtonPane({
             setSumPurchased(selectedItem.salesFigure + 1);
             setUpdate(!update);
             setShowCompleteMessage(true);
-            setTimeout(function(){
+            setTimeout(function () {
               setShowCompleteMessage(false);
             }, 2100);
           }}
@@ -59,7 +59,7 @@ const SelectButtonPane = styled.div`
 const ButtonPane = styled.div`
   margin-left: 0.5em;
   margin-right: 0.5em;
-  display:inline;
+  display: inline;
 `;
 
 export default SelectCancelPurchaseButtonPane;

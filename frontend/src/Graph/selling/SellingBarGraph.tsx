@@ -80,7 +80,7 @@ const fetchItemList = async (setItemList) => {
 };
 
 const setItemNameList = (itemList) => {
-  let ret = {};
+  const ret = {};
   itemList.map((item) => {
     ret[item.name] = item.salesFigure;
   });
@@ -94,7 +94,7 @@ export default function SellingBarGraph(props) {
     fetchItemList(setItemList);
   }, []);
 
-  let dict = setItemNameList(itemList);
+  const dict = setItemNameList(itemList);
   const labels = Object.keys(dict);
   labels.sort((a, b) => {
     return dict[b] - dict[a];

@@ -17,9 +17,9 @@ import CompleteMessage from "./purchase/CompleteMessage/completeMessage";
 function ItemPane(props) {
   const [is_popup_visible, setPopUpVisivility] = useState(false);
 
-  const [showCompleteMessage,setShowCompleteMessage] = useState(false);
+  const [showCompleteMessage, setShowCompleteMessage] = useState(false);
 
-  let logoDictionary = {
+  const logoDictionary = {
     CocaCola: LogoCola,
     Fanta: LogoFanta,
     Water: LogoWater,
@@ -30,9 +30,7 @@ function ItemPane(props) {
 
   return (
     <MainItemPane>
-      <MemberInformation
-        selectedMember={props.selectedMember}
-      />
+      <MemberInformation selectedMember={props.selectedMember} />
       <JuicePane
         setSelectedItem={props.setSelectedItem}
         setPopUpVisivility={setPopUpVisivility}
@@ -47,38 +45,38 @@ function ItemPane(props) {
         foodList={props.foodList}
         logoDictionary={logoDictionary}
       />
-      <HistoryPane
+      <HistoryPane selectedMember={props.selectedMember} />
+      <PopUpMenu
+        visibility={is_popup_visible}
+        setPopUpVisivility={setPopUpVisivility}
+        imgSrc={
+          logoDictionary[
+            props.selectedItem == null ? "CocaCola" : props.selectedItem.name
+          ]
+        }
+        selectedItem={props.selectedItem}
+        setSumPurchased={props.setSumPurchased}
         selectedMember={props.selectedMember}
+        setUpdate={props.setUpdate}
+        update={props.update}
+        setShowCompleteMessage={setShowCompleteMessage}
       />
-      <PopUpMenu 
-          visibility={is_popup_visible}
-          setPopUpVisivility={setPopUpVisivility}
-          imgSrc={
-            logoDictionary[
-              props.selectedItem == null ? "CocaCola" : props.selectedItem.name
-            ]}
-          selectedItem={props.selectedItem}
-          setSumPurchased={props.setSumPurchased}
-          selectedMember={props.selectedMember}
-          setUpdate={props.setUpdate}
-          update={props.update}
-          setShowCompleteMessage={setShowCompleteMessage}
-       />
       <CompleteMessage
         show={showCompleteMessage}
-        setShow={setShowCompleteMessage}/>
+        setShow={setShowCompleteMessage}
+      />
     </MainItemPane>
   );
 }
 
 const MainItemPane = styled.div`
-width:70%;
-height:90vh;
-border-width:2px;
-border-color:black;
-border: solid 1px #333;
-margin:5px;
-overflow-y: scroll;
-`
+  width: 70%;
+  height: 90vh;
+  border-width: 2px;
+  border-color: black;
+  border: solid 1px #333;
+  margin: 5px;
+  overflow-y: scroll;
+`;
 
 export default ItemPane;

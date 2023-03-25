@@ -10,33 +10,33 @@ interface Props {
   fontSize?: string;
 }
 
-const Button: React.FC<Props> = ({ 
-    border,
-    color,
-    children,
-    height,
-    onClick, 
-    radius,
-    width,
-    fontColor,
-    fontSize
-  }) => { 
+const Button: React.FC<Props> = ({
+  border,
+  color,
+  children,
+  height,
+  onClick,
+  radius,
+  width,
+  fontColor,
+  fontSize,
+}) => {
   return (
-    <button 
+    <button
       onClick={onClick}
       style={{
-         backgroundColor: color,
-         border,
-         borderRadius: radius,
-         height,
-         width,
-         color: fontColor,
-         fontSize: fontSize
+        backgroundColor: color,
+        border,
+        borderRadius: radius,
+        height,
+        width,
+        color: fontColor,
+        fontSize: fontSize,
       }}
     >
-    {children}
+      {children}
     </button>
   );
-}
+};
 
 export default Button;

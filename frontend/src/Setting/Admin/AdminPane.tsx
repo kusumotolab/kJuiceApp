@@ -26,7 +26,7 @@ function Admin() {
         visible={passwordPaneVisible}
         setVisible={setPasswordPaneVisible}
       />
-      <TabPane></TabPane>
+      <TabPane />
       <ContentPane
         style={{ visibility: passwordPaneVisible ? "hidden" : "visible" }}
       >

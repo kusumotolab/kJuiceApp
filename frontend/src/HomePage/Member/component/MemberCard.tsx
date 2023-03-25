@@ -5,9 +5,9 @@ import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 
-const default_member_card_color: string = "#303030";
-const selected_member_card_color: string = "#303030";
-const font_color: string = "white";
+const default_member_card_color = "#303030";
+const selected_member_card_color = "#303030";
+const font_color = "white";
 
 
 const fetchBase64Img = async (setBase64Img,userId:string) => {
@@ -39,7 +39,7 @@ function MemberCard({selected,member,setSelectedMember,key}) {
 
   return (
     <MemberCardPane>
-      <SelectedMemberCard as={animated.div} style={styles}></SelectedMemberCard>
+      <SelectedMemberCard as={animated.div} style={styles} />
       <Button
         color={
           selected

@@ -5,12 +5,17 @@ import UserInformationPane from "./component/UserInformationPane";
 import ItemInformationPane from "./component/ItemInformationPane";
 import { Backend } from "util/Backend";
 
-const purchaseItem = async (selectedMember: string, selectedItem: string, setSumPurchased) => {
+const purchaseItem = async (
+  selectedMember: string,
+  selectedItem: string,
+  setSumPurchased
+) => {
   if (selectedMember === null) {
     return;
   }
 
-  if (!await Backend.purchase(selectedMember, selectedItem)) console.error("purchaseItem: failed");
+  if (!(await Backend.purchase(selectedMember, selectedItem)))
+    console.error("purchaseItem: failed");
 
   setSumPurchased((prev) => prev + 1);
 };
@@ -43,20 +48,17 @@ function PopUpMenu({
   return (
     <Background>
       <div className={`popup-menu ${visibility ? "visible" : "hidden"}`}>
-        <UserInformationPane
-            selectedMember={selectedMember} />
-        <ItemInformationPane 
-            imgSrc={imgSrc}
-            selectedItem={selectedItem}/>
+        <UserInformationPane selectedMember={selectedMember} />
+        <ItemInformationPane imgSrc={imgSrc} selectedItem={selectedItem} />
         <SelectCancelPurchaseButtonPane
-            purchaseItem={purchaseItem}
-            selectedMember={selectedMember}
-            selectedItem={selectedItem}
-            setSumPurchased={setSumPurchased}
-            closePopUp={closePopUp}
-            setUpdate={setUpdate}
-            update={update}
-            setShowCompleteMessage={setShowCompleteMessage}
+          purchaseItem={purchaseItem}
+          selectedMember={selectedMember}
+          selectedItem={selectedItem}
+          setSumPurchased={setSumPurchased}
+          closePopUp={closePopUp}
+          setUpdate={setUpdate}
+          update={update}
+          setShowCompleteMessage={setShowCompleteMessage}
         />
       </div>
     </Background>

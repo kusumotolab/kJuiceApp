@@ -4,7 +4,8 @@ import Button from "../../component/Button";
 import "./UserAddPane.css";
 
 const addUser = async (userId, displayName, attribute) => {
-  if (!await Backend.addMember(userId, displayName, attribute)) console.error("addUser: failed");
+  if (!(await Backend.addMember(userId, displayName, attribute)))
+    console.error("addUser: failed");
 };
 
 function UserAddPane() {
@@ -16,7 +17,7 @@ function UserAddPane() {
       <table>
         <tr>
           <td className="caption">アイコン</td>
-          <td></td>
+          <td />
         </tr>
         <tr>
           <td className="caption">ID</td>

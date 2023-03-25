@@ -7,7 +7,7 @@ import { Backend } from "util/Backend";
 const fetchHistoryOfEachMonth = async (setHistoryOfEachMonth) => {
   const histories = await Backend.getHistoryEachMonth();
 
-  if (histories === null){
+  if (histories === null) {
     console.error("fetchHistoryOfEachMonth: failed");
     return;
   }
@@ -51,7 +51,7 @@ function LineChart() {
       title: {
         display: true,
         text: "各月の売り上げグラフ",
-        color:"white",
+        color: "white",
         font: {
           size: 30,
         },
@@ -81,10 +81,7 @@ function LineChart() {
 
   return (
     <LineChartPane>
-      <Line
-        data={graphData}
-        options={options}
-      />
+      <Line data={graphData} options={options} />
     </LineChartPane>
   );
 }
@@ -93,8 +90,8 @@ const LineChartPane = styled.div`
   position: absolute;
   bottom: 0em;
   top: 6em;
-  right:0em;
-  left:0em;
+  right: 0em;
+  left: 0em;
   background-color: #303030;
-`
+`;
 export default LineChart;

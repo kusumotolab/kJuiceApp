@@ -34,7 +34,10 @@ function App() {
           Settings
           <FontAwesomeIcon style={iconStyle} icon={faHammer} />
         </Tab>
-        <Tab>Chat<FontAwesomeIcon style={iconStyle} icon={faMessage} /></Tab>
+        <Tab>
+          Chat
+          <FontAwesomeIcon style={iconStyle} icon={faMessage} />
+        </Tab>
       </TabList>
       <TabPanel>
         <HomePageParent />

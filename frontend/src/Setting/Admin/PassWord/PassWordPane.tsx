@@ -1,29 +1,28 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-function PasswordPane({visible,setVisible}) {
+function PasswordPane({ visible, setVisible }) {
   const [password, setPassword] = useState("");
 
   return (
-    <PasswordPaneMain
-      style={{ visibility: visible ? "visible" : "hidden" }}
-    >
+    <PasswordPaneMain style={{ visibility: visible ? "visible" : "hidden" }}>
       <PassWordInputWindow>
         <TitleBar>
-          <ExitButton></ExitButton>
-          <CloseButton></CloseButton>
-          <OpenButton></OpenButton>
+          <ExitButton />
+          <CloseButton />
+          <OpenButton />
           管理者権限
         </TitleBar>
         <PassWordInputWindowContent>
-          パスワードを入力してください<br></br>
-          <br></br>
+          パスワードを入力してください
+          <br />
+          <br />
           Password:
           <input
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-          ></input>
+          />
           <button
             onClick={() => {
               if (password == "password") {
@@ -36,7 +35,7 @@ function PasswordPane({visible,setVisible}) {
           >
             入力
           </button>
-          <br></br>
+          <br />
           ヒント: 円周率の下4桁
         </PassWordInputWindowContent>
       </PassWordInputWindow>

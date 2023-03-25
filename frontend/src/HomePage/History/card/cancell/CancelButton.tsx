@@ -5,7 +5,7 @@ import { History } from "types";
 import { Backend } from "util/Backend";
 
 const postRecall = async (history: History) => {
-  if (!await Backend.recall(history)) console.error("postRecall: failed");
+  if (!(await Backend.recall(history))) console.error("postRecall: failed");
 };
 
 function CancelButton(props) {
@@ -14,12 +14,12 @@ function CancelButton(props) {
   const cancel_style = useSpring({
     width: cancel_toggle ? "5em" : "0em",
     border: "none",
-    padding:".5em 0em",
-    color:"white",
-    backgroundColor:"red",
-    marginLeft:"auto",
-    height:"100%"
-    });
+    padding: ".5em 0em",
+    color: "white",
+    backgroundColor: "red",
+    marginLeft: "auto",
+    height: "100%",
+  });
 
   const opacity_style = useSpring({ opacity: cancel_toggle ? 1 : 0 });
   const rotate_style = useSpring({
@@ -46,33 +46,29 @@ function CancelButton(props) {
           handle_cancel_toggle();
         }}
       >
-        <animated.div
-          style={rotate_style}
-        >
-          ▶︎
-        </animated.div>
+        <animated.div style={rotate_style}>▶︎</animated.div>
       </CancelToggleButton>
     </CancelButtonPane>
   );
 }
 
 const CancelButtonPane = styled.div`
-    width:15%;
-    position:relative;
-    display:flex;
-    right:0;
-`
+  width: 15%;
+  position: relative;
+  display: flex;
+  right: 0;
+`;
 
 const CancelToggleButton = styled.button`
-    position:relative;
-    height:100%;
-    background-color: rgb(48,48,48);
-    vertical-align: middle;
-    padding:.5em;
-    top:0;
-    right:0;
-    color:greenyellow;
-    border:0;
-`
+  position: relative;
+  height: 100%;
+  background-color: rgb(48, 48, 48);
+  vertical-align: middle;
+  padding: 0.5em;
+  top: 0;
+  right: 0;
+  color: greenyellow;
+  border: 0;
+`;
 
 export default CancelButton;

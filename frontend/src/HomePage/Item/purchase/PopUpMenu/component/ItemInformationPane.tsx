@@ -3,7 +3,7 @@ import styled from "styled-components";
 function ItemInformationPane({ imgSrc, selectedItem }) {
   return (
     <ItemInfo>
-      <ItemImage src={imgSrc}/>
+      <ItemImage src={imgSrc} />
       <div style={{ marginRight: "1em" }}>
         {selectedItem == null ? "hoge" : selectedItem.name}
       </div>
@@ -20,9 +20,9 @@ const ItemInfo = styled.div`
 `;
 
 const ItemImage = styled.img`
-width:2em;
-height:2em;
-border-radius: 50%;
-`
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+`;
 
 export default ItemInformationPane;

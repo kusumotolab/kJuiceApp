@@ -2,7 +2,6 @@ import styled from "styled-components";
 import CancelButton from "./cancell/CancelButton";
 
 function HistoryCard(props) {
-
   return (
     <HistoryCardPane>
       <HistoryCardDate>{props.history.date}</HistoryCardDate>
@@ -10,14 +9,14 @@ function HistoryCard(props) {
       <HistoryCardMoney>{props.history.price}円</HistoryCardMoney>
       <CancelButton
         updateHistory={props.updateHistory}
-        history={props.history}>
-      </CancelButton>
+        history={props.history}
+      />
     </HistoryCardPane>
   );
 }
 
 const HistoryCardPane = styled.div`
-  width:100%;
+  width: 100%;
   left: 0;
   top: 0;
   bottom: 0;
