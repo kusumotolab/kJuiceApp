@@ -27,7 +27,8 @@
     "build": "cross-env PUBLIC_URL=/juiceapp_frontend react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build",
+    "format": "eslint src --fix && prettier --write src"
   },
   "eslintConfig": {
     "extends": [
