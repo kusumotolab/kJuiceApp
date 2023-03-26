@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import SellingBarGraph from "./selling/SellingBarGraph";
-import LineChart from "./linechart/LineChart";
+import { SellingBarGraph } from "./selling/SellingBarGraph";
+import { LineChart } from "./linechart/LineChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faChartSimple } from "@fortawesome/free-solid-svg-icons";
 
@@ -31,4 +31,4 @@ function GraphPane() {
   );
 }
 
-export default GraphPane;
+export { GraphPane };

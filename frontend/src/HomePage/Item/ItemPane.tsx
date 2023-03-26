@@ -1,8 +1,8 @@
-import { useState } from "react";
-import FoodPane from "./Food/FoodPane";
-import JuicePane from "./Juice/JuicePane";
-import HistoryPane from "../History/HistoryPane";
-import PopUpMenu from "./purchase/PopUpMenu/PopUpMenu";
+import { Dispatch, SetStateAction, useState } from "react";
+import { FoodPane } from "./Food/FoodPane";
+import { JuicePane } from "./Juice/JuicePane";
+import { HistoryPane } from "../History/HistoryPane";
+import { PopUpMenu } from "./purchase/PopUpMenu/PopUpMenu";
 
 import LogoCola from "./../../image/logo_coca_cora.jpg";
 import LogoFanta from "./../../image/logo_fanta.jpg";
@@ -10,16 +10,37 @@ import LogoWater from "./../../image/logo_water.jpeg";
 import LogoGogoTea from "./../../image/logo_tea.jpeg";
 import LogoPotechi from "./../../image/logo_potechi.jpeg";
 import LogoDagashi from "./../../image/logo_dagashi.jpeg";
-import MemberInformation from "./MemberInformation/MemberInformation";
+import { MemberInformation } from "./MemberInformation/MemberInformation";
 import styled from "styled-components";
-import CompleteMessage from "./purchase/CompleteMessage/completeMessage";
+import { CompleteMessage } from "./purchase/CompleteMessage/completeMessage";
+import { Item, LogoDictionary, Member } from "types";
 
-function ItemPane(props) {
-  const [is_popup_visible, setPopUpVisivility] = useState(false);
+type Props = {
+  setSelectedItem: Dispatch<SetStateAction<Item | null>>;
+  selectedItem: Item | null;
+  juiceList: Item[];
+  update: boolean;
+  setUpdate: Dispatch<SetStateAction<boolean>>;
+  foodList: Item[];
+  selectedMember: Member | null;
+  setSumPurchased: Dispatch<SetStateAction<number>>;
+  sumPurchased: number;
+};
 
+function ItemPane({
+  setSelectedItem,
+  selectedItem,
+  juiceList,
+  update,
+  setUpdate,
+  foodList,
+  selectedMember,
+  setSumPurchased,
+}: Props) {
+  const [isPopupVisible, setPopUpVisibility] = useState(false);
   const [showCompleteMessage, setShowCompleteMessage] = useState(false);
 
-  const logoDictionary = {
+  const logoDictionary: LogoDictionary = {
     CocaCola: LogoCola,
     Fanta: LogoFanta,
     Water: LogoWater,
@@ -30,41 +51,36 @@ function ItemPane(props) {
 
   return (
     <MainItemPane>
-      <MemberInformation selectedMember={props.selectedMember} />
+      <MemberInformation selectedMember={selectedMember} />
       <JuicePane
-        setSelectedItem={props.setSelectedItem}
-        setPopUpVisivility={setPopUpVisivility}
-        selectedMember={props.selectedMember}
-        juiceList={props.juiceList}
+        setSelectedItem={setSelectedItem}
+        setPopUpVisibility={setPopUpVisibility}
+        selectedMember={selectedMember}
+        juiceList={juiceList}
         logoDictionary={logoDictionary}
       />
       <FoodPane
-        setSelectedItem={props.setSelectedItem}
-        setPopUpVisivility={setPopUpVisivility}
-        selectedMember={props.selectedMember}
-        foodList={props.foodList}
+        setSelectedItem={setSelectedItem}
+        setPopUpVisibility={setPopUpVisibility}
+        selectedMember={selectedMember}
+        foodList={foodList}
         logoDictionary={logoDictionary}
       />
-      <HistoryPane selectedMember={props.selectedMember} />
+      <HistoryPane selectedMember={selectedMember} />
       <PopUpMenu
-        visibility={is_popup_visible}
-        setPopUpVisivility={setPopUpVisivility}
+        visibility={isPopupVisible}
+        setPopUpVisibility={setPopUpVisibility}
         imgSrc={
-          logoDictionary[
-            props.selectedItem == null ? "CocaCola" : props.selectedItem.name
-          ]
+          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.name]
         }
-        selectedItem={props.selectedItem}
-        setSumPurchased={props.setSumPurchased}
-        selectedMember={props.selectedMember}
-        setUpdate={props.setUpdate}
-        update={props.update}
+        selectedItem={selectedItem}
+        setSumPurchased={setSumPurchased}
+        selectedMember={selectedMember}
+        setUpdate={setUpdate}
+        update={update}
         setShowCompleteMessage={setShowCompleteMessage}
       />
-      <CompleteMessage
-        show={showCompleteMessage}
-        setShow={setShowCompleteMessage}
-      />
+      <CompleteMessage show={showCompleteMessage} />
     </MainItemPane>
   );
 }
@@ -79,4 +95,4 @@ const MainItemPane = styled.div`
   overflow-y: scroll;
 `;
 
-export default ItemPane;
+export { ItemPane };

@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
-function PasswordPane({ visible, setVisible }) {
+type Props = {
+  visible: boolean;
+  setVisible: Dispatch<SetStateAction<boolean>>;
+};
+
+function PasswordPane({ visible, setVisible }: Props) {
   const [password, setPassword] = useState("");
 
   return (
@@ -26,7 +31,6 @@ function PasswordPane({ visible, setVisible }) {
           <button
             onClick={() => {
               if (password == "password") {
-                alert("認証されました");
                 setVisible(false);
               } else {
                 alert("パスワードが違います");
@@ -100,4 +104,4 @@ const PassWordInputWindow = styled.div`
 const PassWordInputWindowContent = styled.div`
   padding: 0.5em;
 `;
-export default PasswordPane;
+export { PasswordPane };

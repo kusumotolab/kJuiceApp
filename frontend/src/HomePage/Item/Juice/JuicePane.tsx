@@ -1,27 +1,44 @@
-import ItemCard from "../component/ItemCard";
+import { ItemCard } from "../component/ItemCard";
 import styled from "styled-components";
+import { Dispatch, SetStateAction } from "react";
+import { Item, LogoDictionary, Member } from "types";
 
-function JuicePane(props) {
+type Props = {
+  juiceList: Item[];
+  selected?: boolean;
+  setSelectedItem: Dispatch<SetStateAction<Item | null>>;
+  selectedMember: Member | null;
+  setPopUpVisibility: Dispatch<SetStateAction<boolean>>;
+  logoDictionary: LogoDictionary;
+};
+
+function JuicePane({
+  juiceList,
+  selected,
+  setSelectedItem,
+  selectedMember,
+  setPopUpVisibility,
+  logoDictionary,
+}: Props) {
   return (
     <JuicePaneMain>
       <CategoryName>ジュース</CategoryName>
       <JuicePaneContent>
-        {props.juiceList
+        {juiceList
           .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((juice) => {
             return (
               <ItemCard
-                color={props.selected ? "#121258" : "#FFC039"}
+                color={selected ? "#121258" : "#FFC039"}
                 onClick={() => {
-                  props.setSelectedItem(juice);
-                  if (props.selectedMember.name != "") {
-                    props.setPopUpVisivility(true);
+                  setSelectedItem(juice);
+                  if (selectedMember !== null) {
+                    setPopUpVisibility(true);
                   }
                 }}
                 name={juice.name}
                 item={juice}
-                imgSrc={props.logoDictionary[juice.name]}
-                width="100px"
+                imgSrc={logoDictionary[juice.name]}
                 key={juice.name}
               />
             );
@@ -53,4 +70,4 @@ const CategoryName = styled.div`
   font-size: 2em;
 `;
 
-export default JuicePane;
+export { JuicePane };

@@ -1,16 +1,19 @@
 import styled from "styled-components";
-import CancelButton from "./cancell/CancelButton";
+import { History } from "types";
+import { CancelButton } from "./cancell/CancelButton";
 
-function HistoryCard(props) {
+type Props = {
+  history: History;
+  updateHistory: () => void;
+};
+
+function HistoryCard({ history, updateHistory }: Props) {
   return (
     <HistoryCardPane>
-      <HistoryCardDate>{props.history.date}</HistoryCardDate>
-      <HistoryCardItem>{props.history.item}</HistoryCardItem>
-      <HistoryCardMoney>{props.history.price}円</HistoryCardMoney>
-      <CancelButton
-        updateHistory={props.updateHistory}
-        history={props.history}
-      />
+      <HistoryCardDate>{history.date}</HistoryCardDate>
+      <HistoryCardItem>{history.item}</HistoryCardItem>
+      <HistoryCardMoney>{history.price}円</HistoryCardMoney>
+      <CancelButton updateHistory={updateHistory} history={history} />
     </HistoryCardPane>
   );
 }
@@ -45,4 +48,4 @@ const HistoryCardMoney = styled.div`
   padding: 0.5em 0;
 `;
 
-export default HistoryCard;
+export { HistoryCard };

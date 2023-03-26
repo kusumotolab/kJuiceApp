@@ -1,12 +1,20 @@
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
-import MemberPanePerAttribute from "./component/MemberPanePerAttribute";
+import { Member } from "types";
+import { MemberPanePerAttribute } from "./component/MemberPanePerAttribute";
 
-function MemberPane({ selectedMember, setSelectedMember, memberList }) {
+type Props = {
+  selectedMember: Member | null;
+  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+  memberList: Member[];
+};
+
+function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
   return (
     <MainMemberPane>
       <MemberPanePerAttribute
         description="先生"
-        attribute="teature"
+        attribute="teacher"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
@@ -49,4 +57,4 @@ const MainMemberPane = styled.div`
   color: greenyellow;
 `;
 
-export default MemberPane;
+export { MemberPane };

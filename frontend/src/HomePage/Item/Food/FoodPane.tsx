@@ -1,27 +1,42 @@
-import ItemCard from "../component/ItemCard";
+import { ItemCard } from "../component/ItemCard";
 import styled from "styled-components";
+import { Item, LogoDictionary, Member } from "types";
+import { Dispatch, SetStateAction } from "react";
 
-function FoodPane(props) {
+type Props = {
+  foodList: Item[];
+  setSelectedItem: Dispatch<SetStateAction<Item>>;
+  selectedMember: Member | null;
+  setPopUpVisibility: Dispatch<SetStateAction<boolean>>;
+  logoDictionary: LogoDictionary;
+};
+
+function FoodPane({
+  foodList,
+  setSelectedItem,
+  selectedMember,
+  setPopUpVisibility,
+  logoDictionary,
+}: Props) {
   return (
     <FoodPaneMain>
       <CategoryName>食品</CategoryName>
       <FoodPaneContent>
-        {props.foodList
+        {foodList
           .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((food) => {
             return (
               <ItemCard
-                color={props.selected ? "#121258" : "#FFC039"}
+                color="#FFC039"
                 onClick={() => {
-                  props.setSelectedItem(food);
-                  if (props.selectedMember.name != "") {
-                    props.setPopUpVisivility(true);
+                  setSelectedItem(food);
+                  if (selectedMember !== null) {
+                    setPopUpVisibility(true);
                   }
                 }}
                 name={food.name}
                 item={food}
-                imgSrc={props.logoDictionary[food.name]}
-                width="100px"
+                imgSrc={logoDictionary[food.name]}
                 key={food.name}
               />
             );
@@ -53,4 +68,4 @@ const FoodPaneMain = styled.div`
   margin-bottom: 1em;
 `;
 
-export default FoodPane;
+export { FoodPane };

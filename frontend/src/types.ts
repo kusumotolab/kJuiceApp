@@ -1,9 +1,9 @@
 export type Item = {
-  name: string;
-  sellingprice: number;
-  costprice: number;
+  name: ItemId;
+  sellingPrice: number;
+  costPrice: number;
   grouping: string;
-  salesfigure: number;
+  salesFigure: number;
   active: boolean;
 };
 
@@ -18,7 +18,7 @@ export type Member = {
 export type Chat = {
   id: number;
   message: string;
-  date: Date;
+  date: string;
 };
 
 export type History = {
@@ -26,9 +26,19 @@ export type History = {
   name: string;
   item: string;
   price: number;
-  date: Date;
+  date: string;
 };
 
 export type LabeledHistory = {
   [label: string]: number;
 };
+
+export type ItemId =
+  | "CocaCola"
+  | "Fanta"
+  | "Water"
+  | "GogoTea"
+  | "PotatoChips"
+  | "Dagashi";
+
+export type LogoDictionary = Record<ItemId, string>;

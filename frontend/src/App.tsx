@@ -1,11 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import AdminPane from "./Setting/Admin/AdminPane";
 import "./App.css";
-import ChatPane from "./Chat/ChatPane";
-import HomePageParent from "./HomePage/HomePageParent";
-import GraphPane from "./Graph/GraphPane";
+import { ChatPane } from "./Chat/ChatPane";
+import { HomePageParent } from "./HomePage/HomePageParent";
+import { GraphPane } from "./Graph/GraphPane";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -55,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export { App };

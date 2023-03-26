@@ -1,4 +1,10 @@
-function UserInformationPane({ selectedMember }) {
+import { Member } from "types";
+
+type Props = {
+  selectedMember: Member | null;
+};
+
+function UserInformationPane({ selectedMember }: Props) {
   return (
     <div>
       {selectedMember == null ? "hoge" : selectedMember.displayName}さん
@@ -6,4 +12,4 @@ function UserInformationPane({ selectedMember }) {
   );
 }
 
-export default UserInformationPane;
+export { UserInformationPane };

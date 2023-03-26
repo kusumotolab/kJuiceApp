@@ -1,7 +1,11 @@
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 
-function CompleteMessage({ show, setShow }) {
+type Props = {
+  show: boolean;
+};
+
+function CompleteMessage({ show }: Props) {
   const styles = useSpring({
     right: show ? "0em" : "-8em",
   });
@@ -27,4 +31,4 @@ const MessagePane = styled.div`
   border-radius: 2em 0 0 2em;
 `;
 
-export default CompleteMessage;
+export { CompleteMessage };

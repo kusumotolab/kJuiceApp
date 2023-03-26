@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
-import Button from "../../component/Button";
+import { Button } from "../../component/Button";
 import "./UnpaidMember.css";
 import { Member } from "types";
 import { Backend } from "util/Backend";
 
-const fetchMemberList = async (setMemberList) => {
-  const memberList = await Backend.getMemberList();
-
-  if (memberList === null) {
-    console.error("fetchMemberList: failed");
-    return;
-  }
-
-  setMemberList(memberList.filter((member) => member.umpayedAmount > 0));
-};
-
 function UnpaidMember() {
   const [memberList, setMemberList] = useState<Member[]>([]);
 
+  const fetchMemberList = async () => {
+    const memberList = await Backend.getMemberList();
+
+    if (memberList === null) {
+      console.error("fetchMemberList: failed");
+      return;
+    }
+
+    setMemberList(memberList.filter((member) => member.umpayedAmount > 0));
+  };
+
   useEffect(() => {
-    fetchMemberList(setMemberList);
+    fetchMemberList();
   }, []);
 
   return (
@@ -31,7 +31,7 @@ function UnpaidMember() {
           <th>支払いボタン</th>
         </tr>
         {memberList.map((member) => (
-          <tr>
+          <tr key={member.name}>
             <th>{member.displayName}</th>
             <th>{member.umpayedAmount}円</th>
             <th>
@@ -53,4 +53,4 @@ function UnpaidMember() {
   );
 }
 
-export default UnpaidMember;
+export { UnpaidMember };

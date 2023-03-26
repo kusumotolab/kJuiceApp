@@ -3,40 +3,43 @@ import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import styled from "styled-components";
 import { Backend } from "util/Backend";
-
-const fetchHistoryOfEachMonth = async (setHistoryOfEachMonth) => {
-  const histories = await Backend.getHistoryEachMonth();
-
-  if (histories === null) {
-    console.error("fetchHistoryOfEachMonth: failed");
-    return;
-  }
-
-  setHistoryOfEachMonth(histories);
-};
+import { LabeledHistory } from "types";
 
 function LineChart() {
-  const [historyOfEachMonth, setHistoryOfEachMonth] = useState([]);
+  const [historyOfEachMonth, setHistoryOfEachMonth] = useState<LabeledHistory>(
+    {}
+  );
+
+  async function fetchHistoryOfEachMonth() {
+    const histories = await Backend.getHistoryEachMonth();
+
+    if (histories === null) {
+      console.error("fetchHistoryOfEachMonth: failed");
+      return;
+    }
+
+    setHistoryOfEachMonth(histories);
+  }
 
   useEffect(() => {
-    fetchHistoryOfEachMonth(setHistoryOfEachMonth);
+    fetchHistoryOfEachMonth();
   }, []);
 
-  const labels = Object.keys(historyOfEachMonth);
+  const histories = Object.entries(historyOfEachMonth).sort();
 
   const graphData = {
-    labels: labels,
+    labels: histories.map((e) => e[0]),
     datasets: [
       {
         label: "売り上げ",
-        data: labels.map((label) => historyOfEachMonth[label]),
+        data: histories.map((e) => e[1]),
         borderColor: "greenyellow",
         backgroundColor: "rgba(191,253,91,0.2)",
       },
     ],
   };
 
-  const options: {} = {
+  const options = {
     plugins: {
       legend: {
         display: true,
@@ -94,4 +97,4 @@ const LineChartPane = styled.div`
   left: 0em;
   background-color: #303030;
 `;
-export default LineChart;
+export { LineChart };

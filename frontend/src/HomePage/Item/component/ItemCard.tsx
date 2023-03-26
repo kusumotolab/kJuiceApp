@@ -1,16 +1,16 @@
 import "./ItemCard.css";
 import styled from "styled-components";
+import { Item } from "types";
 
-interface Props {
+type Props = {
   color: string;
   name: string;
-  item: any;
+  item: Item;
   onClick: () => void;
   imgSrc: string;
-  width: string;
-}
+};
 
-const ItemCard: React.FC<Props> = ({ name, onClick, imgSrc, item, width }) => {
+function ItemCard({ name, onClick, imgSrc, item }: Props) {
   return (
     <ItemCardPane onClick={onClick}>
       <div className="square">
@@ -19,7 +19,7 @@ const ItemCard: React.FC<Props> = ({ name, onClick, imgSrc, item, width }) => {
       <span>{name + " " + item.sellingPrice + "円"}</span>
     </ItemCardPane>
   );
-};
+}
 
 const ItemCardPane = styled.button`
   background-color: #cabda1;
@@ -39,4 +39,4 @@ const ItemCardPane = styled.button`
   width: 11em;
 `;
 
-export default ItemCard;
+export { ItemCard };

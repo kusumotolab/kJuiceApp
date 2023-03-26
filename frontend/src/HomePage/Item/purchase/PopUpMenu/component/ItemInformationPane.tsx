@@ -1,13 +1,19 @@
 import styled from "styled-components";
+import { Item } from "types";
 
-function ItemInformationPane({ imgSrc, selectedItem }) {
+type Props = {
+  imgSrc: string;
+  selectedItem: Item | null;
+};
+
+function ItemInformationPane({ imgSrc, selectedItem }: Props) {
   return (
     <ItemInfo>
       <ItemImage src={imgSrc} />
       <div style={{ marginRight: "1em" }}>
-        {selectedItem == null ? "hoge" : selectedItem.name}
+        {selectedItem === null ? "hoge" : selectedItem.name}
       </div>
-      <div>{selectedItem == null ? "hoge" : selectedItem.sellingPrice}円</div>
+      <div>{selectedItem === null ? "hoge" : selectedItem.sellingPrice}円</div>
     </ItemInfo>
   );
 }
@@ -25,4 +31,4 @@ const ItemImage = styled.img`
   border-radius: 50%;
 `;
 
-export default ItemInformationPane;
+export { ItemInformationPane };

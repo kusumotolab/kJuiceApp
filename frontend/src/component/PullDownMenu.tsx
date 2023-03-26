@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import "./PullDownMenu.css";
 import { useSpring, animated } from "react-spring";
 
 interface Props {
   summary: string;
-  onClick?;
-  children;
+  children: ReactNode;
 }
 
-const PullDownMenu: React.FC<Props> = ({ summary, onClick, children }) => {
+function PullDownMenu({ summary, children }: Props) {
   const [isVisible, setVisibility] = useState(false);
 
   const styles = useSpring({
@@ -37,6 +36,6 @@ const PullDownMenu: React.FC<Props> = ({ summary, onClick, children }) => {
       </animated.div>
     </div>
   );
-};
+}
 
-export default PullDownMenu;
+export { PullDownMenu };

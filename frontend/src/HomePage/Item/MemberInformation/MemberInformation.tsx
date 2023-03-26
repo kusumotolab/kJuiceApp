@@ -1,16 +1,21 @@
 import styled from "styled-components";
+import { Member } from "types";
 
-function MemberInformation({ selectedMember }) {
+type Props = {
+  selectedMember: Member | null;
+};
+
+function MemberInformation({ selectedMember }: Props) {
   return (
     <MemberInformationPane>
       <CategoryName>ユーザ情報</CategoryName>
       <MemberInformationPaneContent>
         <span>
-          名前：{selectedMember.name == "" ? "---" : selectedMember.displayName}
+          名前：{selectedMember?.displayName ?? "---"}
           さん
         </span>
         <br />
-        <span>今月の支払い分：{selectedMember.umpayedAmount}円</span>
+        <span>今月の支払い分：{selectedMember?.umpayedAmount ?? 0}円</span>
       </MemberInformationPaneContent>
     </MemberInformationPane>
   );
@@ -32,4 +37,4 @@ const MemberInformationPaneContent = styled.div`
   font-size: 2em;
 `;
 
-export default MemberInformation;
+export { MemberInformation };

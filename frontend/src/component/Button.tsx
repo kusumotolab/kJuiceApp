@@ -1,4 +1,4 @@
-interface Props {
+type Props = {
   border?: string;
   color: string;
   children?: React.ReactNode;
@@ -8,9 +8,9 @@ interface Props {
   width?: string;
   fontColor: string;
   fontSize?: string;
-}
+};
 
-const Button: React.FC<Props> = ({
+function Button({
   border,
   color,
   children,
@@ -20,7 +20,7 @@ const Button: React.FC<Props> = ({
   width,
   fontColor,
   fontSize,
-}) => {
+}: Props) {
   return (
     <button
       onClick={onClick}
@@ -37,6 +37,6 @@ const Button: React.FC<Props> = ({
       {children}
     </button>
   );
-};
+}
 
-export default Button;
+export { Button };

@@ -4,47 +4,50 @@ import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
+import { Member } from "types";
+import { Dispatch, SetStateAction } from "react";
 
 const default_member_card_color = "#303030";
 const selected_member_card_color = "#303030";
 const font_color = "white";
 
-
-const fetchBase64Img = async (setBase64Img,userId:string) => {
-  const inputdata = await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
-    .then((res) => res.text())
-    .then((items) => {
-      setBase64Img(items);
-    });
+type Props = {
+  selected: boolean;
+  member: Member;
+  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
 };
 
-function MemberCard({selected,member,setSelectedMember,key}) {
-
+function MemberCard({ selected, member, setSelectedMember }: Props) {
   const [userIcon,setUserIcon] = useState("");
-
-  useEffect(() => {
-    fetchBase64Img(setUserIcon,member.name);
-  }, []);
-
 
   const styles = useSpring({
     opacity: selected ? 1 : 0,
   });
-
+  
+  async function fetchBase64Img(userId:string) {
+    await fetch(
+      `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
+      {
+        method: "GET",
+        mode: "cors",
+      }
+    )
+      .then((res) => res.text())
+      .then((items) => {
+        setUserIcon(items);
+      });
+  };
+  
+    useEffect(() => {
+      fetchBase64Img(member.name);
+    }, []);
+  
   return (
     <MemberCardPane>
       <SelectedMemberCard as={animated.div} style={styles} />
       <Button
         color={
-          selected
-            ? selected_member_card_color
-            : default_member_card_color
+          selected ? selected_member_card_color : default_member_card_color
         }
         height="15%"
         width="100%"
@@ -54,18 +57,15 @@ function MemberCard({selected,member,setSelectedMember,key}) {
         radius=".3em"
         border="greenyellow"
         fontColor={font_color}
-        children={
-          <MemberCardChildren>
-            <MemberCardImage 
-              src={userIcon===""?DefaultIcon:userIcon} />
-            
-            <MemberCardChildrenContent>
-              <span>{member.displayName}</span>
-            </MemberCardChildrenContent>
-          </MemberCardChildren>
-        }
         fontSize="3em"
-      />
+      >
+        <MemberCardChildren>
+          <MemberCardImage src={userIcon===""?DefaultIcon:userIcon} />
+          <MemberCardChildrenContent>
+            <span>{member.displayName}</span>
+          </MemberCardChildrenContent>
+        </MemberCardChildren>
+      </Button>
     </MemberCardPane>
   );
 }
@@ -113,4 +113,4 @@ const MemberCardImage = styled.img`
   border-radius: 50%;
 `;
 
-export default MemberCard;
+export { MemberCard };

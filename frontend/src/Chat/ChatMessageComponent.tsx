@@ -1,25 +1,34 @@
 import "./ChatMessageComponent.css";
 import DefaultIcon from "./../image/userimg/defaultimg.png";
 import { Backend } from "util/Backend";
+import { Chat } from "types";
+import { Dispatch, SetStateAction } from "react";
 
-const fetchChatDelete = async (id: string) => {
-  if (!(await Backend.deleteChat(id))) console.error("fetchChatDelete: failed");
+type Props = {
+  chat: Chat;
+  setLastUpdated: Dispatch<SetStateAction<string>>;
 };
 
-function ChatMessageComponent(props) {
+function ChatMessageComponent({ chat, setLastUpdated }: Props) {
+  const fetchChatDelete = async (id: number) => {
+    if (!(await Backend.deleteChat(id)))
+      console.error("fetchChatDelete: failed");
+  };
+
   return (
     <div className="ChatMessageComponent">
       <img src={DefaultIcon} alt="icon" />
       <div className="MessageBox">
-        {props.chat.message}
+        {chat.message}
         <div className="MessageBox-bottom-pane">
-          <div className="ChatMessageDate">{props.chat.date}</div>
+          <div className="ChatMessageDate">{chat.date}</div>
           <button
             className="DeleteButton"
             onClick={async () => {
-              await fetchChatDelete(props.chat.id);
+              await fetchChatDelete(chat.id);
               const date = new Date();
-              props.setLastUpdated(
+              setLastUpdated(
+                // TODO 日付フォーマットできるライブラリを使う
                 date.getFullYear() +
                   "/" +
                   ("0" + (date.getMonth() + 1)).slice(-2) +
@@ -44,4 +53,4 @@ function ChatMessageComponent(props) {
   );
 }
 
-export default ChatMessageComponent;
+export { ChatMessageComponent };

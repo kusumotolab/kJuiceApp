@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
-import ChatMessageComponent from "./ChatMessageComponent";
+import { ChatMessageComponent } from "./ChatMessageComponent";
 import "./ChatPane.css";
-import ChatInputPane from "./input/ChatInputPane";
+import { ChatInputPane } from "./input/ChatInputPane";
 import { Chat } from "types";
 import { Backend } from "util/Backend";
 
-const fetchMessagesList = async (setMessagesList) => {
-  const messageList = await Backend.getMessageList();
-
-  if (messageList === null) {
-    console.error("fetchMessagesList: failed");
-    return;
-  }
-
-  setMessagesList(messageList.reverse());
-};
-
 function ChatPane() {
   const [messages, setMessagesList] = useState<Chat[]>([]);
-
   const [lastUpdated, setLastUpdated] = useState("");
 
+  async function fetchMessagesList() {
+    const messageList = await Backend.getMessageList();
+
+    if (messageList === null) {
+      console.error("fetchMessagesList: failed");
+      return;
+    }
+
+    setMessagesList(messageList.reverse());
+  }
+
   useEffect(() => {
-    fetchMessagesList(setMessagesList);
+    fetchMessagesList();
   }, [lastUpdated]);
 
   return (
@@ -39,4 +38,4 @@ function ChatPane() {
   );
 }
 
-export default ChatPane;
+export { ChatPane };

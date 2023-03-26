@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import "./ChatInputPane.css";
-
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Button } from "react-bootstrap";
 import { Backend } from "util/Backend";
 
-const addMessage = async (message) => {
-  if (!(await Backend.addMessage(message))) console.error("addMessage: failed");
+type Props = {
+  setLastUpdated: Dispatch<SetStateAction<string>>;
 };
 
-function ChatInputPane(props) {
+function ChatInputPane({ setLastUpdated }: Props) {
   const [message, setMessage] = useState("");
+
+  async function addMessage() {
+    if (!(await Backend.addMessage(message)))
+      console.error("addMessage: failed");
+  }
 
   return (
     <div className="ChatInputPane">
@@ -20,10 +24,11 @@ function ChatInputPane(props) {
           variant="secondary"
           id="button-addon2"
           onClick={async () => {
-            await addMessage(message);
+            await addMessage();
             setMessage("");
             const date = new Date();
-            props.setLastUpdated(
+            setLastUpdated(
+              // TODO 日付フォーマットできるライブラリを使う
               date.getFullYear() +
                 "/" +
                 ("0" + (date.getMonth() + 1)).slice(-2) +
@@ -54,4 +59,4 @@ function ChatInputPane(props) {
   );
 }
 
-export default ChatInputPane;
+export { ChatInputPane };

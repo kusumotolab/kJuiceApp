@@ -1,35 +1,39 @@
 import { useEffect, useState } from "react";
-import HistoryCard from "./card/HistoryCard";
+import { HistoryCard } from "./card/HistoryCard";
 import styled from "styled-components";
-import { History } from "types";
+import { History, Member } from "types";
 import { Backend } from "util/Backend";
 
-const fetchHistoryData = async (selectedMemberId: string, setHistories) => {
-  if (selectedMemberId === "") {
-    setHistories([]);
-    return;
-  }
-
-  const histories = await Backend.getUserHistory(selectedMemberId);
-
-  if (histories === null) {
-    console.error("fetchHistoryData: failed");
-    return;
-  }
-
-  setHistories(histories);
+type Props = {
+  selectedMember: Member | null;
 };
 
-function HistoryPane({ selectedMember }) {
+function HistoryPane({ selectedMember }: Props) {
   const [histories, setHistories] = useState<History[]>([]);
 
-  useEffect(() => {
-    fetchHistoryData(selectedMember.name, setHistories);
-  }, [selectedMember]);
+  const fetchHistoryData = async () => {
+    if (selectedMember === null) {
+      setHistories([]);
+      return;
+    }
 
-  const updateHistory = () => {
-    fetchHistoryData(selectedMember.name, setHistories);
+    const histories = await Backend.getUserHistory(selectedMember.name);
+
+    if (histories === null) {
+      console.error("fetchHistoryData: failed");
+      return;
+    }
+
+    setHistories(histories);
   };
+
+  function updateHistory() {
+    fetchHistoryData();
+  }
+
+  useEffect(() => {
+    fetchHistoryData();
+  }, []);
 
   return (
     <MainHistoryPane>
@@ -58,4 +62,4 @@ const CategoryName = styled.div`
   font-size: 2em;
 `;
 
-export default HistoryPane;
+export { HistoryPane };

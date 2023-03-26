@@ -1,12 +1,12 @@
 import { useState } from "react";
-import PullDownMenu from "../component/PullDownMenu";
-import UserAddPane from "./UserAdd/UserAddPane";
-import UserDelete from "./UserDelete/UserDelete";
-import ItemAddPane from "./ItemAdd/ItemAdd";
-import SendSlack from "./SendSlack/SendSlack";
-import UnpaidMember from "./UnpaidMember/UnpaidMember";
-import ItemDelete from "./ItemDelete/ItemDelete";
-import PassWordPane from "./PassWord/PassWordPane";
+import { PullDownMenu } from "../component/PullDownMenu";
+import { UserAddPane } from "./UserAdd/UserAddPane";
+import { UserDeletePane } from "./UserDelete/UserDeletePane";
+import { ItemAddPane } from "./ItemAdd/ItemAddPane";
+import { SendSlack } from "./SendSlack/SendSlack";
+import { UnpaidMember } from "./UnpaidMember/UnpaidMember";
+import { ItemDeletePane } from "./ItemDelete/ItemDeletePane";
+import { PasswordPane } from "./PassWord/PassWordPane";
 import styled from "styled-components";
 
 function itemAddClicked() {
@@ -17,12 +17,12 @@ function slackSendClicked() {
   alert("OK");
 }
 
-function Admin() {
+function AdminPane() {
   const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
 
   return (
-    <AdminPane>
-      <PassWordPane
+    <Admin>
+      <PasswordPane
         visible={passwordPaneVisible}
         setVisible={setPasswordPaneVisible}
       />
@@ -30,34 +30,30 @@ function Admin() {
       <ContentPane
         style={{ visibility: passwordPaneVisible ? "hidden" : "visible" }}
       >
-        <PullDownMenu summary="ユーザの追加" children={<UserAddPane />} />
-        <PullDownMenu summary="ユーザの削除" children={<UserDelete />} />
-        <PullDownMenu
-          summary="アイテムの登録"
-          onClick={itemAddClicked}
-          children={<ItemAddPane />}
-        />
-        <PullDownMenu
-          summary="アイテムの削除"
-          onClick={itemAddClicked}
-          children={<ItemDelete />}
-        />
-        <PullDownMenu
-          summary="slackへの通知"
-          onClick={slackSendClicked}
-          children={<SendSlack />}
-        />
-        <PullDownMenu
-          summary="金額未払い者の管理"
-          onClick={slackSendClicked}
-          children={<UnpaidMember />}
-        />
+        <PullDownMenu summary="ユーザの追加">
+          <UserAddPane />
+        </PullDownMenu>
+        <PullDownMenu summary="ユーザの削除">
+          <UserDeletePane />
+        </PullDownMenu>
+        <PullDownMenu summary="アイテムの登録" onClick={itemAddClicked}>
+          <ItemAddPane />
+        </PullDownMenu>
+        <PullDownMenu summary="アイテムの削除" onClick={itemAddClicked}>
+          <ItemDeletePane />
+        </PullDownMenu>
+        <PullDownMenu summary="slackへの通知" onClick={slackSendClicked}>
+          <SendSlack />
+        </PullDownMenu>
+        <PullDownMenu summary="金額未払い者の管理" onClick={slackSendClicked}>
+          <UnpaidMember />
+        </PullDownMenu>
       </ContentPane>
-    </AdminPane>
+    </Admin>
   );
 }
 
-const AdminPane = styled.div`
+const Admin = styled.div`
   width: 100%;
   height: 100%;
 `;
@@ -79,4 +75,4 @@ const ContentPane = styled.div`
   top: 3em;
 `;
 
-export default Admin;
+export { AdminPane };

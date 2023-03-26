@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { Backend } from "util/Backend";
-import Button from "../../component/Button";
+import { Button } from "../../component/Button";
 import "./UserAddPane.css";
-
-const addUser = async (userId, displayName, attribute) => {
-  if (!(await Backend.addMember(userId, displayName, attribute)))
-    console.error("addUser: failed");
-};
 
 function UserAddPane() {
   const [userId, setUserId] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [attribute, setAttribute] = useState("teature");
+
+  async function addUser() {
+    if (!(await Backend.addMember(userId, displayName, attribute)))
+      console.error("addUser: failed");
+  }
+
   return (
     <div className="UserAddPane">
       <table>
@@ -76,7 +77,7 @@ function UserAddPane() {
             console.log(userId);
             console.log(displayName);
             console.log(attribute);
-            addUser(userId, displayName, attribute);
+            addUser();
           }}
           fontColor="white"
         >
@@ -87,4 +88,4 @@ function UserAddPane() {
   );
 }
 
-export default UserAddPane;
+export { UserAddPane };

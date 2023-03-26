@@ -1,5 +1,15 @@
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
-import MemberCard from "./MemberCard";
+import { Member } from "types";
+import { MemberCard } from "./MemberCard";
+
+type Props = {
+  description: string;
+  attribute: string;
+  memberList: Member[];
+  selectedMember: Member | null;
+  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+};
 
 function MemberPanePerAttribute({
   description,
@@ -7,31 +17,29 @@ function MemberPanePerAttribute({
   memberList,
   selectedMember,
   setSelectedMember,
-}) {
+}: Props) {
   return (
     <div>
       <Attribute>{description}</Attribute>
       {memberList
-        .filter(function (member) {
-          return member.attribute == attribute;
-        })
-        .sort(function (a, b) {
+        .filter((member) => member.attribute == attribute)
+        .sort((a, b) => {
           if (a.displayName > b.displayName) {
             return 1;
           } else {
             return -1;
           }
         })
-        .map((member) => {
-          return (
-            <MemberCard
-              selected={selectedMember == member ? true : false}
-              member={member}
-              setSelectedMember={setSelectedMember}
-              key={member.name}
-            />
-          );
-        })}
+        .map((member) => (
+          <MemberCard
+            selected={
+              selectedMember !== null && selectedMember.name === member.name
+            }
+            member={member}
+            setSelectedMember={setSelectedMember}
+            key={member.name}
+          />
+        ))}
     </div>
   );
 }
@@ -41,4 +49,4 @@ const Attribute = styled.div`
   margin-top: 1em;
 `;
 
-export default MemberPanePerAttribute;
+export { MemberPanePerAttribute };

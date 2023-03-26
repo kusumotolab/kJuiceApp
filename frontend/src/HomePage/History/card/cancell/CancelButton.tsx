@@ -4,12 +4,21 @@ import styled from "styled-components";
 import { History } from "types";
 import { Backend } from "util/Backend";
 
-const postRecall = async (history: History) => {
-  if (!(await Backend.recall(history))) console.error("postRecall: failed");
+type Props = {
+  history: History;
+  updateHistory: () => void;
 };
 
-function CancelButton(props) {
+function CancelButton({ history, updateHistory }: Props) {
   const [cancel_toggle, setCancelToggle] = useState(false);
+
+  async function postRecall(history: History) {
+    if (!(await Backend.recall(history))) console.error("postRecall: failed");
+  }
+
+  function handle_cancel_toggle() {
+    setCancelToggle(!cancel_toggle);
+  }
 
   const cancel_style = useSpring({
     width: cancel_toggle ? "5em" : "0em",
@@ -26,17 +35,14 @@ function CancelButton(props) {
     transform: cancel_toggle ? "rotate(180deg)" : "rotate(0deg)",
   });
 
-  const handle_cancel_toggle = () => {
-    setCancelToggle(!cancel_toggle);
-  };
   return (
     <CancelButtonPane>
       <animated.button
         style={cancel_style}
         onClick={async () => {
           setCancelToggle(false);
-          await postRecall(props.history);
-          props.updateHistory();
+          await postRecall(history);
+          updateHistory();
         }}
       >
         <animated.span style={opacity_style}>Cancel</animated.span>
@@ -71,4 +77,4 @@ const CancelToggleButton = styled.button`
   border: 0;
 `;
 
-export default CancelButton;
+export { CancelButton };

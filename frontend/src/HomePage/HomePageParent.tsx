@@ -1,61 +1,16 @@
 import { useEffect, useState } from "react";
-import ItemPane from "./Item/ItemPane";
-import MemberPane from "./Member/MemberPane";
+import { ItemPane } from "./Item/ItemPane";
+import { MemberPane } from "./Member/MemberPane";
 import styled from "styled-components";
 import { Backend } from "util/Backend";
-import { Member } from "types";
-
-const fetchMemberList = async (setMemberList) => {
-  const memberList = await Backend.getMemberList();
-
-  if (memberList === null) {
-    console.error("fetchMemberList: failed");
-    return;
-  }
-
-  setMemberList(memberList.filter((member) => member.active));
-};
-
-const fetchItemList = async (setJuiceList, setFoodList) => {
-  const itemList = await Backend.getItemList();
-
-  if (itemList === null) {
-    console.error("fetchItemList: failed");
-    return;
-  }
-
-  setJuiceList(
-    itemList.filter((item) => item.active && item.grouping === "juice")
-  );
-  setFoodList(
-    itemList.filter((item) => item.active && item.grouping === "food")
-  );
-};
-
-function memberFindByName(memberList: Member[], searchName: string) {
-  return (
-    memberList.find((member) => member.name === searchName) ?? {
-      name: "",
-      displayName: "",
-      umpayedAmount: 0,
-      attribute: "",
-      active: true,
-    }
-  );
-}
+import { Item, Member } from "types";
 
 function HomePageParent() {
-  const [selectedMember, setSelectedMember] = useState({
-    name: "",
-    displayName: "",
-    umpayedAmount: 0,
-    attribute: "",
-    active: true,
-  });
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [memberList, setMemberList] = useState([]);
-  const [juiceList, setJuiceList] = useState([]);
-  const [foodList, setFoodList] = useState([]);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [memberList, setMemberList] = useState<Member[]>([]);
+  const [juiceList, setJuiceList] = useState<Item[]>([]);
+  const [foodList, setFoodList] = useState<Item[]>([]);
 
   const [update, setUpdate] = useState(false);
 
@@ -64,10 +19,49 @@ function HomePageParent() {
   // TODO
   const [sumPurchased, setSumPurchased] = useState(0);
 
+  async function fetchMemberList() {
+    const memberList = await Backend.getMemberList();
+
+    if (memberList === null) {
+      console.error("fetchMemberList: failed");
+      return;
+    }
+
+    setMemberList(memberList.filter((member) => member.active));
+  }
+
+  async function fetchItemList() {
+    const itemList = await Backend.getItemList();
+
+    if (itemList === null) {
+      console.error("fetchItemList: failed");
+      return;
+    }
+
+    setJuiceList(
+      itemList.filter((item) => item.active && item.grouping === "juice")
+    );
+    setFoodList(
+      itemList.filter((item) => item.active && item.grouping === "food")
+    );
+  }
+
+  function memberFindByName(memberList: Member[], searchName: string) {
+    return (
+      memberList.find((member) => member.name === searchName) ?? {
+        name: "",
+        displayName: "",
+        umpayedAmount: 0,
+        attribute: "",
+        active: true,
+      }
+    );
+  }
+
   useEffect(() => {
-    fetchMemberList(setMemberList);
-    fetchItemList(setJuiceList, setFoodList);
-    setSelectedMember(memberFindByName(memberList, selectedMember.name));
+    fetchMemberList();
+    fetchItemList();
+    setSelectedMember(memberFindByName(memberList, selectedMember!.name));
   }, [sumPurchased]);
 
   return (
@@ -96,4 +90,4 @@ const HomePageParentPane = styled.div`
   display: flex;
 `;
 
-export default HomePageParent;
+export { HomePageParent };

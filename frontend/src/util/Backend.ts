@@ -116,7 +116,7 @@ export class Backend {
       .catch(() => false);
   }
 
-  public static async deleteChat(id: string) {
+  public static async deleteChat(id: number) {
     const endpoint = "chat/delete";
     const data = {
       params: {

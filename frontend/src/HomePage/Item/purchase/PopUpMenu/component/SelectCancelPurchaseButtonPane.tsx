@@ -1,16 +1,28 @@
-import Button from "../../../../../component/Button";
+import { Button } from "../../../../../component/Button";
 import styled from "styled-components";
+import { Item, Member } from "types";
+import { Dispatch, SetStateAction } from "react";
+
+type Props = {
+  purchaseItem: () => Promise<void>;
+  selectedMember: Member | null;
+  selectedItem: Item | null;
+  setSumPurchased: Dispatch<SetStateAction<number>>;
+  closePopUp: () => void;
+  setUpdate: Dispatch<SetStateAction<boolean>>;
+  update: boolean;
+  setShowCompleteMessage: Dispatch<SetStateAction<boolean>>;
+};
 
 function SelectCancelPurchaseButtonPane({
   purchaseItem,
-  selectedMember,
   selectedItem,
   setSumPurchased,
   closePopUp,
   setUpdate,
   update,
   setShowCompleteMessage,
-}) {
+}: Props) {
   return (
     <SelectButtonPane>
       <ButtonPane>
@@ -22,9 +34,10 @@ function SelectCancelPurchaseButtonPane({
           onClick={() => closePopUp()}
           radius="0.2em"
           fontColor="white"
-          children={<div>キャンセル</div>}
           fontSize="0.7em"
-        />
+        >
+          <div>キャンセル</div>
+        </Button>
       </ButtonPane>
       <ButtonPane>
         <Button
@@ -33,20 +46,21 @@ function SelectCancelPurchaseButtonPane({
           height="2em"
           width="40%"
           onClick={() => {
-            purchaseItem(selectedMember, selectedItem, setSumPurchased);
+            purchaseItem();
             closePopUp();
-            setSumPurchased(selectedItem.salesFigure + 1);
+            setSumPurchased(selectedItem?.salesFigure ?? 0 + 1);
             setUpdate(!update);
             setShowCompleteMessage(true);
-            setTimeout(function () {
+            setTimeout(() => {
               setShowCompleteMessage(false);
             }, 2100);
           }}
           radius="0.2em"
           fontColor="white"
-          children={<div>購入</div>}
           fontSize="0.7em"
-        />
+        >
+          <div>購入</div>
+        </Button>
       </ButtonPane>
     </SelectButtonPane>
   );
@@ -62,4 +76,4 @@ const ButtonPane = styled.div`
   display: inline;
 `;
 
-export default SelectCancelPurchaseButtonPane;
+export { SelectCancelPurchaseButtonPane };

@@ -1,20 +1,21 @@
-import { useState } from "react";
 import "./Toggle.css";
 
-export const Toggle = ({ toggled, onClick }) => {
-  const [isToggled, toggle] = useState(toggled);
+type Props = {
+  toggled: boolean;
+  onClick: (activity: boolean) => Promise<void>;
+};
 
-  const callback = () => {
-    toggle(!isToggled);
-    onClick(!isToggled);
-  };
+export function Toggle({ toggled, onClick }: Props) {
+  function callback() {
+    onClick(!toggled);
+  }
 
   return (
     <span className="Toggle">
       <label>
-        <input type="checkbox" defaultChecked={isToggled} onClick={callback} />
+        <input type="checkbox" defaultChecked={toggled} onClick={callback} />
         <span />
       </label>
     </span>
   );
-};
+}

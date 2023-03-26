@@ -11,6 +11,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import { Backend } from "util/Backend";
+import { Item } from "types";
 
 ChartJS.register(
   CategoryScale,
@@ -21,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+const options = {
   indexAxis: "y" as const,
   elements: {
     bar: {
@@ -70,42 +71,38 @@ export const options = {
   },
 };
 
-const fetchItemList = async (setItemList) => {
-  const itemList = await Backend.getItemList();
-  if (itemList !== null) {
-    setItemList(itemList);
-  } else {
-    console.error("fetchItemList: failed");
+function SellingBarGraph() {
+  const [orderedItemList, setOrderedItemList] = useState<Item[]>([]);
+
+  async function fetchItemList() {
+    const itemList = await Backend.getItemList();
+    if (itemList !== null) {
+      return itemList;
+    } else {
+      console.error("fetchItemList: failed");
+      return [];
+    }
   }
-};
 
-const setItemNameList = (itemList) => {
-  const ret = {};
-  itemList.map((item) => {
-    ret[item.name] = item.salesFigure;
-  });
-  return ret;
-};
-
-export default function SellingBarGraph(props) {
-  const [itemList, setItemList] = useState([]);
+  // 並べ方を変える場合はここを変える
+  function sortItemList(itemList: Item[]) {
+    itemList.sort((a, b) => b.salesFigure - a.salesFigure);
+  }
 
   useEffect(() => {
-    fetchItemList(setItemList);
+    async () => {
+      const tempList = await fetchItemList();
+      sortItemList(tempList);
+      setOrderedItemList(tempList);
+    };
   }, []);
 
-  const dict = setItemNameList(itemList);
-  const labels = Object.keys(dict);
-  labels.sort((a, b) => {
-    return dict[b] - dict[a];
-  });
-
   const data = {
-    labels,
+    labels: orderedItemList.map((item) => item.name),
     datasets: [
       {
         label: "売れた個数",
-        data: labels.map((label) => dict[label]),
+        data: orderedItemList.map((item) => item.salesFigure),
         borderColor: "rgb(191, 253, 91)",
         backgroundColor: "rgba(191,253,91,0.2)",
       },
@@ -114,7 +111,7 @@ export default function SellingBarGraph(props) {
 
   return (
     <SellingBarGraphPane>
-      <Bar options={options} data={data} height={props.height} />
+      <Bar options={options} data={data} />
     </SellingBarGraphPane>
   );
 }
@@ -127,3 +124,5 @@ const SellingBarGraphPane = styled.div`
   background-color: #303030;
   color: greenyellow;
 `;
+
+export { SellingBarGraph };
