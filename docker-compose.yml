@@ -23,6 +23,12 @@ services:
       - type: bind
         source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.json
         target: /frontend/tsconfig.json
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/.eslintrc.yml
+        target: /frontend/.eslintrc.yml
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/.prettierrc.yml
+        target: /frontend/.prettierrc.yml
     tty: true
     ports:
       - 3000:3000

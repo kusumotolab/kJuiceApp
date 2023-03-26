@@ -46,22 +46,9 @@ function HomePageParent() {
     );
   }
 
-  function memberFindByName(memberList: Member[], searchName: string) {
-    return (
-      memberList.find((member) => member.name === searchName) ?? {
-        name: "",
-        displayName: "",
-        umpayedAmount: 0,
-        attribute: "",
-        active: true,
-      }
-    );
-  }
-
   useEffect(() => {
     fetchMemberList();
     fetchItemList();
-    setSelectedMember(memberFindByName(memberList, selectedMember!.name));
   }, [sumPurchased]);
 
   return (

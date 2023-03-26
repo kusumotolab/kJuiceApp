@@ -90,11 +90,11 @@ function SellingBarGraph() {
   }
 
   useEffect(() => {
-    async () => {
+    (async () => {
       const tempList = await fetchItemList();
       sortItemList(tempList);
       setOrderedItemList(tempList);
-    };
+    })();
   }, []);
 
   const data = {

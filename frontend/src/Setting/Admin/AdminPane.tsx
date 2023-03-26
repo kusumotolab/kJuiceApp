@@ -9,14 +9,6 @@ import { ItemDeletePane } from "./ItemDelete/ItemDeletePane";
 import { PasswordPane } from "./PassWord/PassWordPane";
 import styled from "styled-components";
 
-function itemAddClicked() {
-  alert("OK");
-}
-
-function slackSendClicked() {
-  alert("OK");
-}
-
 function AdminPane() {
   const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
 
@@ -36,16 +28,16 @@ function AdminPane() {
         <PullDownMenu summary="ユーザの削除">
           <UserDeletePane />
         </PullDownMenu>
-        <PullDownMenu summary="アイテムの登録" onClick={itemAddClicked}>
+        <PullDownMenu summary="アイテムの登録">
           <ItemAddPane />
         </PullDownMenu>
-        <PullDownMenu summary="アイテムの削除" onClick={itemAddClicked}>
+        <PullDownMenu summary="アイテムの削除">
           <ItemDeletePane />
         </PullDownMenu>
-        <PullDownMenu summary="slackへの通知" onClick={slackSendClicked}>
+        <PullDownMenu summary="slackへの通知">
           <SendSlack />
         </PullDownMenu>
-        <PullDownMenu summary="金額未払い者の管理" onClick={slackSendClicked}>
+        <PullDownMenu summary="金額未払い者の管理">
           <UnpaidMember />
         </PullDownMenu>
       </ContentPane>
