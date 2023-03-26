@@ -40,3 +40,5 @@ rules:
     - error
   import/no-default-export:
     - error
+  func-names:
+    - error
