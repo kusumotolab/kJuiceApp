@@ -15,6 +15,7 @@ parserOptions:
 plugins:
   - react
   - "@typescript-eslint"
+  - import
 settings:
   react:
     version: detect
@@ -36,4 +37,6 @@ rules:
   "@typescript-eslint/no-explicit-any":
     - error
   react/function-component-definition:
+    - error
+  import/no-default-export:
     - error
