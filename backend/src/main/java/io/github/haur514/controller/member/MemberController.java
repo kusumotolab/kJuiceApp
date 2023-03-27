@@ -2,7 +2,6 @@ package io.github.haur514.controller.member;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -113,11 +112,12 @@ public class MemberController {
     public String getMemberImage(
         @RequestParam(name="name") String name
     ){
-        List<MemberImageEntity> memberImageEntities = memberImageRepository.findByName(name);
-        if(memberImageEntities.isEmpty()){
+        MemberImageEntity memberImageEntity = memberImageRepository.findByName(name);
+
+        if(memberImageEntity==null){
             return "";
         }
-        MemberImageEntity memberImageEntity = memberImageEntities.get(memberImageEntities.size()-1);
+
         String base64str = Base64.getEncoder().encodeToString(memberImageEntity.getData());
 
         StringBuilder sb = new StringBuilder();
