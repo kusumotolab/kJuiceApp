@@ -14,7 +14,7 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
     <MainMemberPane>
       <MemberPanePerAttribute
         description="先生"
-        attribute="teacher"
+        attribute="teature"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
