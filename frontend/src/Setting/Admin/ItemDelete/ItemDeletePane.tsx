@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../component/Button";
-import { Toggle } from "../../component/Toggle";
+import { Button } from "../../../component/Button";
+import { Toggle } from "../../../component/Toggle";
 import { Backend } from "util/Backend";
 import { Item } from "types";
 
@@ -19,10 +19,6 @@ function ItemDeletePane() {
   async function switchItemActivity(id: string, activity: boolean) {
     if (!(await Backend.setItemActivity(id, activity)))
       console.error("setItemactivity: failed");
-  }
-
-  function switchActivity(item: Item) {
-    return (activity: boolean) => switchItemActivity(item.name, activity);
   }
 
   async function deleteItem(id: string) {
@@ -47,7 +43,7 @@ function ItemDeletePane() {
             <th>{item.name}</th>
             <th>{item.grouping}</th>
             <th>
-              <Toggle toggled={item.active} onClick={switchActivity(item)} />
+              <Toggle toggled={item.active} onClick={(activity: boolean) => switchItemActivity(item.name, activity)} />
             </th>
             <th>
               <Button

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../component/Button";
-import { Toggle } from "../../component/Toggle";
+import { Button } from "../../../component/Button";
+import { Toggle } from "../../../component/Toggle";
 import { Member } from "types";
 import { Backend } from "util/Backend";
 
@@ -32,10 +32,6 @@ function UserDeletePane() {
     );
   }
 
-  function switchActivity(member: Member) {
-    return (activity: boolean) => switchMemberActivity(member.name, activity);
-  }
-
   async function deleteMember(member: string) {
     if (!(await Backend.deleteMember(member)))
       console.error("deleteMember: failed");
@@ -60,7 +56,7 @@ function UserDeletePane() {
             <th>{member.attribute}</th>
             <th>
               <Toggle
-                onClick={switchActivity(member)}
+                onClick={(activity: boolean) => switchMemberActivity(member.name, activity)}
                 toggled={member.active}
               />
             </th>
