@@ -24,7 +24,6 @@ type Props = {
   foodList: Item[];
   selectedMember: Member | null;
   setSumPurchased: Dispatch<SetStateAction<number>>;
-  sumPurchased: number;
 };
 
 function ItemPane({

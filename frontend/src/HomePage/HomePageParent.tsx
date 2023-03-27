@@ -67,7 +67,6 @@ function HomePageParent() {
         foodList={foodList}
         selectedMember={selectedMember}
         setSumPurchased={setSumPurchased}
-        sumPurchased={sumPurchased}
       />
     </HomePageParentPane>
   );
