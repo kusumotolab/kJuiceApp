@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 import styled from "styled-components";
 
 function FileSelect({ onFileInputChange }) {
-  const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
   const inputRef = useRef(null);
 
   function iconChangeButtonClicked(e: React.MouseEvent<HTMLElement>){

@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import backgroundImg from "./../image/admin-background.jpeg";
 import PullDownMenu from "../../component/PullDownMenu";
 import UserAddPane from "./UserAdd/UserAddPane";
 import UserDelete from "./UserDelete/UserDelete";
 import ItemAddPane from "./ItemAdd/ItemAdd";
 import SendSlack from "./SendSlack/SendSlack";
 import UnpaidMember from "./UnpaidMember/UnpaidMember";
-import ItemPane from "../../HomePage/Item/ItemPane";
 import ItemDelete from "./ItemDelete/ItemDelete";
 import PassWordPane from "./PassWord/PassWordPane";
 import styled from "styled-components";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-
-function userAddClicked(is_user_add_pulldown_visible, setUserAddVisivility) {
-  setUserAddVisivility(!is_user_add_pulldown_visible);
-  alert(is_user_add_pulldown_visible);
-}
 
 function itemAddClicked() {
   alert("OK");

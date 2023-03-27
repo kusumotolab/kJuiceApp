@@ -57,7 +57,7 @@ function MemberCard({selected,member,setSelectedMember,key}) {
         children={
           <MemberCardChildren>
             <MemberCardImage 
-              src={userIcon==""?DefaultIcon:userIcon} />
+              src={userIcon===""?DefaultIcon:userIcon} />
             
             <MemberCardChildrenContent>
               <span>{member.displayName}</span>
