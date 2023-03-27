@@ -36,7 +36,7 @@ function IconSetting() {
       name: "",
       displayName: "",
       umpayedAmount: 0,
-      attribute: "m1",
+      attribute: "",
       active: false,
     },
   ]);
@@ -61,7 +61,7 @@ function IconSetting() {
   };
 
   const handleSubmit = async (fileObject: File) => {
-    if (fileObject === undefined) {
+    if (typeof fileObject === "undefined") {
         alert("画像が選択されていません");
       return;
     }
@@ -76,15 +76,12 @@ function IconSetting() {
 
     let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?userId=${userId}`;
 
-    try {
-      await axios.put(url, file).then(function(response) {
-      });
+    await axios.post(url, file).then(()=>{
       alert("送信に成功しました");
-    } catch (error) {
-      alert(
-          "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
-        );
-    }
+    }).catch(()=>{
+      alert("ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．")
+    });
+
   };
 
   return (
