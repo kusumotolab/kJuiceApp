@@ -1,7 +1,6 @@
-import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import Admin from "./Admin/AdminPane";
-import UserSetting from "./User/UserSetting";
+import { AdminPane } from "./Admin/AdminPane";
+import { UserSetting } from "./User/UserSetting";
 
 function SettingPane() {
   return (
@@ -14,10 +13,10 @@ function SettingPane() {
         <UserSetting />
       </TabPanel>
       <TabPanel>
-        <Admin />
+        <AdminPane />
       </TabPanel>
     </Tabs>
   );
 }
 
-export default SettingPane;
+export { SettingPane };

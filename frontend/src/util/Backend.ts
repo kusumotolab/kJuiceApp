@@ -206,4 +206,16 @@ export class Backend {
       .then(() => true)
       .catch(() => false);
   }
+
+  public static async setMemberImage(userId: string, image: File) {
+    const endpoint = "member/image";
+    const data = new FormData();
+    data.append("userId", userId);
+    data.append("image", image);
+
+    return await axios
+      .put(Backend.BASE + endpoint, data)
+      .then(() => true)
+      .catch(() => false);
+  }
 }

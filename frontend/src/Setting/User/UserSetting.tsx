@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-import IconSetting from "./IconSetting/IconSetting";
+import { IconSetting } from "./IconSetting/IconSetting";
 
 function UserSetting() {
   return (
@@ -11,14 +10,13 @@ function UserSetting() {
 }
 
 const UserSettingPane = styled.div`
-    background-color: #DDFFDD;
-    position:absolute;
-    top:6em;
-    bottom:0em;
-    left:0em;
-    right:0em;
-    font-size:1em;
-`
+  background-color: #ddffdd;
+  position: absolute;
+  top: 6em;
+  bottom: 0em;
+  left: 0em;
+  right: 0em;
+  font-size: 1em;
+`;
 
-
-export default UserSetting;
+export { UserSetting };

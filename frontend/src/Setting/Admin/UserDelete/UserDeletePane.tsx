@@ -56,7 +56,9 @@ function UserDeletePane() {
             <th>{member.attribute}</th>
             <th>
               <Toggle
-                onClick={(activity: boolean) => switchMemberActivity(member.name, activity)}
+                onClick={(activity: boolean) =>
+                  switchMemberActivity(member.name, activity)
+                }
                 toggled={member.active}
               />
             </th>

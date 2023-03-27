@@ -43,7 +43,12 @@ function ItemDeletePane() {
             <th>{item.name}</th>
             <th>{item.grouping}</th>
             <th>
-              <Toggle toggled={item.active} onClick={(activity: boolean) => switchItemActivity(item.name, activity)} />
+              <Toggle
+                toggled={item.active}
+                onClick={(activity: boolean) =>
+                  switchItemActivity(item.name, activity)
+                }
+              />
             </th>
             <th>
               <Button

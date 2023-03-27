@@ -1,12 +1,15 @@
-import React, { useRef } from "react";
-
+import { useRef } from "react";
 import styled from "styled-components";
 
-function FileSelect({ onFileInputChange }) {
-  const inputRef = useRef(null);
+type Props = {
+  onFileInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-  function iconChangeButtonClicked(e: React.MouseEvent<HTMLElement>){
-    inputRef.current.click();
+function FileSelect({ onFileInputChange }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function iconChangeButtonClicked() {
+    inputRef.current?.click();
   }
 
   return (
@@ -27,9 +30,7 @@ function FileSelect({ onFileInputChange }) {
 }
 
 const ImageSelectButton = styled.button`
-    background-color:white;
-    margin: 10px 0;
-`
-
-
-export default FileSelect;
+  background-color: white;
+  margin: 10px 0;
+`;
+export { FileSelect };

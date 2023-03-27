@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../component/Button";
+import { Button } from "../../../component/Button";
 import "./UnpaidMember.css";
 import { Member } from "types";
 import { Backend } from "util/Backend";

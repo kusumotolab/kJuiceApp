@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Backend } from "util/Backend";
-import { Button } from "../../component/Button";
+import { Button } from "../../../component/Button";
 import "./UserAddPane.css";
 
 function UserAddPane() {

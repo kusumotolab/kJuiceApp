@@ -13,7 +13,7 @@ import {
   faHouse,
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
-import SettingPane from "./Setting/SettingPane";
+import {SettingPane} from "./Setting/SettingPane";
 
 function App() {
   const iconStyle: React.CSSProperties = { marginLeft: "0.4em" };

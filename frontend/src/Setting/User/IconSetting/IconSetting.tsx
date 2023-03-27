@@ -1,68 +1,37 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Select from "react-select";
-import FileSelect from "./FileSelect/FileSelect";
-
-const fetchMemberList = async (setMemberList) => {
-  await fetch(
-    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`,
-    {
-      method: "GET",
-      mode: "cors",
-    }
-  )
-    .then((res) => res.json())
-    .then((members) => {
-      setMemberList(
-        members.filter((member) => member.active)
-      );
-    });
-};
-
-function setMemberSelectOptionsFromMemberList(
-  setMemberSelectOptions,
-  memberList
-) {
-  const options = memberList.map(({name,displayName}) => ({"value": name, "label": displayName}))
-  setMemberSelectOptions(options);
-}
+import { FileSelect } from "./FileSelect/FileSelect";
+import { Backend } from "util/Backend";
+import { Member } from "types";
 
 function IconSetting() {
   const [profileImage, setProfileImage] = useState("");
   const [userId, setUserId] = useState<string>("");
-  const [memberList, setMemberList] = useState([
-    {
-      name: "",
-      displayName: "",
-      umpayedAmount: 0,
-      attribute: "",
-      active: false,
-    },
-  ]);
+  const [memberList, setMemberList] = useState<Member[]>([]);
+  const [fileObject, setFileObject] = useState<File>();
 
-  const [memberSelectOptions, setMemberSelectOptions] = useState([]);
+  async function fetchMemberList() {
+    const memberList = await Backend.getMemberList();
 
-  useEffect(() => {
-    fetchMemberList(setMemberList);
-  }, []);
+    if (memberList === null) {
+      console.error("fetchMemberList: failed");
+      return;
+    }
 
-  useEffect(() => {
-    setMemberSelectOptionsFromMemberList(setMemberSelectOptions, memberList);
-  }, [memberList]);
+    setMemberList(memberList.filter((member) => member.active));
+  }
 
-  const [fileObject,setFileObject] = useState<File>();
-
-  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function onFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
     setFileObject(e.target.files[0]);
 
     setProfileImage(window.URL.createObjectURL(e.target.files[0]));
-  };
+  }
 
-  const handleSubmit = async (fileObject: File) => {
+  async function handleSubmit(fileObject: File | undefined) {
     if (typeof fileObject === "undefined") {
-        alert("画像が選択されていません");
+      alert("画像が選択されていません");
       return;
     }
     if (userId === "") {
@@ -70,19 +39,23 @@ function IconSetting() {
       return;
     }
 
-    const file = new FormData();
-    file.append("image", fileObject);
-    file.append("userId", userId);
-
-    let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?userId=${userId}`;
-
-    await axios.put(url, file).then(()=>{
+    if (await Backend.setMemberImage(userId, fileObject)) {
       alert("送信に成功しました");
-    }).catch(()=>{
-      alert("ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．")
-    });
+    } else {
+      alert(
+        "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
+      );
+    }
+  }
 
-  };
+  useEffect(() => {
+    fetchMemberList();
+  }, []);
+
+  const options = memberList.map(({ name, displayName }) => ({
+    value: name,
+    label: displayName,
+  }));
 
   return (
     <IconSettingPane>
@@ -90,10 +63,10 @@ function IconSetting() {
       <ImagePreview src={profileImage} />
       <FileSelect onFileInputChange={onFileInputChange} />
       <Select
-        options={memberSelectOptions}
-        defaultValue={{label:"ユーザを選択してください", value:""}}
+        options={options}
+        defaultValue={{ label: "ユーザを選択してください", value: "" }}
         onChange={(target) => {
-          setUserId(target.value);
+          setUserId(target?.value ?? "");
         }}
       />
       <SubmitButton
@@ -131,7 +104,6 @@ const IconSettingTitle = styled.div`
 `;
 
 const SubmitButton = styled.button`
-    margin:10px 0;
-`
-
-export default IconSetting;
+  margin: 10px 0;
+`;
+export { IconSetting };

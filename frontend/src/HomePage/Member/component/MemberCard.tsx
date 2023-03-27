@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Button from "../../../component/Button";
+import {Button} from "../../../component/Button";
 import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 
 import { useSpring, animated } from "react-spring";
@@ -18,13 +18,13 @@ type Props = {
 };
 
 function MemberCard({ selected, member, setSelectedMember }: Props) {
-  const [userIcon,setUserIcon] = useState("");
+  const [userIcon, setUserIcon] = useState("");
 
   const styles = useSpring({
     opacity: selected ? 1 : 0,
   });
-  
-  async function fetchBase64Img(userId:string) {
+
+  async function fetchBase64Img(userId: string) {
     await fetch(
       `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
       {
@@ -36,12 +36,12 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
       .then((items) => {
         setUserIcon(items);
       });
-  };
-  
-    useEffect(() => {
-      fetchBase64Img(member.name);
-    }, []);
-  
+  }
+
+  useEffect(() => {
+    fetchBase64Img(member.name);
+  }, []);
+
   return (
     <MemberCardPane>
       <SelectedMemberCard as={animated.div} style={styles} />
@@ -60,7 +60,7 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
         fontSize="3em"
       >
         <MemberCardChildren>
-          <MemberCardImage src={userIcon===""?DefaultIcon:userIcon} />
+          <MemberCardImage src={userIcon === "" ? DefaultIcon : userIcon} />
           <MemberCardChildrenContent>
             <span>{member.displayName}</span>
           </MemberCardChildrenContent>
@@ -104,7 +104,7 @@ const MemberCardChildrenContent = styled.div`
 `;
 
 const MemberCardImage = styled.img`
-  object-fit:cover;
+  object-fit: cover;
   height: 1em;
   width: 1em;
   padding-left: auto;

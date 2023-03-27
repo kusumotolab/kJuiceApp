@@ -1,4 +1,4 @@
-import { Button } from "../../component/Button";
+import { Button } from "../../../component/Button";
 
 function SendSlack() {
   return (
@@ -13,7 +13,7 @@ function SendSlack() {
       <label>
         属性：
         <select name="new-user-attribute" defaultValue="teature">
-          <option value="teature">Teacher</option>
+          <option value="teature">Teature</option>
           <option value="m2">M2</option>
           <option value="m1">M1</option>
           <option value="b4">B4</option>
