@@ -11,22 +11,22 @@ services:
     working_dir: /frontend/
     volumes:
       - type: bind
-        source: ./package.json
+        source: ${KJA_LOCAL_WS-.}/package.json
         target: /frontend/package.json
       - type: bind
-        source: ./package-lock.json
+        source: ${KJA_LOCAL_WS-.}/package-lock.json
         target: /frontend/package-lock.json
       - type: bind
-        source: ./src
+        source: ${KJA_LOCAL_WS-.}/src
         target: /frontend/src
       - type: bind
-        source: ./vite.config.js
+        source: ${KJA_LOCAL_WS-.}/vite.config.js
         target: /frontend/vite.config.js
       - type: bind
-        source: ./public
+        source: ${KJA_LOCAL_WS-.}/public
         target: /frontend/public
       - type: bind
-        source: ./tsconfig.json
+        source: ${KJA_LOCAL_WS-.}/tsconfig.json
         target: /frontend/tsconfig.json
     tty: true
     ports:
@@ -43,7 +43,7 @@ services:
       - 5432:5432
     volumes:
       - dbdata:/var/lib/postgresql/data
-      - ./backend/script/init:/docker-entrypoint-initdb.d
+      - ${KJA_LOCAL_WS-.}/backend/script/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
@@ -59,19 +59,19 @@ services:
     working_dir: /backend/
     volumes:
       - type: bind
-        source: ./backend/src
+        source: ${KJA_LOCAL_WS-.}/backend/src
         target: /backend/src
       - type: bind
-        source: ./backend/gradle
+        source: ${KJA_LOCAL_WS-.}/backend/gradle
         target: /backend/gradle/
       - type: bind
-        source: ./backend/gradlew
+        source: ${KJA_LOCAL_WS-.}/backend/gradlew
         target: /backend/gradlew
       - type: bind
-        source: ./backend/build.gradle
+        source: ${KJA_LOCAL_WS-.}/backend/build.gradle
         target: /backend/build.gradle
       - type: bind
-        source: ./backend/settings.gradle
+        source: ${KJA_LOCAL_WS-.}/backend/settings.gradle
         target: /backend/settings.gradle
     depends_on:
       - postgresql
@@ -86,9 +86,41 @@ services:
     command: [nginx-debug, '-g', 'daemon off;']
     volumes:
       - type: bind
-        source: ./nginx/default.conf
+        source: ${KJA_LOCAL_WS-.}/nginx/default.conf
         target: /etc/nginx/conf.d/default.conf
     depends_on:
       - frontend
       - backend
       - postgresql
+
+  backup:
+    build: ./backup
+    environment:
+      PGUSER: admin
+      PGPASSWORD: pass
+      PGDATABASE: test-db
+      PGHOST: postgresql
+      BACKUP_HOST: ${BACKUP_HOST}
+      BACKUP_USER: ${BACKUP_USER}
+    volumes:
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/backup/cron-config
+        target: /etc/crontabs/root
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/backup/backup.sh
+        target: /root/backup.sh
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/secret/private_key
+        target: /root/.ssh/private_key
+
+  restore-db:
+    build: ./backend/postgresql
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ${KJA_LOCAL_WS-.}/restore.sql:/docker-entrypoint-initdb.d/restore.sql
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test-db
+    profiles:
+      - restore

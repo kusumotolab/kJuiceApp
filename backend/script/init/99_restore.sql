@@ -26,4 +26,3 @@ CREATE TABLE history (
     price integer,
     date varchar(50)
 );
-
