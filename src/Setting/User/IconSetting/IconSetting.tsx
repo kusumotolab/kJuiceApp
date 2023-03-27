@@ -15,9 +15,7 @@ const fetchMemberList = async (setMemberList) => {
     .then((res) => res.json())
     .then((members) => {
       setMemberList(
-        members.filter((member) => {
-          return member.active;
-        })
+        members.filter((member) => member.active)
       );
     });
 };
@@ -26,15 +24,8 @@ function setMemberSelectOptionsFromMemberList(
   setMemberSelectOptions,
   memberList
 ) {
-  let ret = [];
-  for (let member in memberList) {
-    let tmp = {
-      value: memberList[member]["name"],
-      label: memberList[member]["displayName"],
-    };
-    ret.push(tmp);
-  }
-  setMemberSelectOptions(ret);
+  const options = memberList.map(({name,displayName}) => ({"value": name, "label": displayName}))
+  setMemberSelectOptions(options);
 }
 
 function IconSetting() {
@@ -60,12 +51,10 @@ function IconSetting() {
     setMemberSelectOptionsFromMemberList(setMemberSelectOptions, memberList);
   }, [memberList]);
 
-//   let fileObject: File;
   const [fileObject,setFileObject] = useState<File>();
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    // fileObject = e.target.files[0];
     setFileObject(e.target.files[0]);
 
     setProfileImage(window.URL.createObjectURL(e.target.files[0]));
