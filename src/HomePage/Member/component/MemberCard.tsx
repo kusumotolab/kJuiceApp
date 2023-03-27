@@ -3,9 +3,7 @@ import Button from "../../../component/Button";
 import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 
 import { useSpring, animated } from "react-spring";
-import { isAbsolute } from "node:path/win32";
 import styled from "styled-components";
-import axios from "axios";
 
 const default_member_card_color: string = "#303030";
 const selected_member_card_color: string = "#303030";
@@ -29,9 +27,6 @@ const fetchBase64Img = async (setBase64Img,userId:string) => {
 function MemberCard({selected,member,setSelectedMember,key}) {
 
   const [userIcon,setUserIcon] = useState("");
-
-  const inputRef = useRef(null);
-
 
   useEffect(() => {
     fetchBase64Img(setUserIcon,member.name);

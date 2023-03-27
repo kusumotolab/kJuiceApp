@@ -5,7 +5,7 @@ import Select from "react-select";
 import FileSelect from "./FileSelect/FileSelect";
 
 const fetchMemberList = async (setMemberList) => {
-  const inputdata = await fetch(
+  await fetch(
     `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member`,
     {
       method: "GET",
@@ -72,11 +72,11 @@ function IconSetting() {
   };
 
   const handleSubmit = async (fileObject: File) => {
-    if (fileObject == undefined) {
+    if (fileObject === undefined) {
         alert("画像が選択されていません");
       return;
     }
-    if (userId == "") {
+    if (userId === "") {
       alert("userIdが指定されていません");
       return;
     }
@@ -85,16 +85,16 @@ function IconSetting() {
     file.append("image", fileObject);
     file.append("userId", userId);
 
-    let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image/upload?userId=${userId}`;
+    let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?userId=${userId}`;
 
     try {
-      await axios.post(url, file).then(function(response) {
+      await axios.put(url, file).then(function(response) {
       });
       alert("送信に成功しました");
     } catch (error) {
-        alert(
-            "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
-          );
+      alert(
+          "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
+        );
     }
   };
 

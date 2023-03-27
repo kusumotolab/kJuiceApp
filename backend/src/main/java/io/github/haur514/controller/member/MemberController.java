@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -97,7 +98,7 @@ public class MemberController {
         return "success";
     }
 
-    @PostMapping(value = "/member/image/upload")
+    @PutMapping(value = "/member/image")
     public String uploadMemberImage(
             @RequestPart("image") MultipartFile file,
             @RequestPart("userId") String userId ) throws IOException {
