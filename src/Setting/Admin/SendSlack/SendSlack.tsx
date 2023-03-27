@@ -1,6 +1,6 @@
 import React from "react";
 // import Select from "react-select";
-import Button from "../../component/Button";
+import Button from "../../../component/Button";
 import "./SendSlack.css"
 
 function SendSlack(){

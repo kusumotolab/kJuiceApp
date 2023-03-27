@@ -46,11 +46,11 @@ function PasswordPane({visible,setVisible}) {
 
 const PasswordPaneMain = styled.div`
   position: absolute;
-  background-color: #b2b2b2;
-  top: 2.5em;
+  background-color: gray;
   left: 0;
   right: 0;
   bottom: 0;
+  top:6em;
   z-index: 10;
 `;
 

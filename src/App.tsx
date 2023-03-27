@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useRef } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import AdminPane from "./Admin/AdminPane";
+import AdminPane from "./Setting/Admin/AdminPane";
 import "./App.css";
 import ChatPane from "./Chat/ChatPane";
 import Chat from "./Chat/ChatPane";
@@ -20,6 +20,7 @@ import {
   faHouse,
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
+import SettingPane from "./Setting/SettingPane";
 
 function App() {
   const logState = (state) => {
@@ -40,7 +41,7 @@ function App() {
           <FontAwesomeIcon style={iconStyle} icon={faChartGantt} />
         </Tab>
         <Tab>
-          Admin
+          Settings
           <FontAwesomeIcon style={iconStyle} icon={faHammer} />
         </Tab>
         <Tab>Chat<FontAwesomeIcon style={iconStyle} icon={faMessage} /></Tab>
@@ -52,7 +53,7 @@ function App() {
         <GraphPane />
       </TabPanel>
       <TabPanel>
-        <AdminPane />
+        <SettingPane />
       </TabPanel>
       <TabPanel>
         <ChatPane />

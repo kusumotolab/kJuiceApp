@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import Select from "react-select";
-import Button from "../../component/Button";
+import Button from "../../../component/Button";
 import "./UserDelete.css";
-import { Toggle } from "../../component/Toggle";
+import { Toggle } from "../../../component/Toggle";
 
 const fetchMemberList = async (setMemberList) => {
   const inputdata = await fetch(

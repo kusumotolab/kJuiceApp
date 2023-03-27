@@ -1,18 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../component/Button";
 import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 
 import { useSpring, animated } from "react-spring";
-import { isAbsolute } from "node:path/win32";
 import styled from "styled-components";
 
 const default_member_card_color: string = "#303030";
 const selected_member_card_color: string = "#303030";
 const font_color: string = "white";
 
-function MemberCard(props) {
+
+const fetchBase64Img = async (setBase64Img,userId:string) => {
+  const inputdata = await fetch(
+    `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
+    {
+      method: "GET",
+      mode: "cors",
+    }
+  )
+    .then((res) => res.text())
+    .then((items) => {
+      setBase64Img(items);
+    });
+};
+
+function MemberCard({selected,member,setSelectedMember,key}) {
+
+  const [userIcon,setUserIcon] = useState("");
+
+  useEffect(() => {
+    fetchBase64Img(setUserIcon,member.name);
+  }, []);
+
+
   const styles = useSpring({
-    opacity: props.selected ? 1 : 0,
+    opacity: selected ? 1 : 0,
   });
 
   return (
@@ -20,23 +42,25 @@ function MemberCard(props) {
       <SelectedMemberCard as={animated.div} style={styles}></SelectedMemberCard>
       <Button
         color={
-          props.selected
+          selected
             ? selected_member_card_color
             : default_member_card_color
         }
         height="15%"
         width="100%"
         onClick={() => {
-          props.setSelectedMember(props.member);
+          setSelectedMember(member);
         }}
         radius=".3em"
         border="greenyellow"
         fontColor={font_color}
         children={
           <MemberCardChildren>
-            <MemberCardImage src={DefaultIcon} />
+            <MemberCardImage 
+              src={userIcon===""?DefaultIcon:userIcon} />
+            
             <MemberCardChildrenContent>
-              <span>{props.member.displayName}</span>
+              <span>{member.displayName}</span>
             </MemberCardChildrenContent>
           </MemberCardChildren>
         }
@@ -80,8 +104,9 @@ const MemberCardChildrenContent = styled.div`
 `;
 
 const MemberCardImage = styled.img`
-  display: block;
+  object-fit:cover;
   height: 1em;
+  width: 1em;
   padding-left: auto;
   margin-right: 0.5em;
   margin-left: 0.5em;
