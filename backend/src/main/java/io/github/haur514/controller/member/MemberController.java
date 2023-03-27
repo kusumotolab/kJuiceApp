@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -108,7 +109,7 @@ public class MemberController {
         return new Gson().toJson(memberService.findAll());
     }
 
-    @RequestMapping("/member/image")
+    @GetMapping("/member/image")
     @ResponseBody
     public String getMemberImage(
         @RequestParam(name="name") String name

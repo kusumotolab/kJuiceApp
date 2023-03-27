@@ -76,7 +76,7 @@ function IconSetting() {
 
     let url: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?userId=${userId}`;
 
-    await axios.post(url, file).then(()=>{
+    await axios.put(url, file).then(()=>{
       alert("送信に成功しました");
     }).catch(()=>{
       alert("ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．")
