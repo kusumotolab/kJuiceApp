@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react";
 import "./PullDownMenu.css";
 import { useSpring, animated } from "react-spring";
 
-interface Props {
+type Props = {
   summary: string;
   children: ReactNode;
 }
