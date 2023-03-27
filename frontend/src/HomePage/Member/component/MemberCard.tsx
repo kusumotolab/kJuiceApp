@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Button} from "../../../component/Button";
+import { Button } from "../../../component/Button";
 import DefaultIcon from "./../../../image/userimg/defaultimg.png";
 
 import { useSpring, animated } from "react-spring";

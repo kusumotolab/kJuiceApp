@@ -5,7 +5,7 @@ import { useSpring, animated } from "react-spring";
 type Props = {
   summary: string;
   children: ReactNode;
-}
+};
 
 function PullDownMenu({ summary, children }: Props) {
   const [isVisible, setVisibility] = useState(false);
