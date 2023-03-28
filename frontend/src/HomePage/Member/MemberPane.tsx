@@ -20,21 +20,21 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
         setSelectedMember={setSelectedMember}
       />
       <MemberPanePerAttribute
-        description="修士2年"
+        description="M2"
         attribute="m2"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
       <MemberPanePerAttribute
-        description="修士1年"
+        description="M1"
         attribute="m1"
         memberList={memberList}
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
       <MemberPanePerAttribute
-        description="学部4年"
+        description="B4"
         attribute="b4"
         memberList={memberList}
         selectedMember={selectedMember}
