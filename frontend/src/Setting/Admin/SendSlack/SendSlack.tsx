@@ -1,11 +1,26 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Backend } from "util/Backend";
 import { Button } from "../../../component/Button";
 
 function SendSlack() {
+  const [slackMessage,setSlackMessage] = useState<string>("");
+
+  async function fetchSlackMessage(){
+    const message = await Backend.getInvokeMessageForSlack("yosiok",1);
+    if(message != null){
+      setSlackMessage(message);
+    }
+  }
+
+  useEffect(() => {
+    fetchSlackMessage();
+  },[]);
+
   return (
     <SendSlackPane>
       メッセージプレビュー
-      <MessagePreview>メッセージ</MessagePreview>
+      <MessagePreview>{slackMessage}</MessagePreview>
       <label>
         名前：
         <input type="text" name="name" />
@@ -54,6 +69,8 @@ const MessagePreview = styled.div`
   background: #EDEFF1;
   margin: 1rem;
   padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `
 
 

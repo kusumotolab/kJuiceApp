@@ -33,7 +33,7 @@ public class SlackController {
         StringBuffer sb = new StringBuffer();
         sb.append("楠本研究室の皆様\n");
         sb.append("食品会・ジュース会大臣の"+adminName+"です．\n");
-        sb.append(Integer.toString(month)+"月分の代金は以下のようになっております．");
+        sb.append(Integer.toString(month)+"月分の代金は以下のようになっております．\n");
         for(MemberEntity memberEntity : memberEntities){
             sb.append(memberEntity.getDisplayName());
             // slackに送る方のデータなので様としています．
@@ -44,7 +44,7 @@ public class SlackController {
             sb.append("\n");
         }
         sb.append("つきましては"+adminName+"までお支払いをお願いいたします．\n");
-        sb.append("何かご不明な点等ございましたら"+adminname+"までご連絡ください．\n");
+        sb.append("何かご不明な点等ございましたら"+adminName+"までご連絡ください．\n");
         return sb.toString();
     }
 }
