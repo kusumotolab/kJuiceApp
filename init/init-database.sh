@@ -59,9 +59,9 @@ add_user $api_host "hkr-kubo" "久保" "b4"
 add_user $api_host "w-mabuti" "馬渕" "b4"
 add_user $api_host "k-mihara" "三原" "b4"
 add_user $api_host "ryg-wtnb" "渡邊" "b4"
-add_user $api_host "kusumoto" "楠本" "teature"
-add_user $api_host "shinsuke" "柗本" "teature"
-add_user $api_host "higo" "肥後" "teature"
+add_user $api_host "kusumoto" "楠本" "teacher"
+add_user $api_host "shinsuke" "柗本" "teacher"
+add_user $api_host "higo" "肥後" "teacher"
 
 # デモ用のアイテムを追加
 add_item $api_host "CocaCola" "80" "70" "juice"
