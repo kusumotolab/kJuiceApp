@@ -1,83 +1,74 @@
-version: '3.3'
+version: '3.8'
 
 volumes:
-  postgres_volume:
-    driver_opts:
-      type: none
-      device: ./dbdata
-      o: bind
-
+  dbdata:
 
 services:
   frontend:
-    build:
-      context: .
-    image: juiceapp_frontend
+    image: node:18-alpine
     working_dir: /frontend/
-    # restart: always
     volumes:
       - type: bind
-        source: ./package.json
+        source: ${KJA_LOCAL_WS-.}/frontend/package.json
         target: /frontend/package.json
       - type: bind
-        source: ./package-lock.json
+        source: ${KJA_LOCAL_WS-.}/frontend/package-lock.json
         target: /frontend/package-lock.json
       - type: bind
-        source: ./src
+        source: ${KJA_LOCAL_WS-.}/frontend/src
         target: /frontend/src
       - type: bind
-        source: ./vite.config.js
-        target: /frontend/vite.config.js
-      - type: bind
-        source: ./public
+        source: ${KJA_LOCAL_WS-.}/frontend/public
         target: /frontend/public
       - type: bind
-        source: ./tsconfig.json
+        source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.json
         target: /frontend/tsconfig.json
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/.eslintrc.yml
+        target: /frontend/.eslintrc.yml
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/.prettierrc.yml
+        target: /frontend/.prettierrc.yml
     tty: true
     ports:
       - 3000:3000
     command: >
-      bash -c "npm install &&
+      sh -c "npm install &&
       npm start"
 
-
   postgresql:
-    container_name: postgresql
-    build: ./backend/postgresql
+    image: postgres:15-alpine
     ports:
       - 5432:5432
     volumes:
-      - ./backend/dbdata:/var/lib/postgresql/data
-      - ./backend/script/init:/docker-entrypoint-initdb.d
+      - dbdata:/var/lib/postgresql/data
+      - ${KJA_LOCAL_WS-.}/database/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: test-db
     restart: always
 
-
   backend:
     image: eclipse-temurin:17-jdk-focal
     ports:
       - 55050:5050
-    tty: true
     working_dir: /backend/
     volumes:
       - type: bind
-        source: ./backend/src
+        source: ${KJA_LOCAL_WS-.}/backend/src
         target: /backend/src
       - type: bind
-        source: ./backend/gradle
+        source: ${KJA_LOCAL_WS-.}/backend/gradle
         target: /backend/gradle/
       - type: bind
-        source: ./backend/gradlew
+        source: ${KJA_LOCAL_WS-.}/backend/gradlew
         target: /backend/gradlew
       - type: bind
-        source: ./backend/build.gradle
+        source: ${KJA_LOCAL_WS-.}/backend/build.gradle
         target: /backend/build.gradle
       - type: bind
-        source: ./backend/settings.gradle
+        source: ${KJA_LOCAL_WS-.}/backend/settings.gradle
         target: /backend/settings.gradle
     depends_on:
       - postgresql
@@ -86,15 +77,48 @@ services:
       - bootRun
 
   nginx:
-    image: nginx:1.21
+    image: nginx:alpine
     ports:
       - '80:80'
     command: [nginx-debug, '-g', 'daemon off;']
     volumes:
       - type: bind
-        source: ./nginx/default.conf
+        source: ${KJA_LOCAL_WS-.}/nginx/default.conf
         target: /etc/nginx/conf.d/default.conf
     depends_on:
       - frontend
       - backend
       - postgresql
+
+  backup:
+    build: ./backup
+    init: true
+    environment:
+      PGUSER: admin
+      PGPASSWORD: pass
+      PGDATABASE: test-db
+      PGHOST: postgresql
+      BACKUP_HOST: ${BACKUP_HOST}
+      BACKUP_USER: ${BACKUP_USER}
+    volumes:
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/backup/cron-config
+        target: /etc/crontabs/root
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/backup/backup.sh
+        target: /root/backup.sh
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/secret/private_key
+        target: /root/.ssh/private_key
+
+  restore-db:
+    image: postgres:15-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ${KJA_LOCAL_WS-.}/restore.sql:/docker-entrypoint-initdb.d/restore.sql
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test-db
+    profiles:
+      - restore

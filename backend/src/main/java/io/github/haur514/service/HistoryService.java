@@ -112,8 +112,6 @@ public class HistoryService {
 
     // 現在の月から6ヶ月前までの月をリスト形式で返す関数
     public List<Date> getLastSixMonth(){
-        Date today = new Date();
-
         Calendar calendar = Calendar.getInstance();
         List<Date> ret = new ArrayList<>();
 

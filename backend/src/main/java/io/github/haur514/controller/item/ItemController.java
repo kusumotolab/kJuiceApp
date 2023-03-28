@@ -1,12 +1,10 @@
 package io.github.haur514.controller.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.haur514.controller.item.requestbody.ItemAddRequestBody;
@@ -19,7 +17,6 @@ import io.github.haur514.service.ItemService;
 
 
 @RestController
-@EnableAutoConfiguration
 public class ItemController {
     @Autowired
     ItemService itemService;
@@ -27,7 +24,6 @@ public class ItemController {
     @Autowired
     ItemRepository itemRepository;
 
-    
     @RequestMapping("/item")
     public String getItemList(
        @RequestParam(name="grouping",defaultValue="") String grouping
@@ -36,7 +32,6 @@ public class ItemController {
     }
 
     @PostMapping("/item/add")
-    @ResponseBody
     public String addItemList(
         @RequestBody ItemAddRequestBody itemAddRequestBody
     ){
@@ -46,7 +41,6 @@ public class ItemController {
     }
 
     @PostMapping("/item/delete")
-    @ResponseBody
     public String deleteItem(
         @RequestBody ItemDeleteBody itemDeleteBody
     ){
@@ -54,7 +48,6 @@ public class ItemController {
     }
 
     @PostMapping("/item/update")
-    @ResponseBody
     public String updateItem(
         @RequestBody ItemUpdateBody itemUpdateBody
     ){
@@ -66,7 +59,6 @@ public class ItemController {
             itemUpdateBody.salesFigure);
     }
 
-
     @PostMapping
     @RequestMapping("/item/ranking")
     public String getItemRanking(){
@@ -74,7 +66,6 @@ public class ItemController {
     }
 
     @PostMapping("/item/setactivity")
-    @ResponseBody
      public String setMemberActivity(
         @RequestBody ItemSetActivityBody itemSetActivityBody){
         ItemEntity itemEntity= itemService.findByName(itemSetActivityBody.id);
@@ -82,7 +73,4 @@ public class ItemController {
         itemRepository.save(itemEntity);
         return "success";
      }
-
-    
-
 }
