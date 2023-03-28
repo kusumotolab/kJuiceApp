@@ -15,10 +15,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { SettingPane } from "./Setting/SettingPane";
 
+import { ChakraProvider } from "@chakra-ui/react";
+
 function App() {
   const iconStyle: React.CSSProperties = { marginLeft: "0.4em" };
 
   return (
+  <ChakraProvider>
     <Tabs>
       <TabList>
         <Tab>
@@ -51,6 +54,7 @@ function App() {
         <ChatPane />
       </TabPanel>
     </Tabs>
+  </ ChakraProvider>
   );
 }
 
