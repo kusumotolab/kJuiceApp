@@ -8,7 +8,7 @@ git clone https://github.com/Haur514/JuiceApp_backend.git
 cd JuiceApp_backend
 docker-compose up -d
 rm ./dbdata/.gitkeep
-docker exec -it postgresql bash /docker-entrypoint-initdb.d/00_init-script.sh 
+docker exec -it postgresql bash /docker-entrypoint-initdb.d/00_init-script.sh
 ./gradlew bootRun
 ```
 [localhost:5050](http://localhost:5050)にアクセスすれば利用できます．
@@ -43,7 +43,7 @@ docker-compose down -v
 ```
 /item?
     [group = juice/ice/...]
-    
+
 ```
 
 #### ユーザ管理周り
@@ -170,29 +170,29 @@ classDiagram
     class HistoryController
     class HistoryEntity
     class HistoryService
-    
+
     class Database{
         history table
         member table
         item table
     }
-    
+
     JuiceAppMain --> HistoryController
     JuiceAppMain --> MemberController
     JuiceAppMain --> ItemController
-    
+
     ItemController --> ItemService
     ItemService --> ItemRepository
     ItemRepository --> ItemEntity
-    
+
     HistoryController --> HistoryService
     HistoryService --> HistoryRepository
     HistoryRepository --> HistoryEntity
-    
+
     MemberController --> MemberService
     MemberService --> MemberRepository
     MemberRepository --> MemberEntity
-    
+
     MemberEntity --> Database
     HistoryEntity --> Database
     ItemEntity --> Database
