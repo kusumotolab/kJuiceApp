@@ -1,4 +1,5 @@
 import axios from "axios";
+import { stringify } from "querystring";
 import { Chat, Item, Member, LabeledHistory, History } from "types";
 
 export class Backend {
@@ -217,5 +218,20 @@ export class Backend {
       .put(Backend.BASE + endpoint, data)
       .then(() => true)
       .catch(() => false);
+  }
+
+  public static async getInvokeMessageForSlack(adminName: string, month: number): Promise<string | null> {
+    const endpoint = "slack";
+    const data = {
+      params: {
+        admin: adminName,
+        month: month
+      },
+    };
+
+    return await axios
+      .get(Backend.BASE + endpoint, data)
+      .then((res) => res.data)
+      .catch(null);
   }
 }
