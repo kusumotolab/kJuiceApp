@@ -10,7 +10,7 @@ import { PasswordPane } from "./PassWord/PassWordPane";
 import styled from "styled-components";
 
 function AdminPane() {
-  const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
+  const [passwordPaneVisible, setPasswordPaneVisible] = useState(false);
 
   return (
     <Admin>

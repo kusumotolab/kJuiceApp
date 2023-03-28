@@ -1,11 +1,11 @@
+import styled from "styled-components";
 import { Button } from "../../../component/Button";
 
 function SendSlack() {
   return (
-    <div className="SendSlack">
-      <label>
-        <div>アイコン：</div>
-      </label>
+    <SendSlackPane>
+      メッセージプレビュー
+      <MessagePreview>メッセージ</MessagePreview>
       <label>
         名前：
         <input type="text" name="name" />
@@ -39,8 +39,22 @@ function SendSlack() {
           追加
         </Button>
       </label>
-    </div>
+    </SendSlackPane>
   );
 }
+
+const SendSlackPane = styled.div`
+  font-size: 1.5rem;
+  margin: 1rem;
+  padding: 1rem;
+`
+
+const MessagePreview = styled.div`
+  font-size: 1rem;
+  background: #EDEFF1;
+  margin: 1rem;
+  padding: 1rem;
+`
+
 
 export { SendSlack };
