@@ -1,61 +1,58 @@
-version: '3.3'
+version: '3.8'
 
 volumes:
   dbdata:
 
 services:
   frontend:
-    build:
-      context: .
-    image: juiceapp_frontend
+    image: node:18-alpine
     working_dir: /frontend/
     volumes:
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/package.json
+        source: ${KJA_LOCAL_WS-.}/frontend/package.json
         target: /frontend/package.json
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/package-lock.json
+        source: ${KJA_LOCAL_WS-.}/frontend/package-lock.json
         target: /frontend/package-lock.json
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/src
+        source: ${KJA_LOCAL_WS-.}/frontend/src
         target: /frontend/src
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/vite.config.js
-        target: /frontend/vite.config.js
-      - type: bind
-        source: ${KJA_LOCAL_WS-.}/public
+        source: ${KJA_LOCAL_WS-.}/frontend/public
         target: /frontend/public
       - type: bind
-        source: ${KJA_LOCAL_WS-.}/tsconfig.json
+        source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.json
         target: /frontend/tsconfig.json
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/.eslintrc.yml
+        target: /frontend/.eslintrc.yml
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/.prettierrc.yml
+        target: /frontend/.prettierrc.yml
     tty: true
     ports:
       - 3000:3000
     command: >
-      bash -c "npm install &&
+      sh -c "npm install &&
       npm start"
 
-
   postgresql:
-    container_name: postgresql
-    build: ./backend/postgresql
+    image: postgres:15-alpine
     ports:
       - 5432:5432
     volumes:
       - dbdata:/var/lib/postgresql/data
-      - ${KJA_LOCAL_WS-.}/backend/script/init:/docker-entrypoint-initdb.d
+      - ${KJA_LOCAL_WS-.}/database/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: test-db
     restart: always
 
-
   backend:
     image: eclipse-temurin:17-jdk-focal
     ports:
       - 55050:5050
-    tty: true
     working_dir: /backend/
     volumes:
       - type: bind
@@ -80,7 +77,7 @@ services:
       - bootRun
 
   nginx:
-    image: nginx:1.21
+    image: nginx:alpine
     ports:
       - '80:80'
     command: [nginx-debug, '-g', 'daemon off;']
@@ -95,6 +92,7 @@ services:
 
   backup:
     build: ./backup
+    init: true
     environment:
       PGUSER: admin
       PGPASSWORD: pass
@@ -114,7 +112,7 @@ services:
         target: /root/.ssh/private_key
 
   restore-db:
-    build: ./backend/postgresql
+    image: postgres:15-alpine
     volumes:
       - dbdata:/var/lib/postgresql/data
       - ${KJA_LOCAL_WS-.}/restore.sql:/docker-entrypoint-initdb.d/restore.sql

@@ -1,7 +1,6 @@
 package io.github.haur514.controller.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +11,6 @@ import com.google.gson.Gson;
 import io.github.haur514.service.ChatService;
 
 @RestController
-@EnableAutoConfiguration
 public class ChatController {
 
     @Autowired

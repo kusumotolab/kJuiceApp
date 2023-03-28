@@ -7,13 +7,13 @@
 		{
 			"type": "volume",
 			"source": "kJuiceApp-node_modules",
-			"target": "${containerWorkspaceFolder}/node_modules"
+			"target": "${containerWorkspaceFolder}/frontend/node_modules"
 		}
 	],
 	"features": {
 		"ghcr.io/devcontainers/features/java:1": {},
 		"ghcr.io/devcontainers/features/node:1": {
-			"version": "16"
+			"version": "18"
 		},
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	},
