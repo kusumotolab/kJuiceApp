@@ -51,10 +51,10 @@ function UserAddPane() {
               value={attribute}
               onChange={(event) => setAttribute(event.target.value)}
             >
-              <option value="teacher">teacher</option>
-              <option value="m2">M2</option>
-              <option value="m1">M1</option>
-              <option value="b4">B4</option>
+              <option value="teacher">先生</option>
+              <option value="m2">修士2年</option>
+              <option value="m1">修士1年</option>
+              <option value="b4">学部4年</option>
             </select>
           </td>
         </tr>
