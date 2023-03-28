@@ -1,7 +1,9 @@
 import { ItemCard } from "../component/ItemCard";
-import styled from "styled-components";
+
 import { Item, LogoDictionary, Member } from "types";
 import { Dispatch, SetStateAction } from "react";
+
+import { HStack, Box, Heading } from "@chakra-ui/react";
 
 type Props = {
   foodList: Item[];
@@ -19,9 +21,9 @@ function FoodPane({
   logoDictionary,
 }: Props) {
   return (
-    <FoodPaneMain>
-      <CategoryName>食品</CategoryName>
-      <FoodPaneContent>
+    <Box marginBottom='1em'>
+      <Heading>食品</Heading>
+        <HStack overflowX='scroll' spacing='1em'>
         {foodList
           .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((food) => {
@@ -41,31 +43,9 @@ function FoodPane({
               />
             );
           })}
-      </FoodPaneContent>
-    </FoodPaneMain>
+      </HStack>
+    </Box>
   );
 }
-
-const CategoryName = styled.div`
-  background-color: #303030;
-  color: greenyellow;
-  font-weight: bold;
-  font-size: 2em;
-`;
-
-const FoodPaneContent = styled.div`
-  overflow-x: scroll;
-  display: flex;
-  width: 100%;
-  height: 85%;
-  border: solid 1px black;
-  margin-bottom: 1em;
-  background-color: #787878;
-`;
-
-const FoodPaneMain = styled.div`
-  height: 20em;
-  margin-bottom: 1em;
-`;
 
 export { FoodPane };

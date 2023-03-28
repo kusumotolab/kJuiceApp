@@ -87,9 +87,6 @@ function ItemPane({
 const MainItemPane = styled.div`
   width: 70%;
   height: 90vh;
-  border-width: 2px;
-  border-color: black;
-  border: solid 1px #333;
   margin: 5px;
   overflow-y: scroll;
 `;
