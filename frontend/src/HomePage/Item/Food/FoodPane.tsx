@@ -9,6 +9,7 @@ type Props = {
   foodList: Item[];
   setSelectedItem: Dispatch<SetStateAction<Item>>;
   selectedMember: Member | null;
+  onOpen: () => void;
   setPopUpVisibility: Dispatch<SetStateAction<boolean>>;
   logoDictionary: LogoDictionary;
 };
@@ -17,6 +18,7 @@ function FoodPane({
   foodList,
   setSelectedItem,
   selectedMember,
+  onOpen,
   setPopUpVisibility,
   logoDictionary,
 }: Props) {

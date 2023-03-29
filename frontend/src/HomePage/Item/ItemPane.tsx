@@ -14,6 +14,7 @@ import { MemberInformation } from "./MemberInformation/MemberInformation";
 import styled from "styled-components";
 import { CompleteMessage } from "./purchase/CompleteMessage/completeMessage";
 import { Item, LogoDictionary, Member } from "types";
+import { useDisclosure } from "@chakra-ui/react";
 
 type Props = {
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
@@ -39,6 +40,8 @@ function ItemPane({
   const [isPopupVisible, setPopUpVisibility] = useState(false);
   const [showCompleteMessage, setShowCompleteMessage] = useState(false);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const logoDictionary: LogoDictionary = {
     CocaCola: LogoCola,
     Fanta: LogoFanta,
@@ -54,6 +57,7 @@ function ItemPane({
       <JuicePane
         setSelectedItem={setSelectedItem}
         setPopUpVisibility={setPopUpVisibility}
+        onOpen={onOpen}
         selectedMember={selectedMember}
         juiceList={juiceList}
         logoDictionary={logoDictionary}
@@ -61,13 +65,15 @@ function ItemPane({
       <FoodPane
         setSelectedItem={setSelectedItem}
         setPopUpVisibility={setPopUpVisibility}
+        onOpen={onOpen}
         selectedMember={selectedMember}
         foodList={foodList}
         logoDictionary={logoDictionary}
       />
       <HistoryPane selectedMember={selectedMember} />
       <PopUpMenu
-        visibility={isPopupVisible}
+        isOpen={isOpen}
+        onClose={onClose}
         setPopUpVisibility={setPopUpVisibility}
         imgSrc={
           logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.name]

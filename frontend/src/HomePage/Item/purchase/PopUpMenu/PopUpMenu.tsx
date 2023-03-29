@@ -4,11 +4,23 @@ import { SelectCancelPurchaseButtonPane } from "./component/SelectCancelPurchase
 import { UserInformationPane } from "./component/UserInformationPane";
 import { ItemInformationPane } from "./component/ItemInformationPane";
 import { Backend } from "util/Backend";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { Item, Member } from "types";
 
+import {
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+} from '@chakra-ui/react'
+
 type Props = {
-  visibility: boolean;
+  isOpen: boolean;
+  onClose: () => void;
   setPopUpVisibility: Dispatch<SetStateAction<boolean>>;
   imgSrc: string;
   selectedItem: Item | null;
@@ -20,7 +32,8 @@ type Props = {
 };
 
 function PopUpMenu({
-  visibility,
+  isOpen,
+  onClose,
   setPopUpVisibility,
   imgSrc,
   selectedItem,
@@ -30,15 +43,8 @@ function PopUpMenu({
   update,
   setShowCompleteMessage,
 }: Props) {
-  const Background = styled.div`
-    position: fixed;
-    inset: 0;
-    margin: auto;
-    visibility: ${visibility ? "visible" : "hidden"};
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-  `;
+
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   async function purchaseItem() {
     if (selectedMember === null || selectedItem === null) {
@@ -56,24 +62,45 @@ function PopUpMenu({
   }
 
   return (
-    <Background>
-      {/* 2段階でvisibilityを設定している
-      このコンポーネント自体を表示するかしないかで分岐するべき */}
-      <div className={`popup-menu ${visibility ? "visible" : "hidden"}`}>
-        <UserInformationPane selectedMember={selectedMember} />
-        <ItemInformationPane imgSrc={imgSrc} selectedItem={selectedItem} />
-        <SelectCancelPurchaseButtonPane
-          purchaseItem={purchaseItem}
-          selectedMember={selectedMember}
-          selectedItem={selectedItem}
-          setSumPurchased={setSumPurchased}
-          closePopUp={closePopUp}
-          setUpdate={setUpdate}
-          update={update}
-          setShowCompleteMessage={setShowCompleteMessage}
-        />
-      </div>
-    </Background>
+    <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+    >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+            <AlertDialogHeader>〇〇さん</AlertDialogHeader>
+            <AlertDialogCloseButton />
+            <AlertDialogBody>
+                を購入しますか？
+            </AlertDialogBody>
+            <AlertDialogFooter>
+                <Button colorScheme="teal" variant="outline" ref={cancelRef} onClick={onClose}>キャンセル</Button>
+                <Button colorScheme="teal" variant="solid" onClick={onClose} ml="3">購入</Button>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+    // <Background>
+    //   {/* 2段階でvisibilityを設定している
+    //   このコンポーネント自体を表示するかしないかで分岐するべき */}
+    //   <div className={`popup-menu ${visibility ? "visible" : "hidden"}`}>
+    //     <UserInformationPane selectedMember={selectedMember} />
+    //     <ItemInformationPane imgSrc={imgSrc} selectedItem={selectedItem} />
+    //     <SelectCancelPurchaseButtonPane
+    //       purchaseItem={purchaseItem}
+    //       selectedMember={selectedMember}
+    //       selectedItem={selectedItem}
+    //       setSumPurchased={setSumPurchased}
+    //       closePopUp={closePopUp}
+    //       setUpdate={setUpdate}
+    //       update={update}
+    //       setShowCompleteMessage={setShowCompleteMessage}
+    //     />
+    //   </div>
+    // </Background>
   );
 }
 
