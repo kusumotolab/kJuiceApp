@@ -33,7 +33,7 @@ function HistoryPane({ selectedMember }: Props) {
 
   useEffect(() => {
     fetchHistoryData();
-  }, []);
+  }, [selectedMember]);
 
   return (
     <MainHistoryPane>
