@@ -2,12 +2,10 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.member;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.member.MemberList;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

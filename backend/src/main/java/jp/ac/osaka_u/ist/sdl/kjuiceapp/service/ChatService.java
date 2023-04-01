@@ -1,10 +1,9 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ChatEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ChatRepository;
-
 import java.util.Date;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ChatEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,10 +1,5 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.HistoryRepository;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -13,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.HistoryRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,7 +2,6 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.member;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 
 public class MemberList {

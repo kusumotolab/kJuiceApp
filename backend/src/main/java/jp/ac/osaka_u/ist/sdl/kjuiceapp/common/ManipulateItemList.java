@@ -1,14 +1,12 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.common;
 
 import com.google.gson.Gson;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.data.ItemRanking;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.data.ItemRanking;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 
 public class ManipulateItemList {
 

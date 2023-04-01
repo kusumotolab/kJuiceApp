@@ -1,14 +1,12 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.common;
 
 import com.google.gson.Gson;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.data.MemberRanking;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.data.MemberRanking;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 
 /** MemberListを変形させ，必要なデータを取得します． */
 public class ManipulateMemberList {

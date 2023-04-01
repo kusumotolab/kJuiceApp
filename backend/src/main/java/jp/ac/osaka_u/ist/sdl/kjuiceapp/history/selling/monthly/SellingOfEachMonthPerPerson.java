@@ -1,16 +1,14 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.history.selling.monthly;
 
 import com.google.gson.Gson;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.member.MemberList;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
-
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.member.MemberList;
 
 // 指定した月に各構成員が利用した金額を取得する
 public class SellingOfEachMonthPerPerson {

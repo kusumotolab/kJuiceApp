@@ -1,15 +1,13 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.history.selling.monthly;
 
 import com.google.gson.Gson;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.member.MemberList;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.member.MemberList;
 
 /**
  * 半年間における，各顧客のデータを管理するクラス

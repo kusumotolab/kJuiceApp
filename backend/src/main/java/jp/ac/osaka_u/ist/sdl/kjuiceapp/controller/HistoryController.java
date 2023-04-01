@@ -1,6 +1,7 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller;
 
 import com.google.gson.Gson;
+import java.util.List;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.selling.monthly.SellingOfAPersonWithinHalfYear;
@@ -9,7 +10,6 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.selling.monthly.SellingOfEachMont
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.member.MemberList;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.HistoryService;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

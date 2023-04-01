@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
 
 @SpringBootTest
 public class ManipulateDateTest {

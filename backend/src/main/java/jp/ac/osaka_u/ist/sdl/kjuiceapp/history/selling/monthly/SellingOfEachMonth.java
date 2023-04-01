@@ -1,15 +1,13 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.history.selling.monthly;
 
 import com.google.gson.Gson;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
 
 public class SellingOfEachMonth {
   LinkedHashMap<String, Integer> sellingAmountOfEachMonth = new LinkedHashMap<>();

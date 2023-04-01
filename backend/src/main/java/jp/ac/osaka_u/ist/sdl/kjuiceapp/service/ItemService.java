@@ -1,13 +1,11 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import com.google.gson.Gson;
-
+import java.util.List;
+import javax.transaction.Transactional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.ManipulateItemList;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
-
-import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

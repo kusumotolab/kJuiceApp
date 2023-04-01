@@ -1,9 +1,8 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.repository;
 
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.SalesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.SalesEntity;
 
 public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 

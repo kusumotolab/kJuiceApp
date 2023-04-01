@@ -1,11 +1,10 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.history;
 
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
-
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.date.ManipulateDate;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
 
 public class HistoryList {
   final List<HistoryEntity> historyList;

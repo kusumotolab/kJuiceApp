@@ -7,7 +7,6 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.HistoryService;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.ItemService;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

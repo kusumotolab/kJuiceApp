@@ -2,10 +2,9 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.repository;
 
 import java.util.Date;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
 
 public interface HistoryRepository extends JpaRepository<HistoryEntity, Integer> {
 

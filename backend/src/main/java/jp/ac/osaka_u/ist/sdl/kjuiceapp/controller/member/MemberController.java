@@ -1,6 +1,9 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member;
 
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberAddRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberDeleteBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberSetActivityBody;
@@ -10,9 +13,6 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberImageRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.HistoryService;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

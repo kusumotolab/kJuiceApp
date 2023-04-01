@@ -2,12 +2,10 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.history;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.history.HistoryList;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
