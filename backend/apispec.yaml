@@ -295,6 +295,28 @@ paths:
           description: 指定されたIDが存在しない
 
   /members/{memberId}/image:
+    get:
+      tags:
+        - members
+      summary: Get image for member
+      description: 指定されたIDのメンバーの画像を取得する
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+                example: binary image
+        "404":
+          description: 指定されたIDが存在しない
     put:
       tags:
         - members
