@@ -1,5 +1,5 @@
+import { Button } from "@chakra-ui/react";
 import { useRef } from "react";
-import styled from "styled-components";
 
 type Props = {
   onFileInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,15 +22,11 @@ function FileSelect({ onFileInputChange }: Props) {
         hidden
         ref={inputRef}
       />
-      <ImageSelectButton onClick={iconChangeButtonClicked}>
-        画像を選択する
-      </ImageSelectButton>
+      <Button onClick={iconChangeButtonClicked}>
+        画像を選択
+      </Button>
     </div>
   );
 }
 
-const ImageSelectButton = styled.button`
-  background-color: white;
-  margin: 10px 0;
-`;
 export { FileSelect };
