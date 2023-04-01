@@ -8,63 +8,61 @@ import { UnpaidMember } from "./UnpaidMember/UnpaidMember";
 import { ItemDeletePane } from "./ItemDelete/ItemDeletePane";
 import { PasswordPane } from "./PassWord/PassWordPane";
 import styled from "styled-components";
+import { Accordion, AccordionPanel, AccordionButton, AccordionIcon, Box, AccordionItem, Heading } from "@chakra-ui/react";
 
-function AdminPane() {
-  const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
-
-  return (
-    <Admin>
-      <PasswordPane
-        visible={passwordPaneVisible}
-        setVisible={setPasswordPaneVisible}
-      />
-      <TabPane />
-      <ContentPane
-        style={{ visibility: passwordPaneVisible ? "hidden" : "visible" }}
-      >
-        <PullDownMenu summary="ユーザの追加">
-          <UserAddPane />
-        </PullDownMenu>
-        <PullDownMenu summary="ユーザの削除">
-          <UserDeletePane />
-        </PullDownMenu>
-        <PullDownMenu summary="アイテムの登録">
-          <ItemAddPane />
-        </PullDownMenu>
-        <PullDownMenu summary="アイテムの削除">
-          <ItemDeletePane />
-        </PullDownMenu>
-        <PullDownMenu summary="slackへの通知">
-          <SendSlack />
-        </PullDownMenu>
-        <PullDownMenu summary="金額未払い者の管理">
-          <UnpaidMember />
-        </PullDownMenu>
-      </ContentPane>
-    </Admin>
-  );
+function SettingItem({ title, item }: Props) {
+    return (
+        <AccordionItem>
+            <h2>
+                <AccordionButton>
+                    <Box as="span" flex='1' textAlign="left">{title}</Box>
+                    <AccordionIcon />
+                </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+                {item}
+            </AccordionPanel>
+        </AccordionItem>
+    );
 }
 
-const Admin = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+function AdminPane() {
+    const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
 
-const TabPane = styled.div`
-  position: fixed;
-  top: 0;
-  z-index: -9;
-  background-color: white;
-  width: 100%;
-  height: 2em;
-`;
-
-const ContentPane = styled.div`
-  overflow-y: scroll;
-  background-color: gray;
-  position: absolute;
-  bottom: 0em;
-  top: 3em;
-`;
+    return (
+        <Box w="lg" margin="auto">
+            <PasswordPane
+                visible={passwordPaneVisible}
+                setVisible={setPasswordPaneVisible}
+            />
+            <Accordion allowToggle>
+                <SettingItem
+                    title="ユーザの追加"
+                    item={<UserAddPane />}
+                />
+                <SettingItem
+                    title="ユーザの削除"
+                    item={<UserDeletePane />}
+                />
+                <SettingItem
+                    title="アイテムの登録"
+                    item={<ItemAddPane />}
+                />
+                <SettingItem
+                    title="アイテムの削除"
+                    item={<ItemDeletePane />}
+                />
+                <SettingItem
+                    title="Slackへの通知"
+                    item={<SendSlack />}
+                />
+                <SettingItem
+                    title="金額未払い者の管理"
+                    item={<UnpaidMember />}
+                />
+            </Accordion>
+        </Box>
+    );
+}
 
 export { AdminPane };
