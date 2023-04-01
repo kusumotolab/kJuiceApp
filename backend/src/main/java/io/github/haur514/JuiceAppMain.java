@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class JuiceAppMain {
-	public static void main(String[] args) {
-		SpringApplication.run(JuiceAppMain.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(JuiceAppMain.class, args);
+  }
 }

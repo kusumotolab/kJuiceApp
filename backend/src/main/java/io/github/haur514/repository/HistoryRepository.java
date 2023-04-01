@@ -1,17 +1,16 @@
 package io.github.haur514.repository;
 
+import io.github.haur514.entity.HistoryEntity;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import io.github.haur514.entity.HistoryEntity;
+public interface HistoryRepository extends JpaRepository<HistoryEntity, Integer> {
 
-public interface HistoryRepository extends JpaRepository<HistoryEntity, Integer>{
-
-
-    @Query(value="""
+  @Query(
+      value =
+          """
         SELECT
             *
         FROM
@@ -29,10 +28,12 @@ public interface HistoryRepository extends JpaRepository<HistoryEntity, Integer>
         ORDER BY date
         ;
     """,
-        nativeQuery = true)
-    public List<HistoryEntity> findByName(String name);
+      nativeQuery = true)
+  public List<HistoryEntity> findByName(String name);
 
-    @Query(value="""
+  @Query(
+      value =
+          """
             SELECT
                 SUM(price)
             FROM
@@ -46,6 +47,7 @@ public interface HistoryRepository extends JpaRepository<HistoryEntity, Integer>
             AND
                 name = ?1
             ;
-            """,nativeQuery = true)
-    public Integer getBillingAmountAllMember(String userId,Date date1, Date date2);
+            """,
+      nativeQuery = true)
+  public Integer getBillingAmountAllMember(String userId, Date date1, Date date2);
 }
