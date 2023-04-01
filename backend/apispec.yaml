@@ -294,6 +294,38 @@ paths:
         "404":
           description: 指定されたIDが存在しない
 
+  /members/{memberId}/image:
+    put:
+      tags:
+        - members
+      summary: Set image for member
+      description: 指定されたIDのメンバーの画像を登録する
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+              required:
+                - image
+      responses:
+        "200":
+          description: 更新成功
+        "404":
+          description: 指定されたIDが存在しない
+        "413":
+          description: ファイルサイズ制限超過
+
   /purchase:
     post:
       tags:
