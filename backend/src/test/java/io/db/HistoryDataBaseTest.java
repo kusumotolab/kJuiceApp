@@ -2,7 +2,7 @@ package io.db;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
-import io.github.haur514.repository.MemberRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.database.IDatabaseConnection;
 import org.springframework.boot.test.context.SpringBootTest;
