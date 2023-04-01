@@ -30,7 +30,7 @@ function AdminPane() {
     const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
 
     return (
-        <Box w="lg" margin="auto">
+        <Box w="2xl" margin="auto">
             <PasswordPane
                 visible={passwordPaneVisible}
                 setVisible={setPasswordPaneVisible}
