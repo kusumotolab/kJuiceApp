@@ -57,7 +57,7 @@ function IconSetting() {
         label: displayName,
     }));
     return (
-        <Box w="md" margin="auto">
+        <Box w="2xl" margin="auto">
             <Stack spacing={4}>
                 <Heading>ユーザ設定</Heading>
                 <FormControl id="select-user">
