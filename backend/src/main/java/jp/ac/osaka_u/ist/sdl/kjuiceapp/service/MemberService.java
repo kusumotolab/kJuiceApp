@@ -2,6 +2,7 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import com.google.gson.Gson;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.ManipulateMemberList;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
@@ -159,5 +160,10 @@ public class MemberService {
       return false;
     }
     return true;
+  }
+
+  // ユーザーのアイコンをデータベースから取得する
+  public Optional<MemberImageEntity> getMemberIcon(String memberId) {
+    return memberImageRepository.findById(memberId);
   }
 }
