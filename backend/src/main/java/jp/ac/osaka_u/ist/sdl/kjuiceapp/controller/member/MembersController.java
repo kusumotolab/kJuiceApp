@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberAddRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberUpdateRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responcebody.Member;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responcebody.MemberResponceBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberImageEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +33,14 @@ public class MembersController {
   @Autowired private MemberService memberService;
 
   @GetMapping
-  public List<Member> getMembers() {
+  public List<MemberResponceBody> getMembers() {
     // TODO パラメータによるフィルタリング
     var members = memberService.findAll();
     var resMembers =
         members.stream()
             .map(
                 e ->
-                    new Member(
+                    new MemberResponceBody(
                         e.getName(),
                         e.getDisplayName(),
                         e.getUmpayedAmount(),
@@ -52,7 +52,7 @@ public class MembersController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Member addMember(@RequestBody MemberAddRequestBody member) {
+  public MemberResponceBody addMember(@RequestBody MemberAddRequestBody member) {
     // TODO パラメータバリデーション
     var result = memberService.addMember(member.name, member.displayName, member.attribute);
 
@@ -62,7 +62,7 @@ public class MembersController {
     }
 
     var newMember = memberService.findByName(member.name);
-    return new Member(
+    return new MemberResponceBody(
         newMember.getName(),
         newMember.getDisplayName(),
         newMember.getUmpayedAmount(),
@@ -71,9 +71,10 @@ public class MembersController {
   }
 
   @PatchMapping("{id}")
-  public Member updateMember(@PathVariable String id, @RequestBody MemberUpdateRequestBody member) {
+  public MemberResponceBody updateMember(
+      @PathVariable String id, @RequestBody MemberUpdateRequestBody member) {
     // TODO
-    return new Member(null, null, 0, null, false);
+    return new MemberResponceBody(null, null, 0, null, false);
   }
 
   @DeleteMapping("{id}")

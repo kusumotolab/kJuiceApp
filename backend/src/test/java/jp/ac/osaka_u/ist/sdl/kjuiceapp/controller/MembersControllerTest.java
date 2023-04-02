@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.MembersController;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberAddRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responcebody.Member;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responcebody.MemberResponceBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
 import org.junit.jupiter.api.Test;
@@ -46,8 +46,8 @@ public class MembersControllerTest {
     var members =
         new ArrayList<>(
             Arrays.asList(
-                new Member("h-takesg", "竹重", 1, "m1", true),
-                new Member("h-yosiok", "吉岡", 0, "m1", true)));
+                new MemberResponceBody("h-takesg", "竹重", 1, "m1", true),
+                new MemberResponceBody("h-yosiok", "吉岡", 0, "m1", true)));
 
     List<MemberEntity> membersInternal =
         members.stream()
@@ -86,7 +86,7 @@ public class MembersControllerTest {
 
   @Test
   public void postMember() throws Exception {
-    var sampleMember = new Member("h-takesg", "竹重", 0, "m1", false);
+    var sampleMember = new MemberResponceBody("h-takesg", "竹重", 0, "m1", false);
 
     // リクエストボディを生成
     var requestMember = new MemberAddRequestBody();
@@ -125,7 +125,7 @@ public class MembersControllerTest {
 
   @Test
   public void postDupulicateMember() throws Exception {
-    var sampleMember = new Member("h-takesg", "竹重", 0, "m1", false);
+    var sampleMember = new MemberResponceBody("h-takesg", "竹重", 0, "m1", false);
 
     // リクエストボディを生成
     var requestMember = new MemberAddRequestBody();
@@ -152,7 +152,7 @@ public class MembersControllerTest {
 
   @Test
   public void deleteMember() throws Exception {
-    var sampleMember = new Member("h-takesg", "竹重", 0, "m1", false);
+    var sampleMember = new MemberResponceBody("h-takesg", "竹重", 0, "m1", false);
 
     when(mockMemberService.deleteMember(sampleMember.id())).thenReturn("success");
 
@@ -164,7 +164,7 @@ public class MembersControllerTest {
 
   @Test
   public void deleteNotRegisteredMember() throws Exception {
-    var sampleMember = new Member("h-takesg", "竹重", 0, "m1", false);
+    var sampleMember = new MemberResponceBody("h-takesg", "竹重", 0, "m1", false);
 
     when(mockMemberService.deleteMember(sampleMember.id())).thenReturn("failed");
 
@@ -181,7 +181,7 @@ public class MembersControllerTest {
 
   @Test
   public void getMemberNoImage() throws Exception {
-    var sampleMember = new Member("h-takesg", "竹重", 0, "m1", false);
+    var sampleMember = new MemberResponceBody("h-takesg", "竹重", 0, "m1", false);
 
     when(mockMemberService.isRegistered(sampleMember.id())).thenReturn(true);
     when(mockMemberService.getMemberIcon(sampleMember.id())).thenReturn(Optional.empty());
@@ -194,7 +194,7 @@ public class MembersControllerTest {
 
   @Test
   public void getNotRegisteredMemberImage() throws Exception {
-    var sampleMember = new Member("h-takesg", "竹重", 0, "m1", false);
+    var sampleMember = new MemberResponceBody("h-takesg", "竹重", 0, "m1", false);
 
     when(mockMemberService.isRegistered(sampleMember.id())).thenReturn(false);
 
