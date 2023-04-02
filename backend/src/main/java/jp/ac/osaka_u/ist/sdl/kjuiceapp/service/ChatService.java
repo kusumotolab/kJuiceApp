@@ -27,11 +27,10 @@ public class ChatService {
     }
   }
 
-  public String insertChat(String message) {
+  public ChatEntity insertChat(String message) {
     ChatEntity chatEntity = new ChatEntity();
     chatEntity.setMessage(message);
     chatEntity.setDate(new Date());
-    chatRepository.save(chatEntity);
-    return "success";
+    return chatRepository.save(chatEntity);
   }
 }
