@@ -63,15 +63,16 @@ public class ItemService {
     return true;
   }
 
-  public String updateItem(
-      String name, String sellingPrice, String costPrice, String grouping, String salesFigure) {
-    ItemEntity itemEntity = itemRepository.findByName(name);
-    if (!sellingPrice.equals("")) itemEntity.setSellingPrice(Integer.parseInt(sellingPrice));
-    if (!costPrice.equals("")) itemEntity.setCostPrice(Integer.parseInt(costPrice));
-    if (!grouping.equals("")) itemEntity.setGrouping(grouping);
-    if (!salesFigure.equals("")) itemEntity.setSalesFigure(Integer.parseInt(salesFigure));
-    itemRepository.save(itemEntity);
-    return "success";
+  public void updateItem(
+      String name, int sellingPrice, int costPrice, String grouping, int salesFigure) {
+    ItemEntity item = new ItemEntity();
+    item.setName(name);
+    item.setSellingPrice(sellingPrice);
+    item.setCostPrice(costPrice);
+    item.setGrouping(grouping);
+    item.setSalesFigure(salesFigure);
+    itemRepository.save(item);
+    return;
   }
 
   public ItemEntity findByName(String name) {
