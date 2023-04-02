@@ -315,6 +315,8 @@ paths:
                 type: string
                 format: binary
                 example: binary image
+        "204":
+          description: 指定されたIDのメンバーは画像を設定していない
         "404":
           description: 指定されたIDが存在しない
     put:
