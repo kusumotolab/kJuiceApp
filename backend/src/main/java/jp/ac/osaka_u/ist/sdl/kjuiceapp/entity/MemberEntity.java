@@ -10,20 +10,13 @@ import lombok.Data;
 @Entity
 @Table(name = "member")
 public class MemberEntity {
-
   @Id
-  @Column(name = "name")
+  private String id;
+
+  @Column(name = "display_name")
   private String name;
 
-  @Column(name = "displayname")
-  private String displayName;
-
-  @Column(name = "unpayedamount")
-  private int umpayedAmount;
-
-  @Column(name = "attribute")
   private String attribute;
 
-  @Column(name = "active")
   private boolean active;
 }

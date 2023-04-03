@@ -6,22 +6,19 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.Data;
-import org.hibernate.annotations.Type;
+import org.springframework.http.MediaType;
 
-@Data
 @Entity
-@Table(name = "memberimage")
+@Data
+@Table(name = "member_image")
 public class MemberImageEntity {
-
   @Id
-  @Column(name = "name")
-  private String name;
+  @Column(name = "member_id")
+  private String memberId;
 
-  @Column(name = "type")
-  private String type;
+  @Column(name = "media_type")
+  private MediaType mediaType;
 
   @Lob
-  @Type(type = "org.hibernate.type.BinaryType")
-  @Column(name = "data")
-  private byte[] data;
+  private byte[] image;
 }

@@ -11,21 +11,18 @@ import lombok.Data;
 @Table(name = "item")
 public class ItemEntity {
   @Id
-  @Column(name = "name")
+  private String id;
+
+  @Column(name = "display_name")
   private String name;
 
-  @Column(name = "sellingprice")
+  @Column(name = "selling_price")
   private int sellingPrice;
 
-  @Column(name = "costprice")
+  @Column(name = "cost_price")
   private int costPrice;
 
-  @Column(name = "grouping")
-  private String grouping;
+  private String group;
 
-  @Column(name = "salesfigure")
-  private int salesFigure;
-
-  @Column(name = "active")
   private boolean active;
 }
