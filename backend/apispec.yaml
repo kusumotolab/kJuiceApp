@@ -350,7 +350,7 @@ paths:
         "413":
           description: ファイルサイズ制限超過
 
-  /purchase:
+  /purchases:
     post:
       tags:
         - purchases
@@ -402,7 +402,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /purchase/{historyId}:
+  /purchases/{historyId}:
     delete:
       tags:
         - purchases
