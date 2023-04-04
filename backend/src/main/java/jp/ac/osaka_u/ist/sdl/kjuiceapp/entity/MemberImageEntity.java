@@ -10,26 +10,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.http.MediaType;
 
 @Entity
 @Data
+@Setter(AccessLevel.NONE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE) // for JPA
 @Table(name = "member_image")
 public class MemberImageEntity {
   @Id
-  @Setter(AccessLevel.NONE)
   @Column(name = "member_id")
   private String memberId;
 
   @NonNull
   @Column(name = "media_type")
-  private MediaType mediaType;
+  private String mediaType;
 
   @NonNull @Lob private byte[] image;
 
-  public MemberImageEntity(String memberId, MediaType mediaType, byte[] image) {
+  public MemberImageEntity(String memberId, String mediaType, byte[] image) {
     this.memberId = memberId;
+    this.mediaType = mediaType;
+    this.image = image;
+  }
+
+  public void setImage(String mediaType, byte[] image) {
     this.mediaType = mediaType;
     this.image = image;
   }

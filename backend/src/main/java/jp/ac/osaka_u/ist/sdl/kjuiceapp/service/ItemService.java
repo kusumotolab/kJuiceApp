@@ -1,11 +1,12 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
-import com.google.gson.Gson;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.common.ManipulateItemList;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,82 +15,51 @@ import org.springframework.stereotype.Service;
 public class ItemService {
   @Autowired ItemRepository itemRepository;
 
-  public String getItemList(String grouping) {
-    if (grouping.equals("")) {
-      return new Gson().toJson(itemRepository.findAll());
-    }
-    return new Gson().toJson(itemRepository.findByGrouping(grouping));
+  public List<ItemEntity> getAllItems() {
+    return itemRepository.findAll();
   }
 
-  public String addItem(String name, int sellingPrice, int costPrice, String group) {
-    ItemEntity itemEntity = new ItemEntity();
-    itemEntity.setName(name);
-    itemEntity.setSellingPrice(sellingPrice);
-    itemEntity.setCostPrice(costPrice);
-    itemEntity.setGrouping(group);
-    itemEntity.setSalesFigure(0);
-    itemRepository.save(itemEntity);
-    return "success";
+  public List<ItemEntity> getItems(String group) {
+    return itemRepository.findByGroup(group);
   }
 
-  // 商品が既に登録されているか
-  public boolean isRegistered(String name) {
-    if (itemRepository.findByName(name) == null) {
-      return false;
+  public ItemEntity addItem(String id, String name, int sellingPrice, int costPrice, String group)
+      throws DuplicateIdException {
+    if (itemRepository.existsById(id)) {
+      throw new DuplicateIdException();
     }
-    return true;
-  }
 
-  // 商品購入時に呼び出し
-  public boolean purchased(String name) {
-    ItemEntity itemEntity = itemRepository.findByName(name);
-    if (itemEntity == null) {
-      return false;
-    }
-    itemEntity.setSalesFigure(itemEntity.getSalesFigure() + 1);
-    itemRepository.save(itemEntity);
-    return true;
-  }
+    boolean defaultActive = false;
 
-  // 商品取り消し時に呼び出し
-  // 成功 true 失敗 false
-  public boolean recalled(String name) {
-    ItemEntity itemEntity = itemRepository.findByName(name);
-    if (itemEntity == null) {
-      return false;
-    }
-    itemEntity.setSalesFigure(itemEntity.getSalesFigure() - 1);
-    itemRepository.save(itemEntity);
-    return true;
+    ItemEntity itemEntity = new ItemEntity(id, name, sellingPrice, costPrice, group, defaultActive);
+    return itemRepository.save(itemEntity);
   }
 
   public void updateItem(
-      String name, int sellingPrice, int costPrice, String grouping, int salesFigure) {
-    ItemEntity item = new ItemEntity();
-    item.setName(name);
-    item.setSellingPrice(sellingPrice);
-    item.setCostPrice(costPrice);
-    item.setGrouping(grouping);
-    item.setSalesFigure(salesFigure);
-    itemRepository.save(item);
+      String id, String name, Integer sellingPrice, Integer costPrice, String group, Boolean active)
+      throws NoSuchItemException {
+    ItemEntity target = itemRepository.findById(id).orElseThrow(NoSuchItemException::new);
+
+    if (name != null) target.setName(name);
+    if (sellingPrice != null) target.setSellingPrice(sellingPrice);
+    if (costPrice != null) target.setCostPrice(costPrice);
+    if (group != null) target.setGroup(group);
+    if (active != null) target.setActive(active);
+
+    itemRepository.save(target);
     return;
   }
 
-  public ItemEntity findByName(String name) {
-    return itemRepository.findByName(name);
+  public Optional<ItemEntity> getItemById(String id) {
+    return itemRepository.findById(id);
   }
 
-  public String deleteItem(String name) {
-    try {
-      itemRepository.deleteByName(name);
-      return "success";
-    } catch (Exception e) {
-      return "failed";
+  public void deleteItem(String id) throws NoSuchItemException {
+    if (!itemRepository.existsById(id)) {
+      throw new NoSuchItemException();
     }
-  }
 
-  public String getItemRanking() {
-    List<ItemEntity> itemEntities = itemRepository.findAll();
-    return new ManipulateItemList().getItemRanking(itemEntities);
+    itemRepository.deleteById(id);
+    return;
   }
 }
