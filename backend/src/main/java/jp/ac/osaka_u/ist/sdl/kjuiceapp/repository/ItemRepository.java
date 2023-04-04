@@ -2,8 +2,8 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.repository;
 
 import java.util.List;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ItemRepository extends CrudRepository<ItemEntity, String> {
+public interface ItemRepository extends JpaRepository<ItemEntity, String> {
   public List<ItemEntity> findByGroup(String group);
 }
