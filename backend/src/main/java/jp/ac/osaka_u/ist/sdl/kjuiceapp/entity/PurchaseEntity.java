@@ -7,25 +7,41 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
 @Entity
 @Data
+@NoArgsConstructor(access = AccessLevel.PRIVATE) // for JPA
 @Table(name = "purchase")
 public class PurchaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Setter(AccessLevel.NONE)
   @Column(name = "purchase_id")
   private int purchaseId;
 
+  @NonNull
   @Column(name = "member_id")
   private String memberId;
 
+  @NonNull
   @Column(name = "item_id")
   private String itemId;
 
   private int price;
 
+  @NonNull
   @Column(name = "purchase_date")
   private LocalDateTime date;
+
+  public PurchaseEntity(String memberId, String itemId, int price) {
+    this.memberId = memberId;
+    this.itemId = itemId;
+    this.price = price;
+    this.date = LocalDateTime.now();
+  }
 }

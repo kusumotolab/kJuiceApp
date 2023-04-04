@@ -4,14 +4,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "item")
 public class ItemEntity {
-  @Id private String id;
+  @Setter(AccessLevel.NONE)
+  @NonNull
+  @Id
+  private String id;
 
+  @NonNull
   @Column(name = "display_name")
   private String name;
 
@@ -21,7 +32,7 @@ public class ItemEntity {
   @Column(name = "cost_price")
   private int costPrice;
 
-  private String group;
+  @NonNull private String group;
 
   private boolean active;
 }
