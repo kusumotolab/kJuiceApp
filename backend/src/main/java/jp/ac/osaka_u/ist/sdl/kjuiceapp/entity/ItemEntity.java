@@ -10,8 +10,7 @@ import lombok.Data;
 @Entity
 @Table(name = "item")
 public class ItemEntity {
-  @Id
-  private String id;
+  @Id private String id;
 
   @Column(name = "display_name")
   private String name;

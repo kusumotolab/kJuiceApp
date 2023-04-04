@@ -19,6 +19,5 @@ public class MemberImageEntity {
   @Column(name = "media_type")
   private MediaType mediaType;
 
-  @Lob
-  private byte[] image;
+  @Lob private byte[] image;
 }
