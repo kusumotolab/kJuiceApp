@@ -1,11 +1,14 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item;
 
+import java.util.List;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.requestbody.ItemAddRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.requestbody.ItemUpdateRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.responsebody.ItemResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.ItemService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,14 +29,18 @@ public class ItemsController {
   @Autowired private ItemService itemService;
 
   @GetMapping
-  public String getItems(
+  public List<ItemResponseBody> getItems(
       @RequestParam(required = false) Optional<String> group,
       @RequestParam(required = false) Optional<Boolean> isActive) {
     // TODO isActiveによるフィルタ
     // TODO List<Item>を返す
     // TODO パラメータバリデーション
 
-    return itemService.getItemList(group.orElse(""));
+    if (group.isPresent()) {
+      return itemService.getItems(group.get()).stream().map(ItemsController::convert).toList();
+    } else {
+      return itemService.getAllItems().stream().map(ItemsController::convert).toList();
+    }
     // 400
   }
 
@@ -41,65 +48,56 @@ public class ItemsController {
   @ResponseStatus(HttpStatus.CREATED)
   public ItemResponseBody addItem(@RequestBody ItemAddRequestBody item) {
     // TODO パラメータバリデーション
-    String result =
-        itemService.addItem(item.id(), item.sellingPrice(), item.costPrice(), item.group());
-
-    // TODO ID重複チェック
-    if (result == "failed") {
+    ItemEntity result;
+    try {
+      result =
+          itemService.addItem(
+              item.id(), item.name(), item.sellingPrice(), item.costPrice(), item.group());
+    } catch (DuplicateIdException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT);
     }
 
-    ItemEntity newItem = itemService.findByName(item.id());
-    return new ItemResponseBody(
-        newItem.getName(),
-        newItem.getName(),
-        newItem.getSellingPrice(),
-        newItem.getCostPrice(),
-        newItem.getGrouping(),
-        newItem.isActive(),
-        newItem.getSalesFigure());
+    return ItemsController.convert(result);
   }
 
   @PatchMapping("{id}")
   public ItemResponseBody updateItem(
       @PathVariable String id, @RequestBody ItemUpdateRequestBody item) {
     // TODO パラメータバリデーション
-    // TODO salesFigureの整合性
-    // TODO nameの扱い
-    if (!itemService.isRegistered(id)) {
+    ItemEntity result;
+    try {
+      result =
+          itemService.updateItem(
+              id,
+              item.name(),
+              item.sellingPrice().orElse(null),
+              item.costPrice().orElse(null),
+              item.group().orElse(null),
+              item.isActive().orElse(null));
+    } catch (NoSuchItemException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-
-    var oldItem = itemService.findByName(id);
-
-    // 未指定のパラメータは同idの既存itemから引用
-    // パラメータが未指定のときに既存から引っ張ってくるのはインターフェースの定義でありcontorollerがその実行責務を負う
-    itemService.updateItem(
-        id,
-        item.sellingPrice().orElse(oldItem.getSellingPrice()),
-        item.costPrice().orElse(oldItem.getCostPrice()),
-        item.group().orElse(oldItem.getGrouping()),
-        oldItem.getSalesFigure());
-
-    var newItem = itemService.findByName(id);
-    return new ItemResponseBody(
-        newItem.getName(),
-        newItem.getName(),
-        newItem.getSellingPrice(),
-        newItem.getCostPrice(),
-        newItem.getGrouping(),
-        newItem.isActive(),
-        newItem.getSalesFigure());
+    return ItemsController.convert(result);
   }
 
   @DeleteMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteItem(@PathVariable String id) {
-    if (!itemService.isRegistered(id)) {
+    try {
+      itemService.deleteItem(id);
+    } catch (NoSuchItemException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-
-    itemService.deleteItem(id);
     return;
+  }
+
+  private static ItemResponseBody convert(ItemEntity origin) {
+    return new ItemResponseBody(
+        origin.getId(),
+        origin.getName(),
+        origin.getSellingPrice(),
+        origin.getCostPrice(),
+        origin.getGroup(),
+        origin.isActive());
   }
 }

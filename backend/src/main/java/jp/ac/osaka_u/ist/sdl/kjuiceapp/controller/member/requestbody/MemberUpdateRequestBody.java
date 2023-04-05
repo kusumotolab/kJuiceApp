@@ -1,5 +1,6 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody;
 
-public record MemberUpdateRequestBody() {
-  // TODO
-}
+import java.util.Optional;
+
+public record MemberUpdateRequestBody(
+    Optional<String> name, Optional<String> attribute, Optional<Boolean> active) {}

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -28,9 +30,17 @@ public class PurchaseEntity {
   @Column(name = "member_id")
   private String memberId;
 
+  @ManyToOne
+  @JoinColumn(name = "member_id", referencedColumnName = "id")
+  private MemberEntity member;
+
   @NonNull
   @Column(name = "item_id")
   private String itemId;
+
+  @ManyToOne
+  @JoinColumn(name = "item_id", referencedColumnName = "id")
+  private ItemEntity item;
 
   private int price;
 

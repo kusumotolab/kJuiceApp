@@ -1,6 +1,3 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody;
 
-public class PurchaseData {
-  public String name;
-  public String item;
-}
+public record PurchaseRequestBody(String memberId, String itemId) {}

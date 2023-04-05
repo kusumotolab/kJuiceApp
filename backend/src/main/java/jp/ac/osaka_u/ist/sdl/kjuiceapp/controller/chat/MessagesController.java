@@ -4,8 +4,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat.requestbody.MessagesPostRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat.responsebody.MessagesResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ChatEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.ChatService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MessageEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MessageService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMessageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,42 +22,37 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/messages")
 public class MessagesController {
-  @Autowired private ChatService chatService;
+  @Autowired private MessageService messageService;
+
+  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
   @GetMapping
   public List<MessagesResponseBody> getMessages() {
-    var messagesInternal = chatService.findAllChat();
+    List<MessageEntity> messagesInternal = messageService.findAllMessage();
 
-    var dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-
-    return messagesInternal.stream()
-        .map(
-            e ->
-                new MessagesResponseBody(
-                    e.getId(), e.getMessage(), dateFormatter.format(e.getDate().toInstant())))
-        .toList();
+    return messagesInternal.stream().map(MessagesController::convert).toList();
   }
 
   @PostMapping
   public MessagesResponseBody postMessage(@RequestBody MessagesPostRequestBody message) {
     // TODO 文字数制限
-    ChatEntity result = chatService.insertChat(message.message());
-
-    var dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-
-    return new MessagesResponseBody(
-        result.getId(), result.getMessage(), dateFormatter.format(result.getDate().toInstant()));
+    MessageEntity result = messageService.postMessage(message.message());
+    return MessagesController.convert(result);
   }
 
   @DeleteMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteMessage(@PathVariable int id) {
-    String result = chatService.removeChat(id);
-
-    if (result == "failed") {
+    try {
+      messageService.deleteMessage(id);
+    } catch (NoSuchMessageException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-
     return;
+  }
+
+  private static MessagesResponseBody convert(MessageEntity origin) {
+    return new MessagesResponseBody(
+        origin.getId(), origin.getMessage(), dateFormatter.format(origin.getDate()));
   }
 }

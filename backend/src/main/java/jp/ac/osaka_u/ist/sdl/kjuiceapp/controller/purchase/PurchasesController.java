@@ -3,14 +3,13 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody.PurchaseData;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody.PurchaseRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.responsebody.PurchaseResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.HistoryEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.HistoryService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.PurchaseService;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.IllegalHistoryException;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.IllegalItemException;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.IllegalMemberException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchPurchaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,52 +26,32 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/purchases")
 public class PurchasesController {
-  @Autowired private HistoryService historyService;
   @Autowired private PurchaseService purchaseService;
 
-  private DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
   @GetMapping
   public List<PurchaseResponseBody> getPurchases(
-      @RequestParam(required = false) Optional<String> userId) {
-    List<HistoryEntity> histories;
-    if (userId.isPresent()) {
-      histories = historyService.findByName(userId.get());
+      @RequestParam(required = false) Optional<String> memberId) {
+    List<PurchaseEntity> histories;
+    if (memberId.isPresent()) {
+      histories = purchaseService.getPurchasesByMember(memberId.get());
     } else {
-      histories = historyService.findAllHistory();
+      histories = purchaseService.getAllPurchases();
     }
-    return histories.stream()
-        .map(
-            e ->
-                new PurchaseResponseBody(
-                    e.getId(),
-                    e.getName(),
-                    e.getName(),
-                    e.getItem(),
-                    e.getItem(),
-                    e.getPrice(),
-                    dateFormatter.format(e.getDate().toInstant())))
-        .toList();
+    return histories.stream().map(PurchasesController::convert).toList();
     // 404
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public PurchaseResponseBody makePurchase(@RequestBody PurchaseData order) {
+  public PurchaseResponseBody makePurchase(@RequestBody PurchaseRequestBody purchase) {
     try {
-      HistoryEntity result = purchaseService.makePurchase(order.name, order.item);
-      return new PurchaseResponseBody(
-          result.getId(),
-          result.getName(),
-          result.getName(),
-          result.getItem(),
-          result.getItem(),
-          result.getPrice(),
-          dateFormatter.format(result.getDate().toInstant()));
-    } catch (IllegalMemberException e) {
+      return convert(purchaseService.makePurchase(purchase.memberId(), purchase.itemId()));
+    } catch (NoSuchMemberException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
       // TODO エラー詳細をレスポンスボディに記載
-    } catch (IllegalItemException e) {
+    } catch (NoSuchItemException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
       // TODO エラー詳細をレスポンスボディに記載
     }
@@ -84,8 +63,19 @@ public class PurchasesController {
     try {
       purchaseService.deletePurchase(Integer.parseInt(id));
       return;
-    } catch (IllegalHistoryException e) {
+    } catch (NoSuchPurchaseException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
+  }
+
+  private static PurchaseResponseBody convert(PurchaseEntity origin) {
+    return new PurchaseResponseBody(
+        origin.getPurchaseId(),
+        origin.getMemberId(),
+        origin.getItemId(),
+        origin.getMember().getName(),
+        origin.getItem().getName(),
+        origin.getPrice(),
+        dateFormatter.format(origin.getDate()));
   }
 }

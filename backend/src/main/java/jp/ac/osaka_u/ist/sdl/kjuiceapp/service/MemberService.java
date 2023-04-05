@@ -85,7 +85,10 @@ public class MemberService {
   }
 
   // ユーザーのアイコンをデータベースから取得する
-  public Optional<MemberImageEntity> getMemberIcon(String memberId) {
-    return memberImageRepository.findById(memberId);
+  public Optional<MemberImageEntity> getMemberIcon(String id) throws NoSuchMemberException {
+    if (!memberRepository.existsById(id)) {
+      throw new NoSuchMemberException();
+    }
+    return memberImageRepository.findById(id);
   }
 }

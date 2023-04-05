@@ -1,5 +1,6 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
+import java.util.List;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
@@ -18,6 +19,14 @@ public class PurchaseService {
   @Autowired private MemberRepository memberRepository;
   @Autowired private ItemRepository itemRepository;
   @Autowired private PurchaseRepository purchaseRepository;
+
+  public List<PurchaseEntity> getAllPurchases() {
+    return purchaseRepository.findAll();
+  }
+
+  public List<PurchaseEntity> getPurchasesByMember(String memberId) {
+    return purchaseRepository.findByMemberId(memberId);
+  }
 
   public PurchaseEntity makePurchase(String memberId, String itemId)
       throws NoSuchMemberException, NoSuchItemException {

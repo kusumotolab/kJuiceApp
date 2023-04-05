@@ -35,7 +35,7 @@ public class ItemService {
     return itemRepository.save(itemEntity);
   }
 
-  public void updateItem(
+  public ItemEntity updateItem(
       String id, String name, Integer sellingPrice, Integer costPrice, String group, Boolean active)
       throws NoSuchItemException {
     ItemEntity target = itemRepository.findById(id).orElseThrow(NoSuchItemException::new);
@@ -46,8 +46,7 @@ public class ItemService {
     if (group != null) target.setGroup(group);
     if (active != null) target.setActive(active);
 
-    itemRepository.save(target);
-    return;
+    return itemRepository.save(target);
   }
 
   public Optional<ItemEntity> getItemById(String id) {

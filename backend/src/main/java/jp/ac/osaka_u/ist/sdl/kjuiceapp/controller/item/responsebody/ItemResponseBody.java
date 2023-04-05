@@ -8,5 +8,4 @@ public record ItemResponseBody(
     int sellingPrice,
     int costPrice,
     String group,
-    boolean isActive,
-    int salesCount) {}
+    boolean isActive) {}
