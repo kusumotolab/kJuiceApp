@@ -343,7 +343,7 @@ paths:
               required:
                 - image
       responses:
-        "200":
+        "204":
           description: 更新成功
         "404":
           description: 指定されたIDが存在しない
