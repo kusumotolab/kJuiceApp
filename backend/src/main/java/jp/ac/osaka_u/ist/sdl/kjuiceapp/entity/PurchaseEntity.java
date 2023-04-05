@@ -31,7 +31,7 @@ public class PurchaseEntity {
   private String memberId;
 
   @ManyToOne
-  @JoinColumn(name = "member_id", referencedColumnName = "id")
+  @JoinColumn(name = "member_id", referencedColumnName = "id", insertable = false, updatable = false)
   private MemberEntity member;
 
   @NonNull
@@ -39,7 +39,7 @@ public class PurchaseEntity {
   private String itemId;
 
   @ManyToOne
-  @JoinColumn(name = "item_id", referencedColumnName = "id")
+  @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
   private ItemEntity item;
 
   private int price;
