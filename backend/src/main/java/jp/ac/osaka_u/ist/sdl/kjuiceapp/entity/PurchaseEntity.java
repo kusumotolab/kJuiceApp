@@ -31,7 +31,11 @@ public class PurchaseEntity {
   private String memberId;
 
   @ManyToOne
-  @JoinColumn(name = "member_id", referencedColumnName = "id", insertable = false, updatable = false)
+  @JoinColumn(
+      name = "member_id",
+      referencedColumnName = "id",
+      insertable = false,
+      updatable = false)
   private MemberEntity member;
 
   @NonNull
