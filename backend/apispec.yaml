@@ -93,9 +93,9 @@ paths:
             type: boolean
           description: activeが一致する商品のみ取得する．未指定の場合すべての商品を取得する.
         - in: query
-          name: group
+          name: category
           schema:
-            $ref: "#/components/schemas/ItemGroup"
+            $ref: "#/components/schemas/ItemCategory"
           description: 指定されたグループの商品のみ取得する．未指定の場合すべての商品を取得する．
       responses:
         "200":
@@ -586,7 +586,7 @@ paths:
 
 components:
   schemas:
-    ItemGroup:
+    ItemCategory:
       type: string
       enum:
         - juice
@@ -629,7 +629,7 @@ components:
         costPrice:
           type: integer
           description: 仕入れ値
-        group:
+        category:
           type: string
           enum:
             - juice
@@ -639,7 +639,7 @@ components:
         - name
         - sellingPrice
         - costPrice
-        - group
+        - category
     ItemPatch:
       type: object
       properties:
@@ -652,7 +652,7 @@ components:
         costPrice:
           type: integer
           description: 仕入れ値
-        group:
+        category:
           type: string
           enum:
             - juice
@@ -674,7 +674,7 @@ components:
         costPrice:
           type: integer
           description: 仕入れ値
-        group:
+        category:
           type: string
           enum:
             - juice

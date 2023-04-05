@@ -32,7 +32,7 @@ public class ItemEntity {
   @Column(name = "cost_price")
   private int costPrice;
 
-  @NonNull private String group;
+  @NonNull private String category;
 
   private boolean active;
 }

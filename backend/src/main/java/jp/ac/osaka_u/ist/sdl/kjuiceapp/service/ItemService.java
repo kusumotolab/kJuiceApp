@@ -19,11 +19,12 @@ public class ItemService {
     return itemRepository.findAll();
   }
 
-  public List<ItemEntity> getItems(String group) {
-    return itemRepository.findByGroup(group);
+  public List<ItemEntity> getItems(String category) {
+    return itemRepository.findByCategory(category);
   }
 
-  public ItemEntity addItem(String id, String name, int sellingPrice, int costPrice, String group)
+  public ItemEntity addItem(
+      String id, String name, int sellingPrice, int costPrice, String category)
       throws DuplicateIdException {
     if (itemRepository.existsById(id)) {
       throw new DuplicateIdException();
@@ -31,19 +32,25 @@ public class ItemService {
 
     boolean defaultActive = false;
 
-    ItemEntity itemEntity = new ItemEntity(id, name, sellingPrice, costPrice, group, defaultActive);
+    ItemEntity itemEntity =
+        new ItemEntity(id, name, sellingPrice, costPrice, category, defaultActive);
     return itemRepository.save(itemEntity);
   }
 
   public ItemEntity updateItem(
-      String id, String name, Integer sellingPrice, Integer costPrice, String group, Boolean active)
+      String id,
+      String name,
+      Integer sellingPrice,
+      Integer costPrice,
+      String category,
+      Boolean active)
       throws NoSuchItemException {
     ItemEntity target = itemRepository.findById(id).orElseThrow(NoSuchItemException::new);
 
     if (name != null) target.setName(name);
     if (sellingPrice != null) target.setSellingPrice(sellingPrice);
     if (costPrice != null) target.setCostPrice(costPrice);
-    if (group != null) target.setGroup(group);
+    if (category != null) target.setCategory(category);
     if (active != null) target.setActive(active);
 
     return itemRepository.save(target);

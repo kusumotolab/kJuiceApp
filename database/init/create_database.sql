@@ -3,7 +3,7 @@ CREATE TABLE item (
     display_name varchar(20) not null,
     sellingprice integer not null,
     costprice integer not null,
-    group varchar(20) not null,
+    category varchar(20) not null,
     active boolean default true not null
 );
 

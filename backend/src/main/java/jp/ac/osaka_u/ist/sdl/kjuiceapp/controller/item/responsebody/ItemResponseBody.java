@@ -7,5 +7,5 @@ public record ItemResponseBody(
     String name,
     int sellingPrice,
     int costPrice,
-    String group,
+    String category,
     boolean isActive) {}

@@ -6,5 +6,5 @@ public record ItemUpdateRequestBody(
     String name,
     Optional<Integer> sellingPrice,
     Optional<Integer> costPrice,
-    Optional<String> group,
+    Optional<String> category,
     Optional<Boolean> isActive) {}

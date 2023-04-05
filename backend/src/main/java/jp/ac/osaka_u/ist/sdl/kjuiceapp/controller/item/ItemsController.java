@@ -30,14 +30,14 @@ public class ItemsController {
 
   @GetMapping
   public List<ItemResponseBody> getItems(
-      @RequestParam(required = false) Optional<String> group,
+      @RequestParam(required = false) Optional<String> category,
       @RequestParam(required = false) Optional<Boolean> isActive) {
     // TODO isActiveによるフィルタ
     // TODO List<Item>を返す
     // TODO パラメータバリデーション
 
-    if (group.isPresent()) {
-      return itemService.getItems(group.get()).stream().map(ItemsController::convert).toList();
+    if (category.isPresent()) {
+      return itemService.getItems(category.get()).stream().map(ItemsController::convert).toList();
     } else {
       return itemService.getAllItems().stream().map(ItemsController::convert).toList();
     }
@@ -52,7 +52,7 @@ public class ItemsController {
     try {
       result =
           itemService.addItem(
-              item.id(), item.name(), item.sellingPrice(), item.costPrice(), item.group());
+              item.id(), item.name(), item.sellingPrice(), item.costPrice(), item.category());
     } catch (DuplicateIdException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT);
     }
@@ -72,7 +72,7 @@ public class ItemsController {
               item.name(),
               item.sellingPrice().orElse(null),
               item.costPrice().orElse(null),
-              item.group().orElse(null),
+              item.category().orElse(null),
               item.isActive().orElse(null));
     } catch (NoSuchItemException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -97,7 +97,7 @@ public class ItemsController {
         origin.getName(),
         origin.getSellingPrice(),
         origin.getCostPrice(),
-        origin.getGroup(),
+        origin.getCategory(),
         origin.isActive());
   }
 }
