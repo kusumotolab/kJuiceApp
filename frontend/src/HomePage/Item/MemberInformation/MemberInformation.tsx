@@ -1,40 +1,22 @@
-import styled from "styled-components";
+import { Heading, Stack, Text } from "@chakra-ui/react";
 import { Member } from "types";
 
 type Props = {
-  selectedMember: Member | null;
+    selectedMember: Member | null;
 };
 
 function MemberInformation({ selectedMember }: Props) {
-  return (
-    <MemberInformationPane>
-      <CategoryName>ユーザ情報</CategoryName>
-      <MemberInformationPaneContent>
-        <span>
-          名前：{selectedMember?.displayName ?? "---"}
-          さん
-        </span>
-        <br />
-        <span>今月の支払い分：{selectedMember?.umpayedAmount ?? 0}円</span>
-      </MemberInformationPaneContent>
-    </MemberInformationPane>
-  );
+
+    const memberName = (selectedMember?.displayName ?? "---") + "さん";
+    const memberUnpaidAmount = (selectedMember?.umpayedAmount ?? 0) + "円";
+
+    return (
+        <Stack spacing={4} mb={8}>
+            <Heading>ユーザ情報</Heading>
+            <Text fontSize="2xl" ml={4}>{memberName}</Text>
+            <Text fontSize="2xl" ml={4}>{memberUnpaidAmount}</Text>
+        </Stack>
+    );
 }
-
-const MemberInformationPane = styled.div`
-  margin-bottom: 1em;
-  border: 1px solid black;
-`;
-
-const CategoryName = styled.div`
-  background-color: #303030;
-  color: greenyellow;
-  font-weight: bold;
-  font-size: 2em;
-`;
-
-const MemberInformationPaneContent = styled.div`
-  font-size: 2em;
-`;
 
 export { MemberInformation };
