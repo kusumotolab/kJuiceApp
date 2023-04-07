@@ -1,0 +1,7 @@
+item:
+  - id: cola
+    display_name: コカ・コーラ
+    selling_price: 10
+    cost_price: 90
+    category: juice
+    active: false

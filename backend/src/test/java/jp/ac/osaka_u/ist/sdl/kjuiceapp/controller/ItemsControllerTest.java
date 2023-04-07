@@ -2,6 +2,8 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,7 +13,10 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import java.util.List;
+import java.util.Optional;
+
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.requestbody.ItemAddRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.requestbody.ItemUpdateRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.responsebody.ItemResponseBody;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +63,36 @@ public class ItemsControllerTest {
         .andDo(print())
         .andExpect(status().isCreated())
         .andExpect(content().json(expectedResponseBody, true));
+  }
+
+  @Test
+  @DataSet(value = "ItemsController/normalUpdateItem/before.yaml")
+  @ExpectedDataSet(value = "ItemsController/normalUpdateItem/expected.yaml")
+  void normalUpdateItem() throws Exception {
+    String targetId = "cola";
+
+    var requestParams = new ItemUpdateRequestBody(Optional.of("コカ・コーラ"), Optional.of(10), Optional.empty(), Optional.empty(), Optional.of(false));
+    String requestBody = objectMapper.writeValueAsString(requestParams);
+
+    var expectedResponseParams = new ItemResponseBody("cola", "コカ・コーラ", 10, 90, "juice", false);
+    String expectedResponseBody = objectMapper.writeValueAsString(expectedResponseParams);
+
+    this.mockMvc
+      .perform(patch("/items/" + targetId).contentType(MediaType.APPLICATION_JSON).content(requestBody))
+      .andDo(print())
+      .andExpect(status().isOk())
+      .andExpect(content().json(expectedResponseBody, true));
+  }
+
+  @Test
+  @DataSet(value = "ItemsController/normalDeleteItem/before.yaml")
+  @ExpectedDataSet(value = "ItemsController/normalDeleteItem/expected.yaml")
+  void normalDeleteItem() throws Exception {
+    String targetId = "cola";
+
+    this.mockMvc
+      .perform(delete("/items/" + targetId))
+      .andDo(print())
+      .andExpect(status().isNoContent());
   }
 }
