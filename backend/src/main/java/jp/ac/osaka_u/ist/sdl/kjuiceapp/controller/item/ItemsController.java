@@ -69,7 +69,7 @@ public class ItemsController {
       result =
           itemService.updateItem(
               id,
-              item.name(),
+              item.name().orElse(null),
               item.sellingPrice().orElse(null),
               item.costPrice().orElse(null),
               item.category().orElse(null),
