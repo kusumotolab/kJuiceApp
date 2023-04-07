@@ -10,76 +10,13 @@ servers:
     description: "local"
 
 tags:
-  - name: "chat"
   - name: "items"
   - name: "members"
   - name: "purchases"
+  - name: "chat"
   - name: "stats"
 
 paths:
-  /messages:
-    get:
-      tags:
-        - chat
-      summary: Get messages
-      description: チャットメッセージを取得する
-      responses:
-        "200":
-          description: 取得成功
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Message"
-    post:
-      tags:
-        - chat
-      summary: Create new message
-      description: 新しいメッセージを投稿する
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                message:
-                  type: string
-                  maxLength: 140
-      responses:
-        "201":
-          description: 投稿成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Message"
-        "400":
-          description: 文字数制限超過
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
-  /messages/{messageId}:
-    delete:
-      tags:
-        - chat
-      summary: Delete message by ID
-      description: 指定したIDのメッセージを削除する
-      parameters:
-        - in: path
-          name: messageId
-          schema:
-            type: integer
-          required: true
-          description: 削除対象のメッセージID
-      responses:
-        "204":
-          description: 削除成功
-        "404":
-          description: 指定されたIDが存在しない
-
   /items:
     get:
       tags:
@@ -351,30 +288,6 @@ paths:
           description: ファイルサイズ制限超過
 
   /purchases:
-    post:
-      tags:
-        - purchases
-      summary: Purchase item
-      description: 指定されたIDのメンバーと商品で購入処理を行う
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Purchase"
-      responses:
-        "201":
-          description: 購入成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/History"
-        "404":
-          description: 指定されたIDが存在しない
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Error"
     get:
       tags:
         - purchases
@@ -401,6 +314,30 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - purchases
+      summary: Purchase item
+      description: 指定されたIDのメンバーと商品で購入処理を行う
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Purchase"
+      responses:
+        "201":
+          description: 購入成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/History"
+        "404":
+          description: 指定されたIDが存在しない
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /purchases/{historyId}:
     delete:
@@ -420,6 +357,68 @@ paths:
         "404":
           description: 指定されたIDが存在しない
 
+  /messages:
+    get:
+      tags:
+        - chat
+      summary: Get messages
+      description: チャットメッセージを取得する
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+    post:
+      tags:
+        - chat
+      summary: Create new message
+      description: 新しいメッセージを投稿する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  maxLength: 140
+      responses:
+        "201":
+          description: 投稿成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "400":
+          description: 文字数制限超過
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /messages/{messageId}:
+    delete:
+      tags:
+        - chat
+      summary: Delete message by ID
+      description: 指定したIDのメッセージを削除する
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: integer
+          required: true
+          description: 削除対象のメッセージID
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: 指定されたIDが存在しない
   /stats/members:
     get:
       tags:
