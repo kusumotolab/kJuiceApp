@@ -691,8 +691,6 @@ components:
         name:
           type: string
           example: 竹重
-        unpaidAmount:
-          type: integer
         attribute:
           $ref: "#/components/schemas/MemberAttribute"
         active:

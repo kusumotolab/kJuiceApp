@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberAddRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberUpdateRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responcebody.MemberResponceBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responsebody.MemberResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberImageEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
@@ -38,7 +38,7 @@ public class MembersController {
   @Autowired private MemberService memberService;
 
   @GetMapping
-  public List<MemberResponceBody> getMembers(
+  public List<MemberResponseBody> getMembers(
       @RequestParam(required = false) Optional<Boolean> isActive,
       @RequestParam(required = false) Optional<String> attribute) {
     // TODO isActive
@@ -53,7 +53,7 @@ public class MembersController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public MemberResponceBody addMember(@RequestBody MemberAddRequestBody member) {
+  public MemberResponseBody addMember(@RequestBody MemberAddRequestBody member) {
     MemberEntity result;
     try {
       result = memberService.addMember(member.id(), member.name(), member.attribute());
@@ -64,12 +64,12 @@ public class MembersController {
   }
 
   @PatchMapping("{id}")
-  public MemberResponceBody updateMember(
+  public MemberResponseBody updateMember(
       @PathVariable String id, @RequestBody MemberUpdateRequestBody member) {
     try {
       return convert(
           memberService.updateMember(
-              id, member.name().get(), member.attribute().get(), member.active().get()));
+              id, member.name().orElse(null), member.attribute().orElse(null), member.active().orElse(null)));
     } catch (NoSuchMemberException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
@@ -114,8 +114,8 @@ public class MembersController {
     return;
   }
 
-  private static MemberResponceBody convert(MemberEntity origin) {
-    return new MemberResponceBody(
+  private static MemberResponseBody convert(MemberEntity origin) {
+    return new MemberResponseBody(
         origin.getId(), origin.getName(), origin.getAttribute(), origin.isActive());
   }
 }

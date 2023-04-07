@@ -33,7 +33,7 @@ public class MemberService {
   }
 
   public void deleteMember(String id) throws NoSuchMemberException {
-    if (!memberImageRepository.existsById(id)) {
+    if (!memberRepository.existsById(id)) {
       throw new NoSuchMemberException();
     }
 
