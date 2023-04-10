@@ -24,9 +24,10 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // テスト用DB
-    // https://mvnrepository.com/artifact/com.h2database/h2
-    testImplementation 'com.h2database:h2'
+    // テスト用DBコンテナ管理
+    testImplementation "org.testcontainers:testcontainers:1.18.0"
+    testImplementation "org.testcontainers:junit-jupiter:1.18.0"
+    testImplementation "org.testcontainers:postgresql:1.18.0"
 
     // DBテストの便利なやつ
     // https://mvnrepository.com/artifact/com.github.database-rider/rider-junit5

@@ -8,7 +8,12 @@
 			"type": "volume",
 			"source": "kJuiceApp-node_modules",
 			"target": "${containerWorkspaceFolder}/frontend/node_modules"
-		}
+		},
+		{
+            "source": "/var/run/docker.sock.raw",
+            "target": "/var/run/docker-host.sock",
+            "type": "bind"
+        }
 	],
 	"features": {
 		"ghcr.io/devcontainers/features/java:1": {},

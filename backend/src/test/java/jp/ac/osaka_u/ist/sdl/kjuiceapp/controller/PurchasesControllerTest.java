@@ -24,14 +24,34 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
 @DBRider
-@DataSet(cleanBefore = true, cleanAfter = true)
+@Testcontainers
 @AutoConfigureMockMvc
 @ActiveProfiles("test") // To use test db
 public class PurchasesControllerTest {
+  static final DockerImageName POSTGRES_IMAGE_NAME = DockerImageName.parse("postgres").withTag("15-alpine");
+
+  @Container
+  static final PostgreSQLContainer<?> POSTGRES_CONTAINER = new PostgreSQLContainer<>(POSTGRES_IMAGE_NAME)
+    .withUsername("admin")
+    .withPassword("password");
+
+  @DynamicPropertySource
+  static void registerProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", POSTGRES_CONTAINER::getJdbcUrl);
+    registry.add("spring.datasource.username", POSTGRES_CONTAINER::getUsername);
+    registry.add("spring.datasource.password", POSTGRES_CONTAINER::getPassword);
+  }
+
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
 
