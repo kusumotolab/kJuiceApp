@@ -3,7 +3,7 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody.PurchaseRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody.PurchaseAddRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.responsebody.PurchaseResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.PurchaseService;
@@ -28,7 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class PurchasesController {
   @Autowired private PurchaseService purchaseService;
 
-  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE_TIME;
 
   @GetMapping
   public List<PurchaseResponseBody> getPurchases(
@@ -45,7 +45,7 @@ public class PurchasesController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public PurchaseResponseBody makePurchase(@RequestBody PurchaseRequestBody purchase) {
+  public PurchaseResponseBody makePurchase(@RequestBody PurchaseAddRequestBody purchase) {
     try {
       return convert(purchaseService.makePurchase(purchase.memberId(), purchase.itemId()));
     } catch (NoSuchMemberException e) {
@@ -72,8 +72,8 @@ public class PurchasesController {
     return new PurchaseResponseBody(
         origin.getPurchaseId(),
         origin.getMemberId(),
-        origin.getItemId(),
         origin.getMember().getName(),
+        origin.getItemId(),
         origin.getItem().getName(),
         origin.getPrice(),
         dateFormatter.format(origin.getDate()));
