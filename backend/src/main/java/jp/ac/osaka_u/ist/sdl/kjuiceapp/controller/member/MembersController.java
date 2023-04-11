@@ -69,7 +69,10 @@ public class MembersController {
     try {
       return convert(
           memberService.updateMember(
-              id, member.name().orElse(null), member.attribute().orElse(null), member.active().orElse(null)));
+              id,
+              member.name().orElse(null),
+              member.attribute().orElse(null),
+              member.active().orElse(null)));
     } catch (NoSuchMemberException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }

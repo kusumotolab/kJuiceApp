@@ -1,6 +1,7 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import java.util.List;
+import javax.persistence.EntityManager;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
@@ -19,6 +20,7 @@ public class PurchaseService {
   @Autowired private MemberRepository memberRepository;
   @Autowired private ItemRepository itemRepository;
   @Autowired private PurchaseRepository purchaseRepository;
+  @Autowired private EntityManager entityManager;
 
   public List<PurchaseEntity> getAllPurchases() {
     return purchaseRepository.findAll();
@@ -34,8 +36,9 @@ public class PurchaseService {
     ItemEntity item = itemRepository.findById(itemId).orElseThrow(NoSuchItemException::new);
 
     var newPurchase = new PurchaseEntity(memberId, itemId, item.getSellingPrice());
-
-    return purchaseRepository.save(newPurchase);
+    var savedPurchase = purchaseRepository.save(newPurchase);
+    entityManager.refresh(savedPurchase);
+    return savedPurchase;
   }
 
   public void deletePurchase(int historyId) throws NoSuchPurchaseException {

@@ -1,9 +1,9 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,24 +14,22 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import java.util.List;
 import java.util.Optional;
-
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.requestbody.ItemAddRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.requestbody.ItemUpdateRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.item.responsebody.ItemResponseBody;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
 @DBRider
 @DataSet(cleanBefore = true)
 @AutoConfigureMockMvc
 @ActiveProfiles("test") // To use test db
-public class ItemsControllerTest {
+public class ItemsControllerTest extends DBTestBase {
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
 
@@ -71,17 +69,26 @@ public class ItemsControllerTest {
   void normalUpdateItem() throws Exception {
     String targetId = "cola";
 
-    var requestParams = new ItemUpdateRequestBody(Optional.of("コカ・コーラ"), Optional.of(10), Optional.empty(), Optional.empty(), Optional.of(false));
+    var requestParams =
+        new ItemUpdateRequestBody(
+            Optional.of("コカ・コーラ"),
+            Optional.of(10),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(false));
     String requestBody = objectMapper.writeValueAsString(requestParams);
 
     var expectedResponseParams = new ItemResponseBody("cola", "コカ・コーラ", 10, 90, "juice", false);
     String expectedResponseBody = objectMapper.writeValueAsString(expectedResponseParams);
 
     this.mockMvc
-      .perform(patch("/items/" + targetId).contentType(MediaType.APPLICATION_JSON).content(requestBody))
-      .andDo(print())
-      .andExpect(status().isOk())
-      .andExpect(content().json(expectedResponseBody, true));
+        .perform(
+            patch("/items/" + targetId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().json(expectedResponseBody, true));
   }
 
   @Test
@@ -91,8 +98,8 @@ public class ItemsControllerTest {
     String targetId = "cola";
 
     this.mockMvc
-      .perform(delete("/items/" + targetId))
-      .andDo(print())
-      .andExpect(status().isNoContent());
+        .perform(delete("/items/" + targetId))
+        .andDo(print())
+        .andExpect(status().isNoContent());
   }
 }
