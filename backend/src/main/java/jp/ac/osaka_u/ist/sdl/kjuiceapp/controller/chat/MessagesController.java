@@ -2,8 +2,8 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat.requestbody.MessagesPostRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat.responsebody.MessagesResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat.requestbody.MessagePostRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.chat.responsebody.MessageResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MessageEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MessageService;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMessageException;
@@ -24,17 +24,18 @@ import org.springframework.web.server.ResponseStatusException;
 public class MessagesController {
   @Autowired private MessageService messageService;
 
-  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE_TIME;
 
   @GetMapping
-  public List<MessagesResponseBody> getMessages() {
+  public List<MessageResponseBody> getMessages() {
     List<MessageEntity> messagesInternal = messageService.findAllMessage();
 
     return messagesInternal.stream().map(MessagesController::convert).toList();
   }
 
   @PostMapping
-  public MessagesResponseBody postMessage(@RequestBody MessagesPostRequestBody message) {
+  @ResponseStatus(HttpStatus.CREATED)
+  public MessageResponseBody postMessage(@RequestBody MessagePostRequestBody message) {
     // TODO 文字数制限
     MessageEntity result = messageService.postMessage(message.message());
     return MessagesController.convert(result);
@@ -51,8 +52,8 @@ public class MessagesController {
     return;
   }
 
-  private static MessagesResponseBody convert(MessageEntity origin) {
-    return new MessagesResponseBody(
+  private static MessageResponseBody convert(MessageEntity origin) {
+    return new MessageResponseBody(
         origin.getId(), origin.getMessage(), dateFormatter.format(origin.getDate()));
   }
 }

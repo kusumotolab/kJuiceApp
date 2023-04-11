@@ -18,7 +18,7 @@ public class MessageService {
   }
 
   public void deleteMessage(int id) throws NoSuchMessageException {
-    if (messageRepository.existsById(id)) {
+    if (!messageRepository.existsById(id)) {
       throw new NoSuchMessageException();
     }
     messageRepository.deleteById(id);
