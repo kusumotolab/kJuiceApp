@@ -8,7 +8,7 @@ readonly DOCKER_HOST="gateway.docker.internal"
 # example: ("localhost", "r-takaic", "髙市", "m2")
 function add_user() {
     local header="Content-Type:application/json"
-    local api_path="/backend/member/add"
+    local api_path="/backend/members"
     local uri="http://$1$api_path"
     local data="{\"id\":\"$2\",\"name\":\"$3\",\"attribute\":\"$4\"}"
 
@@ -22,7 +22,7 @@ function add_user() {
 # example: ("localhost", "CocaCola", "80", "70", "juice")
 function add_item() {
     local header="Content-Type:application/json"
-    local api_path="/backend/item/add"
+    local api_path="/backend/items"
     local uri="http://$1$api_path"
     local data="{\"id\":\"$2\",\"name\":\"$3\",\"sellingPrice\":\"$4\",\"costPrice\":\"$5\",\"category\":\"$6\"}"
 
