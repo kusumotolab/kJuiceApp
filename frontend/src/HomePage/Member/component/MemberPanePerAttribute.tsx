@@ -22,10 +22,6 @@ function MemberPanePerAttribute({
     <div>
       <Attribute>{description}</Attribute>
       {memberList
-        .map((e) => {
-          console.log(e);
-          return e;
-        })
         .filter((member) => member.attribute == attribute)
         .sort((a, b) => {
           if (a.id > b.id) {
