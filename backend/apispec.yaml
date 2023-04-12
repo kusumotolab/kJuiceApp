@@ -745,7 +745,7 @@ components:
           type: string
         date:
           $ref: "#/components/schemas/Date"
-    
+
     ## error
     Error:
       type: object
