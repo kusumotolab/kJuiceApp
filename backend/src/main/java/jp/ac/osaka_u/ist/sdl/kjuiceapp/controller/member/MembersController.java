@@ -39,8 +39,8 @@ public class MembersController {
 
   @GetMapping
   public List<MemberResponseBody> getMembers(
-      @RequestParam(required = false) Optional<Boolean> isActive,
-      @RequestParam(required = false) Optional<String> attribute) {
+      @RequestParam(required = false) Optional<String> attribute,
+      @RequestParam(required = false) Optional<Boolean> active) {
     // TODO isActive
     List<MemberEntity> result;
     if (attribute.isPresent()) {

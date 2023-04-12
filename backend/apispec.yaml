@@ -25,15 +25,15 @@ paths:
       description: 商品リストを取得する
       parameters:
         - in: query
-          name: isActive
-          schema:
-            type: boolean
-          description: activeが一致する商品のみ取得する．未指定の場合すべての商品を取得する.
-        - in: query
           name: category
           schema:
             $ref: "#/components/schemas/ItemCategory"
-          description: 指定されたグループの商品のみ取得する．未指定の場合すべての商品を取得する．
+          description: 指定されたカテゴリの商品のみ取得する．未指定の場合すべての商品を取得する．
+        - in: query
+          name: active
+          schema:
+            type: boolean
+          description: activeが一致する商品のみ取得する．未指定の場合すべての商品を取得する.
       responses:
         "200":
           description: 取得成功
@@ -130,15 +130,15 @@ paths:
       description: メンバーリストを取得する．取得するメンバーの条件を設定できる．
       parameters:
         - in: query
-          name: isActive
-          schema:
-            type: boolean
-          description: activeが一致するメンバーのみ取得する．未指定の場合activeにかかわらず取得する．
-        - in: query
           name: attribute
           schema:
             $ref: "#/components/schemas/MemberAttribute"
           description: attributeが一致するメンバーのみ取得する．未指定の場合attributeにかかわらず取得する．
+        - in: query
+          name: active
+          schema:
+            type: boolean
+          description: activeが一致するメンバーのみ取得する．未指定の場合activeにかかわらず取得する．
       responses:
         "200":
           description: 取得成功
@@ -295,10 +295,10 @@ paths:
       description: 購入履歴を取得する
       parameters:
         - in: query
-          name: userId
+          name: memberId
           schema:
             type: string
-          description: userIdが一致するメンバーのみ取得する．未指定の場合userIdにかかわらず取得する．
+          description: memberIdが一致するメンバーのみ取得する．未指定の場合memberIdにかかわらず取得する．
       responses:
         "200":
           description: 取得成功
@@ -324,7 +324,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Purchase"
+              $ref: "#/components/schemas/PurchasePost"
       responses:
         "201":
           description: 購入成功
@@ -371,7 +371,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Message"
+                  $ref: "#/components/schemas/MessageResponse"
     post:
       tags:
         - chat
@@ -382,18 +382,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                message:
-                  type: string
-                  maxLength: 140
+              $ref: "#/components/schemas/MessagePost"
       responses:
         "201":
           description: 投稿成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Message"
+                $ref: "#/components/schemas/MessageResponse"
         "400":
           description: 文字数制限超過
           content:
@@ -419,172 +415,176 @@ paths:
           description: 削除成功
         "404":
           description: 指定されたIDが存在しない
-  /stats/members:
-    get:
-      tags:
-        - stats
-      summary: Get purchase stats on member
-      description: 全メンバーについてメンバーごとの購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
-      parameters:
-        - in: query
-          name: isActive
-          schema:
-            type: string
-        - in: query
-          name: start
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: end
-          schema:
-            type: string
-            format: date
-      responses:
-        "200":
-          description: 取得成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  totalAmount:
-                    type: string
-                  totalCount:
-                    type: string
-                  statistics:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/StatisticsOnId"
-        "400":
-          description: 不正なパラメータ
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  # /stats/members:
+  #   get:
+  #     tags:
+  #       - stats
+  #     summary: Get purchase stats on member
+  #     description: 全メンバーについてメンバーごとの購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+  #     parameters:
+  #       - in: query
+  #         name: isActive
+  #         schema:
+  #           type: string
+  #       - in: query
+  #         name: start
+  #         schema:
+  #           type: string
+  #           format: date
+  #       - in: query
+  #         name: end
+  #         schema:
+  #           type: string
+  #           format: date
+  #     responses:
+  #       "200":
+  #         description: 取得成功
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 totalAmount:
+  #                   type: string
+  #                 totalCount:
+  #                   type: string
+  #                 statistics:
+  #                   type: array
+  #                   items:
+  #                     $ref: "#/components/schemas/StatisticsOnId"
+  #       "400":
+  #         description: 不正なパラメータ
+  #         content:
+  #           application/problem+json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
 
-  /stats/members/{memberId}:
-    get:
-      tags:
-        - stats
-      summary: Get purchase stats on specific member
-      description: 指定されたIDのメンバーについて購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
-      parameters:
-        - in: path
-          name: memberId
-          schema:
-            type: string
-          required: true
-        - in: query
-          name: start
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: end
-          schema:
-            type: string
-            format: date
-      responses:
-        "200":
-          description: 取得成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/StatisticsOnId"
-        "400":
-          description: 不正なパラメータ
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "404":
-          description: 指定されたIDが存在しない
+  # /stats/members/{memberId}:
+  #   get:
+  #     tags:
+  #       - stats
+  #     summary: Get purchase stats on specific member
+  #     description: 指定されたIDのメンバーについて購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+  #     parameters:
+  #       - in: path
+  #         name: memberId
+  #         schema:
+  #           type: string
+  #         required: true
+  #       - in: query
+  #         name: start
+  #         schema:
+  #           type: string
+  #           format: date
+  #       - in: query
+  #         name: end
+  #         schema:
+  #           type: string
+  #           format: date
+  #     responses:
+  #       "200":
+  #         description: 取得成功
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/StatisticsOnId"
+  #       "400":
+  #         description: 不正なパラメータ
+  #         content:
+  #           application/problem+json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
+  #       "404":
+  #         description: 指定されたIDが存在しない
 
-  /stats/items:
-    get:
-      tags:
-        - stats
-      summary: Get sales stats on item
-      description: 全商品について商品ごとの売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
-      parameters:
-        - in: query
-          name: isActive
-          schema:
-            type: string
-        - in: query
-          name: start
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: end
-          schema:
-            type: string
-            format: date
-      responses:
-        "200":
-          description: 取得成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  totalAmount:
-                    type: string
-                  totalCount:
-                    type: string
-                  statistics:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/StatisticsOnId"
-        "400":
-          description: 不正なパラメータ
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  # /stats/items:
+  #   get:
+  #     tags:
+  #       - stats
+  #     summary: Get sales stats on item
+  #     description: 全商品について商品ごとの売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+  #     parameters:
+  #       - in: query
+  #         name: isActive
+  #         schema:
+  #           type: string
+  #       - in: query
+  #         name: start
+  #         schema:
+  #           type: string
+  #           format: date
+  #       - in: query
+  #         name: end
+  #         schema:
+  #           type: string
+  #           format: date
+  #     responses:
+  #       "200":
+  #         description: 取得成功
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 totalAmount:
+  #                   type: string
+  #                 totalCount:
+  #                   type: string
+  #                 statistics:
+  #                   type: array
+  #                   items:
+  #                     $ref: "#/components/schemas/StatisticsOnId"
+  #       "400":
+  #         description: 不正なパラメータ
+  #         content:
+  #           application/problem+json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
 
-  /stats/items/{itemId}:
-    get:
-      tags:
-        - stats
-      summary: Get sales stats on specific item
-      description: 指定されたIDの商品について売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
-      parameters:
-        - in: path
-          name: itemId
-          schema:
-            type: string
-          required: true
-        - in: query
-          name: start
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: end
-          schema:
-            type: string
-            format: date
-      responses:
-        "200":
-          description: 取得成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/StatisticsOnId"
-        "400":
-          description: 不正なパラメータ
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "404":
-          description: 指定されたIDが存在しない
+  # /stats/items/{itemId}:
+  #   get:
+  #     tags:
+  #       - stats
+  #     summary: Get sales stats on specific item
+  #     description: 指定されたIDの商品について売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+  #     parameters:
+  #       - in: path
+  #         name: itemId
+  #         schema:
+  #           type: string
+  #         required: true
+  #       - in: query
+  #         name: start
+  #         schema:
+  #           type: string
+  #           format: date
+  #       - in: query
+  #         name: end
+  #         schema:
+  #           type: string
+  #           format: date
+  #     responses:
+  #       "200":
+  #         description: 取得成功
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/StatisticsOnId"
+  #       "400":
+  #         description: 不正なパラメータ
+  #         content:
+  #           application/problem+json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
+  #       "404":
+  #         description: 指定されたIDが存在しない
 
 components:
   schemas:
+    ##### component
+    Date:
+      type: string
+      example: "2023-04-12T17:07:00"
     ItemCategory:
       type: string
       enum:
@@ -598,21 +598,9 @@ components:
         - m1
         - b4
       example: m1
-    Message:
-      type: object
-      properties:
-        id:
-          type: integer
-        message:
-          type: string
-        date:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
+
+    ##### body
+    ## items
     ItemPost:
       type: object
       properties:
@@ -629,10 +617,7 @@ components:
           type: integer
           description: 仕入れ値
         category:
-          type: string
-          enum:
-            - juice
-            - food
+          $ref: "#/components/schemas/ItemCategory"
       required:
         - id
         - name
@@ -652,11 +637,8 @@ components:
           type: integer
           description: 仕入れ値
         category:
-          type: string
-          enum:
-            - juice
-            - food
-        isActive:
+          $ref: "#/components/schemas/ItemCategory"
+        active:
           type: boolean
     ItemResponse:
       type: object
@@ -674,27 +656,10 @@ components:
           type: integer
           description: 仕入れ値
         category:
-          type: string
-          enum:
-            - juice
-            - food
-        isActive:
-          type: boolean
-        salesCount:
-          type: integer
-    MemberResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          example: h-takesg
-        name:
-          type: string
-          example: 竹重
-        attribute:
-          $ref: "#/components/schemas/MemberAttribute"
+          $ref: "#/components/schemas/ItemCategory"
         active:
           type: boolean
+    ## members
     MemberPost:
       type: object
       properties:
@@ -720,7 +685,21 @@ components:
           $ref: "#/components/schemas/MemberAttribute"
         active:
           type: boolean
-    Purchase:
+    MemberResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: h-takesg
+        name:
+          type: string
+          example: 竹重
+        attribute:
+          $ref: "#/components/schemas/MemberAttribute"
+        active:
+          type: boolean
+    ## purchases
+    PurchasePost:
       type: object
       properties:
         memberId:
@@ -737,9 +716,9 @@ components:
       properties:
         historyId:
           type: integer
-        userId:
+        memberId:
           type: string
-        userName:
+        memberName:
           type: string
         itemId:
           type: string
@@ -748,31 +727,28 @@ components:
         price:
           type: integer
         date:
-          type: string
-          format: date-time
-    StatisticElement:
+          $ref: "#/components/schemas/Date"
+    ## chat
+    MessagePost:
       type: object
       properties:
-        label:
+        message:
           type: string
-        count:
-          type: integer
-          description: 購入回数
-        amount:
-          type: integer
-          description: 利用金額
-    StatisticsOnId:
+          example: 本日はお日柄もよく
+          maxLength: 140
+    MessageResponse:
       type: object
       properties:
         id:
-          type: string
-        name:
-          type: string
-        totalCount:
           type: integer
-        totalAmount:
-          type: integer
-        elements:
-          type: array
-          items:
-            $ref: "#/components/schemas/StatisticElement"
+        message:
+          type: string
+        date:
+          $ref: "#/components/schemas/Date"
+    
+    ## error
+    Error:
+      type: object
+      properties:
+        title:
+          type: string

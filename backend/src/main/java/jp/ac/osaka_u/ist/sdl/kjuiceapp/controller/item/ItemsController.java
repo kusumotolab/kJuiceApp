@@ -31,9 +31,8 @@ public class ItemsController {
   @GetMapping
   public List<ItemResponseBody> getItems(
       @RequestParam(required = false) Optional<String> category,
-      @RequestParam(required = false) Optional<Boolean> isActive) {
+      @RequestParam(required = false) Optional<Boolean> active) {
     // TODO isActiveによるフィルタ
-    // TODO List<Item>を返す
     // TODO パラメータバリデーション
 
     if (category.isPresent()) {
@@ -73,7 +72,7 @@ public class ItemsController {
               item.sellingPrice().orElse(null),
               item.costPrice().orElse(null),
               item.category().orElse(null),
-              item.isActive().orElse(null));
+              item.active().orElse(null));
     } catch (NoSuchItemException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }

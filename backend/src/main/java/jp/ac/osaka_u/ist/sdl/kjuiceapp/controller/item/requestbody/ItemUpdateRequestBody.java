@@ -7,4 +7,4 @@ public record ItemUpdateRequestBody(
     Optional<Integer> sellingPrice,
     Optional<Integer> costPrice,
     Optional<String> category,
-    Optional<Boolean> isActive) {}
+    Optional<Boolean> active) {}
