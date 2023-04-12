@@ -192,12 +192,15 @@ export class Backend {
       .catch(() => false);
   }
 
-  public static async getMemberImage(memberId: string) {
+  public static async getMemberImage(memberId: string):Promise<Blob | null> {
     const endpoint = `members/${memberId}/image`;
 
     return await axios
-      .get(Backend.BASE + endpoint)
-      .then((res) => res.data)
+      .get(Backend.BASE + endpoint, {responseType: "blob"})
+      .then((res) => {
+        if (res.status === 200) return res.data;
+        else return null;
+      })
       .catch(() => null);
   }
 }
