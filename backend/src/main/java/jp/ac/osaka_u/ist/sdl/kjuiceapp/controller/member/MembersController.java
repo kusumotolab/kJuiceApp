@@ -98,7 +98,7 @@ public class MembersController {
     }
     if (image.isPresent()) {
       return ResponseEntity.ok()
-          .contentType(new MediaType(image.get().getMediaType()))
+          .contentType(MediaType.valueOf(image.get().getMediaType()))
           .body(new InputStreamResource(new ByteArrayInputStream(image.get().getImage())));
     } else {
       return ResponseEntity.noContent().build();
