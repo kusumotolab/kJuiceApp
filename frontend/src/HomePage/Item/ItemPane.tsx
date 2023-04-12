@@ -70,7 +70,7 @@ function ItemPane({
         visibility={isPopupVisible}
         setPopUpVisibility={setPopUpVisibility}
         imgSrc={
-          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.name]
+          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.id]
         }
         selectedItem={selectedItem}
         setSumPurchased={setSumPurchased}

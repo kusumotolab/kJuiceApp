@@ -1,16 +1,15 @@
 export type Item = {
-  name: ItemId;
+  id: ItemId;
+  name: string;
   sellingPrice: number;
   costPrice: number;
-  grouping: string;
-  salesFigure: number;
+  category: string;
   active: boolean;
 };
 
 export type Member = {
+  id: string;
   name: string;
-  displayName: string;
-  umpayedAmount: number;
   attribute: string;
   active: boolean;
 };
@@ -22,9 +21,11 @@ export type Chat = {
 };
 
 export type History = {
-  id: number;
-  name: string;
-  item: string;
+  historyId: number;
+  memberId: string;
+  memberName: string;
+  itemId: string;
+  itemName: string;
   price: number;
   date: string;
 };

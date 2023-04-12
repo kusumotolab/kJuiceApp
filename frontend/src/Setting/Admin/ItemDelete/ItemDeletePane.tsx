@@ -41,7 +41,7 @@ function ItemDeletePane() {
         {itemList.map((item) => (
           <tr key={item.name}>
             <th>{item.name}</th>
-            <th>{item.grouping}</th>
+            <th>{item.category}</th>
             <th>
               <Toggle
                 toggled={item.active}

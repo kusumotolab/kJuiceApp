@@ -9,7 +9,7 @@ function ItemAddPane() {
   const [grouping, setGrouping] = useState("juice");
 
   async function addItem() {
-    if (!(await Backend.addItem(itemId, sellingPrice, costPrice, grouping)))
+    if (!(await Backend.addItem(itemId, itemId, sellingPrice, costPrice, grouping)))
       console.error("addItem: failed");
   }
 

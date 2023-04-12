@@ -7,7 +7,7 @@ type Props = {
 function UserInformationPane({ selectedMember }: Props) {
   return (
     <div>
-      {selectedMember == null ? "hoge" : selectedMember.displayName}さん
+      {selectedMember == null ? "hoge" : selectedMember.name}さん
     </div>
   );
 }

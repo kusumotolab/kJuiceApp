@@ -42,7 +42,7 @@ function HistoryPane({ selectedMember }: Props) {
         <HistoryCard
           history={history}
           updateHistory={updateHistory}
-          key={history.id}
+          key={history.historyId}
         />
       ))}
     </MainHistoryPane>

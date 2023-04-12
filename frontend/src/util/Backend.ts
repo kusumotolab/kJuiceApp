@@ -5,17 +5,19 @@ export class Backend {
   private static readonly BASE = "./backend/";
 
   public static async addItem(
-    itemId: string,
+    id: string,
+    name: string,
     sellingPrice: number,
     costPrice: number,
-    grouping: string
+    category: string
   ) {
-    const endpoint = "item/add";
+    const endpoint = "items";
     const data = {
-      name: itemId,
-      sellingprice: sellingPrice,
-      costprice: costPrice,
-      grouping: grouping,
+      id,
+      name,
+      sellingPrice,
+      costPrice,
+      category,
     };
 
     // TODO responseによる成否判定
@@ -26,7 +28,7 @@ export class Backend {
   }
 
   public static async getItemList(): Promise<Item[] | null> {
-    const endpoint = "item";
+    const endpoint = "items";
 
     return await axios
       .get(Backend.BASE + endpoint)
@@ -35,34 +37,30 @@ export class Backend {
   }
 
   public static async setItemActivity(id: string, activity: boolean) {
-    const endpoint = "item/setactivity";
+    const endpoint = `items/${id}`;
     const data = {
-      id,
-      activity,
+      active: activity,
     };
 
     // TODO 成否判定
     return await axios
-      .post(Backend.BASE + endpoint, data)
+      .patch(Backend.BASE + endpoint, data)
       .then(() => true)
       .catch(() => false);
   }
 
   public static async deleteItem(id: string) {
-    const endpoint = "item/delete";
-    const data = {
-      name: id,
-    };
+    const endpoint = `items/${id}`;
 
     // TODO 成否判定
     return await axios
-      .post(Backend.BASE + endpoint, data)
+      .delete(Backend.BASE + endpoint)
       .then(() => true)
       .catch(() => false);
   }
 
   public static async getMemberList(): Promise<Member[] | null> {
-    const endpoint = "member";
+    const endpoint = "members";
 
     return await axios
       .get(Backend.BASE + endpoint)
@@ -71,14 +69,14 @@ export class Backend {
   }
 
   public static async addMember(
-    userId: string,
-    displayName: string,
+    id: string,
+    name: string,
     attribute: string
   ) {
-    const endpoint = "member/add";
+    const endpoint = "members";
     const data = {
-      name: userId,
-      displayName,
+      id,
+      name,
       attribute,
     };
 
@@ -89,50 +87,41 @@ export class Backend {
       .catch(() => false);
   }
 
-  public static async setMemberActivity(name: string, activity: boolean) {
-    const endpoint = "member/setactivity";
+  public static async setMemberActivity(id: string, active: boolean) {
+    const endpoint = `members/${id}`;
     const data = {
-      name,
-      activity,
+      active,
     };
 
     // TODO 成否判定
     return await axios
-      .post(Backend.BASE + endpoint, data)
+      .patch(Backend.BASE + endpoint, data)
       .then(() => true)
       .catch(() => false);
   }
 
   public static async deleteMember(id: string) {
-    const endpoint = "member/delete";
-    const data = {
-      name: id,
-    };
+    const endpoint = `members/${id}`;
 
     // TODO 成否判定
     return await axios
-      .post(Backend.BASE + endpoint, data)
+      .delete(Backend.BASE + endpoint)
       .then(() => true)
       .catch(() => false);
   }
 
   public static async deleteChat(id: number) {
-    const endpoint = "chat/delete";
-    const data = {
-      params: {
-        id,
-      },
-    };
+    const endpoint = `messages/${id}`;
 
     // TODO 成否判定
     return await axios
-      .get(Backend.BASE + endpoint, data)
+      .delete(Backend.BASE + endpoint)
       .then(() => true)
       .catch(() => false);
   }
 
   public static async getMessageList(): Promise<Chat[] | null> {
-    const endpoint = "chat";
+    const endpoint = `messages`;
 
     return await axios
       .get(Backend.BASE + endpoint)
@@ -141,33 +130,26 @@ export class Backend {
   }
 
   public static async addMessage(message: string) {
-    const endpoint = "chat/add";
+    const endpoint = "messages";
     const data = {
-      params: {
-        message,
-      },
+      message
     };
 
     return await axios
-      .get(Backend.BASE + endpoint, data)
+      .post(Backend.BASE + endpoint, data)
       .then(() => true)
       .catch(() => false);
   }
 
   public static async getHistoryEachMonth(): Promise<LabeledHistory | null> {
-    const endpoint = "history/eachmonth";
-
-    return await axios
-      .get(Backend.BASE + endpoint)
-      .then((res) => res.data)
-      .catch(() => null);
+    return null;
   }
 
   public static async getUserHistory(id: string): Promise<History[] | null> {
-    const endpoint = "history";
+    const endpoint = "purchases";
     const data = {
       params: {
-        name: id,
+        memberId: id,
       },
     };
 
@@ -177,28 +159,20 @@ export class Backend {
       .catch(null);
   }
 
-  public static async recall(history: History) {
-    const endpoint = "recall";
-    const data = {
-      params: {
-        name: history.name,
-        item: history.item,
-        id: history.id,
-        price: history.price,
-      },
-    };
+  public static async recall(historyId: number) {
+    const endpoint = `purchases/${historyId}`;
 
     return await axios
-      .get(Backend.BASE + endpoint, data)
+      .get(Backend.BASE + endpoint)
       .then(() => true)
       .catch(() => false);
   }
 
-  public static async purchase(userId: string, itemName: string) {
-    const endpoint = "purchase";
+  public static async purchase(memberId: string, itemId: string) {
+    const endpoint = "purchases";
     const data = {
-      name: userId,
-      item: itemName,
+      memberId,
+      itemId,
     };
 
     return await axios
@@ -207,15 +181,23 @@ export class Backend {
       .catch(() => false);
   }
 
-  public static async setMemberImage(userId: string, image: File) {
-    const endpoint = "member/image";
+  public static async setMemberImage(memberId: string, image: File) {
+    const endpoint = `members/${memberId}/image`;
     const data = new FormData();
-    data.append("userId", userId);
     data.append("image", image);
 
     return await axios
       .put(Backend.BASE + endpoint, data)
       .then(() => true)
       .catch(() => false);
+  }
+
+  public static async getMemberImage(memberId: string) {
+    const endpoint = `members/${memberId}/image`;
+
+    return await axios
+      .get(Backend.BASE + endpoint)
+      .then((res) => res.data)
+      .catch(() => null);
   }
 }

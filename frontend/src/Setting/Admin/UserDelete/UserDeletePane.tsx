@@ -18,15 +18,15 @@ function UserDeletePane() {
     setMemberList(memberList);
   }
 
-  async function switchMemberActivity(name: string, activity: boolean) {
-    if (!(await Backend.setMemberActivity(name, activity))) {
+  async function switchMemberActivity(id: string, activity: boolean) {
+    if (!(await Backend.setMemberActivity(id, activity))) {
       console.error("switchMemberActivity: failed");
       return;
     }
-    memberList.findIndex((member) => member.name === name);
+    memberList.findIndex((member) => member.id === id);
     setMemberList(
       memberList.map((member) => {
-        if (member.name === name) member.active = activity;
+        if (member.id === id) member.active = activity;
         return member;
       })
     );
@@ -52,12 +52,12 @@ function UserDeletePane() {
         </tr>
         {memberList.map((member) => (
           <tr key={member.name}>
-            <th>{member.displayName}</th>
+            <th>{member.name}</th>
             <th>{member.attribute}</th>
             <th>
               <Toggle
                 onClick={(activity: boolean) =>
-                  switchMemberActivity(member.name, activity)
+                  switchMemberActivity(member.id, activity)
                 }
                 toggled={member.active}
               />

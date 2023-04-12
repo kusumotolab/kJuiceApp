@@ -23,7 +23,6 @@ function FoodPane({
       <CategoryName>食品</CategoryName>
       <FoodPaneContent>
         {foodList
-          .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((food) => {
             return (
               <ItemCard
@@ -36,7 +35,7 @@ function FoodPane({
                 }}
                 name={food.name}
                 item={food}
-                imgSrc={logoDictionary[food.name]}
+                imgSrc={logoDictionary[food.id]}
                 key={food.name}
               />
             );

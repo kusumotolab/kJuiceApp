@@ -25,7 +25,7 @@ function JuicePane({
       <CategoryName>ジュース</CategoryName>
       <JuicePaneContent>
         {juiceList
-          .sort((a, b) => -a.salesFigure + b.salesFigure)
+          // .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((juice) => {
             return (
               <ItemCard
@@ -38,7 +38,7 @@ function JuicePane({
                 }}
                 name={juice.name}
                 item={juice}
-                imgSrc={logoDictionary[juice.name]}
+                imgSrc={logoDictionary[juice.id]}
                 key={juice.name}
               />
             );

@@ -11,11 +11,11 @@ function MemberInformation({ selectedMember }: Props) {
       <CategoryName>ユーザ情報</CategoryName>
       <MemberInformationPaneContent>
         <span>
-          名前：{selectedMember?.displayName ?? "---"}
+          名前：{selectedMember?.name ?? "---"}
           さん
         </span>
         <br />
-        <span>今月の支払い分：{selectedMember?.umpayedAmount ?? 0}円</span>
+        <span>今月の支払い分：工事中</span>
       </MemberInformationPaneContent>
     </MemberInformationPane>
   );
