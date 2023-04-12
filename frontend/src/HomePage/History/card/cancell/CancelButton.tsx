@@ -13,7 +13,8 @@ function CancelButton({ history, updateHistory }: Props) {
   const [cancel_toggle, setCancelToggle] = useState(false);
 
   async function postRecall(history: History) {
-    if (!(await Backend.recall(history.historyId))) console.error("postRecall: failed");
+    if (!(await Backend.recall(history.historyId)))
+      console.error("postRecall: failed");
   }
 
   function handle_cancel_toggle() {

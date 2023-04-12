@@ -27,8 +27,8 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
 
   async function getImage() {
     const img = await Backend.getMemberImage(member.id);
-    if(img !== null) {
-      setUserIcon(URL.createObjectURL(img))
+    if (img !== null) {
+      setUserIcon(URL.createObjectURL(img));
     }
   }
 

@@ -22,24 +22,23 @@ function FoodPane({
     <FoodPaneMain>
       <CategoryName>食品</CategoryName>
       <FoodPaneContent>
-        {foodList
-          .map((food) => {
-            return (
-              <ItemCard
-                color="#FFC039"
-                onClick={() => {
-                  setSelectedItem(food);
-                  if (selectedMember !== null) {
-                    setPopUpVisibility(true);
-                  }
-                }}
-                name={food.name}
-                item={food}
-                imgSrc={logoDictionary[food.id]}
-                key={food.id}
-              />
-            );
-          })}
+        {foodList.map((food) => {
+          return (
+            <ItemCard
+              color="#FFC039"
+              onClick={() => {
+                setSelectedItem(food);
+                if (selectedMember !== null) {
+                  setPopUpVisibility(true);
+                }
+              }}
+              name={food.name}
+              item={food}
+              imgSrc={logoDictionary[food.id]}
+              key={food.id}
+            />
+          );
+        })}
       </FoodPaneContent>
     </FoodPaneMain>
   );

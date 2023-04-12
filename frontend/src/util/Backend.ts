@@ -68,11 +68,7 @@ export class Backend {
       .catch(() => null);
   }
 
-  public static async addMember(
-    id: string,
-    name: string,
-    attribute: string
-  ) {
+  public static async addMember(id: string, name: string, attribute: string) {
     const endpoint = "members";
     const data = {
       id,
@@ -132,7 +128,7 @@ export class Backend {
   public static async addMessage(message: string) {
     const endpoint = "messages";
     const data = {
-      message
+      message,
     };
 
     return await axios
@@ -192,11 +188,11 @@ export class Backend {
       .catch(() => false);
   }
 
-  public static async getMemberImage(memberId: string):Promise<Blob | null> {
+  public static async getMemberImage(memberId: string): Promise<Blob | null> {
     const endpoint = `members/${memberId}/image`;
 
     return await axios
-      .get(Backend.BASE + endpoint, {responseType: "blob"})
+      .get(Backend.BASE + endpoint, { responseType: "blob" })
       .then((res) => {
         if (res.status === 200) return res.data;
         else return null;
