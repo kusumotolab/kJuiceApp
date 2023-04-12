@@ -10,7 +10,7 @@ function add_user() {
     local header="Content-Type:application/json"
     local api_path="/backend/member/add"
     local uri="http://$1$api_path"
-    local data="{\"name\":\"$2\",\"displayName\":\"$3\",\"attribute\":\"$4\"}"
+    local data="{\"id\":\"$2\",\"name\":\"$3\",\"attribute\":\"$4\"}"
 
     curl -X POST -H $header -d $data $uri
     
@@ -18,13 +18,13 @@ function add_user() {
 }
 
 # 商品追加関数
-# arg: (api_host, name, sellingprice, costprice, grouping)
+# arg: (api_host, id, name, sellingprice, costprice, grouping)
 # example: ("localhost", "CocaCola", "80", "70", "juice")
 function add_item() {
     local header="Content-Type:application/json"
     local api_path="/backend/item/add"
     local uri="http://$1$api_path"
-    local data="{\"name\":\"$2\",\"sellingprice\":\"$3\",\"costprice\":\"$4\",\"grouping\":\"$5\"}"
+    local data="{\"id\":\"$2\",\"name\":\"$3\",\"sellingPrice\":\"$4\",\"costPrice\":\"$5\",\"category\":\"$6\"}"
 
     curl -X POST -H $header -d $data $uri
     
@@ -64,9 +64,9 @@ add_user $api_host "shinsuke" "柗本" "teacher"
 add_user $api_host "higo" "肥後" "teacher"
 
 # デモ用のアイテムを追加
-add_item $api_host "CocaCola" "80" "70" "juice"
-add_item $api_host "Fanta" "80" "70" "juice"
-add_item $api_host "GogoTea" "100" "80" "juice"
-add_item $api_host "Water" "100" "40" "juice"
-add_item $api_host "PotatoChips" "100" "80" "food"
-add_item $api_host "Dagashi" "100" "80" "food"
+add_item $api_host "CocaCola" "CocaCola" "80" "70" "juice"
+add_item $api_host "Fanta" "Fanta" "80" "70" "juice"
+add_item $api_host "GogoTea" "GogoTea" "100" "80" "juice"
+add_item $api_host "Water" "Water" "100" "40" "juice"
+add_item $api_host "PotatoChips" "PotatoChips" "100" "80" "food"
+add_item $api_host "Dagashi" "Dagashi" "100" "80" "food"
