@@ -31,7 +31,7 @@ function UnpaidMember() {
           <th>支払いボタン</th>
         </tr>
         {memberList.map((member) => (
-          <tr key={member.name}>
+          <tr key={member.id}>
             <th>{member.name}</th>
             <th>工事中</th>
             <th>

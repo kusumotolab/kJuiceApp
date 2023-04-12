@@ -51,7 +51,7 @@ function UserDeletePane() {
           <th>削除ボタン</th>
         </tr>
         {memberList.map((member) => (
-          <tr key={member.name}>
+          <tr key={member.id}>
             <th>{member.name}</th>
             <th>{member.attribute}</th>
             <th>
@@ -67,7 +67,7 @@ function UserDeletePane() {
                 color="gray"
                 radius="0.5em"
                 onClick={async () => {
-                  await deleteMember(member.name);
+                  await deleteMember(member.id);
                   await fetchMemberList();
                 }}
                 fontColor="white"

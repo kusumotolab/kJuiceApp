@@ -39,14 +39,14 @@ function ItemDeletePane() {
           <th>削除ボタン</th>
         </tr>
         {itemList.map((item) => (
-          <tr key={item.name}>
+          <tr key={item.id}>
             <th>{item.name}</th>
             <th>{item.category}</th>
             <th>
               <Toggle
                 toggled={item.active}
                 onClick={(activity: boolean) =>
-                  switchItemActivity(item.name, activity)
+                  switchItemActivity(item.id, activity)
                 }
               />
             </th>
@@ -55,7 +55,7 @@ function ItemDeletePane() {
                 color="gray"
                 radius="0.5em"
                 onClick={async () => {
-                  await deleteItem(item.name);
+                  await deleteItem(item.id);
                   await fetchItemList();
                 }}
                 fontColor="white"

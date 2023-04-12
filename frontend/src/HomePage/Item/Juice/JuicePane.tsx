@@ -39,7 +39,7 @@ function JuicePane({
                 name={juice.name}
                 item={juice}
                 imgSrc={logoDictionary[juice.id]}
-                key={juice.name}
+                key={juice.id}
               />
             );
           })}

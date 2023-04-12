@@ -45,7 +45,7 @@ function PopUpMenu({
       return;
     }
 
-    if (!(await Backend.purchase(selectedMember.name, selectedItem.name)))
+    if (!(await Backend.purchase(selectedMember.id, selectedItem.id)))
       console.error("purchaseItem: failed");
 
     setSumPurchased((prev) => prev + 1);

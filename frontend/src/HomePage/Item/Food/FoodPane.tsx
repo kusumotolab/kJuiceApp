@@ -36,7 +36,7 @@ function FoodPane({
                 name={food.name}
                 item={food}
                 imgSrc={logoDictionary[food.id]}
-                key={food.name}
+                key={food.id}
               />
             );
           })}
