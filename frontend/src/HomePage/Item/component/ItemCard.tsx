@@ -23,12 +23,6 @@ function ItemCard({ name, onClick, imgSrc, item }: Props) {
             </Stack>
         </CardBody>
     </Card>
-    // <ItemCardPane onClick={onClick}>
-    //   <div className="square">
-    //     <img src={imgSrc} alt={name} />
-    //   </div>
-    //   <span>{name + " " + item.sellingPrice + "円"}</span>
-    // </ItemCardPane>
   );
 }
 

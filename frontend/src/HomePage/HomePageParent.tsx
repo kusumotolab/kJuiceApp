@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
-import styled from "styled-components";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 function HomePageParent() {
     const [selectedMember, setSelectedMember] = useState<Member | null>(null);
