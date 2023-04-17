@@ -3,7 +3,7 @@ import { ItemCard } from "../component/ItemCard";
 import { Item, LogoDictionary, Member } from "types";
 import { Dispatch, SetStateAction } from "react";
 
-import { HStack, Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Flex } from "@chakra-ui/react";
 
 type Props = {
   foodList: Item[];
@@ -23,9 +23,9 @@ function FoodPane({
   logoDictionary,
 }: Props) {
   return (
-    <Box marginBottom='1em'>
+    <Box>
       <Heading>食品</Heading>
-        <HStack overflowX='scroll' spacing='1em'>
+        <Flex gap={4}>
         {foodList
           .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((food) => {
@@ -45,7 +45,7 @@ function FoodPane({
               />
             );
           })}
-      </HStack>
+      </Flex>
     </Box>
   );
 }
