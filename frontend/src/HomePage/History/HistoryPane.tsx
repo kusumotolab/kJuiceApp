@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import { HistoryCard } from "./card/HistoryCard";
-import styled from "styled-components";
 import { History, Member } from "types";
 import { Backend } from "util/Backend";
-import { Box, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
 type Props = {
   selectedMember: Member | null;
@@ -39,13 +47,27 @@ function HistoryPane({ selectedMember }: Props) {
   return (
     <Box>
       <Heading>購入履歴</Heading>
-      {histories.map((history) => (
-        <HistoryCard
-          history={history}
-          updateHistory={updateHistory}
-          key={history.id}
-        />
-      ))}
+      <TableContainer>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>日付</Th>
+              <Th>商品</Th>
+              <Th>金額</Th>
+              <Th>キャンセル</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {histories.map((history) => (
+              <HistoryCard
+                history={history}
+                updateHistory={updateHistory}
+                key={history.id}
+              />
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 }
