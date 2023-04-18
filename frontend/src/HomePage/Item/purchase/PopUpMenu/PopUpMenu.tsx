@@ -29,12 +29,9 @@ type Props = {
 function PopUpMenu({
   isOpen,
   onClose,
-  imgSrc,
   selectedItem,
   setSumPurchased,
   selectedMember,
-  setUpdate,
-  update,
 }: Props) {
   const toast = useToast();
   const cancelRef = useRef<HTMLButtonElement>(null);

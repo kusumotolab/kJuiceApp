@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { FoodPane } from "./Food/FoodPane";
 import { JuicePane } from "./Juice/JuicePane";
 import { HistoryPane } from "../History/HistoryPane";
