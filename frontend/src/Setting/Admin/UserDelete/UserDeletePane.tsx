@@ -69,6 +69,8 @@ return (
                                 </Th>
                                 <Th>
                                     <Button
+                                        colorScheme="red"
+                                        size="sm"
                                         onClick={async () => {
                                             await deleteMember(member.name);
                                             await fetchMemberList();
