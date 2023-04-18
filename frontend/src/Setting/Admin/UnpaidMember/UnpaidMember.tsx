@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 // import "./UnpaidMember.css";
 import { Member } from "types";
 import { Backend } from "util/Backend";
-import { Button, Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Button,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
 function UnpaidMember() {
   const [memberList, setMemberList] = useState<Member[]>([]);

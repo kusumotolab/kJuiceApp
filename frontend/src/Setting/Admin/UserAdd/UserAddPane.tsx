@@ -4,11 +4,10 @@ import {
   Input,
   Select,
   Button,
-  Stack
+  Stack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Backend } from "util/Backend";
-// import "./UserAddPane.css";
 
 function UserAddPane() {
   const [userId, setUserId] = useState("");

@@ -22,9 +22,7 @@ function FileSelect({ onFileInputChange }: Props) {
         hidden
         ref={inputRef}
       />
-      <Button onClick={iconChangeButtonClicked}>
-        画像を選択
-      </Button>
+      <Button onClick={iconChangeButtonClicked}>画像を選択</Button>
     </div>
   );
 }

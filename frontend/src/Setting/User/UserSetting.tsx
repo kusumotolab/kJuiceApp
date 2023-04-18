@@ -1,9 +1,7 @@
 import { IconSetting } from "./IconSetting/IconSetting";
 
 function UserSetting() {
-  return (
-      <IconSetting />
-  );
+  return <IconSetting />;
 }
 
 export { UserSetting };
