@@ -11,83 +11,70 @@ import LogoGogoTea from "./../../image/logo_tea.jpeg";
 import LogoPotechi from "./../../image/logo_potechi.jpeg";
 import LogoDagashi from "./../../image/logo_dagashi.jpeg";
 import { MemberInformation } from "./MemberInformation/MemberInformation";
-import styled from "styled-components";
-import { CompleteMessage } from "./purchase/CompleteMessage/completeMessage";
 import { Item, LogoDictionary, Member } from "types";
-import { Box, Stack, useDisclosure } from "@chakra-ui/react";
+import { Stack, useDisclosure } from "@chakra-ui/react";
 
 type Props = {
-    setSelectedItem: Dispatch<SetStateAction<Item | null>>;
-    selectedItem: Item | null;
-    juiceList: Item[];
-    update: boolean;
-    setUpdate: Dispatch<SetStateAction<boolean>>;
-    foodList: Item[];
-    selectedMember: Member | null;
-    setSumPurchased: Dispatch<SetStateAction<number>>;
+  setSelectedItem: Dispatch<SetStateAction<Item | null>>;
+  selectedItem: Item | null;
+  juiceList: Item[];
+  update: boolean;
+  setUpdate: Dispatch<SetStateAction<boolean>>;
+  foodList: Item[];
+  selectedMember: Member | null;
+  setSumPurchased: Dispatch<SetStateAction<number>>;
 };
 
 function ItemPane({
-    setSelectedItem,
-    selectedItem,
-    juiceList,
-    update,
-    setUpdate,
-    foodList,
-    selectedMember,
-    setSumPurchased,
+  setSelectedItem,
+  selectedItem,
+  juiceList,
+  update,
+  setUpdate,
+  foodList,
+  selectedMember,
+  setSumPurchased,
 }: Props) {
-    const [isPopupVisible, setPopUpVisibility] = useState(false);
-    const [showCompleteMessage, setShowCompleteMessage] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const logoDictionary: LogoDictionary = {
+    CocaCola: LogoCola,
+    Fanta: LogoFanta,
+    Water: LogoWater,
+    GogoTea: LogoGogoTea,
+    PotatoChips: LogoPotechi,
+    Dagashi: LogoDagashi,
+  };
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const logoDictionary: LogoDictionary = {
-        CocaCola: LogoCola,
-        Fanta: LogoFanta,
-        Water: LogoWater,
-        GogoTea: LogoGogoTea,
-        PotatoChips: LogoPotechi,
-        Dagashi: LogoDagashi,
-    };
-
-    return (
-        <Stack flex="3" spacing={8}>
-            <MemberInformation selectedMember={selectedMember} />
-            <JuicePane
-                setSelectedItem={setSelectedItem}
-                setPopUpVisibility={setPopUpVisibility}
-                onOpen={onOpen}
-                selectedMember={selectedMember}
-                juiceList={juiceList}
-                logoDictionary={logoDictionary}
-            />
-            <FoodPane
-                setSelectedItem={setSelectedItem}
-                setPopUpVisibility={setPopUpVisibility}
-                onOpen={onOpen}
-                selectedMember={selectedMember}
-                foodList={foodList}
-                logoDictionary={logoDictionary}
-            />
-            <HistoryPane selectedMember={selectedMember} />
-            <PopUpMenu
-                isOpen={isOpen}
-                onClose={onClose}
-                setPopUpVisibility={setPopUpVisibility}
-                imgSrc={
-                    logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.name]
-                }
-                selectedItem={selectedItem}
-                setSumPurchased={setSumPurchased}
-                selectedMember={selectedMember}
-                setUpdate={setUpdate}
-                update={update}
-                setShowCompleteMessage={setShowCompleteMessage}
-            />
-            <CompleteMessage show={showCompleteMessage} />
-        </Stack>
-    );
+  return (
+    <Stack flex="3" spacing={8}>
+      <MemberInformation selectedMember={selectedMember} />
+      <JuicePane
+        setSelectedItem={setSelectedItem}
+        onOpen={onOpen}
+        juiceList={juiceList}
+        logoDictionary={logoDictionary}
+      />
+      <FoodPane
+        setSelectedItem={setSelectedItem}
+        onOpen={onOpen}
+        foodList={foodList}
+        logoDictionary={logoDictionary}
+      />
+      <HistoryPane selectedMember={selectedMember} />
+      <PopUpMenu
+        isOpen={isOpen}
+        onClose={onClose}
+        imgSrc={
+          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.name]
+        }
+        selectedItem={selectedItem}
+        setSumPurchased={setSumPurchased}
+        selectedMember={selectedMember}
+        setUpdate={setUpdate}
+        update={update}
+      />
+    </Stack>
+  );
 }
 
 export { ItemPane };
