@@ -1,4 +1,4 @@
-import { Heading, Stack, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { Member } from "types";
 
 type Props = {
@@ -11,11 +11,13 @@ function MemberInformation({ selectedMember }: Props) {
     const memberUnpaidAmount = (selectedMember?.umpayedAmount ?? 0) + "円";
 
     return (
-        <Stack spacing={4} mb={8}>
-            <Heading>ユーザ情報</Heading>
-            <Text fontSize="2xl" ml={4}>{memberName}</Text>
-            <Text fontSize="2xl" ml={4}>{memberUnpaidAmount}</Text>
-        </Stack>
+        <Flex justifyContent="center" gap={4}>
+            <Avatar size="xl"/>
+            <Box>
+                <Heading>{memberName}</Heading>
+                <Text fontSize="xl">{memberUnpaidAmount}</Text>
+            </Box>
+        </Flex>
     );
 }
 
