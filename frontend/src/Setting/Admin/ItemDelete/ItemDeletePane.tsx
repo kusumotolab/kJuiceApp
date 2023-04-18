@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../component/Button";
-import { Toggle } from "../../../component/Toggle";
 import { Backend } from "util/Backend";
 import { Item } from "types";
+import {
+  Button,
+  Switch,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
 function ItemDeletePane() {
   const [itemList, setItemList] = useState<Item[]>([]);
@@ -30,43 +38,44 @@ function ItemDeletePane() {
   }, []);
 
   return (
-    <div className="ItemDelete">
-      <table border={1}>
-        <tr className="caption">
-          <th>アイテム名</th>
-          <th>グルーピング</th>
-          <th>Active/Inactive</th>
-          <th>削除ボタン</th>
-        </tr>
-        {itemList.map((item) => (
-          <tr key={item.name}>
-            <th>{item.name}</th>
-            <th>{item.grouping}</th>
-            <th>
-              <Toggle
-                toggled={item.active}
-                onClick={(activity: boolean) =>
-                  switchItemActivity(item.name, activity)
-                }
-              />
-            </th>
-            <th>
-              <Button
-                color="gray"
-                radius="0.5em"
-                onClick={async () => {
-                  await deleteItem(item.name);
-                  await fetchItemList();
-                }}
-                fontColor="white"
-              >
-                削除
-              </Button>
-            </th>
-          </tr>
-        ))}
-      </table>
-    </div>
+    <TableContainer>
+      <Table>
+        <Thead>
+          <Tr className="caption">
+            <Th>アイテム名</Th>
+            <Th>グルーピング</Th>
+            <Th>Active/Inactive</Th>
+            <Th>削除ボタン</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {itemList.map((item) => (
+            <Tr key={item.name}>
+              <Th>{item.name}</Th>
+              <Th>{item.grouping}</Th>
+              <Th>
+                <Switch
+                  isChecked={item.active}
+                  onChange={() => switchItemActivity(item.name, !item.active)}
+                />
+              </Th>
+              <Th>
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={async () => {
+                    await deleteItem(item.name);
+                    await fetchItemList();
+                  }}
+                >
+                  削除
+                </Button>
+              </Th>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
   );
 }
 
