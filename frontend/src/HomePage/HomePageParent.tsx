@@ -52,7 +52,7 @@ function HomePageParent() {
     }, [sumPurchased]);
 
     return (
-        <Flex gap={4}>
+        <Flex gap={8}>
             <MemberPane
                 selectedMember={selectedMember}
                 setSelectedMember={setSelectedMember}
