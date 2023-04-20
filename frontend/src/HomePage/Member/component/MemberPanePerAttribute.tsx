@@ -24,7 +24,7 @@ function MemberPanePerAttribute({
       {memberList
         .filter((member) => member.attribute == attribute)
         .sort((a, b) => {
-          if (a.displayName > b.displayName) {
+          if (a.id > b.id) {
             return 1;
           } else {
             return -1;
@@ -33,11 +33,11 @@ function MemberPanePerAttribute({
         .map((member) => (
           <MemberCard
             selected={
-              selectedMember !== null && selectedMember.name === member.name
+              selectedMember !== null && selectedMember.id === member.id
             }
             member={member}
             setSelectedMember={setSelectedMember}
-            key={member.name}
+            key={member.id}
           />
         ))}
     </div>

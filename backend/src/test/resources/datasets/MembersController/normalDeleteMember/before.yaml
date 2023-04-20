@@ -1,0 +1,9 @@
+member:
+  - id: h-takesg
+    display_name: 竹重
+    attribute: m1
+    active: true
+  - id: h-yosiok
+    display_name: 吉岡
+    attribute: m1
+    active: true

@@ -52,9 +52,9 @@ function IconSetting() {
     fetchMemberList();
   }, []);
 
-  const options = memberList.map(({ name, displayName }) => ({
-    value: name,
-    label: displayName,
+  const options = memberList.map(({ id, name }) => ({
+    value: id,
+    label: name,
   }));
 
   return (

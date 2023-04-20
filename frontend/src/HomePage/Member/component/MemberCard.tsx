@@ -6,6 +6,7 @@ import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { Member } from "types";
 import { Dispatch, SetStateAction } from "react";
+import { Backend } from "util/Backend";
 
 const default_member_card_color = "#303030";
 const selected_member_card_color = "#303030";
@@ -24,22 +25,15 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
     opacity: selected ? 1 : 0,
   });
 
-  async function fetchBase64Img(userId: string) {
-    await fetch(
-      `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
-      {
-        method: "GET",
-        mode: "cors",
-      }
-    )
-      .then((res) => res.text())
-      .then((items) => {
-        setUserIcon(items);
-      });
+  async function getImage() {
+    const img = await Backend.getMemberImage(member.id);
+    if (img !== null) {
+      setUserIcon(URL.createObjectURL(img));
+    }
   }
 
   useEffect(() => {
-    fetchBase64Img(member.name);
+    getImage();
   }, []);
 
   return (
@@ -62,7 +56,7 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
         <MemberCardChildren>
           <MemberCardImage src={userIcon === "" ? DefaultIcon : userIcon} />
           <MemberCardChildrenContent>
-            <span>{member.displayName}</span>
+            <span>{member.name}</span>
           </MemberCardChildrenContent>
         </MemberCardChildren>
       </Button>

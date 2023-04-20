@@ -15,7 +15,7 @@ function UnpaidMember() {
       return;
     }
 
-    setMemberList(memberList.filter((member) => member.umpayedAmount > 0));
+    setMemberList(memberList);
   };
 
   useEffect(() => {
@@ -31,9 +31,9 @@ function UnpaidMember() {
           <th>支払いボタン</th>
         </tr>
         {memberList.map((member) => (
-          <tr key={member.name}>
-            <th>{member.displayName}</th>
-            <th>{member.umpayedAmount}円</th>
+          <tr key={member.id}>
+            <th>{member.name}</th>
+            <th>工事中</th>
             <th>
               <Button
                 color="gray"
