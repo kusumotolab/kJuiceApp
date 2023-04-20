@@ -6,14 +6,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class DemoApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+  @Test
+  void contextLoads() {}
 
-	// @Test
-	// public void testHistoryController(){
-	// 	HistoryController hc = new HistoryController();
-	// 	assertEquals(hc.getHistoryOfEachMonth(),"hoge");
-	// }
+  // @Test
+  // public void testHistoryController(){
+  // 	HistoryController hc = new HistoryController();
+  // 	assertEquals(hc.getHistoryOfEachMonth(),"hoge");
+  // }
 
 }

@@ -1,15 +1,14 @@
 package io.github.haur514.repository;
 
+import io.github.haur514.entity.SalesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import io.github.haur514.entity.SalesEntity;
+public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 
-
-
-public interface SalesRepository extends JpaRepository<SalesEntity, Integer>{
-
-    @Query(value="""
+  @Query(
+      value =
+          """
             SELECT
                 *
             FROM
@@ -19,6 +18,7 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer>{
             AND
                 userId = ?1
             ;
-            """,nativeQuery = true)
-    public SalesEntity findByUserIdAndDate(String userId,String date);
+            """,
+      nativeQuery = true)
+  public SalesEntity findByUserIdAndDate(String userId, String date);
 }

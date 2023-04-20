@@ -164,7 +164,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ItemResponse" 
+                $ref: "#/components/schemas/ItemResponse"
         "404":
           description: 指定されたIDが存在しない
     delete:
@@ -184,7 +184,7 @@ paths:
           description: 削除成功
         "404":
           description: 指定されたIDが存在しない
-    
+
   /members:
     get:
       tags:
@@ -584,7 +584,7 @@ components:
         - sellingPrice
         - costPrice
         - group
-    ItemPatch:        
+    ItemPatch:
       type: object
       properties:
         name:

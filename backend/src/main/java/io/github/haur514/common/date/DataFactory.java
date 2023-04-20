@@ -1,5 +1,3 @@
 package io.github.haur514.common.date;
 
-public class DataFactory {
-    
-}
+public class DataFactory {}
