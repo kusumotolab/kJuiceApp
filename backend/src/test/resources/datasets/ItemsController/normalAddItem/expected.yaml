@@ -1,0 +1,7 @@
+item:
+  - id: gogotea
+    display_name: 午後の紅茶
+    selling_price: 80
+    cost_price: 60
+    category: juice
+    active: false

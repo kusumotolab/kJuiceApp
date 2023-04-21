@@ -1,17 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { Tabs } from "react-tabs";
+// import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { SellingBarGraph } from "./selling/SellingBarGraph";
-import { LineChart } from "./linechart/LineChart";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faChartSimple } from "@fortawesome/free-solid-svg-icons";
+// import { SellingBarGraph } from "./selling/SellingBarGraph";
+// import { LineChart } from "./linechart/LineChart";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faChartLine, faChartSimple } from "@fortawesome/free-solid-svg-icons";
 
 function GraphPane() {
-  const iconStyle: React.CSSProperties = { marginLeft: "0.4em" };
+  // const iconStyle: React.CSSProperties = { marginLeft: "0.4em" };
 
   return (
     <Tabs>
-      <TabList>
+      {/* <TabList>
         <Tab>
           Hot Selling
           <FontAwesomeIcon style={iconStyle} icon={faChartSimple} />
@@ -26,7 +27,8 @@ function GraphPane() {
       </TabPanel>
       <TabPanel>
         <LineChart />
-      </TabPanel>
+      </TabPanel> */}
+      工事中
     </Tabs>
   );
 }

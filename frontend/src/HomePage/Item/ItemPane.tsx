@@ -65,7 +65,7 @@ function ItemPane({
         isOpen={isOpen}
         onClose={onClose}
         imgSrc={
-          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.name]
+          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.id]
         }
         selectedItem={selectedItem}
         setSumPurchased={setSumPurchased}

@@ -13,22 +13,19 @@ type Props = {
 function MemberCard({ selected, member, setSelectedMember }: Props) {
   const [userIcon, setUserIcon] = useState("");
 
-  async function fetchBase64Img(userId: string) {
-    await fetch(
-      `${window.location.protocol}//${window.location.host}${window.location.pathname}backend/member/image?name=${userId}`,
-      {
-        method: "GET",
-        mode: "cors",
-      }
-    )
-      .then((res) => res.text())
-      .then((items) => {
-        setUserIcon(items);
-      });
+  const styles = useSpring({
+    opacity: selected ? 1 : 0,
+  });
+
+  async function getImage() {
+    const img = await Backend.getMemberImage(member.id);
+    if (img !== null) {
+      setUserIcon(URL.createObjectURL(img));
+    }
   }
 
   useEffect(() => {
-    fetchBase64Img(member.name);
+    getImage();
   }, []);
 
   return (

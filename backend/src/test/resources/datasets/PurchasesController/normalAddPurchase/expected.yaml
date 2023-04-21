@@ -1,0 +1,6 @@
+purchase:
+  - purchase_id: 1
+    member_id: h-takesg
+    item_id: cola
+    price: 100
+    purchase_date: "regex:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d{0,6}"

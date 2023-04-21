@@ -39,10 +39,10 @@ function HomePageParent() {
     }
 
     setJuiceList(
-      itemList.filter((item) => item.active && item.grouping === "juice")
+      itemList.filter((item) => item.active && item.category === "juice")
     );
     setFoodList(
-      itemList.filter((item) => item.active && item.grouping === "food")
+      itemList.filter((item) => item.active && item.category === "food")
     );
   }
 

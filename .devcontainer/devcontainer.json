@@ -18,7 +18,8 @@
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	},
 	"remoteEnv": {
-		"KJA_LOCAL_WS": "${localWorkspaceFolder}"
+		"KJA_LOCAL_WS": "${localWorkspaceFolder}",
+		"TESTCONTAINERS_HOST_OVERRIDE": "host.docker.internal"
 	},
 	"postCreateCommand": "./.devcontainer/replace_env_var.sh",
 	"customizations": {

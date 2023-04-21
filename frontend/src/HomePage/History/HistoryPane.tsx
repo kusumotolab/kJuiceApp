@@ -26,7 +26,7 @@ function HistoryPane({ selectedMember }: Props) {
       return;
     }
 
-    const histories = await Backend.getUserHistory(selectedMember.name);
+    const histories = await Backend.getUserHistory(selectedMember.id);
 
     if (histories === null) {
       console.error("fetchHistoryData: failed");

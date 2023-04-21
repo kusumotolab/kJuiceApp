@@ -86,7 +86,8 @@ function SellingBarGraph() {
 
   // 並べ方を変える場合はここを変える
   function sortItemList(itemList: Item[]) {
-    itemList.sort((a, b) => b.salesFigure - a.salesFigure);
+    // itemList.sort((a, b) => b.salesFigure - a.salesFigure);
+    itemList.sort();
   }
 
   useEffect(() => {
@@ -102,7 +103,8 @@ function SellingBarGraph() {
     datasets: [
       {
         label: "売れた個数",
-        data: orderedItemList.map((item) => item.salesFigure),
+        // data: orderedItemList.map((item) => item.salesFigure),
+        data: orderedItemList.map((item) => item.sellingPrice),
         borderColor: "rgb(191, 253, 91)",
         backgroundColor: "rgba(191,253,91,0.2)",
       },

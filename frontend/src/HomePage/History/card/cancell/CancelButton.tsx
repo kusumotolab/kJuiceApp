@@ -9,7 +9,8 @@ type Props = {
 
 function CancelButton({ history, updateHistory }: Props) {
   async function postRecall(history: History) {
-    if (!(await Backend.recall(history))) console.error("postRecall: failed");
+    if (!(await Backend.recall(history.historyId)))
+      console.error("postRecall: failed");
   }
 
   return (

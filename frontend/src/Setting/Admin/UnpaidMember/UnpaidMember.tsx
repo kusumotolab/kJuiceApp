@@ -23,7 +23,7 @@ function UnpaidMember() {
       return;
     }
 
-    setMemberList(memberList.filter((member) => member.umpayedAmount > 0));
+    setMemberList(memberList);
   };
 
   useEffect(() => {

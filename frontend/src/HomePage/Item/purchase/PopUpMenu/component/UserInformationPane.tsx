@@ -5,11 +5,7 @@ type Props = {
 };
 
 function UserInformationPane({ selectedMember }: Props) {
-  return (
-    <div>
-      {selectedMember == null ? "hoge" : selectedMember.displayName}さん
-    </div>
-  );
+  return <div>{selectedMember == null ? "hoge" : selectedMember.name}さん</div>;
 }
 
 export { UserInformationPane };

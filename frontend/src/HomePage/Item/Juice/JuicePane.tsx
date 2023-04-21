@@ -24,7 +24,7 @@ function JuicePane({
       <Heading>ジュース</Heading>
       <Flex gap={4}>
         {juiceList
-          .sort((a, b) => -a.salesFigure + b.salesFigure)
+          // .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((juice) => {
             return (
               <ItemCard
@@ -35,8 +35,8 @@ function JuicePane({
                 }}
                 name={juice.name}
                 item={juice}
-                imgSrc={logoDictionary[juice.name]}
-                key={juice.name}
+                imgSrc={logoDictionary[juice.id]}
+                key={juice.id}
               />
             );
           })}

@@ -1,0 +1,20 @@
+purchase:
+  - purchase_id: 1
+    member_id: h-takesg
+    item_id: cola
+    price: 90
+    purchase_date: "2023-04-07 17:44:51"
+
+member:
+  - id: h-takesg
+    display_name: 竹重
+    attribute: m1
+    active: true
+
+item:
+  - id: cola
+    display_name: コーラ
+    selling_price: 100
+    cost_price: 90
+    category: juice
+    active: true

@@ -16,8 +16,8 @@ type Props = {
 
 function SelectCancelPurchaseButtonPane({
   purchaseItem,
-  selectedItem,
-  setSumPurchased,
+  // selectedItem,
+  // setSumPurchased,
   closePopUp,
   setUpdate,
   update,
@@ -48,7 +48,7 @@ function SelectCancelPurchaseButtonPane({
           onClick={() => {
             purchaseItem();
             closePopUp();
-            setSumPurchased(selectedItem?.salesFigure ?? 0 + 1);
+            // setSumPurchased(selectedItem?.salesFigure ?? 0 + 1);
             setUpdate(!update);
             setShowCompleteMessage(true);
             setTimeout(() => {

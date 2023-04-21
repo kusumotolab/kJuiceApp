@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    initialization-mode: always
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
