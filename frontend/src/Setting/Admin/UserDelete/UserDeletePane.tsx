@@ -49,46 +49,46 @@ function UserDeletePane() {
     fetchMemberList();
   }, []);
   return (
-      <TableContainer>
-        <Table variant="simple">
-          <Thead>
-            <Tr className="caption">
-              <Th>ユーザ名</Th>
-              <Th>属性</Th>
-              <Th>Active/InActive</Th>
-              <Th>削除ボタン</Th>
+    <TableContainer>
+      <Table variant="simple">
+        <Thead>
+          <Tr className="caption">
+            <Th>ユーザ名</Th>
+            <Th>属性</Th>
+            <Th>Active/InActive</Th>
+            <Th>削除ボタン</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {memberList.map((member) => (
+            <Tr key={member.name}>
+              <Th>{member.name}</Th>
+              <Th>{member.attribute}</Th>
+              <Th>
+                <Switch
+                  isChecked={member.active}
+                  onChange={() =>
+                    switchMemberActivity(member.name, !member.active)
+                  }
+                />
+              </Th>
+              <Th>
+                <Button
+                  colorScheme="red"
+                  size="sm"
+                  onClick={async () => {
+                    await deleteMember(member.name);
+                    await fetchMemberList();
+                  }}
+                >
+                  削除
+                </Button>
+              </Th>
             </Tr>
-          </Thead>
-          <Tbody>
-            {memberList.map((member) => (
-              <Tr key={member.name}>
-                <Th>{member.name}</Th>
-                <Th>{member.attribute}</Th>
-                <Th>
-                  <Switch
-                    isChecked={member.active}
-                    onChange={() =>
-                      switchMemberActivity(member.name, !member.active)
-                    }
-                  />
-                </Th>
-                <Th>
-                  <Button
-                    colorScheme="red"
-                    size="sm"
-                    onClick={async () => {
-                      await deleteMember(member.name);
-                      await fetchMemberList();
-                    }}
-                  >
-                    削除
-                  </Button>
-                </Th>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
   );
 }
 
