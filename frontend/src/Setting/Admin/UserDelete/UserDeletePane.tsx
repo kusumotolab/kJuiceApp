@@ -49,7 +49,6 @@ function UserDeletePane() {
     fetchMemberList();
   }, []);
   return (
-    <div className="UserDelete">
       <TableContainer>
         <Table variant="simple">
           <Thead>
@@ -63,7 +62,7 @@ function UserDeletePane() {
           <Tbody>
             {memberList.map((member) => (
               <Tr key={member.name}>
-                <Th>{member.displayName}</Th>
+                <Th>{member.name}</Th>
                 <Th>{member.attribute}</Th>
                 <Th>
                   <Switch
