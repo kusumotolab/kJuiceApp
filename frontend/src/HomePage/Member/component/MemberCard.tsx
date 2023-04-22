@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Member } from "types";
 import { Dispatch, SetStateAction } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
+import { Backend } from "util/Backend";
 
 type Props = {
   selected: boolean;
@@ -12,10 +13,6 @@ type Props = {
 
 function MemberCard({ selected, member, setSelectedMember }: Props) {
   const [userIcon, setUserIcon] = useState("");
-
-  const styles = useSpring({
-    opacity: selected ? 1 : 0,
-  });
 
   async function getImage() {
     const img = await Backend.getMemberImage(member.id);
@@ -41,7 +38,7 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
     >
       <Avatar src={userIcon} />
       <Text ml={4} mb={0} fontSize="2xl" color="white">
-        {member.displayName}
+        {member.name}
       </Text>
     </Flex>
   );
