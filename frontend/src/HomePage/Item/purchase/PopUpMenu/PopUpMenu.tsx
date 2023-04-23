@@ -68,9 +68,7 @@ function PopUpMenu({
       <AlertDialogOverlay />
 
       <AlertDialogContent>
-        <AlertDialogHeader>
-          {selectedMember?.name + "さん"}
-        </AlertDialogHeader>
+        <AlertDialogHeader>{selectedMember?.name + "さん"}</AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody>
           {selectedItem?.name + "を購入しますか？"}

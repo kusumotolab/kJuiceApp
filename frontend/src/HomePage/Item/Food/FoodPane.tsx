@@ -23,7 +23,7 @@ function FoodPane({
       <Heading>食品</Heading>
       <Flex gap={4}>
         {foodList
-          .sort((a, b) => -a.sellingPrice+ b.sellingPrice)
+          .sort((a, b) => -a.sellingPrice + b.sellingPrice)
           .map((food) => {
             return (
               <ItemCard
