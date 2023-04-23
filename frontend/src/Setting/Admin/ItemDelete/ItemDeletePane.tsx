@@ -52,7 +52,7 @@ function ItemDeletePane() {
           {itemList.map((item) => (
             <Tr key={item.name}>
               <Th>{item.name}</Th>
-              <Th>{item.grouping}</Th>
+              <Th>{item.category}</Th>
               <Th>
                 <Switch
                   isChecked={item.active}

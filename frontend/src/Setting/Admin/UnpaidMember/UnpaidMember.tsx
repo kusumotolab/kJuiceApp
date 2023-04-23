@@ -43,8 +43,8 @@ function UnpaidMember() {
         <Tbody>
           {memberList.map((member) => (
             <Tr key={member.name}>
-              <Th>{member.displayName}</Th>
-              <Th>{member.umpayedAmount}円</Th>
+              <Th>{member.name}</Th>
+              <Th>工事中</Th>
               <Th>
                 <Button
                   colorScheme="teal"

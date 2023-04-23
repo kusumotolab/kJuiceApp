@@ -69,7 +69,7 @@ function PopUpMenu({
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          {selectedMember?.displayName + "さん"}
+          {selectedMember?.name + "さん"}
         </AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody>

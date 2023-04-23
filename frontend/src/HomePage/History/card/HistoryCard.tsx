@@ -11,7 +11,7 @@ function HistoryCard({ history, updateHistory }: Props) {
   return (
     <Tr>
       <Td>{history.date}</Td>
-      <Td>{history.item}</Td>
+      <Td>{history.itemName}</Td>
       <Td>{history.price}円</Td>
       <Td>
         <CancelButton updateHistory={updateHistory} history={history} />

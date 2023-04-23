@@ -6,7 +6,7 @@ type Props = {
 };
 
 function MemberInformation({ selectedMember }: Props) {
-  const memberName = (selectedMember?.displayName ?? "---") + "さん";
+  const memberName = (selectedMember?.name ?? "---") + "さん";
   const memberUnpaidAmount = "工事中";
 
   return (

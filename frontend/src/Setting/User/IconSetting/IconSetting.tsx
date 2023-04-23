@@ -73,10 +73,10 @@ function IconSetting() {
               setUserId(e.target?.value ?? "");
             }}
           >
-            {memberList.map(({ name, displayName }) => {
+            {memberList.map(({ id, name }) => {
               return (
-                <option key={name} value={name}>
-                  {displayName}
+                <option key={id} value={name}>
+                  {name}
                 </option>
               );
             })}

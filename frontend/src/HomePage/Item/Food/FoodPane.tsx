@@ -23,7 +23,7 @@ function FoodPane({
       <Heading>食品</Heading>
       <Flex gap={4}>
         {foodList
-          .sort((a, b) => -a.salesFigure + b.salesFigure)
+          .sort((a, b) => -a.sellingPrice+ b.sellingPrice)
           .map((food) => {
             return (
               <ItemCard
@@ -34,7 +34,7 @@ function FoodPane({
                 }}
                 name={food.name}
                 item={food}
-                imgSrc={logoDictionary[food.name]}
+                imgSrc={logoDictionary[food.id]}
                 key={food.name}
               />
             );
