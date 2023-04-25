@@ -11,8 +11,14 @@ type Props = {
 
 function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
   return (
-    // TODO: 高さpropを変更する
-    <Box flex="1" h="90vh" bg="blackAlpha.800" overflowX="scroll" px={4}>
+    <Box
+      flex="1"
+      minW="300px"
+      maxW="300px"
+      bg="blackAlpha.800"
+      overflowX="scroll"
+      px={4}
+    >
       <Heading size="2xl" color="white" mt={4} mb={8}>
         ホーム
       </Heading>

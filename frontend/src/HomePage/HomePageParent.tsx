@@ -52,7 +52,7 @@ function HomePageParent() {
   }, [sumPurchased]);
 
   return (
-    <Flex gap={8}>
+    <Flex h="calc(100vh - 40px)" overflowX="scroll">
       <MemberPane
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}

@@ -12,7 +12,7 @@ import LogoPotechi from "./../../image/logo_potechi.jpeg";
 import LogoDagashi from "./../../image/logo_dagashi.jpeg";
 import { MemberInformation } from "./MemberInformation/MemberInformation";
 import { Item, LogoDictionary, Member } from "types";
-import { Stack, useDisclosure } from "@chakra-ui/react";
+import { Divider, Stack, useDisclosure } from "@chakra-ui/react";
 
 type Props = {
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
@@ -46,8 +46,9 @@ function ItemPane({
   };
 
   return (
-    <Stack flex="3" spacing={8}>
+    <Stack mx={8} flex="3" spacing={8} overflowX="scroll" overscrollBehavior="contain">
       <MemberInformation selectedMember={selectedMember} />
+      <Divider />
       <JuicePane
         setSelectedItem={setSelectedItem}
         onOpen={onOpen}

@@ -48,7 +48,7 @@ function App() {
           </Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel p={0}>
             <HomePageParent />
           </TabPanel>
           <TabPanel>
