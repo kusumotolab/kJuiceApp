@@ -417,12 +417,12 @@ paths:
         "404":
           description: 指定されたIDが存在しない
 
-  /bills/history:
+  /bills:
     get:
       tags:
         - bills
       summary: Get all payment hisotry
-      description: 過去の明細書を発行した履歴を管理する
+      description: 過去の請求書を発行した日時と発行したユーザIDを取得する
       responses:
         "200":
           description: 取得成功
@@ -431,25 +431,25 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/BillsHistoryResponse"
+                  $ref: "#/components/schemas/Bills"
     post:
       tags:
         - bills
-      summary: Regist bills history
-      description: 金額回収のための請求書の発行履歴を管理する
+      summary: Register bills history
+      description: 請求書を発行した日時と発行したユーザIDを登録
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BillsHistoryPost"
+              $ref: "#/components/schemas/Bills"
       responses:
         "201":
           description: 記録成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BillsHistoryResponse"
+                $ref: "#/components/schemas/Bills"
         "404":
           description: 不適切な日付が指定されている
           content:
@@ -789,31 +789,14 @@ components:
         date:
           $ref: "#/components/schemas/Date"
     ## bill
-    BillsHistoryPost:
+    Bills:
       type: object
       properties:
-        id:
+        memberId:
           type: string
-          example: h-takesg
-        startDate:
+          example: h-yosiok
+        Date:
           $ref: "#/components/schemas/Date"
-        endDate:
-          $ref: "#/components/schemas/Date"
-        totalAmount:
-          type: integer
-
-    BillsHistoryResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          example: h-takesg
-        startDate:
-          $ref: "#/components/schemas/Date"
-        endDate:
-          $ref: "#/components/schemas/Date"
-        totalAmount:
-          type: integer
 
     ## error
     Error:
