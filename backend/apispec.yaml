@@ -421,7 +421,7 @@ paths:
     get:
       tags:
         - bills
-      summary: Get all payment hisotry
+      summary: Get all bills hisotry
       description: 請求書を発行した日時と発行したユーザIDの履歴を取得する
       responses:
         "200":
