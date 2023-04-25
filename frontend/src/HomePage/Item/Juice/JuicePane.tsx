@@ -24,7 +24,6 @@ function JuicePane({
       <Heading>ジュース</Heading>
       <Flex gap={4}>
         {juiceList
-          // .sort((a, b) => -a.salesFigure + b.salesFigure)
           .map((juice) => {
             return (
               <ItemCard

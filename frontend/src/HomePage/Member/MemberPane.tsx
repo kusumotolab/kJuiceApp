@@ -48,17 +48,4 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
   );
 }
 
-// const MainMemberPane = styled.div`
-//   overflow: scroll;
-//   width: 30%;
-//   height: 90vh;
-//   border-width: 2px;
-//   border-color: black;
-//   border: solid 1px #333;
-//   margin: 5px;
-
-//   background-color: rgb(47, 47, 47);
-//   color: greenyellow;
-// `;
-
 export { MemberPane };
