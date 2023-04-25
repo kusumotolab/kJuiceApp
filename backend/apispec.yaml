@@ -448,7 +448,7 @@ paths:
                   type: string
       responses:
         "201":
-          description: 記録成功
+          description: 発行成功
           content:
             application/json:
               schema:
