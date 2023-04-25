@@ -15,6 +15,7 @@ tags:
   - name: "purchases"
   - name: "chat"
   - name: "stats"
+  - name: "bills"
 
 paths:
   /items:
@@ -415,6 +416,48 @@ paths:
           description: 削除成功
         "404":
           description: 指定されたIDが存在しない
+
+  /bills/history:
+    get:
+      tags:
+        - bills
+      summary: Get all payment hisotry
+      description: 過去の明細書を発行した履歴を管理する
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BillsHistoryResponse"
+    post:
+      tags:
+        - bills
+      summary: Regist bills history
+      description: 金額回収のための請求書の発行履歴を管理する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BillsHistoryPost"
+      responses:
+        "201":
+          description: 記録成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BillsHistoryResponse"
+        "404":
+          description: 不適切な日付が指定されている
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
   # /stats/members:
   #   get:
   #     tags:
@@ -745,6 +788,32 @@ components:
           type: string
         date:
           $ref: "#/components/schemas/Date"
+    ## bill
+    BillsHistoryPost:
+      type: object
+      properties:
+        id:
+          type: string
+          example: h-takesg
+        startDate:
+          $ref: "#/components/schemas/Date"
+        endDate:
+          $ref: "#/components/schemas/Date"
+        totalAmount:
+          type: integer
+
+    BillsHistoryResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: h-takesg
+        startDate:
+          $ref: "#/components/schemas/Date"
+        endDate:
+          $ref: "#/components/schemas/Date"
+        totalAmount:
+          type: integer
 
     ## error
     Error:
