@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import "./UnpaidMember.css";
 import { Member } from "types";
 import { Backend } from "util/Backend";
 import {
