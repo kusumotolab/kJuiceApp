@@ -15,6 +15,7 @@ tags:
   - name: "purchases"
   - name: "chat"
   - name: "stats"
+  - name: "bills"
 
 paths:
   /items:
@@ -415,6 +416,51 @@ paths:
           description: 削除成功
         "404":
           description: 指定されたIDが存在しない
+
+  /bills:
+    get:
+      tags:
+        - bills
+      summary: Get all bills hisotry
+      description: 請求書を発行した日時と発行したユーザIDの履歴を取得する
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BillSummary"
+    post:
+      tags:
+        - bills
+      summary: Register bills history
+      description: 請求書を発行する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                issuerId:
+                  type: string
+      responses:
+        "201":
+          description: 発行成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BillSummary"
+        "400":
+          description: 不適切な日付が指定されている
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
   # /stats/members:
   #   get:
   #     tags:
@@ -743,6 +789,15 @@ components:
           type: integer
         message:
           type: string
+        date:
+          $ref: "#/components/schemas/Date"
+    ## bill
+    BillSummary:
+      type: object
+      properties:
+        issuerId:
+          type: string
+          example: h-yosiok
         date:
           $ref: "#/components/schemas/Date"
 
