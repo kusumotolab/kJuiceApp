@@ -422,7 +422,7 @@ paths:
       tags:
         - bills
       summary: Get all payment hisotry
-      description: 過去の請求書を発行した日時と発行したユーザIDを取得する
+      description: 請求書を発行した日時と発行したユーザIDの履歴を取得する
       responses:
         "200":
           description: 取得成功
