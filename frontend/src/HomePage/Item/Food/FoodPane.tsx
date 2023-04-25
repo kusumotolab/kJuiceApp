@@ -22,22 +22,21 @@ function FoodPane({
     <Box>
       <Heading>食品</Heading>
       <Flex gap={4}>
-        {foodList
-          .map((food) => {
-            return (
-              <ItemCard
-                color="#FFC039"
-                onClick={() => {
-                  setSelectedItem(food);
-                  onOpen.call(null);
-                }}
-                name={food.name}
-                item={food}
-                imgSrc={logoDictionary[food.id]}
-                key={food.id}
-              />
-            );
-          })}
+        {foodList.map((food) => {
+          return (
+            <ItemCard
+              color="#FFC039"
+              onClick={() => {
+                setSelectedItem(food);
+                onOpen.call(null);
+              }}
+              name={food.name}
+              item={food}
+              imgSrc={logoDictionary[food.id]}
+              key={food.id}
+            />
+          );
+        })}
       </Flex>
     </Box>
   );

@@ -23,22 +23,21 @@ function JuicePane({
     <Box>
       <Heading>ジュース</Heading>
       <Flex gap={4}>
-        {juiceList
-          .map((juice) => {
-            return (
-              <ItemCard
-                color="#FFC039"
-                onClick={() => {
-                  setSelectedItem(juice);
-                  onOpen.call(null);
-                }}
-                name={juice.name}
-                item={juice}
-                imgSrc={logoDictionary[juice.id]}
-                key={juice.id}
-              />
-            );
-          })}
+        {juiceList.map((juice) => {
+          return (
+            <ItemCard
+              color="#FFC039"
+              onClick={() => {
+                setSelectedItem(juice);
+                onOpen.call(null);
+              }}
+              name={juice.name}
+              item={juice}
+              imgSrc={logoDictionary[juice.id]}
+              key={juice.id}
+            />
+          );
+        })}
       </Flex>
     </Box>
   );

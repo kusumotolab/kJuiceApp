@@ -46,7 +46,13 @@ function ItemPane({
   };
 
   return (
-    <Stack mx={8} flex="3" spacing={8} overflowX="scroll" overscrollBehavior="contain">
+    <Stack
+      mx={8}
+      flex="3"
+      spacing={8}
+      overflowX="scroll"
+      overscrollBehavior="contain"
+    >
       <MemberInformation selectedMember={selectedMember} />
       <Divider />
       <JuicePane
