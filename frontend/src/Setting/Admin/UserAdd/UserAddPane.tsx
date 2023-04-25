@@ -37,8 +37,7 @@ function UserAddPane() {
         <FormLabel>表示名</FormLabel>
         <Input
           type="text"
-          name="displayName"
-          value={userId}
+          value={displayName}
           onChange={(event) => setDisplayName(event.target.value)}
         />
       </FormControl>
@@ -46,7 +45,6 @@ function UserAddPane() {
         <FormLabel>属性</FormLabel>
         <Select
           name="new-user-attribute"
-          defaultValue="teacher"
           value={attribute}
           onChange={(event) => setAttribute(event.target.value)}
         >

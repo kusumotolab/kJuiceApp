@@ -61,7 +61,6 @@ function ItemAddPane() {
         <FormLabel>カテゴリ</FormLabel>
         <Select
           name="new-user-attribute"
-          defaultValue="juice"
           value={grouping}
           onChange={(event) => setGrouping(event.target.value)}
         >
