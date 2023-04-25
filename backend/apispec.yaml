@@ -431,26 +431,29 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Bills"
+                  $ref: "#/components/schemas/BillSummary"
     post:
       tags:
         - bills
       summary: Register bills history
-      description: 請求書を発行した日時と発行したユーザIDを登録
+      description: 請求書を発行する
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Bills"
+              type: object
+              properties:
+                issuerId:
+                  type: string
       responses:
         "201":
           description: 記録成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Bills"
-        "404":
+                $ref: "#/components/schemas/BillSummary"
+        "400":
           description: 不適切な日付が指定されている
           content:
             application/problem+json:
@@ -789,13 +792,13 @@ components:
         date:
           $ref: "#/components/schemas/Date"
     ## bill
-    Bills:
+    BillSummary:
       type: object
       properties:
-        memberId:
+        issuerId:
           type: string
           example: h-yosiok
-        Date:
+        date:
           $ref: "#/components/schemas/Date"
 
     ## error
