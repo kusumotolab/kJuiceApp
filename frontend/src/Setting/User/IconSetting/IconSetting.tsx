@@ -75,7 +75,7 @@ function IconSetting() {
           >
             {memberList.map(({ id, name }) => {
               return (
-                <option key={id} value={name}>
+                <option key={id} value={id}>
                   {name}
                 </option>
               );
