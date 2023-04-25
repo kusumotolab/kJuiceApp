@@ -68,7 +68,7 @@ function UserDeletePane() {
                 <Switch
                   isChecked={member.active}
                   onChange={() =>
-                    switchMemberActivity(member.name, !member.active)
+                    switchMemberActivity(member.id, !member.active)
                   }
                 />
               </Th>

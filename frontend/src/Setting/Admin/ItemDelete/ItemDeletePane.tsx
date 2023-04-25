@@ -56,7 +56,7 @@ function ItemDeletePane() {
               <Th>
                 <Switch
                   isChecked={item.active}
-                  onChange={() => switchItemActivity(item.name, !item.active)}
+                  onChange={() => switchItemActivity(item.id, !item.active)}
                 />
               </Th>
               <Th>
