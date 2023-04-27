@@ -6,6 +6,9 @@ node_modules/
 .vscode/*
 !.vscode/settings.json
 
+### Intellij IDEA ###
+.idea/*
+
 ### backend ###
 # gradle
 /backend/.gradle
@@ -13,6 +16,9 @@ node_modules/
 # build
 /backend/bin/
 /backend/build/
+
+# dbdata
+/backend/dbdata/
 
 ### local file ###
 .env
