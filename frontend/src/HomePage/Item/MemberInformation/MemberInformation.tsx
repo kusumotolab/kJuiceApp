@@ -10,7 +10,7 @@ function MemberInformation({ selectedMember }: Props) {
   const memberUnpaidAmount = "工事中";
 
   return (
-    <Flex my={12} justifyContent="center" gap={4}>
+    <Flex my={8} justifyContent="center" gap={4}>
       <Avatar size="xl" />
       <Box>
         <Heading>{memberName}</Heading>
