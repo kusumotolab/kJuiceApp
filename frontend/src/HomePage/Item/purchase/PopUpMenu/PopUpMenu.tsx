@@ -88,7 +88,7 @@ function PopUpMenu({
             onClick={() => {
               purchaseItem();
               showToast();
-              onClose.call(null);
+              onClose();
             }}
             ml="3"
           >

@@ -29,7 +29,7 @@ function JuicePane({
               color="#FFC039"
               onClick={() => {
                 setSelectedItem(juice);
-                onOpen.call(null);
+                onOpen();
               }}
               name={juice.name}
               item={juice}

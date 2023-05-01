@@ -28,7 +28,7 @@ function FoodPane({
               color="#FFC039"
               onClick={() => {
                 setSelectedItem(food);
-                onOpen.call(null);
+                onOpen();
               }}
               name={food.name}
               item={food}
