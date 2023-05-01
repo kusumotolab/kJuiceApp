@@ -1,14 +1,12 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.entity;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,24 +20,23 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "bill")
 public class BillEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "id")
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Setter(AccessLevel.NONE)
+  @Column(name = "id")
+  private int id;
 
-    @Setter(AccessLevel.NONE)
-    @NonNull
-    @Column(name = "issuer_id")
-    private String issuerId;
-  
+  @Setter(AccessLevel.NONE)
+  @NonNull
+  @Column(name = "issuer_id")
+  private String issuerId;
 
-    @Column(name = "post_date")
-    @NonNull
-    private LocalDateTime date;
+  @Column(name = "post_date")
+  @NonNull
+  private LocalDateTime date;
 
-    public BillEntity(String issuerId) {
-        this.issuerId = issuerId;
-        this.date = LocalDateTime.now();
-    }
+  public BillEntity(String issuerId) {
+    this.issuerId = issuerId;
+    this.date = LocalDateTime.now();
+  }
 }
