@@ -18,4 +18,9 @@ public class BillService {
     public List<BillEntity> findAllBills(){
         return billRepository.findAll();
     }
+
+    public BillEntity postBill(String issuerId){
+        BillEntity newBill = new BillEntity(issuerId);
+        return billRepository.save(newBill);
+    }
 }

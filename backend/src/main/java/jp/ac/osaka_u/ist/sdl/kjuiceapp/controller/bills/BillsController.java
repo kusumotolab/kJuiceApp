@@ -1,5 +1,6 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.BillService;
 public class BillsController {
 
   @Autowired private BillService billService;
-
+  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE_TIME;
+  
   @GetMapping
   public List<BillResponseBody> getBills() {
     List<BillEntity> billEntities = billService.findAllBills();
@@ -30,14 +32,14 @@ public class BillsController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public BillResponseBody postMessage(@RequestBody BillPostRequestBody bill) {
-    
-    return null;
+  public BillResponseBody postBill(@RequestBody BillPostRequestBody bill) {
+    BillEntity result = billService.postBill(bill.issuerId());
+    return BillsController.convert(result);
   }
 
   private static BillResponseBody convert(BillEntity origin) {
     return new BillResponseBody(
-        origin.getId(), origin.getIssuerId(),origin.getDate());
+        origin.getId(), origin.getIssuerId(),dateFormatter.format(origin.getDate()));
   }
 
 }
