@@ -8,18 +8,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 
 @Service
 @Transactional
 public class BillService {
 
     @Autowired private BillRepository billRepository;
+    @Autowired private MemberRepository memberRepository;
 
     public List<BillEntity> findAllBills(){
         return billRepository.findAll();
     }
 
-    public BillEntity postBill(String issuerId){
+    public BillEntity postBill(String issuerId) throws NoSuchMemberException{
+        if(!memberRepository.existsById(issuerId)) throw new NoSuchMemberException();
         BillEntity newBill = new BillEntity(issuerId);
         return billRepository.save(newBill);
     }

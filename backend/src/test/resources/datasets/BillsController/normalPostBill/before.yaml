@@ -1,1 +1,7 @@
 bill:
+
+member:
+  - id: h-yosiok
+    display_name: 吉岡
+    attribute: m2
+    active: true

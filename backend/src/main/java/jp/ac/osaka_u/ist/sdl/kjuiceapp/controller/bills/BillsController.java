@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.requestbody.BillPostRequestBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.BillService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 
 @RestController
 @RequestMapping("/bills")
@@ -27,14 +29,18 @@ public class BillsController {
   @GetMapping
   public List<BillResponseBody> getBills() {
     List<BillEntity> billEntities = billService.findAllBills();
-     return billEntities.stream().map(BillsController::convert).toList();
+    return billEntities.stream().map(BillsController::convert).toList();
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public BillResponseBody postBill(@RequestBody BillPostRequestBody bill) {
-    BillEntity result = billService.postBill(bill.issuerId());
-    return BillsController.convert(result);
+    try{
+      BillEntity result = billService.postBill(bill.issuerId());
+      return BillsController.convert(result);
+    }catch(NoSuchMemberException e){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
   }
 
   private static BillResponseBody convert(BillEntity origin) {
