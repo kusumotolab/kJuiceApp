@@ -25,8 +25,16 @@ function ItemDeletePane() {
   }
 
   async function switchItemActivity(id: string, activity: boolean) {
-    if (!(await Backend.setItemActivity(id, activity)))
+    if (!(await Backend.setItemActivity(id, activity))) {
       console.error("setItemactivity: failed");
+    }
+    itemList.findIndex((item) => item.id === id);
+    setItemList(
+      itemList.map((item) => {
+        if (item.id === id) item.active = activity;
+        return item;
+      })
+    );
   }
 
   async function deleteItem(id: string) {
