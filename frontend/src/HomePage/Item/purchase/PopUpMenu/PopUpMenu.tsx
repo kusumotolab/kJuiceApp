@@ -22,6 +22,7 @@ type Props = {
   selectedItem: Item | null;
   setSumPurchased: Dispatch<SetStateAction<number>>;
   selectedMember: Member | null;
+  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
   setUpdate: Dispatch<SetStateAction<boolean>>;
   update: boolean;
 };
@@ -32,6 +33,7 @@ function PopUpMenu({
   selectedItem,
   setSumPurchased,
   selectedMember,
+  setSelectedMember,
 }: Props) {
   const toast = useToast();
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -89,6 +91,7 @@ function PopUpMenu({
               purchaseItem();
               showToast();
               onClose();
+              setSelectedMember(null);
             }}
             ml="3"
           >

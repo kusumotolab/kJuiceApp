@@ -66,6 +66,7 @@ function HomePageParent() {
         setUpdate={setUpdate}
         foodList={foodList}
         selectedMember={selectedMember}
+        setSelectedMember={setSelectedMember}
         setSumPurchased={setSumPurchased}
       />
     </Flex>
