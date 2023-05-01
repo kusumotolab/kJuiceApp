@@ -19,6 +19,12 @@ function UserAddPane() {
       console.error("addUser: failed");
   }
 
+  function clearInput() {
+    setUserId("");
+    setDisplayName("");
+    setAttribute("teacher");
+  }
+
   return (
     <Stack spacing={4}>
       <FormControl id="icon">
@@ -57,10 +63,12 @@ function UserAddPane() {
       <Button
         colorScheme="teal"
         onClick={() => {
+          // デバッグ用
           console.log(userId);
           console.log(displayName);
           console.log(attribute);
           addUser();
+          clearInput();
         }}
       >
         追加

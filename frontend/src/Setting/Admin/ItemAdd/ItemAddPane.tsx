@@ -11,6 +11,7 @@ import {
 
 function ItemAddPane() {
   const [itemId, setItemId] = useState("");
+  const [itemName, setItemName] = useState("");
   const [sellingPrice, setSellingPrice] = useState(0);
   const [costPrice, setCostPrice] = useState(0);
   const [grouping, setGrouping] = useState("juice");
@@ -19,13 +20,21 @@ function ItemAddPane() {
     if (
       !(await Backend.addItem(
         itemId,
-        itemId,
+        itemName,
         sellingPrice,
         costPrice,
         grouping
       ))
     )
       console.error("addItem: failed");
+  }
+
+  function clearInput() {
+    setItemId("");
+    setItemName("");
+    setSellingPrice(0);
+    setCostPrice(0);
+    setGrouping("juice");
   }
 
   return (
@@ -39,6 +48,14 @@ function ItemAddPane() {
           type="text"
           value={itemId}
           onChange={(event) => setItemId(event.target.value)}
+        />
+      </FormControl>
+      <FormControl id="item_name">
+        <FormLabel>商品名</FormLabel>
+        <Input
+          type="text"
+          value={itemName}
+          onChange={(event) => setItemName(event.target.value)}
         />
       </FormControl>
       <FormControl id="selling_price">
@@ -72,6 +89,7 @@ function ItemAddPane() {
         colorScheme="teal"
         onClick={() => {
           addItem();
+          clearInput();
         }}
       >
         追加
