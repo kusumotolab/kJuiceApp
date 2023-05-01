@@ -1,6 +1,6 @@
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { AdminPane } from "./Admin/AdminPane";
 import { UserSetting } from "./User/UserSetting";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 function SettingPane() {
   return (
@@ -9,12 +9,14 @@ function SettingPane() {
         <Tab>User</Tab>
         <Tab>Admin</Tab>
       </TabList>
-      <TabPanel>
-        <UserSetting />
-      </TabPanel>
-      <TabPanel>
-        <AdminPane />
-      </TabPanel>
+      <TabPanels>
+        <TabPanel>
+          <UserSetting />
+        </TabPanel>
+        <TabPanel>
+          <AdminPane />
+        </TabPanel>
+      </TabPanels>
     </Tabs>
   );
 }

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import styled from "styled-components";
 import { Member } from "types";
 import { MemberCard } from "./MemberCard";
+import { Stack, Heading } from "@chakra-ui/react";
 
 type Props = {
   description: string;
@@ -19,8 +19,10 @@ function MemberPanePerAttribute({
   setSelectedMember,
 }: Props) {
   return (
-    <div>
-      <Attribute>{description}</Attribute>
+    <Stack spacing={4} mb={8}>
+      <Heading size="lg" color="white">
+        {description}
+      </Heading>
       {memberList
         .filter((member) => member.attribute == attribute)
         .sort((a, b) => {
@@ -40,13 +42,8 @@ function MemberPanePerAttribute({
             key={member.id}
           />
         ))}
-    </div>
+    </Stack>
   );
 }
-
-const Attribute = styled.div`
-  width: 100%;
-  margin-top: 1em;
-`;
 
 export { MemberPanePerAttribute };

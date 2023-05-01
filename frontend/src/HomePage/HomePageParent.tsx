@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
-import styled from "styled-components";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
+import { Flex } from "@chakra-ui/react";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -52,7 +52,7 @@ function HomePageParent() {
   }, [sumPurchased]);
 
   return (
-    <HomePageParentPane>
+    <Flex h="calc(100vh - 40px)" overflowX="scroll">
       <MemberPane
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
@@ -66,14 +66,11 @@ function HomePageParent() {
         setUpdate={setUpdate}
         foodList={foodList}
         selectedMember={selectedMember}
+        setSelectedMember={setSelectedMember}
         setSumPurchased={setSumPurchased}
       />
-    </HomePageParentPane>
+    </Flex>
   );
 }
-
-const HomePageParentPane = styled.div`
-  display: flex;
-`;
 
 export { HomePageParent };

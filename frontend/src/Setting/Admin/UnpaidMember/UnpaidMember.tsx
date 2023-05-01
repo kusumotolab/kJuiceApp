@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../component/Button";
-import "./UnpaidMember.css";
 import { Member } from "types";
 import { Backend } from "util/Backend";
+import {
+  Button,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
 function UnpaidMember() {
   const [memberList, setMemberList] = useState<Member[]>([]);
@@ -23,33 +30,35 @@ function UnpaidMember() {
   }, []);
 
   return (
-    <div className="UnpaidMember">
-      <table border={1}>
-        <tr className="caption">
-          <th>名前</th>
-          <th>未払金</th>
-          <th>支払いボタン</th>
-        </tr>
-        {memberList.map((member) => (
-          <tr key={member.id}>
-            <th>{member.name}</th>
-            <th>工事中</th>
-            <th>
-              <Button
-                color="gray"
-                radius="0.5em"
-                onClick={() => {
-                  console.log("OK");
-                }}
-                fontColor="white"
-              >
-                支払い完了
-              </Button>
-            </th>
-          </tr>
-        ))}
-      </table>
-    </div>
+    <TableContainer>
+      <Table>
+        <Thead>
+          <Tr className="caption">
+            <Th>名前</Th>
+            <Th>未払金</Th>
+            <Th>支払いボタン</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {memberList.map((member) => (
+            <Tr key={member.name}>
+              <Th>{member.name}</Th>
+              <Th>工事中</Th>
+              <Th>
+                <Button
+                  colorScheme="teal"
+                  onClick={() => {
+                    console.log("OK");
+                  }}
+                >
+                  支払い完了
+                </Button>
+              </Th>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
   );
 }
 
