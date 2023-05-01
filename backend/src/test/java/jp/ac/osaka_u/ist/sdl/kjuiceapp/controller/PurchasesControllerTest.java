@@ -8,20 +8,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.github.database.rider.junit5.api.DBRider;
 import java.util.List;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody.PurchaseAddRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.responsebody.PurchaseResponseBody;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
+import com.github.database.rider.junit5.api.DBRider;
+
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.requestbody.PurchaseAddRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.purchase.responsebody.PurchaseResponseBody;
 
 @DBRider
 @DataSet(cleanBefore = true)
@@ -63,8 +66,8 @@ public class PurchasesControllerTest extends DBTestBase {
         .andDo(print())
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.historyId").value(expectedResponseParams.historyId()))
-        .andExpect(jsonPath("$.userId").value(expectedResponseParams.memberId()))
-        .andExpect(jsonPath("$.userName").value(expectedResponseParams.memberName()))
+        .andExpect(jsonPath("$.memberId").value(expectedResponseParams.memberId()))
+        .andExpect(jsonPath("$.memberName").value(expectedResponseParams.memberName()))
         .andExpect(jsonPath("$.itemId").value(expectedResponseParams.itemId()))
         .andExpect(jsonPath("$.itemName").value(expectedResponseParams.itemName()))
         .andExpect(jsonPath("$.price").value(expectedResponseParams.price()))
