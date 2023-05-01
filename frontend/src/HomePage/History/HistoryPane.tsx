@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import { HistoryCard } from "./card/HistoryCard";
-import styled from "styled-components";
 import { History, Member } from "types";
 import { Backend } from "util/Backend";
+import {
+  Box,
+  Heading,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
 type Props = {
   selectedMember: Member | null;
@@ -36,30 +45,31 @@ function HistoryPane({ selectedMember }: Props) {
   }, [selectedMember]);
 
   return (
-    <MainHistoryPane>
-      <CategoryName>購入履歴</CategoryName>
-      {histories.map((history) => (
-        <HistoryCard
-          history={history}
-          updateHistory={updateHistory}
-          key={history.historyId}
-        />
-      ))}
-    </MainHistoryPane>
+    <Box>
+      <Heading>購入履歴</Heading>
+      <TableContainer>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>日付</Th>
+              <Th>商品</Th>
+              <Th>金額</Th>
+              <Th>キャンセル</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {histories.map((history) => (
+              <HistoryCard
+                history={history}
+                updateHistory={updateHistory}
+                key={history.historyId}
+              />
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
-
-const MainHistoryPane = styled.div`
-  width: 100%;
-  border: solid 1px black;
-  overflow-y: scroll;
-  overflow-x: hidden;
-`;
-const CategoryName = styled.div`
-  background-color: #303030;
-  color: greenyellow;
-  font-weight: bold;
-  font-size: 2em;
-`;
 
 export { HistoryPane };

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { Avatar, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Member } from "types";
 
 type Props = {
@@ -6,35 +6,18 @@ type Props = {
 };
 
 function MemberInformation({ selectedMember }: Props) {
+  const memberName = (selectedMember?.name ?? "---") + "さん";
+  const memberUnpaidAmount = "工事中";
+
   return (
-    <MemberInformationPane>
-      <CategoryName>ユーザ情報</CategoryName>
-      <MemberInformationPaneContent>
-        <span>
-          名前：{selectedMember?.name ?? "---"}
-          さん
-        </span>
-        <br />
-        <span>今月の支払い分：工事中</span>
-      </MemberInformationPaneContent>
-    </MemberInformationPane>
+    <Flex my={8} justifyContent="center" gap={4}>
+      <Avatar size="xl" />
+      <Box>
+        <Heading>{memberName}</Heading>
+        <Text fontSize="xl">{memberUnpaidAmount}</Text>
+      </Box>
+    </Flex>
   );
 }
-
-const MemberInformationPane = styled.div`
-  margin-bottom: 1em;
-  border: 1px solid black;
-`;
-
-const CategoryName = styled.div`
-  background-color: #303030;
-  color: greenyellow;
-  font-weight: bold;
-  font-size: 2em;
-`;
-
-const MemberInformationPaneContent = styled.div`
-  font-size: 2em;
-`;
 
 export { MemberInformation };

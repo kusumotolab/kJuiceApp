@@ -1,44 +1,42 @@
 import "./PopUpMenu.css";
-import styled from "styled-components";
-import { SelectCancelPurchaseButtonPane } from "./component/SelectCancelPurchaseButtonPane";
-import { UserInformationPane } from "./component/UserInformationPane";
-import { ItemInformationPane } from "./component/ItemInformationPane";
 import { Backend } from "util/Backend";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { Item, Member } from "types";
 
+import {
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  useToast,
+} from "@chakra-ui/react";
+
 type Props = {
-  visibility: boolean;
-  setPopUpVisibility: Dispatch<SetStateAction<boolean>>;
+  isOpen: boolean;
+  onClose: () => void;
   imgSrc: string;
   selectedItem: Item | null;
   setSumPurchased: Dispatch<SetStateAction<number>>;
   selectedMember: Member | null;
+  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
   setUpdate: Dispatch<SetStateAction<boolean>>;
   update: boolean;
-  setShowCompleteMessage: Dispatch<SetStateAction<boolean>>;
 };
 
 function PopUpMenu({
-  visibility,
-  setPopUpVisibility,
-  imgSrc,
+  isOpen,
+  onClose,
   selectedItem,
   setSumPurchased,
   selectedMember,
-  setUpdate,
-  update,
-  setShowCompleteMessage,
+  setSelectedMember,
 }: Props) {
-  const Background = styled.div`
-    position: fixed;
-    inset: 0;
-    margin: auto;
-    visibility: ${visibility ? "visible" : "hidden"};
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-  `;
+  const toast = useToast();
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   async function purchaseItem() {
     if (selectedMember === null || selectedItem === null) {
@@ -51,29 +49,57 @@ function PopUpMenu({
     setSumPurchased((prev) => prev + 1);
   }
 
-  function closePopUp() {
-    setPopUpVisibility(false);
+  function showToast() {
+    toast({
+      title: "購入完了",
+      description: "購入が完了しました",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   }
 
   return (
-    <Background>
-      {/* 2段階でvisibilityを設定している
-      このコンポーネント自体を表示するかしないかで分岐するべき */}
-      <div className={`popup-menu ${visibility ? "visible" : "hidden"}`}>
-        <UserInformationPane selectedMember={selectedMember} />
-        <ItemInformationPane imgSrc={imgSrc} selectedItem={selectedItem} />
-        <SelectCancelPurchaseButtonPane
-          purchaseItem={purchaseItem}
-          selectedMember={selectedMember}
-          selectedItem={selectedItem}
-          setSumPurchased={setSumPurchased}
-          closePopUp={closePopUp}
-          setUpdate={setUpdate}
-          update={update}
-          setShowCompleteMessage={setShowCompleteMessage}
-        />
-      </div>
-    </Background>
+    <AlertDialog
+      motionPreset="slideInBottom"
+      leastDestructiveRef={cancelRef}
+      onClose={onClose}
+      isOpen={isOpen}
+      isCentered
+    >
+      <AlertDialogOverlay />
+
+      <AlertDialogContent>
+        <AlertDialogHeader>{selectedMember?.name + "さん"}</AlertDialogHeader>
+        <AlertDialogCloseButton />
+        <AlertDialogBody>
+          {selectedItem?.name + "を購入しますか？"}
+        </AlertDialogBody>
+        <AlertDialogFooter>
+          <Button
+            colorScheme="teal"
+            variant="outline"
+            ref={cancelRef}
+            onClick={onClose}
+          >
+            キャンセル
+          </Button>
+          <Button
+            colorScheme="teal"
+            variant="solid"
+            onClick={() => {
+              purchaseItem();
+              showToast();
+              onClose();
+              setSelectedMember(null);
+            }}
+            ml="3"
+          >
+            購入
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 

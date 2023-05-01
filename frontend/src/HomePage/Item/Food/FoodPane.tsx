@@ -1,36 +1,34 @@
 import { ItemCard } from "../component/ItemCard";
-import styled from "styled-components";
-import { Item, LogoDictionary, Member } from "types";
+
+import { Item, LogoDictionary } from "types";
 import { Dispatch, SetStateAction } from "react";
+
+import { Box, Heading, Flex } from "@chakra-ui/react";
 
 type Props = {
   foodList: Item[];
   setSelectedItem: Dispatch<SetStateAction<Item>>;
-  selectedMember: Member | null;
-  setPopUpVisibility: Dispatch<SetStateAction<boolean>>;
+  onOpen: () => void;
   logoDictionary: LogoDictionary;
 };
 
 function FoodPane({
   foodList,
   setSelectedItem,
-  selectedMember,
-  setPopUpVisibility,
+  onOpen,
   logoDictionary,
 }: Props) {
   return (
-    <FoodPaneMain>
-      <CategoryName>食品</CategoryName>
-      <FoodPaneContent>
+    <Box>
+      <Heading>食品</Heading>
+      <Flex gap={4}>
         {foodList.map((food) => {
           return (
             <ItemCard
               color="#FFC039"
               onClick={() => {
                 setSelectedItem(food);
-                if (selectedMember !== null) {
-                  setPopUpVisibility(true);
-                }
+                onOpen();
               }}
               name={food.name}
               item={food}
@@ -39,31 +37,9 @@ function FoodPane({
             />
           );
         })}
-      </FoodPaneContent>
-    </FoodPaneMain>
+      </Flex>
+    </Box>
   );
 }
-
-const CategoryName = styled.div`
-  background-color: #303030;
-  color: greenyellow;
-  font-weight: bold;
-  font-size: 2em;
-`;
-
-const FoodPaneContent = styled.div`
-  overflow-x: scroll;
-  display: flex;
-  width: 100%;
-  height: 85%;
-  border: solid 1px black;
-  margin-bottom: 1em;
-  background-color: #787878;
-`;
-
-const FoodPaneMain = styled.div`
-  height: 20em;
-  margin-bottom: 1em;
-`;
 
 export { FoodPane };

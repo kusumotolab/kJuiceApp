@@ -6,6 +6,9 @@ node_modules/
 .vscode/*
 !.vscode/settings.json
 
+### Intellij IDEA ###
+.idea/*
+
 ### backend ###
 # gradle
 /backend/.gradle

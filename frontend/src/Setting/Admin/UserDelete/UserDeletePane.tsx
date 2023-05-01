@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../component/Button";
-import { Toggle } from "../../../component/Toggle";
 import { Member } from "types";
 import { Backend } from "util/Backend";
+import {
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Switch,
+  Thead,
+  Tr,
+  Button,
+} from "@chakra-ui/react";
 
 function UserDeletePane() {
   const [memberList, setMemberList] = useState<Member[]>([]);
@@ -40,45 +48,47 @@ function UserDeletePane() {
   useEffect(() => {
     fetchMemberList();
   }, []);
-
   return (
-    <div className="UserDelete">
-      <table border={1}>
-        <tr className="caption">
-          <th>ユーザ名</th>
-          <th>属性</th>
-          <th>Active/InActive</th>
-          <th>削除ボタン</th>
-        </tr>
-        {memberList.map((member) => (
-          <tr key={member.id}>
-            <th>{member.name}</th>
-            <th>{member.attribute}</th>
-            <th>
-              <Toggle
-                onClick={(activity: boolean) =>
-                  switchMemberActivity(member.id, activity)
-                }
-                toggled={member.active}
-              />
-            </th>
-            <th>
-              <Button
-                color="gray"
-                radius="0.5em"
-                onClick={async () => {
-                  await deleteMember(member.id);
-                  await fetchMemberList();
-                }}
-                fontColor="white"
-              >
-                削除
-              </Button>
-            </th>
-          </tr>
-        ))}
-      </table>
-    </div>
+    <TableContainer>
+      <Table variant="simple">
+        <Thead>
+          <Tr className="caption">
+            <Th>ユーザ名</Th>
+            <Th>属性</Th>
+            <Th>Active/InActive</Th>
+            <Th>削除ボタン</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {memberList.map((member) => (
+            <Tr key={member.name}>
+              <Th>{member.name}</Th>
+              <Th>{member.attribute}</Th>
+              <Th>
+                <Switch
+                  isChecked={member.active}
+                  onChange={() =>
+                    switchMemberActivity(member.id, !member.active)
+                  }
+                />
+              </Th>
+              <Th>
+                <Button
+                  colorScheme="red"
+                  size="sm"
+                  onClick={async () => {
+                    await deleteMember(member.id);
+                    await fetchMemberList();
+                  }}
+                >
+                  削除
+                </Button>
+              </Th>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
   );
 }
 

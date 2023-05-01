@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { FoodPane } from "./Food/FoodPane";
 import { JuicePane } from "./Juice/JuicePane";
 import { HistoryPane } from "../History/HistoryPane";
@@ -11,9 +11,8 @@ import LogoGogoTea from "./../../image/logo_tea.jpeg";
 import LogoPotechi from "./../../image/logo_potechi.jpeg";
 import LogoDagashi from "./../../image/logo_dagashi.jpeg";
 import { MemberInformation } from "./MemberInformation/MemberInformation";
-import styled from "styled-components";
-import { CompleteMessage } from "./purchase/CompleteMessage/completeMessage";
 import { Item, LogoDictionary, Member } from "types";
+import { Divider, Stack, useDisclosure } from "@chakra-ui/react";
 
 type Props = {
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
@@ -23,6 +22,7 @@ type Props = {
   setUpdate: Dispatch<SetStateAction<boolean>>;
   foodList: Item[];
   selectedMember: Member | null;
+  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
   setSumPurchased: Dispatch<SetStateAction<number>>;
 };
 
@@ -34,11 +34,10 @@ function ItemPane({
   setUpdate,
   foodList,
   selectedMember,
+  setSelectedMember,
   setSumPurchased,
 }: Props) {
-  const [isPopupVisible, setPopUpVisibility] = useState(false);
-  const [showCompleteMessage, setShowCompleteMessage] = useState(false);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const logoDictionary: LogoDictionary = {
     CocaCola: LogoCola,
     Fanta: LogoFanta,
@@ -49,49 +48,43 @@ function ItemPane({
   };
 
   return (
-    <MainItemPane>
+    <Stack
+      mx={8}
+      flex="3"
+      spacing={8}
+      overflowX="scroll"
+      overscrollBehavior="contain"
+    >
       <MemberInformation selectedMember={selectedMember} />
+      <Divider />
       <JuicePane
         setSelectedItem={setSelectedItem}
-        setPopUpVisibility={setPopUpVisibility}
-        selectedMember={selectedMember}
+        onOpen={onOpen}
         juiceList={juiceList}
         logoDictionary={logoDictionary}
       />
       <FoodPane
         setSelectedItem={setSelectedItem}
-        setPopUpVisibility={setPopUpVisibility}
-        selectedMember={selectedMember}
+        onOpen={onOpen}
         foodList={foodList}
         logoDictionary={logoDictionary}
       />
       <HistoryPane selectedMember={selectedMember} />
       <PopUpMenu
-        visibility={isPopupVisible}
-        setPopUpVisibility={setPopUpVisibility}
+        isOpen={isOpen}
+        onClose={onClose}
         imgSrc={
           logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.id]
         }
         selectedItem={selectedItem}
         setSumPurchased={setSumPurchased}
         selectedMember={selectedMember}
+        setSelectedMember={setSelectedMember}
         setUpdate={setUpdate}
         update={update}
-        setShowCompleteMessage={setShowCompleteMessage}
       />
-      <CompleteMessage show={showCompleteMessage} />
-    </MainItemPane>
+    </Stack>
   );
 }
-
-const MainItemPane = styled.div`
-  width: 70%;
-  height: 90vh;
-  border-width: 2px;
-  border-color: black;
-  border: solid 1px #333;
-  margin: 5px;
-  overflow-y: scroll;
-`;
 
 export { ItemPane };

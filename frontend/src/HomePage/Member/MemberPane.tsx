@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import styled from "styled-components";
 import { Member } from "types";
 import { MemberPanePerAttribute } from "./component/MemberPanePerAttribute";
+import { Box, Heading } from "@chakra-ui/react";
 
 type Props = {
   selectedMember: Member | null;
@@ -11,7 +11,18 @@ type Props = {
 
 function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
   return (
-    <MainMemberPane>
+    <Box
+      flex="1"
+      minW="300px"
+      maxW="300px"
+      bg="blackAlpha.800"
+      overflowX="scroll"
+      overscrollBehavior="contain"
+      px={4}
+    >
+      <Heading size="2xl" color="white" mt={4} mb={8}>
+        ホーム
+      </Heading>
       <MemberPanePerAttribute
         description="先生"
         attribute="teacher"
@@ -40,21 +51,8 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
-    </MainMemberPane>
+    </Box>
   );
 }
-
-const MainMemberPane = styled.div`
-  overflow: scroll;
-  width: 30%;
-  height: 90vh;
-  border-width: 2px;
-  border-color: black;
-  border: solid 1px #333;
-  margin: 5px;
-
-  background-color: rgb(47, 47, 47);
-  color: greenyellow;
-`;
 
 export { MemberPane };
