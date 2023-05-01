@@ -77,7 +77,7 @@ function UserDeletePane() {
                   colorScheme="red"
                   size="sm"
                   onClick={async () => {
-                    await deleteMember(member.name);
+                    await deleteMember(member.id);
                     await fetchMemberList();
                   }}
                 >

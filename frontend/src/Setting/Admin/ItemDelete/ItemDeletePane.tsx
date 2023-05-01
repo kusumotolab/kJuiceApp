@@ -72,7 +72,7 @@ function ItemDeletePane() {
                   size="sm"
                   colorScheme="red"
                   onClick={async () => {
-                    await deleteItem(item.name);
+                    await deleteItem(item.id);
                     await fetchItemList();
                   }}
                 >
