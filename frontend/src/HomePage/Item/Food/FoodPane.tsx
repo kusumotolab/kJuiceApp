@@ -21,7 +21,7 @@ function FoodPane({
   return (
     <Box>
       <Heading>食品</Heading>
-      <Flex gap={4}>
+      <Flex padding="5px" overflowX="auto" gap={4}>
         {foodList.map((food) => {
           return (
             <ItemCard

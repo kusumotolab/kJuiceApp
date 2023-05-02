@@ -22,7 +22,7 @@ function JuicePane({
   return (
     <Box>
       <Heading>ジュース</Heading>
-      <Flex gap={4}>
+      <Flex padding="5px" overflowX="auto" sx={{"&::-webkit-scrollbar": {display: "none"}}} gap={4}>
         {juiceList.map((juice) => {
           return (
             <ItemCard
