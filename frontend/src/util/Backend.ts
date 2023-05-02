@@ -159,7 +159,7 @@ export class Backend {
     const endpoint = `purchases/${historyId}`;
 
     return await axios
-      .get(Backend.BASE + endpoint)
+      .delete(Backend.BASE + endpoint)
       .then(() => true)
       .catch(() => false);
   }
