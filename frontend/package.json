@@ -38,12 +38,6 @@
     "serve": "vite preview",
     "format": "eslint src --fix && prettier --write src"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
