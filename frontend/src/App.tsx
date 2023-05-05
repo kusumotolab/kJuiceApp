@@ -1,4 +1,3 @@
-import "./App.css";
 import { HomePageParent } from "./HomePage/HomePageParent";
 import { SettingPane } from "./Setting/SettingPane";
 import { GraphPane } from "./Graph/GraphPane";
