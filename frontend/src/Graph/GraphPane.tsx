@@ -1,9 +1,5 @@
 function GraphPane() {
-  return (
-    <>
-      工事中
-    </>
-  );
+  return <>工事中</>;
 }
 
 export { GraphPane };

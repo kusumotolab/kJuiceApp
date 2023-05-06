@@ -19,10 +19,7 @@ function ChatMessageComponent({ chat, deleteMessage }: Props) {
         {chat.message}
         <div className="MessageBox-bottom-pane">
           <div className="ChatMessageDate">{chat.date}</div>
-          <button
-            className="DeleteButton"
-            onClick={handleDelete}
-          >
+          <button className="DeleteButton" onClick={handleDelete}>
             Delete
           </button>
         </div>

@@ -16,19 +16,18 @@ function ChatPane() {
     }
 
     setMessagesList(messageList.reverse());
-  };
+  }
 
   async function postMessage(message: string) {
     if (!(await Backend.addMessage(message)))
       console.error("addMessage: failed");
     await fetchMessagesList();
-  };
+  }
 
-  async function deleteMessage (id: number) {
-    if (!(await Backend.deleteChat(id)))
-      console.error("deleteMessage: failed");
+  async function deleteMessage(id: number) {
+    if (!(await Backend.deleteChat(id))) console.error("deleteMessage: failed");
     await fetchMessagesList();
-  };
+  }
 
   useEffect(() => {
     fetchMessagesList();

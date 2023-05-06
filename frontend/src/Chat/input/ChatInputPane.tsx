@@ -20,8 +20,14 @@ function ChatInputPane({ postMessage }: Props) {
   return (
     <div className="ChatInputPane">
       <Flex display="flex" gap={2}>
-        <Input value={message} onChange={handleInputChange} placeholder="140字まで入力可能．それ以上は入力しないで．"/>
-        <Button type="submit" onClick={handlePost} colorScheme="teal">送信</Button>
+        <Input
+          value={message}
+          onChange={handleInputChange}
+          placeholder="140字まで入力可能．それ以上は入力しないで．"
+        />
+        <Button type="submit" onClick={handlePost} colorScheme="teal">
+          送信
+        </Button>
       </Flex>
     </div>
   );
