@@ -21,6 +21,15 @@ services:
         source: ${KJA_LOCAL_WS-.}/frontend/public
         target: /frontend/public
       - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/index.html
+        target: /frontend/index.html
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.node.json
+        target: /frontend/tsconfig.node.json
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/vite.config.ts
+        target: /frontend/vite.config.ts
+      - type: bind
         source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.json
         target: /frontend/tsconfig.json
       - type: bind
