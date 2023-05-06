@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ResourceBundle;
 
 public class CommunicateSlack {
     public static void sendMessage(String message) throws Exception{
@@ -19,7 +20,9 @@ public class CommunicateSlack {
             return;
         }
 
-        String postData="token="+"&channel="+"&text="+URLEncoder.encode(message,"UTF-8");
+        ResourceBundle rb = ResourceBundle.getBundle("application");
+
+        String postData="token="+rb.getString("SLACK_TOKEN")+"&channel="+rb.getString("SLACK_CHANNEL")+"&text="+URLEncoder.encode(message,"UTF-8");
 
         URLConnection conn;
         try{
