@@ -1,8 +1,17 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+
 import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
@@ -10,9 +19,6 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchPurchaseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -46,5 +52,25 @@ public class PurchaseService {
 
     purchaseRepository.deleteById(historyId);
     return;
+  }
+
+  public HashMap<MemberEntity,Integer> getPurchasedAmountInSpecificPeriod(LocalDateTime startDateTime,LocalDateTime endDateTime){
+    List<MemberEntity> allMemberEntities = memberRepository.findAll();
+    HashMap<MemberEntity,Integer> purchasedAmountOfMember = new HashMap<MemberEntity,Integer>();
+    for(MemberEntity memberEntity : allMemberEntities){
+      purchasedAmountOfMember.put(memberEntity,getPurchasedAmountOfMemberInSpecificPeriod(memberEntity.getId(),startDateTime,endDateTime));
+    }
+    return purchasedAmountOfMember;
+  }
+  
+  private int getPurchasedAmountOfMemberInSpecificPeriod(String memberId,LocalDateTime startDateTime,LocalDateTime endDateTime){
+    int ret = 0;
+    for(PurchaseEntity purchase : this.getPurchasesByMember(memberId)){
+      if(purchase.getDate().isBefore(startDateTime) || purchase.getDate().isAfter(endDateTime)){
+        continue;
+      }
+      ret += purchase.getPrice();
+    }
+    return ret;
   }
 }

@@ -22,7 +22,7 @@ function JuicePane({
   return (
     <Box>
       <Heading>ジュース</Heading>
-      <Flex gap={4}>
+      <Flex p={1} overflowX="auto" gap={4}>
         {juiceList.map((juice) => {
           return (
             <ItemCard

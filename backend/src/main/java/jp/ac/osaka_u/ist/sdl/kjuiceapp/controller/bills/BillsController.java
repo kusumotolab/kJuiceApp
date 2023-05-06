@@ -1,12 +1,9 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills;
 
+import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.requestbody.BillPostRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.BillService;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.requestbody.BillPostRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.BillService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
 
 @RestController
 @RequestMapping("/bills")
@@ -32,7 +36,14 @@ public class BillsController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public BillResponseBody postBill(@RequestBody BillPostRequestBody bill) {
+  public BillResponseBody postBill(@RequestBody BillPostRequestBody bill){
+    try{
+      CommunicateSlack.sendMessage(URLEncoder.encode("テスト","UTF-8"));
+      // TODO 送信が成功したかチェック
+    }catch(Exception e){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
     try {
       BillEntity result = billService.postBill(bill.issuerId());
       return BillsController.convert(result);

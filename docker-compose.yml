@@ -42,7 +42,6 @@ services:
       - 5432:5432
     volumes:
       - dbdata:/var/lib/postgresql/data
-      - ${KJA_LOCAL_WS-.}/database/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
