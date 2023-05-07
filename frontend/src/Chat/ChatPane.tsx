@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { ChatMessageComponent } from "./ChatMessageComponent";
-import "./ChatPane.css";
 import { ChatInputPane } from "./input/ChatInputPane";
 import { Chat } from "types";
 import { Backend } from "util/Backend";
 
 function ChatPane() {
   const [messages, setMessagesList] = useState<Chat[]>([]);
-  const [lastUpdated, setLastUpdated] = useState("");
 
   async function fetchMessagesList() {
     const messageList = await Backend.getMessageList();
@@ -20,18 +18,29 @@ function ChatPane() {
     setMessagesList(messageList.reverse());
   }
 
+  async function postMessage(message: string) {
+    if (!(await Backend.addMessage(message)))
+      console.error("addMessage: failed");
+    await fetchMessagesList();
+  }
+
+  async function deleteMessage(id: number) {
+    if (!(await Backend.deleteChat(id))) console.error("deleteMessage: failed");
+    await fetchMessagesList();
+  }
+
   useEffect(() => {
     fetchMessagesList();
-  }, [lastUpdated]);
+  }, []);
 
   return (
     <div className="ChatPane">
-      <ChatInputPane setLastUpdated={setLastUpdated} />
+      <ChatInputPane postMessage={postMessage} />
       {messages.map((chat) => (
         <ChatMessageComponent
-          chat={chat}
           key={chat.id}
-          setLastUpdated={setLastUpdated}
+          chat={chat}
+          deleteMessage={deleteMessage}
         />
       ))}
     </div>
