@@ -25,3 +25,5 @@ restore.sql
 .DS_Store
 
 application.properties
+private.*
+!*.template

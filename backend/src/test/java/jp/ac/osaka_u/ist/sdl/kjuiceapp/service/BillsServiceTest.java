@@ -39,7 +39,6 @@ public class BillsServiceTest extends DBTestBase {
         ジュース会大臣の吉岡です．
         今月分の利用料金が確定しました．
         竹重様 : 90円
-        吉岡様 : 0円
         支払いは吉岡までよろしくお願いいたします．
         """;
     String actual = billService.makeBillMessage("吉岡",startDateTime,endDateTime);

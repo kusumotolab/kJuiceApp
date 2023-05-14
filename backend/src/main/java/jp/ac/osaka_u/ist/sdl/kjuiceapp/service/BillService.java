@@ -27,6 +27,7 @@ public class BillService {
   @Autowired private BillRepository billRepository;
   @Autowired private MemberRepository memberRepository;
   @Autowired private PurchaseService purchaseService;
+  @Autowired private CommunicateSlack communicateSlack;
 
   public List<BillEntity> findAllBills() {
     return billRepository.findAll();
@@ -38,10 +39,9 @@ public class BillService {
     String issuerName = issuerMember.get().getName();
     LocalDateTime recentIssueBillDateTime = getRecentBillDate();
     LocalDateTime todayDateTime = LocalDateTime.now();
-    String message = makeBillMessage("吉岡",recentIssueBillDateTime,todayDateTime);
+    String message = makeBillMessage(issuerName,recentIssueBillDateTime,todayDateTime);
     try{
-      CommunicateSlack.sendMessage(message);
-      // TODO 送信が成功したかチェック
+      communicateSlack.sendMessage(message);
     }catch(Exception e){
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
@@ -66,12 +66,11 @@ public class BillService {
 
     HashMap<MemberEntity,Integer> purchasedAmount = purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime,endDateTime);
 
-    for(MemberEntity member : purchasedAmount.keySet()){
-      if(purchasedAmount.get(member) == 0){
-        continue;
+    purchasedAmount.forEach((key,value) -> {
+      if(value != 0){
+        sb.append(key.getName() + "様 : " + value +"円\n");
       }
-      sb.append(member.getName() + "様 : " + purchasedAmount.get(member)+"円\n");
-    }
+    });
 
     sb.append("支払いは"+issuerName+"までよろしくお願いいたします．\n");
     return sb.toString();

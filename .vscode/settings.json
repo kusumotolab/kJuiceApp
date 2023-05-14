@@ -2,5 +2,6 @@
     "java.compile.nullAnalysis.mode": "automatic",
     "eslint.workingDirectories": [
         "./frontend"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
