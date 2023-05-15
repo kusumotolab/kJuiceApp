@@ -2,18 +2,21 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.github.database.rider.junit5.api.DBRider;
 import java.time.LocalDateTime;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
+import com.github.database.rider.junit5.api.DBRider;
+
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 
 @DBRider
 @DataSet(cleanBefore = true)
@@ -33,6 +36,7 @@ public class BillsServiceTest extends DBTestBase {
   @Test
   @DataSet(value = "BillService/makeInvoiceMessage/before.yaml")
   public void testMakeInvoiceMessage() {
+
     LocalDateTime recentBillsDate = billService.getRecentBillDate();
     LocalDateTime expectedRecentBillsDate = LocalDateTime.of(2023, 4, 4, 17, 44, 59);
     assertEquals(expectedRecentBillsDate, recentBillsDate);

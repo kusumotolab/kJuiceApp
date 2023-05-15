@@ -21,28 +21,27 @@ function SendSlack() {
   const [memberList, setMemberList] = useState<Member[]>([]);
 
   async function setDefaultIssuer() {
-    const billsList = await Backend.getBill();
-    if (billsList == null) {
+    const billsList = await Backend.getBillList();
+    if (billsList === null || billsList === undefined) {
       return;
     }
-    const issuerId = billsList.slice(-1)[0].issuerId;
+    const issuerId = billsList?.at(-1)?.issuerId;
     const membersList = await Backend.getMemberList();
-    if (membersList == null) {
+    if (membersList === null) {
       return;
     }
 
     try {
       const issuer = membersList
-        .filter((member) => member.active)
-        .filter((member) => member.id == issuerId)[0];
-      getImage(issuer);
+        .filter((member) => member.active && member.id == issuerId)[0];
+      setImage(issuer);
       setSelectedIssuer(issuer);
     } catch (e) {
       return;
     }
   }
 
-  async function getImage(member: Member) {
+  async function setImage(member: Member) {
     const img = await Backend.getMemberImage(member.id);
     if (img !== null) {
       setUserIcon(URL.createObjectURL(img));
@@ -62,14 +61,24 @@ function SendSlack() {
     setMemberList(memberList.filter((member) => member.active));
   }
 
-  useEffect(() => {
-    if (selectedIssuer == undefined) {
-      setDefaultIssuer();
-      getMemberList();
-    } else {
-      getImage(selectedIssuer);
+  function updateIssuer(memberId: string){
+    if (memberId != "") {
+      setSelectedIssuer(
+        memberList.filter((member) => member.id == memberId)[0]
+      );
     }
-  }, [selectedIssuer, memberList]);
+  }
+
+  useEffect(() => {
+    setDefaultIssuer();
+    getMemberList();
+  },[])
+
+  useEffect(() => {
+    if(selectedIssuer != undefined){
+      setImage(selectedIssuer);
+    }
+  }, [selectedIssuer]);
 
   return (
     <Stack spacing={4}>
@@ -90,12 +99,8 @@ function SendSlack() {
                 <Center h="100%">
                   <Select
                     onChange={async (e) => {
-                      const userId = e.target?.value ?? "";
-                      if (userId != "") {
-                        setSelectedIssuer(
-                          memberList.filter((member) => member.id == userId)[0]
-                        );
-                      }
+                      const memberId = e.target?.value ?? "";
+                      updateIssuer(memberId);
                     }}
                     placeholder="変更"
                   >

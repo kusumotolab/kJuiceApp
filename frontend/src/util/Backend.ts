@@ -200,7 +200,7 @@ export class Backend {
       .catch(() => null);
   }
 
-  public static async getBill(): Promise<Bill[] | null> {
+  public static async getBillList(): Promise<Bill[] | null> {
     const endpoint = `bills`;
     return await axios
       .get(Backend.BASE + endpoint)
