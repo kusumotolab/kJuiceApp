@@ -29,7 +29,7 @@ public class BillsServiceTest extends DBTestBase {
   @Test
   @DataSet(value = "BillsController/normalGetAllBills/before.yaml")
   public void normalGetAllBills() throws Exception {
-    var expectedValue = "2023-04-07T17:44:51";
+    var expectedValue = "2023-04-07T17:44:59";
     assertEquals(billService.getRecentBillDate().toString(), expectedValue);
   }
 

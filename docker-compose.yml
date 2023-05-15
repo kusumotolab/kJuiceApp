@@ -71,9 +71,12 @@ services:
         target: /backend/settings.gradle
     depends_on:
       - postgresql
-    command:
-      - ./gradlew
-      - bootRun
+    command: >
+      bash -c "touch /backend/src/main/resources/private.properties &&
+      echo slack.token=${SLACK_TOKEN} > /backend/src/main/resources/private.properties &&
+      echo slack.channel=${SLACK_CHANNEL} >> /backend/src/main/resources/private.properties &&
+      echo >> /backend/src/main/resources/private.properties &&
+      ./gradlew bootRun"
 
   nginx:
     image: nginx:alpine

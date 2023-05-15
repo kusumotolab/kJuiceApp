@@ -14,7 +14,7 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Intege
 
   @Query(value = """
     SELECT 
-      SUM(price) 
+      COALESCE(SUM(price),0)
     FROM purchase as p 
       where 
         p.purchase_date <= :end_date_time 
