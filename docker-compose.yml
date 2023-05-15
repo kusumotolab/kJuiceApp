@@ -69,14 +69,14 @@ services:
       - type: bind
         source: ${KJA_LOCAL_WS-.}/backend/settings.gradle
         target: /backend/settings.gradle
+    environment:
+      - SLACK_TOKEN=${SLACK_TOKEN}
+      - SLACK_CHANNEL=${SLACK_CHANNEL}
     depends_on:
       - postgresql
-    command: >
-      bash -c "touch /backend/src/main/resources/private.properties &&
-      echo slack.token=${SLACK_TOKEN} > /backend/src/main/resources/private.properties &&
-      echo slack.channel=${SLACK_CHANNEL} >> /backend/src/main/resources/private.properties &&
-      echo >> /backend/src/main/resources/private.properties &&
-      ./gradlew bootRun"
+    command: 
+      - ./gradlew
+      - bootRun
 
   nginx:
     image: nginx:alpine
