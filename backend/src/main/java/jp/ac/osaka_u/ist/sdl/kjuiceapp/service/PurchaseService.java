@@ -64,13 +64,10 @@ public class PurchaseService {
   }
   
   private int getPurchasedAmountOfMemberInSpecificPeriod(String memberId,LocalDateTime startDateTime,LocalDateTime endDateTime){
-    int ret = 0;
-    for(PurchaseEntity purchase : this.getPurchasesByMember(memberId)){
-      if(purchase.getDate().isBefore(startDateTime) || purchase.getDate().isAfter(endDateTime)){
-        continue;
-      }
-      ret += purchase.getPrice();
-    }
-    return ret;
+    return this.getPurchasesByMember(memberId).stream()
+      .filter(purchase -> purchase.getDate().isAfter(startDateTime))
+      .filter(purchase -> purchase.getDate().isBefore(endDateTime))
+      .mapToInt(purchase -> purchase.getPrice())
+      .sum();
   }
 }

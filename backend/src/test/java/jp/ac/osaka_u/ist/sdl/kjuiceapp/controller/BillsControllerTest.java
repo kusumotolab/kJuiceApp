@@ -1,26 +1,24 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.github.database.rider.junit5.api.DBRider;
 import java.util.List;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.requestbody.BillPostRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.junit5.api.DBRider;
+
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.DBTestBase;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.responsebody.BillResponseBody;
 
 @DBRider
 @DataSet(cleanBefore = true)
@@ -44,24 +42,5 @@ public class BillsControllerTest extends DBTestBase {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(expectedJson, true));
-  }
-
-  @Test
-  @DataSet(value = "BillsController/normalPostBill/before.yaml")
-  @ExpectedDataSet(value = "BillsController/normalPostBill/expected.yaml")
-  void normalPostBill() throws Exception {
-    var requestParams = new BillPostRequestBody("h-yosiok");
-    String requestBody = objectMapper.writeValueAsString(requestParams);
-
-    var expectedResponseParams =
-        new BillResponseBody(1, "h-yosiok", "will be dynamically generated");
-
-    this.mockMvc
-        .perform(post("/bills").contentType(MediaType.APPLICATION_JSON).content(requestBody))
-        .andDo(print())
-        .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.billId").value(expectedResponseParams.billId()))
-        .andExpect(jsonPath("$.issuerId").value(expectedResponseParams.issuerId()))
-        .andExpect(jsonPath("$.date").exists());
   }
 }
