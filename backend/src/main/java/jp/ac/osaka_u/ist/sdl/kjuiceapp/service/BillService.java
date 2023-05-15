@@ -6,19 +6,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -39,10 +37,10 @@ public class BillService {
     String issuerName = issuerMember.get().getName();
     LocalDateTime recentIssueBillDateTime = getRecentBillDate();
     LocalDateTime todayDateTime = LocalDateTime.now();
-    String message = makeBillMessage(issuerName,recentIssueBillDateTime,todayDateTime);
-    try{
+    String message = makeBillMessage(issuerName, recentIssueBillDateTime, todayDateTime);
+    try {
       communicateSlack.sendMessage(message);
-    }catch(Exception e){
+    } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
@@ -51,29 +49,32 @@ public class BillService {
   }
 
   // 請求書を発行した直近の日付を取得する．
-  public LocalDateTime getRecentBillDate(){
-    List<BillEntity> billEntities = billRepository.findAll().stream()
-      .sorted(Comparator.comparing(BillEntity::getDate))
-      .collect(Collectors.toList());
-    return billEntities.get(billEntities.size()-1).getDate();
+  public LocalDateTime getRecentBillDate() {
+    List<BillEntity> billEntities =
+        billRepository.findAll().stream()
+            .sorted(Comparator.comparing(BillEntity::getDate))
+            .collect(Collectors.toList());
+    return billEntities.get(billEntities.size() - 1).getDate();
   }
 
   // slackに送信する文章の文面を作成する．
-  public String makeBillMessage(String issuerName,LocalDateTime startDateTime,LocalDateTime endDateTime){
+  public String makeBillMessage(
+      String issuerName, LocalDateTime startDateTime, LocalDateTime endDateTime) {
     StringBuilder sb = new StringBuilder();
-    sb.append("ジュース会大臣の"+issuerName+"です．\n");
+    sb.append("ジュース会大臣の" + issuerName + "です．\n");
     sb.append("今月分の利用料金が確定しました．\n");
 
-    LinkedHashMap<MemberEntity,Integer> purchasedAmount = purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime,endDateTime);
+    LinkedHashMap<MemberEntity, Integer> purchasedAmount =
+        purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime, endDateTime);
 
-    purchasedAmount.forEach((key,value) -> {
-      if(value != 0){
-        sb.append(key.getName() + "様 : " + value +"円\n");
-      }
-    });
+    purchasedAmount.forEach(
+        (key, value) -> {
+          if (value != 0) {
+            sb.append(key.getName() + "様 : " + value + "円\n");
+          }
+        });
 
-    sb.append("支払いは"+issuerName+"までよろしくお願いいたします．\n");
+    sb.append("支払いは" + issuerName + "までよろしくお願いいたします．\n");
     return sb.toString();
   }
-
 }

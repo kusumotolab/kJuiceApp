@@ -8,51 +8,52 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.config.SlackConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.config.SlackConfig;
 
 @Component
 public class CommunicateSlack {
 
-    @Autowired
-    private SlackConfig slackConfig;
+  @Autowired private SlackConfig slackConfig;
 
-    public void sendMessage(String message) throws Exception{
-        URL url;
-        try{
-            url = new URL("https://slack.com/api/chat.postMessage");
-        }catch(MalformedURLException e){
-            System.err.println(e);
-            return;
-        }
-
-        String postData="token="+slackConfig.getToken()+"&channel="+slackConfig.getChannel()+"&text="+URLEncoder.encode(message,"UTF-8");
-
-        URLConnection conn;
-        try{
-            conn = url.openConnection();
-        }catch(IOException e){
-            System.err.println(e);
-            return;
-        }
-        conn.setDoOutput(true);
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-        conn.setRequestProperty("Content-Length", Integer.toString(postData.length()));
-
-        try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
-            dos.writeBytes(postData);
-        }
- 
-        try (BufferedReader bf = new BufferedReader(new InputStreamReader(
-                                                        conn.getInputStream())))
-        {
-            String line;
-            while ((line = bf.readLine()) != null) {
-                System.out.println(line);
-            }
-        }
+  public void sendMessage(String message) throws Exception {
+    URL url;
+    try {
+      url = new URL("https://slack.com/api/chat.postMessage");
+    } catch (MalformedURLException e) {
+      System.err.println(e);
+      return;
     }
+
+    String postData =
+        "token="
+            + slackConfig.getToken()
+            + "&channel="
+            + slackConfig.getChannel()
+            + "&text="
+            + URLEncoder.encode(message, "UTF-8");
+
+    URLConnection conn;
+    try {
+      conn = url.openConnection();
+    } catch (IOException e) {
+      System.err.println(e);
+      return;
+    }
+    conn.setDoOutput(true);
+    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+    conn.setRequestProperty("Content-Length", Integer.toString(postData.length()));
+
+    try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
+      dos.writeBytes(postData);
+    }
+
+    try (BufferedReader bf = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+      String line;
+      while ((line = bf.readLine()) != null) {
+        System.out.println(line);
+      }
+    }
+  }
 }

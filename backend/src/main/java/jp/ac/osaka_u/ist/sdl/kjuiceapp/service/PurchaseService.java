@@ -5,13 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.persistence.EntityManager;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
@@ -21,6 +15,9 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchPurchaseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -56,24 +53,32 @@ public class PurchaseService {
     return;
   }
 
-  public LinkedHashMap<MemberEntity,Integer> getPurchasedAmountInSpecificPeriod(LocalDateTime startDateTime,LocalDateTime endDateTime){
+  public LinkedHashMap<MemberEntity, Integer> getPurchasedAmountInSpecificPeriod(
+      LocalDateTime startDateTime, LocalDateTime endDateTime) {
     List<MemberEntity> allMemberEntities = memberRepository.findAll();
-    LinkedHashMap<MemberEntity,Integer> purchasedAmountOfMember = new LinkedHashMap<MemberEntity,Integer>();
-    for(MemberEntity memberEntity : allMemberEntities){
-      purchasedAmountOfMember.put(memberEntity,getPurchasedAmountOfMemberInSpecificPeriod(memberEntity.getId(),startDateTime,endDateTime));
+    LinkedHashMap<MemberEntity, Integer> purchasedAmountOfMember =
+        new LinkedHashMap<MemberEntity, Integer>();
+    for (MemberEntity memberEntity : allMemberEntities) {
+      purchasedAmountOfMember.put(
+          memberEntity,
+          getPurchasedAmountOfMemberInSpecificPeriod(
+              memberEntity.getId(), startDateTime, endDateTime));
     }
     purchasedAmountOfMember.entrySet().stream()
-      .sorted(Map.Entry.<MemberEntity,Integer>comparingByValue())
-      .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,(e1,e2) -> e1,LinkedHashMap::new));
+        .sorted(Map.Entry.<MemberEntity, Integer>comparingByValue())
+        .collect(
+            Collectors.toMap(
+                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
     return purchasedAmountOfMember;
   }
-  
-  private int getPurchasedAmountOfMemberInSpecificPeriod(String memberId,LocalDateTime startDateTime,LocalDateTime endDateTime){
+
+  private int getPurchasedAmountOfMemberInSpecificPeriod(
+      String memberId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
     return this.getPurchasesByMember(memberId).stream()
-      .filter(purchase -> purchase.getDate().isAfter(startDateTime))
-      .filter(purchase -> purchase.getDate().isBefore(endDateTime))
-      .mapToInt(purchase -> purchase.getPrice())
-      .sum();
+        .filter(purchase -> purchase.getDate().isAfter(startDateTime))
+        .filter(purchase -> purchase.getDate().isBefore(endDateTime))
+        .mapToInt(purchase -> purchase.getPrice())
+        .sum();
   }
 }
