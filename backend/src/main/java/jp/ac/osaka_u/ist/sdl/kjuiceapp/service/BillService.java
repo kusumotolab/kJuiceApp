@@ -5,17 +5,15 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -30,7 +28,7 @@ public class BillService {
     return billRepository.findAll();
   }
 
-  public BillEntity postBill(String issuerId) throws NoSuchMemberException, ConnectException{
+  public BillEntity postBill(String issuerId) throws NoSuchMemberException, ConnectException {
     if (!memberRepository.existsById(issuerId)) throw new NoSuchMemberException();
     Optional<MemberEntity> issuerMember = memberRepository.findById(issuerId);
     String issuerName = issuerMember.get().getName();

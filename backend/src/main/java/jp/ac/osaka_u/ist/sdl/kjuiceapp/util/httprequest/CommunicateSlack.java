@@ -6,11 +6,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.config.SlackConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.config.SlackConfig;
 
 @Component
 public class CommunicateSlack {
@@ -20,7 +18,6 @@ public class CommunicateSlack {
   public void sendMessage(String message) throws Exception {
     URL url;
     url = new URL("https://slack.com/api/chat.postMessage");
-
 
     String postData =
         "token="
@@ -37,7 +34,7 @@ public class CommunicateSlack {
     conn.setRequestProperty("Content-Length", Integer.toString(postData.length()));
 
     DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-      dos.writeBytes(postData);
+    dos.writeBytes(postData);
 
     BufferedReader bf = new BufferedReader(new InputStreamReader(conn.getInputStream()));
     String line;

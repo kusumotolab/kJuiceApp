@@ -32,8 +32,9 @@ function SendSlack() {
     }
 
     try {
-      const issuer = membersList
-        .filter((member) => member.active && member.id == issuerId)[0];
+      const issuer = membersList.filter(
+        (member) => member.active && member.id == issuerId
+      )[0];
       setImage(issuer);
       setSelectedIssuer(issuer);
     } catch (e) {
@@ -61,7 +62,7 @@ function SendSlack() {
     setMemberList(memberList.filter((member) => member.active));
   }
 
-  function updateIssuer(memberId: string){
+  function updateIssuer(memberId: string) {
     if (memberId != "") {
       setSelectedIssuer(
         memberList.filter((member) => member.id == memberId)[0]
@@ -72,10 +73,10 @@ function SendSlack() {
   useEffect(() => {
     setDefaultIssuer();
     getMemberList();
-  },[])
+  }, []);
 
   useEffect(() => {
-    if(selectedIssuer != undefined){
+    if (selectedIssuer != undefined) {
       setImage(selectedIssuer);
     }
   }, [selectedIssuer]);
