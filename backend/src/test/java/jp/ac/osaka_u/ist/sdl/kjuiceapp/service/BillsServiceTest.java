@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.api.DBRider;
@@ -26,7 +25,6 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 public class BillsServiceTest extends DBTestBase {
   @Autowired private BillService billService;
   @Autowired private BillRepository billRepository;
-  @Autowired private ObjectMapper objectMapper;
 
   @Test
   @DataSet(value = "BillsController/normalGetAllBills/before.yaml")
@@ -39,13 +37,19 @@ public class BillsServiceTest extends DBTestBase {
   @Test
   @DataSet(value = "BillService/makeInvoiceMessage/before.yaml")
   public void testMakeInvoiceMessage(){
-    LocalDateTime startDateTime = LocalDateTime.of(2023,4,7,15,20,10);
-		LocalDateTime endDateTime = LocalDateTime.of(2023,4,8,18,50,10);
+    LocalDateTime recentBillsDate = billService.getRecentBillDate();
+    LocalDateTime expectedRecentBillsDate = LocalDateTime.of(2023,4,4,17,44,59);
+    assertEquals(expectedRecentBillsDate,recentBillsDate);
+
+    LocalDateTime startDateTime = LocalDateTime.of(2023,4,3,15,20,10);
+		LocalDateTime endDateTime = LocalDateTime.of(2023,4,8,22,50,10);
 
     String expected = """
         ジュース会大臣の吉岡です．
         今月分の利用料金が確定しました．
-        竹重様 : 90円
+        竹重様 : 360円
+        吉岡様 : 90円
+        石野様 : 20円
         支払いは吉岡までよろしくお願いいたします．
         """;
     String actual = billService.makeBillMessage("吉岡",startDateTime,endDateTime);

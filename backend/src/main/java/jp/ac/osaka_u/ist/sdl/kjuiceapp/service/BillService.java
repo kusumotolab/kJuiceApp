@@ -2,7 +2,7 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,7 +53,7 @@ public class BillService {
   // 請求書を発行した直近の日付を取得する．
   public LocalDateTime getRecentBillDate(){
     List<BillEntity> billEntities = billRepository.findAll().stream()
-      .sorted(Comparator.comparing(BillEntity::getDate).reversed())
+      .sorted(Comparator.comparing(BillEntity::getDate))
       .collect(Collectors.toList());
     return billEntities.get(billEntities.size()-1).getDate();
   }
@@ -64,7 +64,7 @@ public class BillService {
     sb.append("ジュース会大臣の"+issuerName+"です．\n");
     sb.append("今月分の利用料金が確定しました．\n");
 
-    HashMap<MemberEntity,Integer> purchasedAmount = purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime,endDateTime);
+    LinkedHashMap<MemberEntity,Integer> purchasedAmount = purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime,endDateTime);
 
     purchasedAmount.forEach((key,value) -> {
       if(value != 0){

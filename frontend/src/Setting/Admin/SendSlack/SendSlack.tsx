@@ -4,13 +4,16 @@ import {
   FormLabel,
   Center,
   Stack,
-  Avatar,
   Select,
+  Avatar,
+  Card,
+  CardBody,
+  Grid,
+  GridItem
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Member } from "types";
 import { Backend } from "util/Backend";
-
 
 
 function SendSlack() {
@@ -61,19 +64,6 @@ function SendSlack() {
     setMemberList(memberList.filter((member) => member.active));
   }
 
-  function getSortedMemberListForSelectBox(): Member[] {
-    const ret: Member[] = [];
-    if(selectedIssuer != undefined){
-      ret.push(selectedIssuer);      
-    }
-    memberList.forEach((member) => {
-      if(selectedIssuer?.id != member.id){
-        ret.push(member);
-      }
-    });
-    return ret;
-  }
-
   useEffect(() => {
     if (selectedIssuer == undefined) {
       setDefaultIssuer();
@@ -81,36 +71,52 @@ function SendSlack() {
     } else {
       getImage(selectedIssuer);
     }
-  }, [selectedIssuer])
+  }, [selectedIssuer, memberList])
 
   return (
     <Stack spacing={4}>
       <FormControl id="user-icon">
-        <FormLabel>送信者</FormLabel>
-        <Stack direction="row" spacing={8}>
-          <Avatar bg="gray.400" src={userIcon} />
-          <Center>
-            <Select
-              onChange={async (e) => {
-                const userId = e.target?.value ?? "";
-                setSelectedIssuer(memberList.filter((member) => member.id == userId)[0]);
-              }}
-            >
-              {getSortedMemberListForSelectBox().map(({ id, name }) => {
-                return (
-                  <option key={id} value={id}>
-                    {name}
-                  </option>
-                );
-              })}
-            </Select>
-          </Center>
-        </Stack>
+        <FormLabel>食品会/ジュース会大臣</FormLabel>
+        <Card>
+          <CardBody>
+            <Grid templateColumns="repeat(5,1fr)" gap={4}>
+              <GridItem colSpan={2}>
+                <Stack direction="row" spacing={8} h="100%">
+                  <Avatar bg="gray.400" src={userIcon} size="lg" />
+                  <Center h="100%" fontSize="2xl">
+                    {selectedIssuer?.name}
+                  </Center>
+                </Stack>
+              </GridItem>
+              <GridItem colStart={5} colEnd={6}>
+                <Center h="100%">
+                  <Select
+                    onChange={async (e) => {
+                      const userId = e.target?.value ?? "";
+                      if( userId != "" ){
+                        setSelectedIssuer(memberList.filter((member) => member.id == userId)[0]);
+                      }
+                    }}
+                    placeholder="変更"
+                  >
+                    {memberList.map(({ id, name }) => {
+                      return (
+                        <option key={id} value={id}>
+                          {name}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </Center>
+              </GridItem>
+            </Grid>
+          </CardBody>
+        </Card>
       </FormControl>
       <Button
         colorScheme="teal"
         onClick={() => {
-          if(selectedIssuer != undefined){
+          if (selectedIssuer != undefined) {
             Backend.issueBill(selectedIssuer.id);
           }
         }}

@@ -1,8 +1,10 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
@@ -54,12 +56,16 @@ public class PurchaseService {
     return;
   }
 
-  public HashMap<MemberEntity,Integer> getPurchasedAmountInSpecificPeriod(LocalDateTime startDateTime,LocalDateTime endDateTime){
+  public LinkedHashMap<MemberEntity,Integer> getPurchasedAmountInSpecificPeriod(LocalDateTime startDateTime,LocalDateTime endDateTime){
     List<MemberEntity> allMemberEntities = memberRepository.findAll();
-    HashMap<MemberEntity,Integer> purchasedAmountOfMember = new HashMap<MemberEntity,Integer>();
+    LinkedHashMap<MemberEntity,Integer> purchasedAmountOfMember = new LinkedHashMap<MemberEntity,Integer>();
     for(MemberEntity memberEntity : allMemberEntities){
       purchasedAmountOfMember.put(memberEntity,getPurchasedAmountOfMemberInSpecificPeriod(memberEntity.getId(),startDateTime,endDateTime));
     }
+    purchasedAmountOfMember.entrySet().stream()
+      .sorted(Map.Entry.<MemberEntity,Integer>comparingByValue())
+      .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,(e1,e2) -> e1,LinkedHashMap::new));
+
     return purchasedAmountOfMember;
   }
   
