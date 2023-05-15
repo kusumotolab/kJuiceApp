@@ -9,15 +9,13 @@ import {
   Card,
   CardBody,
   Grid,
-  GridItem
+  GridItem,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Member } from "types";
 import { Backend } from "util/Backend";
 
-
 function SendSlack() {
-
   const [selectedIssuer, setSelectedIssuer] = useState<Member>();
   const [userIcon, setUserIcon] = useState("");
   const [memberList, setMemberList] = useState<Member[]>([]);
@@ -37,7 +35,7 @@ function SendSlack() {
       const issuer = membersList
         .filter((member) => member.active)
         .filter((member) => member.id == issuerId)[0];
-      getImage(issuer)
+      getImage(issuer);
       setSelectedIssuer(issuer);
     } catch (e) {
       return;
@@ -71,7 +69,7 @@ function SendSlack() {
     } else {
       getImage(selectedIssuer);
     }
-  }, [selectedIssuer, memberList])
+  }, [selectedIssuer, memberList]);
 
   return (
     <Stack spacing={4}>
@@ -93,8 +91,10 @@ function SendSlack() {
                   <Select
                     onChange={async (e) => {
                       const userId = e.target?.value ?? "";
-                      if( userId != "" ){
-                        setSelectedIssuer(memberList.filter((member) => member.id == userId)[0]);
+                      if (userId != "") {
+                        setSelectedIssuer(
+                          memberList.filter((member) => member.id == userId)[0]
+                        );
                       }
                     }}
                     placeholder="変更"

@@ -200,7 +200,7 @@ export class Backend {
       .catch(() => null);
   }
 
-  public static async getBill(): Promise< Bill[] | null>{
+  public static async getBill(): Promise<Bill[] | null> {
     const endpoint = `bills`;
     return await axios
       .get(Backend.BASE + endpoint)
@@ -211,7 +211,7 @@ export class Backend {
   public static async issueBill(issuerId: string) {
     const endpoint = "bills";
     const data = {
-      issuerId
+      issuerId,
     };
 
     // TODO 成否判定

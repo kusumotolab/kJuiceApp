@@ -34,7 +34,7 @@ export type Bill = {
   billId: number;
   issuerId: string;
   date: string;
-}
+};
 
 export type LabeledHistory = {
   [label: string]: number;
