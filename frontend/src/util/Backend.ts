@@ -207,4 +207,17 @@ export class Backend {
       .then((res) => res.data)
       .catch(() => null);
   }
+
+  public static async issueBill(issuerId: string) {
+    const endpoint = "bills";
+    const data = {
+      issuerId
+    };
+
+    // TODO 成否判定
+    return await axios
+      .post(Backend.BASE + endpoint, data)
+      .then(() => true)
+      .catch(() => false);
+  }
 }

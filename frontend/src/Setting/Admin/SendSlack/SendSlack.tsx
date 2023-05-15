@@ -110,7 +110,9 @@ function SendSlack() {
       <Button
         colorScheme="teal"
         onClick={() => {
-          console.log(selectedIssuer?.name);
+          if(selectedIssuer != undefined){
+            Backend.issueBill(selectedIssuer.id);
+          }
         }}
       >
         送信
