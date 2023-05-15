@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Chat, Item, Member, LabeledHistory, History } from "types";
+import { Chat, Item, Member, LabeledHistory, History, Bill } from "types";
 
 export class Backend {
   private static readonly BASE = "./backend/";
@@ -197,6 +197,14 @@ export class Backend {
         if (res.status === 200) return res.data;
         else return null;
       })
+      .catch(() => null);
+  }
+
+  public static async getBill(): Promise< Bill[] | null>{
+    const endpoint = `bills`;
+    return await axios
+      .get(Backend.BASE + endpoint)
+      .then((res) => res.data)
       .catch(() => null);
   }
 }
