@@ -103,15 +103,16 @@ function SendSlack() {
                       const memberId = e.target?.value ?? "";
                       updateIssuer(memberId);
                     }}
-                    placeholder="変更"
                   >
-                    {memberList.map(({ id, name }) => {
-                      return (
-                        <option key={id} value={id}>
-                          {name}
-                        </option>
-                      );
-                    })}
+                    {memberList.map(({ id, name }) => (
+                      <option
+                        key={id}
+                        value={id}
+                        selected={selectedIssuer?.id === id}
+                      >
+                        {name}
+                      </option>
+                    ))}
                   </Select>
                 </Center>
               </GridItem>
