@@ -4,7 +4,6 @@ import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
@@ -29,9 +28,9 @@ public class BillService {
   }
 
   public BillEntity postBill(String issuerId) throws NoSuchMemberException, ConnectException {
-    if (!memberRepository.existsById(issuerId)) throw new NoSuchMemberException();
-    Optional<MemberEntity> issuerMember = memberRepository.findById(issuerId);
-    String issuerName = issuerMember.get().getName();
+    MemberEntity issuerMember =
+        memberRepository.findById(issuerId).orElseThrow(NoSuchMemberException::new);
+    String issuerName = issuerMember.getName();
     LocalDateTime recentIssueBillDateTime = getRecentBillDate();
     LocalDateTime todayDateTime = LocalDateTime.now();
     String message = makeBillMessage(issuerName, recentIssueBillDateTime, todayDateTime);
