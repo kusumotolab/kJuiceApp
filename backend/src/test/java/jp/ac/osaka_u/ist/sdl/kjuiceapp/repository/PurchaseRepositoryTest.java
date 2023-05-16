@@ -25,8 +25,10 @@ public class PurchaseRepositoryTest extends DBTestBase {
     LocalDateTime startDateTime = LocalDateTime.of(2023, 4, 3, 15, 20, 10);
     LocalDateTime endDateTime = LocalDateTime.of(2023, 4, 8, 22, 50, 10);
     int actual =
-        purchaseRepository.getPurchasedAmountBetweenSpecificPeriodByMemberId(
-            "h-takesg", startDateTime, endDateTime);
+        purchaseRepository.findByDateBetween(startDateTime, endDateTime).stream()
+            .filter(p -> p.getMemberId().equals("h-takesg"))
+            .mapToInt(p -> p.getPrice())
+            .sum();
     assertEquals(360, actual);
   }
 }

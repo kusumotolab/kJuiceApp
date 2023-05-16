@@ -2,8 +2,8 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import java.net.ConnectException;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
@@ -57,7 +57,7 @@ public class BillService {
     sb.append("ジュース会大臣の" + issuerName + "です．\n");
     sb.append("今月分の利用料金が確定しました．\n");
 
-    LinkedHashMap<MemberEntity, Integer> purchasedAmount =
+    Map<MemberEntity, Integer> purchasedAmount =
         purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime, endDateTime);
     purchasedAmount.forEach(
         (key, value) -> {

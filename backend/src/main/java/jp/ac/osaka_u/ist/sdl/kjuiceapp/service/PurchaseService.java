@@ -1,6 +1,7 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,26 +54,26 @@ public class PurchaseService {
     return;
   }
 
-  public LinkedHashMap<MemberEntity, Integer> getPurchasedAmountInSpecificPeriod(
+  public Map<MemberEntity, Integer> getPurchasedAmountInSpecificPeriod(
       LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    LinkedHashMap<MemberEntity, Integer> purchasedAmountOfMember =
-        new LinkedHashMap<MemberEntity, Integer>();
+    HashMap<MemberEntity, Integer> purchasedAmountOfMember = new HashMap<MemberEntity, Integer>();
+    List<PurchaseEntity> purchaseEntityInSpecificPeriod =
+        purchaseRepository.findByDateBetween(startDateTime, endDateTime);
     memberRepository.findAll().stream()
         .filter((member) -> member.isActive())
-        // .collect(Collectors.toList())
         .forEach(
             (member) -> {
               purchasedAmountOfMember.put(
                   member,
-                  purchaseRepository.getPurchasedAmountBetweenSpecificPeriodByMemberId(
-                      member.getId(), startDateTime, endDateTime));
+                  purchaseEntityInSpecificPeriod.stream()
+                      .filter(p -> p.getMemberId().equals(member.getId()))
+                      .mapToInt(p -> p.getPrice())
+                      .sum());
             });
-    purchasedAmountOfMember.entrySet().stream()
-        .sorted(Map.Entry.<MemberEntity, Integer>comparingByValue())
+    return purchasedAmountOfMember.entrySet().stream()
+        .sorted(Map.Entry.<MemberEntity, Integer>comparingByValue().reversed())
         .collect(
             Collectors.toMap(
                 Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-    return purchasedAmountOfMember;
   }
 }
