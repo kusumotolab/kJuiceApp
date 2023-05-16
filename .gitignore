@@ -23,7 +23,3 @@ restore.sql
 
 # misc
 .DS_Store
-
-application.properties
-private.*
-!*.template
