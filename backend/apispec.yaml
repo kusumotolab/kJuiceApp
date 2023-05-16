@@ -16,6 +16,7 @@ tags:
   - name: "chat"
   - name: "stats"
   - name: "bills"
+  - name: "payments"
 
 paths:
   /items:
@@ -460,6 +461,23 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /payments:
+    get:
+      tags:
+        - payments
+      summary: Get payment at next fee date
+      description: 次回集金の請求金額を取得する
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Payment"
+
+
 
   # /stats/members:
   #   get:
@@ -800,6 +818,15 @@ components:
           example: h-yosiok
         date:
           $ref: "#/components/schemas/Date"
+
+    ## payment
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        payment:
+          type: integer
 
     ## error
     Error:
