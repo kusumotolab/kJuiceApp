@@ -1,39 +1,33 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 import java.io.IOException;
-import java.net.URLEncoder;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.config.SlackConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.slack.api.Slack;
+import com.slack.api.methods.MethodsClient;
+import com.slack.api.methods.SlackApiException;
+import com.slack.api.methods.request.chat.ChatPostMessageRequest;
+import com.slack.api.methods.response.chat.ChatPostMessageResponse;
+
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.config.SlackConfig;
 
 @Component
 public class CommunicateSlack {
 
   @Autowired private SlackConfig slackConfig;
 
-  public void sendMessage(String message) throws IOException {
-    String postData =
-        "token="
-            + slackConfig.getToken()
-            + "&channel="
-            + slackConfig.getChannel()
-            + "&text="
-            + URLEncoder.encode(message, "UTF-8");
+  public void sendMessage(String message) throws SlackApiException, IOException {
 
-    OkHttpClient client = new OkHttpClient();
-    MediaType MIMEType = MediaType.parse("application/x-www-form-urlencoded;charset=utf-8");
-    RequestBody requestBody = RequestBody.create(MIMEType, postData);
-    Request request =
-        new Request.Builder()
-            .url("https://slack.com/api/chat.postMessage")
-            .post(requestBody)
-            .build();
-    Response response = client.newCall(request).execute();
-    System.out.println(response);
+    Slack slack = Slack.getInstance();
+    MethodsClient methods = slack.methods(slackConfig.getToken());
+
+    ChatPostMessageRequest request = ChatPostMessageRequest.builder()
+      .channel(slackConfig.getChannel()) 
+      .text(message)
+      .build();
+
+    ChatPostMessageResponse response = methods.chatPostMessage(request);
   }
 }
