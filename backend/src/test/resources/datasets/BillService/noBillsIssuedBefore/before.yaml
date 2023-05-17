@@ -39,31 +39,6 @@ purchase:
     item_id: gogotea
     price: 90
     purchase_date: "2023-04-06 20:10:51"
-  - purchase_id: 6
-    member_id: t-ishino
-    item_id: gogotea
-    price: 20
-    purchase_date: "2023-04-07 20:10:51"
-  - purchase_id: 7
-    member_id: h-takesg
-    item_id: gogotea
-    price: 90
-    purchase_date: "2023-04-08 20:10:51"
-  - purchase_id: 8
-    member_id: h-yosiok
-    item_id: gogotea
-    price: 90
-    purchase_date: "2023-04-09 20:10:51"
-  - purchase_id: 9
-    member_id: h-yosiok
-    item_id: gogotea
-    price: 90
-    purchase_date: "2023-04-10 20:10:51"
-  - purchase_id: 10
-    member_id: t-ishino
-    item_id: gogotea
-    price: 90
-    purchase_date: "2023-04-10 20:10:51"
 
 item:
   - id: cola
@@ -78,14 +53,3 @@ item:
     cost_price: 70
     category: juice
     active: true
-
-bill:
-  - bill_id: 1
-    issuer_id: "h-yosiok"
-    post_date: "2023-04-02 17:44:51"
-  - bill_id: 2
-    issuer_id: "h-takesg"
-    post_date: "2023-04-04 17:44:59"
-  - bill_id: 3
-    issuer_id: "h-takesg"
-    post_date: "2023-04-09 17:44:59"

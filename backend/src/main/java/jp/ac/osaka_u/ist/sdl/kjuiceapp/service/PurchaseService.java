@@ -1,18 +1,13 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.purchase.NextPaymentSummary;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.purchase.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchPurchaseException;
@@ -54,26 +49,7 @@ public class PurchaseService {
     return;
   }
 
-  public Map<MemberEntity, Integer> getPurchasedAmountInSpecificPeriod(
-      LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    HashMap<MemberEntity, Integer> purchasedAmountOfMember = new HashMap<MemberEntity, Integer>();
-    List<PurchaseEntity> purchaseEntityInSpecificPeriod =
-        purchaseRepository.findByDateBetween(startDateTime, endDateTime);
-    memberRepository.findAll().stream()
-        .filter((member) -> member.isActive())
-        .forEach(
-            (member) -> {
-              purchasedAmountOfMember.put(
-                  member,
-                  purchaseEntityInSpecificPeriod.stream()
-                      .filter(p -> p.getMemberId().equals(member.getId()))
-                      .mapToInt(p -> p.getPrice())
-                      .sum());
-            });
-    return purchasedAmountOfMember.entrySet().stream()
-        .sorted(Map.Entry.<MemberEntity, Integer>comparingByValue().reversed())
-        .collect(
-            Collectors.toMap(
-                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+  public List<NextPaymentSummary> getNextPaymentSummary() {
+    return purchaseRepository.findNextPaymentSummaries();
   }
 }

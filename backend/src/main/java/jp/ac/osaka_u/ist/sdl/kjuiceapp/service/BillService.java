@@ -3,11 +3,11 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.purchase.NextPaymentSummary;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,7 @@ public class BillService {
     MemberEntity issuerMember =
         memberRepository.findById(issuerId).orElseThrow(NoSuchMemberException::new);
     String issuerName = issuerMember.getName();
-    LocalDateTime recentIssueBillDateTime = getRecentBillDate();
-    LocalDateTime todayDateTime = LocalDateTime.now();
-    String message = makeBillMessage(issuerName, recentIssueBillDateTime, todayDateTime);
+    String message = makeBillMessage(issuerName);
     try {
       communicateSlack.sendMessage(message);
     } catch (Exception e) {
@@ -50,18 +48,16 @@ public class BillService {
   }
 
   // slackに送信する文章の文面を作成する．
-  public String makeBillMessage(
-      String issuerName, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+  public String makeBillMessage(String issuerName) {
     StringBuilder sb = new StringBuilder();
     sb.append("ジュース会大臣の" + issuerName + "です．\n");
     sb.append("今月分の利用料金が確定しました．\n");
 
-    Map<MemberEntity, Integer> purchasedAmount =
-        purchaseService.getPurchasedAmountInSpecificPeriod(startDateTime, endDateTime);
-    purchasedAmount.forEach(
-        (key, value) -> {
-          if (value != 0) {
-            sb.append(key.getName() + "様 : " + value + "円\n");
+    List<NextPaymentSummary> nextPaymentSummary = purchaseService.getNextPaymentSummary();
+    nextPaymentSummary.forEach(
+        (s) -> {
+          if (s.getPayment() != 0) {
+            sb.append(s.getMemberName() + "様 : " + s.getPayment() + "円\n");
           }
         });
 

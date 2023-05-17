@@ -38,20 +38,31 @@ public class BillsServiceTest extends DBTestBase {
     LocalDateTime expectedRecentBillsDate = LocalDateTime.of(2023, 4, 4, 17, 44, 59);
     assertEquals(expectedRecentBillsDate, recentBillsDate);
 
-    LocalDateTime startDateTime = LocalDateTime.of(2023, 4, 3, 15, 20, 10);
-    LocalDateTime endDateTime = LocalDateTime.of(2023, 4, 8, 22, 50, 10);
+    String expected =
+        """
+        ジュース会大臣の吉岡です．
+        今月分の利用料金が確定しました．
+        吉岡様 : 270円
+        竹重様 : 180円
+        石野様 : 110円
+        支払いは吉岡までよろしくお願いいたします．
+        """;
+    String actual = billService.makeBillMessage("吉岡");
+    assertEquals(expected, actual);
+  }
 
+  @Test
+  @DataSet(value = "BillService/noBillsIssuedBefore/before.yaml")
+  public void testMakeInvoiceMessageWhenThereIsNoBillsBefore() {
     String expected =
         """
         ジュース会大臣の吉岡です．
         今月分の利用料金が確定しました．
         竹重様 : 360円
         吉岡様 : 90円
-        石野様 : 20円
         支払いは吉岡までよろしくお願いいたします．
         """;
-    String actual = billService.makeBillMessage("吉岡", startDateTime, endDateTime);
-
+    String actual = billService.makeBillMessage("吉岡");
     assertEquals(expected, actual);
   }
 
