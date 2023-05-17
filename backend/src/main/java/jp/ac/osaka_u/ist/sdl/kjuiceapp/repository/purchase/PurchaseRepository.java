@@ -17,33 +17,33 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Intege
   @Query(
       value =
           """
-    SELECT
-      member_id,
-      display_name,
-      sum
-    FROM
-      member
-    INNER JOIN (
-      SELECT
-        member_id,
-        sum(price)
-      FROM
-        purchase as p
-      WHERE
-        p.purchase_date > COALESCE((
+        SELECT
+          member_id,
+          display_name,
+          sum
+        FROM
+          member
+        INNER JOIN (
           SELECT
-            post_date
+            member_id,
+            sum(price)
           FROM
-            bill
-          ORDER BY
-            post_date DESC
-          LIMIT
-            1
-        ),'1753-01-01 00:00:00')
-      GROUP BY member_id
-    ) as payment
-    ON member.id = payment.member_id
-    ORDER BY sum DESC;
+            purchase as p
+          WHERE
+            p.purchase_date > COALESCE((
+              SELECT
+                post_date
+              FROM
+                bill
+              ORDER BY
+                post_date DESC
+              LIMIT
+                1
+            ),'1753-01-01 00:00:00')
+          GROUP BY member_id
+        ) as payment
+        ON member.id = payment.member_id
+        ORDER BY sum DESC;
       """,
       nativeQuery = true)
   public List<Object[]> getMonthSummaries();
