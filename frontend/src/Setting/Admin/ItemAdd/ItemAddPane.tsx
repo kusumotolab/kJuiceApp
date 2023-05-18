@@ -1,22 +1,40 @@
-import { useState } from "react";
 import { Backend } from "util/Backend";
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightAddon,
   Select,
   Stack,
 } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+
+interface IItemAddFormInput {
+  itemId: string;
+  itemName: string;
+  sellingPrice: number;
+  costPrice: number;
+  grouping: string;
+}
 
 function ItemAddPane() {
-  const [itemId, setItemId] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [sellingPrice, setSellingPrice] = useState(0);
-  const [costPrice, setCostPrice] = useState(0);
-  const [grouping, setGrouping] = useState("juice");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
 
-  async function addItem() {
+  async function onSubmit(data: IItemAddFormInput) {
+    addItem(data);
+    reset();
+  }
+
+  async function addItem(data: IItemAddFormInput) {
+    const { itemId, itemName, sellingPrice, costPrice, grouping } = data;
     if (
       !(await Backend.addItem(
         itemId,
@@ -29,71 +47,89 @@ function ItemAddPane() {
       console.error("addItem: failed");
   }
 
-  function clearInput() {
-    setItemId("");
-    setItemName("");
-    setSellingPrice(0);
-    setCostPrice(0);
-    setGrouping("juice");
-  }
-
   return (
     <Stack spacing={4}>
-      <FormControl id="icon">
-        <FormLabel>アイコン</FormLabel>
-      </FormControl>
-      <FormControl id="item_id">
-        <FormLabel>アイテムID</FormLabel>
-        <Input
-          type="text"
-          value={itemId}
-          onChange={(event) => setItemId(event.target.value)}
-        />
-      </FormControl>
-      <FormControl id="item_name">
-        <FormLabel>商品名</FormLabel>
-        <Input
-          type="text"
-          value={itemName}
-          onChange={(event) => setItemName(event.target.value)}
-        />
-      </FormControl>
-      <FormControl id="selling_price">
-        <FormLabel>定価</FormLabel>
-        <Input
-          type="number"
-          value={sellingPrice}
-          onChange={(event) => setSellingPrice(Number(event.target.value))}
-        />
-      </FormControl>
-      <FormControl id="cost_price">
-        <FormLabel>原価</FormLabel>
-        <Input
-          type="number"
-          value={costPrice}
-          onChange={(event) => setCostPrice(Number(event.target.value))}
-        />
-      </FormControl>
-      <FormControl id="grouping">
-        <FormLabel>カテゴリ</FormLabel>
-        <Select
-          name="new-user-attribute"
-          value={grouping}
-          onChange={(event) => setGrouping(event.target.value)}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl>
+          <FormLabel htmlFor="itemIcon">アイコン</FormLabel>
+        </FormControl>
+        <FormControl isInvalid={Boolean(errors.itemId)}>
+          <FormLabel htmlFor="itemId">アイテムID</FormLabel>
+          <Input
+            id="itemId"
+            {...register("itemId", {
+              required: "必須項目",
+              pattern: {
+                value: /^[a-z0-9_-]+$/,
+                message:
+                  "利用可能な文字：アルファベット小文字（a-z）・数字（0-9）・アンダーバー（_）・ハイフン（-）",
+              },
+            })}
+          />
+          <FormErrorMessage>
+            {errors.itemId && String(errors.itemId.message)}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={Boolean(errors.itemName)}>
+          <FormLabel htmlFor="itemName">商品名</FormLabel>
+          <Input
+            id="itemName"
+            {...register("itemName", {
+              required: "必須項目",
+            })}
+          />
+          <FormErrorMessage>
+            {errors.itemName && String(errors.itemName.message)}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={Boolean(errors.sellingPrice)}>
+          <FormLabel htmlFor="sellingPrice">定価</FormLabel>
+          <InputGroup>
+            <Input
+              id="sellingPrice"
+              type="number"
+              {...register("sellingPrice", {
+                required: "必須項目",
+              })}
+            />
+            <InputRightAddon>円</InputRightAddon>
+          </InputGroup>
+          <FormErrorMessage>
+            {errors.sellingPrice && String(errors.sellingPrice.message)}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={Boolean(errors.costPrice)}>
+          <FormLabel htmlFor="costPrice">原価</FormLabel>
+          <InputGroup>
+            <Input
+              id="costPrice"
+              type="number"
+              {...register("costPrice", {
+                required: "必須項目",
+              })}
+            />
+            <InputRightAddon>円</InputRightAddon>
+          </InputGroup>
+          <FormErrorMessage>
+            {errors.costPrice && String(errors.costPrice.message)}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl>
+          <FormLabel>カテゴリ</FormLabel>
+          <Select id="grouping" {...register("grouping")}>
+            <option value="juice">Juice</option>
+            <option value="food">Food</option>
+          </Select>
+        </FormControl>
+        <Button
+          mt={4}
+          colorScheme="teal"
+          isLoading={isSubmitting}
+          type="submit"
         >
-          <option value="juice">Juice</option>
-          <option value="food">Food</option>
-        </Select>
-      </FormControl>
-      <Button
-        colorScheme="teal"
-        onClick={() => {
-          addItem();
-          clearInput();
-        }}
-      >
-        追加
-      </Button>
+          追加
+        </Button>
+      </form>
     </Stack>
   );
 }
