@@ -6,8 +6,7 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.purchase.NextPaymentSummary;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.purchase.PurchaseRepository;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchPurchaseException;
@@ -47,9 +46,5 @@ public class PurchaseService {
 
     purchaseRepository.deleteById(historyId);
     return;
-  }
-
-  public List<NextPaymentSummary> getNextPaymentSummary() {
-    return purchaseRepository.findNextPaymentSummaries();
   }
 }

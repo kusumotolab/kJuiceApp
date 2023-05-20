@@ -3,11 +3,13 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.purchase.NextPaymentSummary;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BillService {
 
   @Autowired private BillRepository billRepository;
+  @Autowired private PurchaseRepository purchaseRepository;
   @Autowired private MemberRepository memberRepository;
-  @Autowired private PurchaseService purchaseService;
   @Autowired private CommunicateSlack communicateSlack;
 
   public List<BillEntity> findAllBills() {
@@ -53,12 +55,15 @@ public class BillService {
     sb.append("ジュース会大臣の" + issuerName + "です．\n");
     sb.append("今月分の利用料金が確定しました．\n");
 
-    List<NextPaymentSummary> nextPaymentSummary = purchaseService.getNextPaymentSummary();
+    Map<String, Integer> nextPaymentSummary = purchaseRepository.getPaymentSummary();
     nextPaymentSummary.forEach(
-        (s) -> {
-          if (s.getPayment() != 0) {
-            sb.append(s.getMemberName() + "様 : " + s.getPayment() + "円\n");
-          }
+        (key, value) -> {
+          String memberName =
+              memberRepository
+                  .findById(key)
+                  .orElseThrow(() -> new NoSuchElementException())
+                  .getName();
+          sb.append(memberName + "様 : " + value + "円\n");
         });
 
     sb.append("支払いは" + issuerName + "までよろしくお願いいたします．\n");
