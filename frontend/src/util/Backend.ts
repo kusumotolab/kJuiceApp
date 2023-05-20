@@ -201,7 +201,7 @@ export class Backend {
   }
 
   public static async setItemImage(itemId: string, image: File) {
-    const endpoint = `members/${itemId}/image`;
+    const endpoint = `items/${itemId}/image`;
     const data = new FormData();
     data.append("image", image);
 
@@ -212,7 +212,7 @@ export class Backend {
   }
 
   public static async getItemImage(itemId: string): Promise<Blob | null> {
-    const endpoint = `members/${itemId}/image`;
+    const endpoint = `items/${itemId}/image`;
 
     return await axios
       .get(Backend.BASE + endpoint, { responseType: "blob" })
