@@ -1,9 +1,7 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-tabs/style/react-tabs.css";
-import "./App.css";
-import { ChatPane } from "./Chat/ChatPane";
 import { HomePageParent } from "./HomePage/HomePageParent";
+import { SettingPane } from "./Setting/SettingPane";
 import { GraphPane } from "./Graph/GraphPane";
+import { ChatPane } from "./Chat/ChatPane";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,7 +10,6 @@ import {
   faHouse,
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
-import { SettingPane } from "./Setting/SettingPane";
 
 import {
   ChakraProvider,

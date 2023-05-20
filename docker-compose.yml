@@ -21,6 +21,15 @@ services:
         source: ${KJA_LOCAL_WS-.}/frontend/public
         target: /frontend/public
       - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/index.html
+        target: /frontend/index.html
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.node.json
+        target: /frontend/tsconfig.node.json
+      - type: bind
+        source: ${KJA_LOCAL_WS-.}/frontend/vite.config.ts
+        target: /frontend/vite.config.ts
+      - type: bind
         source: ${KJA_LOCAL_WS-.}/frontend/tsconfig.json
         target: /frontend/tsconfig.json
       - type: bind
@@ -42,7 +51,6 @@ services:
       - 5432:5432
     volumes:
       - dbdata:/var/lib/postgresql/data
-      - ${KJA_LOCAL_WS-.}/database/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
@@ -72,6 +80,8 @@ services:
         target: /backend/settings.gradle
     depends_on:
       - postgresql
+    environment:
+      TZ: Asia/Tokyo
     command:
       - ./gradlew
       - bootRun

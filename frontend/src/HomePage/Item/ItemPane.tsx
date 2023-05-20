@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { FoodPane } from "./Food/FoodPane";
 import { JuicePane } from "./Juice/JuicePane";
 import { HistoryPane } from "../History/HistoryPane";
-import { PopUpMenu } from "./purchase/PopUpMenu/PopUpMenu";
+import { PopUpMenu } from "./purchase/PopUpMenu";
 
 import LogoCola from "./../../image/logo_coca_cora.jpg";
 import LogoFanta from "./../../image/logo_fanta.jpg";
