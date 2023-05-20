@@ -1,19 +1,26 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
 import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemImageEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemImageRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchItemException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 public class ItemService {
-  @Autowired ItemRepository itemRepository;
+  @Autowired private ItemRepository itemRepository;
+  @Autowired private ItemImageRepository itemImageRepository;
 
   public List<ItemEntity> getAllItems() {
     return itemRepository.findAll();
@@ -67,5 +74,33 @@ public class ItemService {
 
     itemRepository.deleteById(id);
     return;
+  }
+
+  public void storeItemIcon(String id, String contentType, byte[] image)
+      throws NoSuchItemException, IOException {
+    if (!itemRepository.existsById(id)) {
+      throw new NoSuchItemException();
+    }
+
+    Optional<ItemImageEntity> target = itemImageRepository.findById(id);
+
+    ItemImageEntity newItemImageEntity;
+    if (target.isPresent()) {
+      newItemImageEntity = target.get();
+      newItemImageEntity.setImage(contentType, image);
+    } else {
+      newItemImageEntity = new ItemImageEntity(id, contentType, image);
+    }
+
+    itemImageRepository.save(newItemImageEntity);
+    return;
+  }
+
+  // ユーザーのアイコンをデータベースから取得する
+  public Optional<ItemImageEntity> getItemIcon(String id) throws NoSuchItemException {
+    if (!itemRepository.existsById(id)) {
+      throw new NoSuchItemException();
+    }
+    return itemImageRepository.findById(id);
   }
 }
