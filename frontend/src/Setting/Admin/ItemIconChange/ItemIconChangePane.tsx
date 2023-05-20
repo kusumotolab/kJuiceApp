@@ -3,10 +3,11 @@ import { Backend } from "util/Backend";
 import { Item } from "types";
 import { Image, Box, Button, Center, FormControl, FormLabel, Select, Stack } from "@chakra-ui/react";
 import { FileSelect } from "Setting/User/IconSetting/FileSelect/FileSelect";
+import LogoDefaultItem from "./../../../image/default_item.svg";
 
 function ItemIconChangePane() {
   const [itemList, setItemList] = useState<Item[]>([]);
-  const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState(LogoDefaultItem);
   const [selectedItemId,setSelectedItemId] = useState<string>("");
   const [fileObject, setFileObject] = useState<File>();
 
