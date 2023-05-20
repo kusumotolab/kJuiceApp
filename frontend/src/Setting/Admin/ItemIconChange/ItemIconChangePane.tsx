@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { Backend } from "util/Backend";
 import { Item } from "types";
-import { Image, Box, Button, Center, FormControl, FormLabel, Select, Stack } from "@chakra-ui/react";
+import {
+  Image,
+  Box,
+  Button,
+  Center,
+  FormControl,
+  FormLabel,
+  Select,
+  Stack,
+} from "@chakra-ui/react";
 import { FileSelect } from "Setting/User/IconSetting/FileSelect/FileSelect";
 import LogoDefaultItem from "./../../../image/default_item.svg";
 
 function ItemIconChangePane() {
   const [itemList, setItemList] = useState<Item[]>([]);
   const [profileImage, setProfileImage] = useState(LogoDefaultItem);
-  const [selectedItemId,setSelectedItemId] = useState<string>("");
+  const [selectedItemId, setSelectedItemId] = useState<string>("");
   const [fileObject, setFileObject] = useState<File>();
-
 
   async function fetchItemList() {
     const itemList = await Backend.getItemList();
@@ -27,7 +35,7 @@ function ItemIconChangePane() {
 
     setProfileImage(window.URL.createObjectURL(e.target.files[0]));
   }
-  async function handleSubmit(itemId: string,fileObject: File | undefined) {
+  async function handleSubmit(itemId: string, fileObject: File | undefined) {
     if (itemId === "") {
       alert("アイテムが指定されていません");
       return;
@@ -47,20 +55,18 @@ function ItemIconChangePane() {
     }
   }
 
-
   useEffect(() => {
     fetchItemList();
   }, []);
 
   return (
-    
     <Box w="xl" margin="auto">
       <Stack spacing={4}>
         <FormControl>
           <FormLabel>プレビュー</FormLabel>
           <Stack direction="row" spacing={8}>
             <Center>
-                <Image src={profileImage} boxSize="100px" objectFit="cover" />
+              <Image src={profileImage} boxSize="100px" objectFit="cover" />
             </Center>
             <Center>
               <FileSelect onFileInputChange={onFileInputChange} />
@@ -71,7 +77,7 @@ function ItemIconChangePane() {
           <Select
             placeholder="アイコンを変更するアイテムの選択"
             onChange={(e) => {
-                setSelectedItemId(e.target?.value ?? "");
+              setSelectedItemId(e.target?.value ?? "");
             }}
           >
             {itemList.map(({ id, name }) => {
@@ -86,7 +92,7 @@ function ItemIconChangePane() {
         <Button
           colorScheme="teal"
           variant="solid"
-          onClick={() => handleSubmit(selectedItemId,fileObject)}
+          onClick={() => handleSubmit(selectedItemId, fileObject)}
         >
           変更
         </Button>

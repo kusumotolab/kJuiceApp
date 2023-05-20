@@ -55,7 +55,10 @@ function AdminPane() {
           <SettingItem title="ユーザの削除" item={<UserDeletePane />} />
           <SettingItem title="アイテムの登録" item={<ItemAddPane />} />
           <SettingItem title="アイテムの削除" item={<ItemDeletePane />} />
-          <SettingItem title="アイテムのアイコンの変更" item={<ItemIconChangePane />} />
+          <SettingItem
+            title="アイテムのアイコンの変更"
+            item={<ItemIconChangePane />}
+          />
           <SettingItem title="Slackへの通知" item={<SendSlack />} />
           <SettingItem title="金額未払い者の管理" item={<UnpaidMember />} />
         </Accordion>

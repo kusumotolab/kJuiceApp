@@ -22,21 +22,20 @@ type Props = {
 };
 
 function ItemCard({ name, onClick, item }: Props) {
-
-  const [imgSrc,setImgSrc] = useState<string>("");
+  const [imgSrc, setImgSrc] = useState<string>("");
 
   async function getImage() {
     const img = await Backend.getItemImage(item.id);
     if (img !== null) {
       setImgSrc(URL.createObjectURL(img));
-    }else{
+    } else {
       setImgSrc(LogoDefaultItem);
     }
   }
 
   useEffect(() => {
-    getImage()
-  },[])
+    getImage();
+  }, []);
 
   return (
     <Card width="10em" flexShrink="0" onClick={onClick}>
