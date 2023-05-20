@@ -1,8 +1,10 @@
 import { Backend } from "util/Backend";
 import {
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
@@ -11,6 +13,8 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface IItemAddFormInput {
   itemId: string;
@@ -20,16 +24,37 @@ interface IItemAddFormInput {
   grouping: string;
 }
 
+const schema = z.object({
+  itemId: z
+    .string()
+    .min(1, { message: "アイテムIDを入力してください" })
+    .regex(/^[a-z0-9_-]+$/, { message: "使用できない文字が含まれています" }),
+  itemName: z.string().min(1, { message: "アイテム名を入力してください" }),
+  sellingPrice: z
+    .number({ invalid_type_error: "定価を入力してください" })
+    .int({ message: "0以上の整数を入力してください" })
+    .nonnegative("0以上の整数を入力してください"),
+  costPrice: z
+    .number({ invalid_type_error: "原価を入力してください" })
+    .int()
+    .min(0, "0以上の整数を入力してください"),
+  grouping: z.string(),
+});
+type Schema = z.infer<typeof schema>;
+
 function ItemAddPane() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm();
+  } = useForm<Schema>({
+    resolver: zodResolver(schema),
+  });
 
   async function onSubmit(data: IItemAddFormInput) {
-    addItem(data);
+    console.log(data);
+    // addItem(data);
     reset();
   }
 
@@ -48,36 +73,25 @@ function ItemAddPane() {
   }
 
   return (
-    <Stack spacing={4}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={4}>
         <FormControl>
-          <FormLabel htmlFor="itemIcon">アイコン</FormLabel>
+          <FormLabel>アイコン（未実装）</FormLabel>
         </FormControl>
         <FormControl isInvalid={Boolean(errors.itemId)}>
           <FormLabel htmlFor="itemId">アイテムID</FormLabel>
-          <Input
-            id="itemId"
-            {...register("itemId", {
-              required: "必須項目",
-              pattern: {
-                value: /^[a-z0-9_-]+$/,
-                message:
-                  "利用可能な文字：アルファベット小文字（a-z）・数字（0-9）・アンダーバー（_）・ハイフン（-）",
-              },
-            })}
-          />
+          <Input id="itemId" {...register("itemId")} />
+          <FormHelperText>
+            利用可能な文字: 英字小文字 (a-z), 数字 (0-9), アンダーバー (_),
+            ハイフン (-)
+          </FormHelperText>
           <FormErrorMessage>
             {errors.itemId && String(errors.itemId.message)}
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={Boolean(errors.itemName)}>
-          <FormLabel htmlFor="itemName">商品名</FormLabel>
-          <Input
-            id="itemName"
-            {...register("itemName", {
-              required: "必須項目",
-            })}
-          />
+          <FormLabel htmlFor="itemName">アイテム名</FormLabel>
+          <Input id="itemName" {...register("itemName")} />
           <FormErrorMessage>
             {errors.itemName && String(errors.itemName.message)}
           </FormErrorMessage>
@@ -88,9 +102,7 @@ function ItemAddPane() {
             <Input
               id="sellingPrice"
               type="number"
-              {...register("sellingPrice", {
-                required: "必須項目",
-              })}
+              {...register("sellingPrice", { valueAsNumber: true })}
             />
             <InputRightAddon>円</InputRightAddon>
           </InputGroup>
@@ -104,9 +116,7 @@ function ItemAddPane() {
             <Input
               id="costPrice"
               type="number"
-              {...register("costPrice", {
-                required: "必須項目",
-              })}
+              {...register("costPrice", { valueAsNumber: true })}
             />
             <InputRightAddon>円</InputRightAddon>
           </InputGroup>
@@ -121,16 +131,13 @@ function ItemAddPane() {
             <option value="food">Food</option>
           </Select>
         </FormControl>
-        <Button
-          mt={4}
-          colorScheme="teal"
-          isLoading={isSubmitting}
-          type="submit"
-        >
+      </Stack>
+      <Box mt={8}>
+        <Button colorScheme="teal" isLoading={isSubmitting} type="submit">
           追加
         </Button>
-      </form>
-    </Stack>
+      </Box>
+    </form>
   );
 }
 
