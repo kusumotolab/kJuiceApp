@@ -23,7 +23,7 @@ function PasswordPane({ visible, setVisible }: Props) {
   }
 
   function passwordInputted() {
-    if (password == "password") {
+    if (password === "password") {
       setVisible(false);
     } else {
       alert("パスワードが違います");
