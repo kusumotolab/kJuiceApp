@@ -51,8 +51,10 @@ public class ItemsController {
       result =
           itemService.addItem(
               item.id(), item.name(), item.sellingPrice(), item.costPrice(), item.category());
-    } catch (DuplicateIdException | IllegalArgumentException e) {
+    } catch (DuplicateIdException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT);
+    } catch (IllegalArgumentException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
     return ItemsController.convert(result);
