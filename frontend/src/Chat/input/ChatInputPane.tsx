@@ -13,8 +13,17 @@ function ChatInputPane({ postMessage }: Props) {
   }
 
   async function handlePost() {
+    if (message === "") {
+      return;
+    }
     await postMessage(message);
     setMessage("");
+  }
+
+  function pressEnter(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.key === "Enter") {
+      handlePost();
+    }
   }
 
   return (
@@ -24,6 +33,7 @@ function ChatInputPane({ postMessage }: Props) {
           value={message}
           onChange={handleInputChange}
           placeholder="140字まで入力可能．それ以上は入力しないで．"
+          onKeyDown={pressEnter}
         />
         <Button type="submit" onClick={handlePost} colorScheme="teal">
           送信
