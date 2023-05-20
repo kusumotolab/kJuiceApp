@@ -199,4 +199,27 @@ export class Backend {
       })
       .catch(() => null);
   }
+
+  public static async setItemImage(itemId: string, image: File) {
+    const endpoint = `members/${itemId}/image`;
+    const data = new FormData();
+    data.append("image", image);
+
+    return await axios
+      .put(Backend.BASE + endpoint, data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  public static async getItemImage(itemId: string): Promise<Blob | null> {
+    const endpoint = `members/${itemId}/image`;
+
+    return await axios
+      .get(Backend.BASE + endpoint, { responseType: "blob" })
+      .then((res) => {
+        if (res.status === 200) return res.data;
+        else return null;
+      })
+      .catch(() => null);
+  }
 }
