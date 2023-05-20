@@ -46,13 +46,12 @@ public class ItemsController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ItemResponseBody addItem(@RequestBody ItemAddRequestBody item) {
-    // TODO パラメータバリデーション
     ItemEntity result;
     try {
       result =
           itemService.addItem(
               item.id(), item.name(), item.sellingPrice(), item.costPrice(), item.category());
-    } catch (DuplicateIdException e) {
+    } catch (DuplicateIdException | IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT);
     }
 

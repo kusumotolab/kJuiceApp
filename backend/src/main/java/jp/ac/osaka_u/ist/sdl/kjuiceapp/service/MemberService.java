@@ -57,6 +57,9 @@ public class MemberService {
     if (memberRepository.existsById(id)) {
       throw new DuplicateIdException();
     }
+    if (!id.matches("^[a-z0-9_-]+$")) {
+      throw new IllegalArgumentException("Inappropriate Member Id Specified.");
+    }
 
     boolean defaultActive = false;
 

@@ -26,6 +26,9 @@ public class ItemService {
   public ItemEntity addItem(
       String id, String name, int sellingPrice, int costPrice, String category)
       throws DuplicateIdException {
+    if (!id.matches("^[a-z0-9_-]+$")) {
+      throw new IllegalArgumentException("Inappropriate Item Id Specified.");
+    }
     if (itemRepository.existsById(id)) {
       throw new DuplicateIdException();
     }

@@ -1,5 +1,6 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -24,6 +25,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
 @DBRider
 @DataSet(cleanBefore = true)
@@ -60,6 +62,17 @@ public class MembersControllerTest extends DBTestBase {
         .andDo(print())
         .andExpect(status().isCreated())
         .andExpect(content().json(expectedResponseBody, true));
+  }
+
+  @Test
+  void illegalIdAddMember() throws Exception {
+    var requestParams = new MemberAddRequestBody("無効なID", "竹重", "m1");
+    String requestBody = objectMapper.writeValueAsString(requestParams);
+
+    this.mockMvc
+        .perform(post("/members").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .andExpect(
+            result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
   }
 
   @Test
