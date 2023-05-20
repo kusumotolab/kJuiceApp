@@ -122,6 +122,61 @@ paths:
           description: 削除成功
         "404":
           description: 指定されたIDが存在しない
+  /item/{itemId}/image:
+    get:
+      tags:
+        - items
+      summary: Get image for item
+      description: 指定されたIDのアイテムの画像を取得する
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+                example: binary image
+        "204":
+          description: 指定されたIDのアイテムは画像を設定していない
+        "404":
+          description: 指定されたIDが存在しない
+    put:
+      tags:
+        - items
+      summary: Set image for item
+      description: 指定されたIDのアイテムの画像を登録する
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+              required:
+                - image
+      responses:
+        "204":
+          description: 更新成功
+        "404":
+          description: 指定されたIDが存在しない
+        "413":
+          description: ファイルサイズ制限超過
 
   /members:
     get:
