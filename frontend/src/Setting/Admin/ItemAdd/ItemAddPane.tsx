@@ -53,8 +53,7 @@ function ItemAddPane() {
   });
 
   async function onSubmit(data: IItemAddFormInput) {
-    console.log(data);
-    // addItem(data);
+    addItem(data);
     reset();
   }
 
