@@ -16,6 +16,20 @@ type Props = {
 function PasswordPane({ visible, setVisible }: Props) {
   const [password, setPassword] = useState("");
 
+  function pressEnter(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.key === "Enter") {
+      passwordInputted();
+    }
+  }
+
+  function passwordInputted() {
+    if (password == "password") {
+      setVisible(false);
+    } else {
+      alert("パスワードが違います");
+    }
+  }
+
   return (
     <Stack spacing={4} style={{ visibility: visible ? "visible" : "hidden" }}>
       <FormControl id="password">
@@ -24,19 +38,11 @@ function PasswordPane({ visible, setVisible }: Props) {
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          onKeyDown={pressEnter}
         />
         <FormHelperText>ヒント: &quot;password&quot;</FormHelperText>
       </FormControl>
-      <Button
-        colorScheme="teal"
-        onClick={() => {
-          if (password == "password") {
-            setVisible(false);
-          } else {
-            alert("パスワードが違います");
-          }
-        }}
-      >
+      <Button colorScheme="teal" onClick={passwordInputted}>
         認証
       </Button>
     </Stack>
