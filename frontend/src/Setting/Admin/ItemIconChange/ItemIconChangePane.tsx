@@ -37,7 +37,7 @@ function ItemIconChangePane() {
       return;
     }
 
-    if (await Backend.setMemberImage(itemId, fileObject)) {
+    if (await Backend.setItemImage(itemId, fileObject)) {
       alert("送信に成功しました");
     } else {
       alert(
