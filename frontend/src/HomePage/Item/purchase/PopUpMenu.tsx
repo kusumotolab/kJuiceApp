@@ -1,5 +1,4 @@
-import { Backend } from "util/Backend";
-import { Dispatch, SetStateAction, useRef } from "react";
+import { useRef } from "react";
 import { Item, Member } from "types";
 
 import {
@@ -17,36 +16,20 @@ import {
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  imgSrc: string;
   selectedItem: Item | null;
-  setSumPurchased: Dispatch<SetStateAction<number>>;
   selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
-  setUpdate: Dispatch<SetStateAction<boolean>>;
-  update: boolean;
+  purchaseItem: () => void;
 };
 
 function PopUpMenu({
   isOpen,
   onClose,
   selectedItem,
-  setSumPurchased,
   selectedMember,
-  setSelectedMember,
+  purchaseItem
 }: Props) {
   const toast = useToast();
   const cancelRef = useRef<HTMLButtonElement>(null);
-
-  async function purchaseItem() {
-    if (selectedMember === null || selectedItem === null) {
-      return;
-    }
-
-    if (!(await Backend.purchase(selectedMember.id, selectedItem.id)))
-      console.error("purchaseItem: failed");
-
-    setSumPurchased((prev) => prev + 1);
-  }
 
   function showToast() {
     toast({
@@ -90,7 +73,6 @@ function PopUpMenu({
               purchaseItem();
               showToast();
               onClose();
-              setSelectedMember(null);
             }}
             ml="3"
           >

@@ -12,12 +12,16 @@ function HomePageParent() {
   const [juiceList, setJuiceList] = useState<Item[]>([]);
   const [foodList, setFoodList] = useState<Item[]>([]);
 
-  const [update, setUpdate] = useState(false);
+  async function purchaseItem() {
+    if (selectedMember === null || selectedItem === null) {
+      return;
+    }
 
-  // 再レンダリング用のトリガとして利用するステート
-  // もう少し賢い実装がありそうなので，TODO としておく
-  // TODO
-  const [sumPurchased, setSumPurchased] = useState(0);
+    if (!(await Backend.purchase(selectedMember.id, selectedItem.id)))
+      console.error("purchaseItem: failed");
+
+    setSelectedMember(null);
+  }
 
   async function fetchMemberList() {
     const memberList = await Backend.getMemberList();
@@ -49,7 +53,7 @@ function HomePageParent() {
   useEffect(() => {
     fetchMemberList();
     fetchItemList();
-  }, [sumPurchased]);
+  }, []);
 
   return (
     <Flex h="calc(100vh - 40px)" overflowX="scroll">
@@ -62,12 +66,9 @@ function HomePageParent() {
         setSelectedItem={setSelectedItem}
         selectedItem={selectedItem}
         juiceList={juiceList}
-        update={update}
-        setUpdate={setUpdate}
         foodList={foodList}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-        setSumPurchased={setSumPurchased}
+        purchaseItem={purchaseItem}
       />
     </Flex>
   );
