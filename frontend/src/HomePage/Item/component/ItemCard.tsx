@@ -14,11 +14,9 @@ import { Backend } from "util/Backend";
 import LogoDefaultItem from "./../../../image/default_item.svg";
 
 type Props = {
-  color: string;
   name: string;
   item: Item;
   onClick: () => void;
-  imgSrc: string;
 };
 
 function ItemCard({ name, onClick, item }: Props) {

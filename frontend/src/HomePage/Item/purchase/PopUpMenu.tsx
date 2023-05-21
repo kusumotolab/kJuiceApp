@@ -17,13 +17,10 @@ import {
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  imgSrc: string;
   selectedItem: Item | null;
   setSumPurchased: Dispatch<SetStateAction<number>>;
   selectedMember: Member | null;
   setSelectedMember: Dispatch<SetStateAction<Member | null>>;
-  setUpdate: Dispatch<SetStateAction<boolean>>;
-  update: boolean;
 };
 
 function PopUpMenu({
