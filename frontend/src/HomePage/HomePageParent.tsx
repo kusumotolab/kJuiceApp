@@ -3,7 +3,7 @@ import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useToast } from "@chakra-ui/react";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -11,6 +11,7 @@ function HomePageParent() {
   const [memberList, setMemberList] = useState<Member[]>([]);
   const [juiceList, setJuiceList] = useState<Item[]>([]);
   const [foodList, setFoodList] = useState<Item[]>([]);
+  const toast = useToast();
 
   async function purchaseItem() {
     if (selectedMember === null || selectedItem === null) {
@@ -21,6 +22,17 @@ function HomePageParent() {
       console.error("purchaseItem: failed");
 
     setSelectedMember(null);
+    showToast();
+  }
+
+  function showToast() {
+    toast({
+      title: "購入完了",
+      description: "購入が完了しました",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   }
 
   async function fetchMemberList() {

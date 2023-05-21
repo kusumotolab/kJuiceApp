@@ -10,7 +10,6 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
-  useToast,
 } from "@chakra-ui/react";
 
 type Props = {
@@ -26,20 +25,9 @@ function PopUpMenu({
   onClose,
   selectedItem,
   selectedMember,
-  purchaseItem
+  purchaseItem,
 }: Props) {
-  const toast = useToast();
   const cancelRef = useRef<HTMLButtonElement>(null);
-
-  function showToast() {
-    toast({
-      title: "購入完了",
-      description: "購入が完了しました",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-  }
 
   return (
     <AlertDialog
@@ -71,7 +59,6 @@ function PopUpMenu({
             variant="solid"
             onClick={() => {
               purchaseItem();
-              showToast();
               onClose();
             }}
             ml="3"
