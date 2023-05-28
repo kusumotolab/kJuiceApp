@@ -89,8 +89,9 @@ function ItemAddPane() {
       ))
     ) {
       showErrorToast();
+    } else {
+      showSuccessToast();
     }
-    showSuccessToast();
   }
 
   return (

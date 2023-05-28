@@ -69,8 +69,9 @@ function UserAddPane() {
     const { userId, userName, attribute } = data;
     if (!(await Backend.addMember(userId, userName, attribute))) {
       showErrorToast();
+    } else {
+      showSuccessToast();
     }
-    showSuccessToast();
   }
 
   return (
