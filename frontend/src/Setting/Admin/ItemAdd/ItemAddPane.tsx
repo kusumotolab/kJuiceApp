@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-interface IItemAddFormInput {
+type IItemAddFormInput = {
   itemId: string;
   itemName: string;
   sellingPrice: number;

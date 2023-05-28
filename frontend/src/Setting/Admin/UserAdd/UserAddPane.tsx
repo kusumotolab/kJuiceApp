@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { Backend } from "util/Backend";
 import { z } from "zod";
 
-interface IUserAddFormInput {
+type IUserAddFormInput = {
   userId: string;
   userName: string;
   attribute: string;
