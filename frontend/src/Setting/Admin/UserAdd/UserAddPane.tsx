@@ -8,6 +8,7 @@ import {
   FormHelperText,
   FormErrorMessage,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -39,16 +40,37 @@ function UserAddPane() {
   } = useForm<Schema>({
     resolver: zodResolver(schema),
   });
+  const toast = useToast();
 
   async function onSubmit(data: IUserAddFormInput) {
     addUser(data);
     reset();
   }
 
+  function showSuccessToast() {
+    toast({
+      title: "ユーザを追加しました",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
+  function showErrorToast() {
+    toast({
+      title: "ユーザの追加に失敗しました",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
   async function addUser(data: IUserAddFormInput) {
     const { userId, userName, attribute } = data;
-    if (!(await Backend.addMember(userId, userName, attribute)))
-      console.error("addUser: failed");
+    if (!(await Backend.addMember(userId, userName, attribute))) {
+      showErrorToast();
+    }
+    showSuccessToast();
   }
 
   return (
