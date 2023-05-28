@@ -42,3 +42,7 @@ rules:
     - error
   func-names:
     - error
+  eqeqeq:
+    - error
+  require-await:
+    - error
