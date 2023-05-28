@@ -21,8 +21,8 @@ type IItemAddFormInput = {
   itemName: string;
   sellingPrice: number;
   costPrice: number;
-  grouping: string;
-}
+  category: string;
+};
 
 const schema = z.object({
   itemId: z
@@ -38,7 +38,7 @@ const schema = z.object({
     .number({ invalid_type_error: "原価を入力してください" })
     .int()
     .min(0, "0以上の整数を入力してください"),
-  grouping: z.string(),
+  category: z.string(),
 });
 type Schema = z.infer<typeof schema>;
 
@@ -58,14 +58,14 @@ function ItemAddPane() {
   }
 
   async function addItem(data: IItemAddFormInput) {
-    const { itemId, itemName, sellingPrice, costPrice, grouping } = data;
+    const { itemId, itemName, sellingPrice, costPrice, category } = data;
     if (
       !(await Backend.addItem(
         itemId,
         itemName,
         sellingPrice,
         costPrice,
-        grouping
+        category
       ))
     )
       console.error("addItem: failed");
@@ -125,7 +125,7 @@ function ItemAddPane() {
         </FormControl>
         <FormControl>
           <FormLabel>カテゴリ</FormLabel>
-          <Select id="grouping" {...register("grouping")}>
+          <Select id="category" {...register("category")}>
             <option value="juice">Juice</option>
             <option value="food">Food</option>
           </Select>

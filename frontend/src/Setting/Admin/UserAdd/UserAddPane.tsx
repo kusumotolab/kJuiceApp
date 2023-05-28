@@ -18,7 +18,7 @@ type IUserAddFormInput = {
   userId: string;
   userName: string;
   attribute: string;
-}
+};
 
 const schema = z.object({
   userId: z
