@@ -11,6 +11,7 @@ import {
   InputRightAddon,
   Select,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -51,10 +52,29 @@ function ItemAddPane() {
   } = useForm<Schema>({
     resolver: zodResolver(schema),
   });
+  const toast = useToast();
 
   async function onSubmit(data: IItemAddFormInput) {
     addItem(data);
     reset();
+  }
+
+  function showSuccessToast() {
+    toast({
+      title: "アイテムを追加しました",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
+  function showErrorToast() {
+    toast({
+      title: "アイテムの追加に失敗しました",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
   }
 
   async function addItem(data: IItemAddFormInput) {
@@ -67,8 +87,10 @@ function ItemAddPane() {
         costPrice,
         category
       ))
-    )
-      console.error("addItem: failed");
+    ) {
+      showErrorToast();
+    }
+    showSuccessToast();
   }
 
   return (
