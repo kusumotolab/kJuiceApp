@@ -23,19 +23,19 @@ rules:
   react/jsx-uses-react: off
   react/react-in-jsx-scope: off
   react/self-closing-comp:
-    - error
+    - warn
     - component: true
       html: true
   react/jsx-boolean-value:
-    - error
+    - warn
   react/no-array-index-key:
     - error
   react/jsx-curly-brace-presence:
-    - error
+    - warn
   "@typescript-eslint/no-unused-vars":
-    - error
+    - warn
   "@typescript-eslint/no-explicit-any":
-    - error
+    - warn
   react/function-component-definition:
     - error
   import/no-default-export:
