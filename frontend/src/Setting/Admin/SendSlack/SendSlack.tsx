@@ -8,6 +8,7 @@ import {
   Avatar,
   Card,
   CardBody,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Member } from "types";
@@ -17,6 +18,7 @@ function SendSlack() {
   const [selectedIssuer, setSelectedIssuer] = useState<Member>();
   const [userIcon, setUserIcon] = useState("");
   const [memberList, setMemberList] = useState<Member[]>([]);
+  const toast = useToast();
 
   async function setDefaultIssuer() {
     const billsList = await Backend.getBillList();
@@ -73,8 +75,22 @@ function SendSlack() {
 
   function issueBill() {
     if (typeof selectedIssuer !== "undefined") {
-      Backend.issueBill(selectedIssuer.id);
+      try {
+        Backend.issueBill(selectedIssuer.id);
+        showToast("請求書を発行しました", "success");
+      } catch (e) {
+        showToast("請求書の発行に失敗しました", "error");
+      }
     }
+  }
+
+  function showToast(title: string, status: "success" | "error") {
+    toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+    });
   }
 
   useEffect(() => {
