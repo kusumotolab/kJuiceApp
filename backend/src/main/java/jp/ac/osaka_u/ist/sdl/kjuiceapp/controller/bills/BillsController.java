@@ -37,8 +37,10 @@ public class BillsController {
     try {
       BillEntity result = billService.postBill(bill.issuerId());
       return BillsController.convert(result);
-    } catch (NoSuchMemberException | ConnectException e) {
+    } catch (NoSuchMemberException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    } catch (ConnectException e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

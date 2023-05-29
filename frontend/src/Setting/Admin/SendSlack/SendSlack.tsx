@@ -62,9 +62,18 @@ function SendSlack() {
 
   function updateIssuer(memberId: string) {
     if (memberId != "") {
-      setSelectedIssuer(
-        memberList.filter((member) => member.id == memberId)[0]
-      );
+      setSelectedIssuer(memberList.find((member) => member.id === memberId));
+    }
+  }
+
+  function issuerSelected(e: React.ChangeEvent<HTMLSelectElement>) {
+    const memberId = e.target?.value ?? "";
+    updateIssuer(memberId);
+  }
+
+  function issueBill() {
+    if (typeof selectedIssuer !== "undefined") {
+      Backend.issueBill(selectedIssuer.id);
     }
   }
 
@@ -88,13 +97,7 @@ function SendSlack() {
             <Stack direction="row" spacing={8} h="1fr">
               <Avatar bg="gray.400" src={userIcon} size="lg" />
               <Center h="1fr" fontSize="2xl">
-                <Select
-                  size="lg"
-                  onChange={async (e) => {
-                    const memberId = e.target?.value ?? "";
-                    updateIssuer(memberId);
-                  }}
-                >
+                <Select size="lg" onChange={async (e) => issuerSelected(e)}>
                   {memberList.map(({ id, name }) => (
                     <option
                       key={id}
@@ -110,14 +113,7 @@ function SendSlack() {
           </CardBody>
         </Card>
       </FormControl>
-      <Button
-        colorScheme="teal"
-        onClick={() => {
-          if (typeof selectedIssuer !== "undefined") {
-            Backend.issueBill(selectedIssuer.id);
-          }
-        }}
-      >
+      <Button colorScheme="teal" onClick={() => issueBill()}>
         送信
       </Button>
     </Stack>

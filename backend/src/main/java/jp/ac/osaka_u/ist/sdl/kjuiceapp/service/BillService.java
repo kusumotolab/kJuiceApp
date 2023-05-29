@@ -1,5 +1,7 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
+import com.slack.api.methods.SlackApiException;
+import java.io.IOException;
 import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,7 +11,6 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BillService {
 
   @Autowired private BillRepository billRepository;
-  @Autowired private PurchaseRepository purchaseRepository;
+  @Autowired private PurchaseService purchaseService;
   @Autowired private MemberRepository memberRepository;
   @Autowired private CommunicateSlack communicateSlack;
 
@@ -36,7 +37,7 @@ public class BillService {
     String message = makeBillMessage(issuerName);
     try {
       communicateSlack.sendMessage(message);
-    } catch (Exception e) {
+    } catch (SlackApiException | IOException e) {
       throw new ConnectException();
     }
 
@@ -54,15 +55,12 @@ public class BillService {
     StringBuilder sb = new StringBuilder();
     sb.append("ジュース会大臣の" + issuerName + "です．\n");
     sb.append("今月分の利用料金が確定しました．\n");
-
-    Map<String, Integer> nextPaymentSummary = purchaseRepository.getPaymentSummary();
+    Map<String, Integer> nextPaymentSummary = purchaseService.getPaymentSummaryOrderedByPayment();
     nextPaymentSummary.forEach(
         (key, value) -> {
-          String memberName =
-              memberRepository
-                  .findById(key)
-                  .orElseThrow(() -> new NoSuchElementException())
-                  .getName();
+          String memberName;
+          memberName =
+              memberRepository.findById(key).orElseThrow(NoSuchElementException::new).getName();
           sb.append(memberName + "様 : " + value + "円\n");
         });
 

@@ -24,7 +24,7 @@ public class BillsServiceTest extends DBTestBase {
   @Autowired private BillRepository billRepository;
 
   @Test
-  @DataSet(value = "BillsController/normalGetAllBills/before.yaml")
+  @DataSet(value = "BillService/recentBillIssuedDate/before.yaml")
   public void normalGetAllBills() throws Exception {
     var expectedValue = "2023-04-07T17:44:59";
     assertEquals(billService.getRecentBillDate().toString(), expectedValue);
