@@ -1,4 +1,3 @@
-import "./PopUpMenu.css";
 import { Backend } from "util/Backend";
 import { Dispatch, SetStateAction, useRef } from "react";
 import { Item, Member } from "types";
