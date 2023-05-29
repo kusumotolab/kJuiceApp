@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type IItemAddFormInput = {
+type TItemAddFormInput = {
   itemId: string;
   itemName: string;
   sellingPrice: number;
@@ -38,7 +38,7 @@ const schema = z.object({
   costPrice: z
     .number({ invalid_type_error: "原価を入力してください" })
     .int()
-    .min(0, "0以上の整数を入力してください"),
+    .nonnegative("0以上の整数を入力してください"),
   category: z.string(),
 });
 type Schema = z.infer<typeof schema>;
@@ -54,31 +54,28 @@ function ItemAddPane() {
   });
   const toast = useToast();
 
-  async function onSubmit(data: IItemAddFormInput) {
-    addItem(data);
+  async function onSubmit(data: TItemAddFormInput) {
+    try {
+      await addItem(data);
+      showToast("アイテムを追加しました", "success");
+    } catch (e) {
+      showToast("アイテムの追加に失敗しました", "error");
+    }
     reset();
   }
 
-  function showSuccessToast() {
+  function showToast(title: string, status: "success" | "error") {
     toast({
-      title: "アイテムを追加しました",
-      status: "success",
+      title: title,
+      status: status,
       duration: 3000,
       isClosable: true,
     });
   }
 
-  function showErrorToast() {
-    toast({
-      title: "アイテムの追加に失敗しました",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
-    });
-  }
-
-  async function addItem(data: IItemAddFormInput) {
+  async function addItem(data: TItemAddFormInput) {
     const { itemId, itemName, sellingPrice, costPrice, category } = data;
+
     if (
       !(await Backend.addItem(
         itemId,
@@ -88,9 +85,7 @@ function ItemAddPane() {
         category
       ))
     ) {
-      showErrorToast();
-    } else {
-      showSuccessToast();
+      throw new Error();
     }
   }
 

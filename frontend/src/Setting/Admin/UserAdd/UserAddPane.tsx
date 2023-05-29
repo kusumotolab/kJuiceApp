@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { Backend } from "util/Backend";
 import { z } from "zod";
 
-type IUserAddFormInput = {
+type TUserAddFormInput = {
   userId: string;
   userName: string;
   attribute: string;
@@ -42,35 +42,30 @@ function UserAddPane() {
   });
   const toast = useToast();
 
-  async function onSubmit(data: IUserAddFormInput) {
-    addUser(data);
+  async function onSubmit(data: TUserAddFormInput) {
+    try {
+      await addUser(data);
+      showToast("ユーザを追加しました", "success");
+    } catch (e) {
+      showToast("ユーザの追加に失敗しました", "error");
+    }
     reset();
   }
 
-  function showSuccessToast() {
+  function showToast(title: string, status: "success" | "error") {
     toast({
-      title: "ユーザを追加しました",
-      status: "success",
+      title: title,
+      status: status,
       duration: 3000,
       isClosable: true,
     });
   }
 
-  function showErrorToast() {
-    toast({
-      title: "ユーザの追加に失敗しました",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
-    });
-  }
-
-  async function addUser(data: IUserAddFormInput) {
+  async function addUser(data: TUserAddFormInput) {
     const { userId, userName, attribute } = data;
+
     if (!(await Backend.addMember(userId, userName, attribute))) {
-      showErrorToast();
-    } else {
-      showSuccessToast();
+      throw new Error();
     }
   }
 
