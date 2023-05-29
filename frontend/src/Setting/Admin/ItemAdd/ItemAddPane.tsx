@@ -57,11 +57,11 @@ function ItemAddPane() {
   async function onSubmit(data: TItemAddFormInput) {
     try {
       await addItem(data);
+      reset();
       showToast("アイテムを追加しました", "success");
     } catch (e) {
       showToast("アイテムの追加に失敗しました", "error");
     }
-    reset();
   }
 
   function showToast(title: string, status: "success" | "error") {

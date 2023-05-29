@@ -45,11 +45,11 @@ function UserAddPane() {
   async function onSubmit(data: TUserAddFormInput) {
     try {
       await addUser(data);
+      reset();
       showToast("ユーザを追加しました", "success");
     } catch (e) {
       showToast("ユーザの追加に失敗しました", "error");
     }
-    reset();
   }
 
   function showToast(title: string, status: "success" | "error") {
