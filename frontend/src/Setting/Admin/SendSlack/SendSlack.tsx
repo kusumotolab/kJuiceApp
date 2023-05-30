@@ -63,7 +63,7 @@ function SendSlack() {
   }
 
   function updateIssuer(memberId: string) {
-    if (memberId != "") {
+    if (memberId !== "") {
       setIssuer(memberList.find((member) => member.id === memberId));
     }
   }

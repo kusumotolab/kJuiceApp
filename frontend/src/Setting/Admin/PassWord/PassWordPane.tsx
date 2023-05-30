@@ -30,7 +30,7 @@ function PasswordPane({ visible, setVisible }: Props) {
       <Button
         colorScheme="teal"
         onClick={() => {
-          if (password == "password") {
+          if (password === "password") {
             setVisible(false);
           } else {
             alert("パスワードが違います");

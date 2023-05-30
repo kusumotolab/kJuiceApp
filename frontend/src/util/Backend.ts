@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Chat, Item, Member, LabeledHistory, History, Bill } from "types";
+import { Chat, Item, Member, History, Bill } from "types";
 
 export class Backend {
   private static readonly BASE = "./backend/";
@@ -137,9 +137,9 @@ export class Backend {
       .catch(() => false);
   }
 
-  public static async getHistoryEachMonth(): Promise<LabeledHistory | null> {
-    return null;
-  }
+  // public static async getHistoryEachMonth(): Promise<LabeledHistory | null> {
+  //   return null;
+  // }
 
   public static async getUserHistory(id: string): Promise<History[] | null> {
     const endpoint = "purchases";
