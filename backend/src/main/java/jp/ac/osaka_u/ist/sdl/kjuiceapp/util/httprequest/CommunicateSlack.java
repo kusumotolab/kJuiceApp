@@ -17,10 +17,10 @@ public class CommunicateSlack {
   public void sendMessage(String message) throws SlackApiException, IOException {
 
     Slack slack = Slack.getInstance();
-    MethodsClient methods = slack.methods(slackConfig.getToken());
+    MethodsClient methods = slack.methods(slackConfig.token());
 
     ChatPostMessageRequest request =
-        ChatPostMessageRequest.builder().channel(slackConfig.getChannel()).text(message).build();
+        ChatPostMessageRequest.builder().channel(slackConfig.channel()).text(message).build();
 
     methods.chatPostMessage(request);
   }

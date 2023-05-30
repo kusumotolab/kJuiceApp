@@ -15,8 +15,8 @@ import { Member } from "types";
 import { Backend } from "util/Backend";
 
 function SendSlack() {
-  const [selectedIssuer, setSelectedIssuer] = useState<Member>();
-  const [userIcon, setUserIcon] = useState("");
+  const [issuer, setIssuer] = useState<Member>();
+  const [issuerIcon, setIssuerIcon] = useState("");
   const [memberList, setMemberList] = useState<Member[]>([]);
   const toast = useToast();
 
@@ -36,7 +36,7 @@ function SendSlack() {
         membersList.find((member) => member.active && member.id === issuerId) ||
         membersList[0];
       setImage(issuer);
-      setSelectedIssuer(issuer);
+      setIssuer(issuer);
     } catch (e) {
       return;
     }
@@ -45,9 +45,9 @@ function SendSlack() {
   async function setImage(member: Member) {
     const img = await Backend.getMemberImage(member.id);
     if (img !== null) {
-      setUserIcon(URL.createObjectURL(img));
+      setIssuerIcon(URL.createObjectURL(img));
     } else {
-      setUserIcon("");
+      setIssuerIcon("");
     }
   }
 
@@ -64,19 +64,19 @@ function SendSlack() {
 
   function updateIssuer(memberId: string) {
     if (memberId != "") {
-      setSelectedIssuer(memberList.find((member) => member.id === memberId));
+      setIssuer(memberList.find((member) => member.id === memberId));
     }
   }
 
-  function issuerSelected(e: React.ChangeEvent<HTMLSelectElement>) {
-    const memberId = e.target?.value ?? "";
+  function handleChangeIssuer(e: React.ChangeEvent<HTMLSelectElement>) {
+    const memberId = e.target?.value;
     updateIssuer(memberId);
   }
 
   function issueBill() {
-    if (typeof selectedIssuer !== "undefined") {
+    if (typeof issuer !== "undefined") {
       try {
-        Backend.issueBill(selectedIssuer.id);
+        Backend.issueBill(issuer.id);
         showToast("請求書を発行しました", "success");
       } catch (e) {
         showToast("請求書の発行に失敗しました", "error");
@@ -99,27 +99,23 @@ function SendSlack() {
   }, []);
 
   useEffect(() => {
-    if (typeof selectedIssuer !== "undefined") {
-      setImage(selectedIssuer);
+    if (typeof issuer !== "undefined") {
+      setImage(issuer);
     }
-  }, [selectedIssuer]);
+  }, [issuer]);
 
   return (
     <Stack spacing={4}>
-      <FormControl id="user-icon">
+      <FormControl>
         <FormLabel>食品会/ジュース会大臣</FormLabel>
         <Card>
           <CardBody>
             <Stack direction="row" spacing={8} h="1fr">
-              <Avatar bg="gray.400" src={userIcon} size="lg" />
+              <Avatar bg="gray.400" src={issuerIcon} size="lg" />
               <Center h="1fr" fontSize="2xl">
-                <Select size="lg" onChange={async (e) => issuerSelected(e)}>
+                <Select size="lg" onChange={async (e) => handleChangeIssuer(e)}>
                   {memberList.map(({ id, name }) => (
-                    <option
-                      key={id}
-                      value={id}
-                      selected={selectedIssuer?.id === id}
-                    >
+                    <option key={id} value={id} selected={issuer?.id === id}>
                       {name}
                     </option>
                   ))}

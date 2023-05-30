@@ -2,7 +2,6 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import com.slack.api.methods.SlackApiException;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -30,17 +29,13 @@ public class BillService {
     return billRepository.findAll();
   }
 
-  public BillEntity postBill(String issuerId) throws NoSuchMemberException, ConnectException {
+  public BillEntity postBill(String issuerId)
+      throws NoSuchMemberException, SlackApiException, IOException {
     MemberEntity issuerMember =
         memberRepository.findById(issuerId).orElseThrow(NoSuchMemberException::new);
     String issuerName = issuerMember.getName();
     String message = makeBillMessage(issuerName);
-    try {
-      communicateSlack.sendMessage(message);
-    } catch (SlackApiException | IOException e) {
-      throw new ConnectException();
-    }
-
+    communicateSlack.sendMessage(message);
     BillEntity newBill = new BillEntity(issuerId);
     return billRepository.save(newBill);
   }
