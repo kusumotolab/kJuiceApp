@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -15,6 +16,7 @@ type Props = {
 
 function PasswordPane({ visible, setVisible }: Props) {
   const [password, setPassword] = useState("");
+  const toast = useToast();
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.key === "Enter") {
@@ -26,8 +28,17 @@ function PasswordPane({ visible, setVisible }: Props) {
     if (password === "password") {
       setVisible(false);
     } else {
-      alert("パスワードが違います");
+      showToast("パスワードが違います", "error");
     }
+  }
+
+  function showToast(title: string, status: "success" | "error") {
+    toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+    });
   }
 
   return (
