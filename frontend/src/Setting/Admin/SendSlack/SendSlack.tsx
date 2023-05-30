@@ -113,7 +113,7 @@ function SendSlack() {
             <Stack direction="row" spacing={8} h="1fr">
               <Avatar bg="gray.400" src={issuerIcon} size="lg" />
               <Center h="1fr" fontSize="2xl">
-                <Select size="lg" onChange={(e) => handleChangeIssuer(e)}>
+                <Select size="lg" onChange={handleChangeIssuer}>
                   {memberList.map(({ id, name }) => (
                     <option key={id} value={id} selected={issuer?.id === id}>
                       {name}
@@ -125,7 +125,7 @@ function SendSlack() {
           </CardBody>
         </Card>
       </FormControl>
-      <Button colorScheme="teal" onClick={() => issueBill()}>
+      <Button colorScheme="teal" onClick={issueBill}>
         送信
       </Button>
     </Stack>
