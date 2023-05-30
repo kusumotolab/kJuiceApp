@@ -436,7 +436,7 @@ paths:
       tags:
         - bills
       summary: Issue a bill
-      description: 請求書を発行し，slackに送信する
+      description: 請求書を発行し，Slackに送信する
       requestBody:
         required: true
         content:
