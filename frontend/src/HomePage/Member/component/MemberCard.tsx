@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Member } from "types";
 import { Dispatch, SetStateAction } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { Backend } from "util/Backend";
+import { TabIndex } from "App";
 
 type Props = {
   selected: boolean;
@@ -14,6 +15,8 @@ type Props = {
 function MemberCard({ selected, member, setSelectedMember }: Props) {
   const [userIcon, setUserIcon] = useState("");
 
+  const tabIndex = useContext(TabIndex);
+
   async function getImage() {
     const img = await Backend.getMemberImage(member.id);
     if (img !== null) {
@@ -23,7 +26,7 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
 
   useEffect(() => {
     getImage();
-  }, []);
+  }, [tabIndex]);
 
   return (
     <Flex

@@ -16,13 +16,13 @@ type Props = {
 function PasswordPane({ visible, setVisible }: Props) {
   const [password, setPassword] = useState("");
 
-  function pressEnter(event: React.KeyboardEvent<HTMLElement>) {
+  function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.key === "Enter") {
-      passwordInputted();
+      verifyPassword();
     }
   }
 
-  function passwordInputted() {
+  function verifyPassword() {
     if (password === "password") {
       setVisible(false);
     } else {
@@ -38,11 +38,11 @@ function PasswordPane({ visible, setVisible }: Props) {
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          onKeyDown={pressEnter}
+          onKeyDown={handleKeyDown}
         />
         <FormHelperText>ヒント: &quot;password&quot;</FormHelperText>
       </FormControl>
-      <Button colorScheme="teal" onClick={passwordInputted}>
+      <Button colorScheme="teal" onClick={verifyPassword}>
         認証
       </Button>
     </Stack>
