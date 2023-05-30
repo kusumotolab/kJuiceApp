@@ -80,6 +80,8 @@ services:
         target: /backend/settings.gradle
     depends_on:
       - postgresql
+    environment:
+      TZ: Asia/Tokyo
     command:
       - ./gradlew
       - bootRun
