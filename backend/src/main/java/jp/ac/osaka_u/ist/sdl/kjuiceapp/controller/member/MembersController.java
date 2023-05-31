@@ -59,6 +59,8 @@ public class MembersController {
       result = memberService.addMember(member.id(), member.name(), member.attribute());
     } catch (DuplicateIdException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT);
+    } catch (IllegalArgumentException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
     return convert(result);
   }

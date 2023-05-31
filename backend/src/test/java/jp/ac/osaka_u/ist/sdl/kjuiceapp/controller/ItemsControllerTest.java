@@ -64,6 +64,16 @@ public class ItemsControllerTest extends DBTestBase {
   }
 
   @Test
+  void illegalItemIdAdd() throws Exception {
+    var requestParams = new ItemAddRequestBody("あいうえお", "午後の紅茶", 80, 60, "juice");
+    String requestBody = objectMapper.writeValueAsString(requestParams);
+
+    this.mockMvc
+        .perform(post("/items").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   @DataSet(value = "ItemsController/normalUpdateItem/before.yaml")
   @ExpectedDataSet(value = "ItemsController/normalUpdateItem/expected.yaml")
   void normalUpdateItem() throws Exception {
