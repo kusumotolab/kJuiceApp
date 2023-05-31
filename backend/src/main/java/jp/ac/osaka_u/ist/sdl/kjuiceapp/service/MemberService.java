@@ -55,7 +55,7 @@ public class MemberService {
   public MemberEntity addMember(String id, String name, String attribute)
       throws DuplicateIdException {
     if (!id.matches("^[a-z0-9_-]+$")) {
-      throw new IllegalArgumentException("Inappropriate Member Id Specified.");
+      throw new IllegalArgumentException("Invalid Member ID Specified.");
     }
     if (memberRepository.existsById(id)) {
       throw new DuplicateIdException();
