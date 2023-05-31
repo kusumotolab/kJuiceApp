@@ -78,10 +78,12 @@ services:
       - type: bind
         source: ${KJA_LOCAL_WS-.}/backend/settings.gradle
         target: /backend/settings.gradle
-    depends_on:
-      - postgresql
     environment:
       TZ: Asia/Tokyo
+      SLACK_TOKEN: ${SLACK_TOKEN}
+      SLACK_CHANNEL: ${SLACK_CHANNEL}
+    depends_on:
+      - postgresql
     command:
       - ./gradlew
       - bootRun

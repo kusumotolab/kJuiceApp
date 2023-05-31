@@ -1,5 +1,7 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills;
 
+import com.slack.api.methods.SlackApiException;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.bills.requestbody.BillPostRequestBody;
@@ -38,6 +40,8 @@ public class BillsController {
       return BillsController.convert(result);
     } catch (NoSuchMemberException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    } catch (IOException | SlackApiException e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
