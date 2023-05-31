@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Chat, Item, Member, History } from "types";
+import { Chat, Item, Member, History, Bill } from "types";
 
 export class Backend {
   private static readonly BASE = "./backend/";
@@ -198,5 +198,26 @@ export class Backend {
         else return null;
       })
       .catch(() => null);
+  }
+
+  public static async getBillList(): Promise<Bill[] | null> {
+    const endpoint = `bills`;
+    return await axios
+      .get(Backend.BASE + endpoint)
+      .then((res) => res.data)
+      .catch(() => null);
+  }
+
+  public static async issueBill(issuerId: string) {
+    const endpoint = "bills";
+    const data = {
+      issuerId,
+    };
+
+    // TODO 成否判定
+    return await axios
+      .post(Backend.BASE + endpoint, data)
+      .then(() => true)
+      .catch(() => false);
   }
 }

@@ -63,6 +63,16 @@ public class MembersControllerTest extends DBTestBase {
   }
 
   @Test
+  void illegalIdAddMember() throws Exception {
+    var requestParams = new MemberAddRequestBody("無効なID", "竹重", "m1");
+    String requestBody = objectMapper.writeValueAsString(requestParams);
+
+    this.mockMvc
+        .perform(post("/members").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   @DataSet(value = "MembersController/normalUpdateMember/before.yaml")
   @ExpectedDataSet(value = "MembersController/normalUpdateMember/expected.yaml")
   void normalUpdateMember() throws Exception {
