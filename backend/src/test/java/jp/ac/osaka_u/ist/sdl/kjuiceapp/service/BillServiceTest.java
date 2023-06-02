@@ -12,26 +12,24 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 
 @DBRider
 @DataSet(cleanBefore = true)
-@AutoConfigureMockMvc
 @ActiveProfiles("test") // To use test db
 public class BillServiceTest extends DBTestBase {
   @Autowired private BillService billService;
   @Autowired private BillRepository billRepository;
 
   @Test
-  @DataSet(value = "BillService/recentBillIssuedDate/before.yaml")
+  @DataSet(value = "BillService/recentBillIssuedDate/before.yaml", cleanAfter = true)
   public void recentBillIssuedDate() throws Exception {
     var expectedValue = "2023-04-07T17:44:59";
     assertEquals(billService.getRecentBillDate().toString(), expectedValue);
   }
 
   @Test
-  @DataSet(value = "BillService/makeInvoiceMessage/before.yaml")
+  @DataSet(value = "BillService/makeInvoiceMessage/before.yaml", cleanAfter = true)
   public void testMakeInvoiceMessage() {
     LocalDateTime recentBillsDate = billService.getRecentBillDate();
     LocalDateTime expectedRecentBillsDate = LocalDateTime.of(2023, 4, 4, 17, 44, 59);
@@ -51,7 +49,7 @@ public class BillServiceTest extends DBTestBase {
   }
 
   @Test
-  @DataSet(value = "BillService/noBillsIssuedBefore/before.yaml")
+  @DataSet(value = "BillService/noBillsIssuedBefore/before.yaml", cleanAfter = true)
   public void testMakeInvoiceMessageWhenThereIsNoBillsBefore() {
     String expected =
         """
@@ -66,7 +64,7 @@ public class BillServiceTest extends DBTestBase {
   }
 
   @Test
-  @DataSet(value = "BillService/normalPostBill/before.yaml")
+  @DataSet(value = "BillService/normalPostBill/before.yaml", cleanAfter = true)
   @ExpectedDataSet(value = "BillService/normalPostBill/expected.yaml")
   public void testBillDataRegistration() throws Exception {
     var expectedResponseParams =
