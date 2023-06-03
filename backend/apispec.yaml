@@ -435,8 +435,8 @@ paths:
     post:
       tags:
         - bills
-      summary: Register bills history
-      description: 請求書を発行する
+      summary: Issue a bill
+      description: 請求書を発行し，Slackに送信する
       requestBody:
         required: true
         content:

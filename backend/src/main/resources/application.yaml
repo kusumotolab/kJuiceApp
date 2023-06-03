@@ -17,3 +17,7 @@ spring:
 logging:
   level:
     root: INFO
+
+slack:
+  token: ${SLACK_TOKEN}
+  channel: ${SLACK_CHANNEL}

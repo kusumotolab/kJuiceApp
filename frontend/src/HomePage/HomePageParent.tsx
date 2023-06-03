@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
 import { Flex, useToast } from "@chakra-ui/react";
+import { TabIndex } from "App";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -46,6 +47,8 @@ function HomePageParent() {
     setMemberList(memberList.filter((member) => member.active));
   }
 
+  const tabIndex = useContext(TabIndex);
+
   async function fetchItemList() {
     const itemList = await Backend.getItemList();
 
@@ -65,7 +68,7 @@ function HomePageParent() {
   useEffect(() => {
     fetchMemberList();
     fetchItemList();
-  }, []);
+  }, [tabIndex]);
 
   return (
     <Flex h="calc(100vh - 40px)" overflowX="scroll">

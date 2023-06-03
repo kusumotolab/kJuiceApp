@@ -1,6 +1,7 @@
 import { Td, Tr } from "@chakra-ui/react";
 import { History } from "types";
 import { CancelButton } from "./cancell/CancelButton";
+import { DateFormatter } from "util/DateFormatter";
 
 type Props = {
   history: History;
@@ -10,7 +11,7 @@ type Props = {
 function HistoryCard({ history, updateHistory }: Props) {
   return (
     <Tr>
-      <Td>{history.date}</Td>
+      <Td>{DateFormatter.convertDateFormat(history.date)}</Td>
       <Td>{history.itemName}</Td>
       <Td>{history.price}円</Td>
       <Td>

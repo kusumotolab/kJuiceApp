@@ -24,7 +24,7 @@ function MemberPanePerAttribute({
         {description}
       </Heading>
       {memberList
-        .filter((member) => member.attribute == attribute)
+        .filter((member) => member.attribute === attribute)
         .sort((a, b) => {
           if (a.id > b.id) {
             return 1;
