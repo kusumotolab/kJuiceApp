@@ -10,6 +10,7 @@ import {
   FormLabel,
   Select,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { FileSelect } from "Setting/User/IconSetting/FileSelect/FileSelect";
 import LogoDefaultItem from "./../../../image/default_item.svg";
@@ -17,8 +18,9 @@ import LogoDefaultItem from "./../../../image/default_item.svg";
 function ItemIconChangePane() {
   const [itemList, setItemList] = useState<Item[]>([]);
   const [profileImage, setProfileImage] = useState(LogoDefaultItem);
-  const [selectedItemId, setSelectedItemId] = useState<string>("");
+  const [targetItemId, setTargetItemId] = useState<string>("");
   const [fileObject, setFileObject] = useState<File>();
+  const toast = useToast();
 
   async function fetchItemList() {
     const itemList = await Backend.getItemList();
@@ -29,28 +31,38 @@ function ItemIconChangePane() {
     }
   }
 
+  function showToast(title: string, status: "success" | "error") {
+    toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
   function onFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
     setFileObject(e.target.files[0]);
 
     setProfileImage(window.URL.createObjectURL(e.target.files[0]));
   }
-  async function handleSubmit(itemId: string, fileObject: File | undefined) {
-    if (itemId === "") {
-      alert("アイテムが指定されていません");
+  async function handleSubmit() {
+    if (targetItemId === "") {
+      showToast("アイテムが指定されていません", "error");
       return;
     }
 
     if (typeof fileObject === "undefined") {
-      alert("画像が選択されていません");
+      showToast("画像が選択されていません", "error");
       return;
     }
 
-    if (await Backend.setItemImage(itemId, fileObject)) {
-      alert("送信に成功しました");
+    if (await Backend.setItemImage(targetItemId, fileObject)) {
+      showToast("画像の送信に成功しました", "success");
     } else {
-      alert(
-        "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
+      showToast(
+        "ファイルの送信に失敗しました．ファイルサイズ/形式を確認してください．ファイルサイズの上限は10MBです．",
+        "error"
       );
     }
   }
@@ -76,9 +88,7 @@ function ItemIconChangePane() {
         <FormControl id="select-user">
           <Select
             placeholder="アイコンを変更するアイテムの選択"
-            onChange={(e) => {
-              setSelectedItemId(e.target?.value ?? "");
-            }}
+            onChange={(e) => setTargetItemId(e.target?.value)}
           >
             {itemList.map(({ id, name }) => {
               return (
@@ -89,11 +99,7 @@ function ItemIconChangePane() {
             })}
           </Select>
         </FormControl>
-        <Button
-          colorScheme="teal"
-          variant="solid"
-          onClick={() => handleSubmit(selectedItemId, fileObject)}
-        >
+        <Button colorScheme="teal" variant="solid" onClick={handleSubmit}>
           変更
         </Button>
       </Stack>
