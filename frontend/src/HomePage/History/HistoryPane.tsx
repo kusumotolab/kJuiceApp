@@ -33,7 +33,7 @@ function HistoryPane({ selectedMember }: Props) {
       return;
     }
 
-    setHistories(histories);
+    setHistories(histories.reverse());
   };
 
   function updateHistory() {
