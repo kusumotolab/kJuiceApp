@@ -19,13 +19,16 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
+import { createContext, useState } from "react";
+
+export const TabIndex = createContext(0);
 
 function App() {
   const iconStyle: React.CSSProperties = { marginLeft: "0.4em" };
-
+  const [tabIndex, setTabIndex] = useState(0);
   return (
     <ChakraProvider>
-      <Tabs>
+      <Tabs onChange={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>
             Home
@@ -46,7 +49,9 @@ function App() {
         </TabList>
         <TabPanels>
           <TabPanel p={0}>
-            <HomePageParent />
+            <TabIndex.Provider value={tabIndex}>
+              <HomePageParent />
+            </TabIndex.Provider>
           </TabPanel>
           <TabPanel>
             <GraphPane />

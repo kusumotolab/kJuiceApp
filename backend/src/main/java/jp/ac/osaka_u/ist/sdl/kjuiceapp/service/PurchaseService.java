@@ -1,6 +1,10 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
@@ -46,5 +50,13 @@ public class PurchaseService {
 
     purchaseRepository.deleteById(historyId);
     return;
+  }
+
+  public HashMap<String, Integer> getPaymentSummaryOrderedByPayment() {
+    return purchaseRepository.getPaymentSummary().entrySet().stream()
+        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+        .collect(
+            Collectors.toMap(
+                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
   }
 }

@@ -1,0 +1,7 @@
+bill:
+  - bill_id: 1
+    issuer_id: "h-yosiok"
+    post_date: "2023-04-07 17:44:51"
+  - bill_id: 2
+    issuer_id: "h-takesg"
+    post_date: "2023-04-07 17:44:59"

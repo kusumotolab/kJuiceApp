@@ -55,7 +55,6 @@ public class ItemsController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ItemResponseBody addItem(@RequestBody ItemAddRequestBody item) {
-    // TODO パラメータバリデーション
     ItemEntity result;
     try {
       result =
@@ -63,6 +62,8 @@ public class ItemsController {
               item.id(), item.name(), item.sellingPrice(), item.costPrice(), item.category());
     } catch (DuplicateIdException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT);
+    } catch (IllegalArgumentException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
     return ItemsController.convert(result);
