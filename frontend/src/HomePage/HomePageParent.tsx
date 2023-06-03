@@ -3,7 +3,7 @@ import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useToast } from "@chakra-ui/react";
 import { TabIndex } from "App";
 
 function HomePageParent() {
@@ -12,13 +12,29 @@ function HomePageParent() {
   const [memberList, setMemberList] = useState<Member[]>([]);
   const [juiceList, setJuiceList] = useState<Item[]>([]);
   const [foodList, setFoodList] = useState<Item[]>([]);
+  const toast = useToast();
 
-  const [update, setUpdate] = useState(false);
+  async function purchaseItem() {
+    if (selectedMember === null || selectedItem === null) {
+      return;
+    }
 
-  // 再レンダリング用のトリガとして利用するステート
-  // もう少し賢い実装がありそうなので，TODO としておく
-  // TODO
-  const [sumPurchased, setSumPurchased] = useState(0);
+    if (!(await Backend.purchase(selectedMember.id, selectedItem.id)))
+      console.error("purchaseItem: failed");
+
+    setSelectedMember(null);
+    showToast();
+  }
+
+  function showToast() {
+    toast({
+      title: "購入完了",
+      description: "購入が完了しました",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
 
   async function fetchMemberList() {
     const memberList = await Backend.getMemberList();
@@ -52,7 +68,7 @@ function HomePageParent() {
   useEffect(() => {
     fetchMemberList();
     fetchItemList();
-  }, [sumPurchased, tabIndex]);
+  }, [tabIndex]);
 
   return (
     <Flex h="calc(100vh - 40px)" overflowX="scroll">
@@ -65,12 +81,9 @@ function HomePageParent() {
         setSelectedItem={setSelectedItem}
         selectedItem={selectedItem}
         juiceList={juiceList}
-        update={update}
-        setUpdate={setUpdate}
         foodList={foodList}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-        setSumPurchased={setSumPurchased}
+        purchaseItem={purchaseItem}
       />
     </Flex>
   );

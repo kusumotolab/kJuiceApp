@@ -12,12 +12,9 @@ type Props = {
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
   selectedItem: Item | null;
   juiceList: Item[];
-  update: boolean;
-  setUpdate: Dispatch<SetStateAction<boolean>>;
   foodList: Item[];
   selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
-  setSumPurchased: Dispatch<SetStateAction<number>>;
+  purchaseItem: () => void;
 };
 
 function ItemPane({
@@ -26,8 +23,7 @@ function ItemPane({
   juiceList,
   foodList,
   selectedMember,
-  setSelectedMember,
-  setSumPurchased,
+  purchaseItem,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -56,9 +52,8 @@ function ItemPane({
         isOpen={isOpen}
         onClose={onClose}
         selectedItem={selectedItem}
-        setSumPurchased={setSumPurchased}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
+        purchaseItem={purchaseItem}
       />
     </Stack>
   );
