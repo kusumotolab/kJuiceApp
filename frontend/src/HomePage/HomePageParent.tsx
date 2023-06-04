@@ -68,7 +68,7 @@ function HomePageParent() {
   useEffect(() => {
     fetchMemberList();
     fetchItemList();
-  }, [tabIndex]);
+  }, [tabIndex, selectedMember]);
 
   return (
     <Flex h="calc(100vh - 40px)" overflowX="scroll">
