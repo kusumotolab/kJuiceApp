@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberImageEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberImageRepository;
@@ -16,6 +11,9 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -100,11 +98,10 @@ public class MemberService {
     return memberImageRepository.findById(id);
   }
 
-  public int getNextPaymentByMember(String memberId){
+  public int getNextPaymentByMember(String memberId) {
     LocalDateTime recentBillDate = billService.getRecentBillDate();
-    return purchaseRepository.findByMemberIdAndDateAfter(
-      memberId,recentBillDate).stream()
-      .mapToInt(e -> e.getPrice())
-      .sum();
+    return purchaseRepository.findByMemberIdAndDateAfter(memberId, recentBillDate).stream()
+        .mapToInt(e -> e.getPrice())
+        .sum();
   }
 }

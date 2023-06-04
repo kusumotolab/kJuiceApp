@@ -4,7 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberAddRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberUpdateRequestBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responsebody.MemberResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberImageEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -24,15 +31,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberAddRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.requestbody.MemberUpdateRequestBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.member.responsebody.MemberResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberImageEntity;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.MemberService;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 
 @RestController
 @RequestMapping("/members")
@@ -123,6 +121,10 @@ public class MembersController {
 
   private MemberResponseBody convert(MemberEntity origin) {
     return new MemberResponseBody(
-        origin.getId(), origin.getName(), origin.getAttribute(), origin.isActive(),memberService.getNextPaymentByMember(origin.getId()));
+        origin.getId(),
+        origin.getName(),
+        origin.getAttribute(),
+        origin.isActive(),
+        memberService.getNextPaymentByMember(origin.getId()));
   }
 }
