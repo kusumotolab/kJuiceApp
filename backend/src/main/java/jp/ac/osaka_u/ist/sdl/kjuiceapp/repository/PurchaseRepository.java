@@ -1,15 +1,21 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.repository;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
+
 public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Integer> {
   public List<PurchaseEntity> findByMemberId(String memberId);
+  
+  public List<PurchaseEntity> findByMemberIdAndDateAfter(
+      String memberId, LocalDateTime date);
 
   // 請求書を発行した直近の日時を取得し，それ以降に購入された金額をメンバーごとに集計する．
   @Query(
