@@ -15,21 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
 @DBRider
-@DataSet(cleanBefore = true)
 @ActiveProfiles("test") // To use test db
 public class BillServiceTest extends DBTestBase {
   @Autowired private BillService billService;
   @Autowired private BillRepository billRepository;
 
   @Test
-  @DataSet(value = "BillService/recentBillIssuedDate/before.yaml", cleanAfter = true)
+  @DataSet(value = "BillService/recentBillIssuedDate/before.yaml")
   public void recentBillIssuedDate() throws Exception {
     var expectedValue = "2023-04-07T17:44:59";
     assertEquals(billService.getRecentBillDate().toString(), expectedValue);
   }
 
   @Test
-  @DataSet(value = "BillService/makeInvoiceMessage/before.yaml", cleanAfter = true)
+  @DataSet(value = "BillService/makeInvoiceMessage/before.yaml")
   public void testMakeInvoiceMessage() {
     LocalDateTime recentBillsDate = billService.getRecentBillDate();
     LocalDateTime expectedRecentBillsDate = LocalDateTime.of(2023, 4, 4, 17, 44, 59);
@@ -49,7 +48,7 @@ public class BillServiceTest extends DBTestBase {
   }
 
   @Test
-  @DataSet(value = "BillService/noBillsIssuedBefore/before.yaml", cleanAfter = true)
+  @DataSet(value = "BillService/noBillsIssuedBefore/before.yaml")
   public void testMakeInvoiceMessageWhenThereIsNoBillsBefore() {
     String expected =
         """
@@ -64,7 +63,7 @@ public class BillServiceTest extends DBTestBase {
   }
 
   @Test
-  @DataSet(value = "BillService/normalPostBill/before.yaml", cleanAfter = true)
+  @DataSet(value = "BillService/normalPostBill/before.yaml")
   @ExpectedDataSet(value = "BillService/normalPostBill/expected.yaml")
   public void testBillDataRegistration() throws Exception {
     var expectedResponseParams =
