@@ -1,2 +1,3 @@
+alwaysCleanAfter: true
 properties:
    caseSensitiveTableNames: true

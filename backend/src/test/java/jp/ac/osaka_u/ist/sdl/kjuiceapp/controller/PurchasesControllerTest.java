@@ -24,7 +24,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @DBRider
-@DataSet(cleanBefore = true)
 @AutoConfigureMockMvc
 @ActiveProfiles("test") // To use test db
 public class PurchasesControllerTest extends DBTestBase {
