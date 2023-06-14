@@ -18,24 +18,18 @@ type Props = {
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
   selectedItem: Item | null;
   juiceList: Item[];
-  update: boolean;
-  setUpdate: Dispatch<SetStateAction<boolean>>;
   foodList: Item[];
   selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
-  setSumPurchased: Dispatch<SetStateAction<number>>;
+  purchaseItem: () => void;
 };
 
 function ItemPane({
   setSelectedItem,
   selectedItem,
   juiceList,
-  update,
-  setUpdate,
   foodList,
   selectedMember,
-  setSelectedMember,
-  setSumPurchased,
+  purchaseItem,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const logoDictionary: LogoDictionary = {
@@ -73,15 +67,9 @@ function ItemPane({
       <PopUpMenu
         isOpen={isOpen}
         onClose={onClose}
-        imgSrc={
-          logoDictionary[selectedItem === null ? "CocaCola" : selectedItem.id]
-        }
         selectedItem={selectedItem}
-        setSumPurchased={setSumPurchased}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-        setUpdate={setUpdate}
-        update={update}
+        purchaseItem={purchaseItem}
       />
     </Stack>
   );
