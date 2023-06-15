@@ -5,6 +5,7 @@ import { Backend } from "util/Backend";
 import { Item, Member } from "types";
 import { Flex, useToast } from "@chakra-ui/react";
 import { TabIndex } from "App";
+import { InitialView } from "./Item/InitialView";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -23,10 +24,10 @@ function HomePageParent() {
       console.error("purchaseItem: failed");
 
     setSelectedMember(null);
-    showToast();
+    showPurchaseSuccessToast();
   }
 
-  function showToast() {
+  function showPurchaseSuccessToast() {
     toast({
       title: "購入完了",
       description: "購入が完了しました",
@@ -77,14 +78,18 @@ function HomePageParent() {
         setSelectedMember={setSelectedMember}
         memberList={memberList}
       />
-      <ItemPane
-        setSelectedItem={setSelectedItem}
-        selectedItem={selectedItem}
-        juiceList={juiceList}
-        foodList={foodList}
-        selectedMember={selectedMember}
-        purchaseItem={purchaseItem}
-      />
+      {selectedMember !== null ? (
+        <ItemPane
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          juiceList={juiceList}
+          foodList={foodList}
+          selectedMember={selectedMember}
+          purchaseItem={purchaseItem}
+        />
+      ) : (
+        <InitialView />
+      )}
     </Flex>
   );
 }
