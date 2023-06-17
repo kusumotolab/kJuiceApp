@@ -12,12 +12,9 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 
 @DBRider
-@DataSet(cleanBefore = true)
-@AutoConfigureMockMvc
 @ActiveProfiles("test") // To use test db
 public class BillServiceTest extends DBTestBase {
   @Autowired private BillService billService;

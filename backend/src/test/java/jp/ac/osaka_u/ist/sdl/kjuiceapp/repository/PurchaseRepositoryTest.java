@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.test.context.ActiveProfiles;
 
 @DBRider
-@DataSet(cleanBefore = true)
 @AutoConfigureMockMvc
 @ActiveProfiles("test") // To use test db
 public class PurchaseRepositoryTest extends DBTestBase {
