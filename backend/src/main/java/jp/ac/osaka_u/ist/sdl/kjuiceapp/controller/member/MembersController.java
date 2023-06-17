@@ -48,7 +48,7 @@ public class MembersController {
     } else {
       result = memberService.getAllMember();
     }
-    return result.stream().map(e -> convert(e)).toList();
+    return result.stream().map(MembersController::convert).toList();
   }
 
   @PostMapping
@@ -119,12 +119,12 @@ public class MembersController {
     return;
   }
 
-  private MemberResponseBody convert(MemberEntity origin) {
+  private static MemberResponseBody convert(MemberEntity origin) {
     return new MemberResponseBody(
         origin.getId(),
         origin.getName(),
         origin.getAttribute(),
         origin.isActive(),
-        memberService.getNextPaymentByMember(origin.getId()));
+        origin.getPayment());
   }
 }
