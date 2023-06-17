@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberImageEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberImageRepository;
@@ -11,24 +17,36 @@ import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.DuplicateIdException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class MemberService {
   @Autowired MemberRepository memberRepository;
   @Autowired PurchaseRepository purchaseRepository;
+  @Autowired PurchaseService purchaseService;
   @Autowired BillService billService;
   @Autowired MemberImageRepository memberImageRepository;
 
   public List<MemberEntity> getAllMember() {
-    return memberRepository.findAll();
+    return memberRepository.findAll().stream()
+        .map(
+            (member) -> {
+              member.setPayment(
+                  purchaseService.getPurchasedAmountByMemberAfterLastBillDate(member.getId()));
+              return member;
+            })
+        .collect(Collectors.toList());
   }
 
   public List<MemberEntity> getMembersByAttribute(String attribute) {
-    return memberRepository.findByAttribute(attribute);
+    return memberRepository.findByAttribute(attribute).stream()
+        .map(
+            (member) -> {
+              member.setPayment(
+                  purchaseService.getPurchasedAmountByMemberAfterLastBillDate(member.getId()));
+              return member;
+            })
+        .collect(Collectors.toList());
   }
 
   public Optional<MemberEntity> getMember(String id) {
