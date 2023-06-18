@@ -20,8 +20,10 @@ function FoodPane({
 }: Props) {
   return (
     <Box>
-      <Heading>食品</Heading>
-      <Flex p={1} overflowX="auto" gap={4}>
+      <Heading size="md" mb={4}>
+        食品
+      </Heading>
+      <Flex w="100%" justify="start" flexWrap="wrap" gap={6}>
         {foodList.map((food) => {
           return (
             <ItemCard

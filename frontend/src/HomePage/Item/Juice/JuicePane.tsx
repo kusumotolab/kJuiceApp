@@ -21,8 +21,10 @@ function JuicePane({
 }: Props) {
   return (
     <Box>
-      <Heading>ジュース</Heading>
-      <Flex p={1} overflowX="auto" gap={4}>
+      <Heading size="md" mb={4}>
+        ジュース
+      </Heading>
+      <Flex w="100%" justify="start" flexWrap="wrap" gap={6}>
         {juiceList.map((juice) => {
           return (
             <ItemCard

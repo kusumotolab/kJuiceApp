@@ -8,6 +8,7 @@ import {
   CardBody,
   Text,
   AspectRatio,
+  Box,
 } from "@chakra-ui/react";
 
 type Props = {
@@ -20,17 +21,19 @@ type Props = {
 
 function ItemCard({ name, onClick, imgSrc, item }: Props) {
   return (
-    <Card width="10em" flexShrink="0" onClick={onClick}>
-      <CardBody>
-        <Stack spacing="3">
-          <AspectRatio ratio={1 / 1}>
-            <Image src={imgSrc} w="100%" objectFit="cover" />
-          </AspectRatio>
-          <Heading size="md">{name}</Heading>
-          <Text>{item.sellingPrice}円</Text>
-        </Stack>
-      </CardBody>
-    </Card>
+    <Stack spacing={1} w={32} onClick={onClick}>
+      <AspectRatio ratio={1 / 1}>
+        <Image
+          src={imgSrc}
+          border="1px"
+          borderColor="blackAlpha.300"
+          rounded={8}
+          objectFit="cover"
+        />
+      </AspectRatio>
+      <Text>{name}</Text>
+      <Text>{item.sellingPrice}円</Text>
+    </Stack>
   );
 }
 

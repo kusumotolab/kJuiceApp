@@ -43,14 +43,13 @@ function ItemPane({
 
   return (
     <Stack
-      mx={8}
-      flex="3"
+      flex="2"
+      h="calc(100vh - (64px + 96px))"
+      maxW="900px"
+      overflowY="scroll"
+      overscroll="contain"
       spacing={8}
-      overflowX="scroll"
-      overscrollBehavior="contain"
     >
-      <MemberInformation selectedMember={selectedMember} />
-      <Divider />
       <JuicePane
         setSelectedItem={setSelectedItem}
         onOpen={onOpen}
@@ -63,7 +62,6 @@ function ItemPane({
         foodList={foodList}
         logoDictionary={logoDictionary}
       />
-      <HistoryPane selectedMember={selectedMember} />
       <PopUpMenu
         isOpen={isOpen}
         onClose={onClose}

@@ -5,6 +5,7 @@ import { Backend } from "util/Backend";
 import { Item, Member } from "types";
 import { Flex, useToast } from "@chakra-ui/react";
 import { TabIndex } from "App";
+import { HomePageFooter } from "./HomePageFooter";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -71,21 +72,24 @@ function HomePageParent() {
   }, [tabIndex]);
 
   return (
-    <Flex h="calc(100vh - 40px)" overflowX="scroll">
-      <MemberPane
-        selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-        memberList={memberList}
-      />
-      <ItemPane
-        setSelectedItem={setSelectedItem}
-        selectedItem={selectedItem}
-        juiceList={juiceList}
-        foodList={foodList}
-        selectedMember={selectedMember}
-        purchaseItem={purchaseItem}
-      />
-    </Flex>
+    <>
+      <Flex w="100%" justify="center" gap={16}>
+        <MemberPane
+          selectedMember={selectedMember}
+          setSelectedMember={setSelectedMember}
+          memberList={memberList}
+        />
+        <ItemPane
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          juiceList={juiceList}
+          foodList={foodList}
+          selectedMember={selectedMember}
+          purchaseItem={purchaseItem}
+        />
+      </Flex>
+      <HomePageFooter />
+    </>
   );
 }
 

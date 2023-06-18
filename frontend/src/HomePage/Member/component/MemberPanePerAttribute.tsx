@@ -20,9 +20,7 @@ function MemberPanePerAttribute({
 }: Props) {
   return (
     <Stack spacing={4} mb={8}>
-      <Heading size="lg" color="white">
-        {description}
-      </Heading>
+      <Heading size="md">{description}</Heading>
       {memberList
         .filter((member) => member.attribute === attribute)
         .sort((a, b) => {

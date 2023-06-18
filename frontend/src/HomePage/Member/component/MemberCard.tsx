@@ -30,7 +30,9 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
 
   return (
     <Flex
-      rounded={4}
+      rounded={8}
+      border={selected ? "2px" : "1px"}
+      borderColor={selected ? "teal.400" : "blackAlpha.400"}
       m={4}
       p={2}
       alignItems="center"
@@ -39,8 +41,8 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
         setSelectedMember(member);
       }}
     >
-      <Avatar src={userIcon} />
-      <Text ml={4} mb={0} fontSize="2xl" color="white">
+      <Avatar src={userIcon} rounded="inherit" />
+      <Text ml={4} mb={0}>
         {member.name}
       </Text>
     </Flex>
