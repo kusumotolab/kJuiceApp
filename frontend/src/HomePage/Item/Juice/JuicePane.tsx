@@ -1,12 +1,13 @@
 import { ItemCard } from "../component/ItemCard";
 
 import { Dispatch, SetStateAction } from "react";
-import { Item, LogoDictionary, Member } from "types";
+import { Item, LogoDictionary } from "types";
 
 import { Flex, Box, Heading } from "@chakra-ui/react";
 
 type Props = {
   juiceList: Item[];
+  selected?: boolean;
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
   onOpen: () => void;
   logoDictionary: LogoDictionary;
