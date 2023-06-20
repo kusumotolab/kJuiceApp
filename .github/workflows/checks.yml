@@ -15,9 +15,9 @@ jobs:
     - working-directory: ./frontend
       run: npm install
     - working-directory: ./frontend
-      run: npx eslint src
+      run: npx eslint --max-warnings 0 src
     - working-directory: ./frontend
-      run: npx prettier --check --max-warnings 0 src
+      run: npx prettier --check src
 
   backend_format:
     runs-on: ubuntu-latest
