@@ -31,17 +31,16 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
   return (
     <Flex
       rounded={8}
-      border={selected ? "2px" : "1px"}
-      borderColor={selected ? "teal.400" : "blackAlpha.400"}
+      border="2px"
+      borderColor={selected ? "teal.400" : "blackAlpha.200"}
       m={4}
       p={2}
       alignItems="center"
-      bg={selected ? "whiteAlpha.200" : "none"}
       onClick={() => {
         setSelectedMember(member);
       }}
     >
-      <Avatar src={userIcon} rounded="inherit" />
+      <Avatar src={userIcon} size="md" />
       <Text ml={4} mb={0}>
         {member.name}
       </Text>

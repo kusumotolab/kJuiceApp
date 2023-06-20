@@ -7,15 +7,15 @@ import { Box, Heading, Flex } from "@chakra-ui/react";
 
 type Props = {
   foodList: Item[];
+  selectedItem: Item | null;
   setSelectedItem: Dispatch<SetStateAction<Item>>;
-  onOpen: () => void;
   logoDictionary: LogoDictionary;
 };
 
 function FoodPane({
   foodList,
+  selectedItem,
   setSelectedItem,
-  onOpen,
   logoDictionary,
 }: Props) {
   return (
@@ -27,12 +27,10 @@ function FoodPane({
         {foodList.map((food) => {
           return (
             <ItemCard
-              color="#FFC039"
               onClick={() => {
                 setSelectedItem(food);
-                onOpen();
               }}
-              name={food.name}
+              selected={food === selectedItem}
               item={food}
               imgSrc={logoDictionary[food.id]}
               key={food.id}

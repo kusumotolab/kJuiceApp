@@ -31,7 +31,6 @@ function ItemPane({
   selectedMember,
   purchaseItem,
 }: Props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const logoDictionary: LogoDictionary = {
     CocaCola: LogoCola,
     Fanta: LogoFanta,
@@ -51,23 +50,16 @@ function ItemPane({
       spacing={8}
     >
       <JuicePane
+        selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
-        onOpen={onOpen}
         juiceList={juiceList}
         logoDictionary={logoDictionary}
       />
       <FoodPane
+        selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
-        onOpen={onOpen}
         foodList={foodList}
         logoDictionary={logoDictionary}
-      />
-      <PopUpMenu
-        isOpen={isOpen}
-        onClose={onClose}
-        selectedItem={selectedItem}
-        selectedMember={selectedMember}
-        purchaseItem={purchaseItem}
       />
     </Stack>
   );

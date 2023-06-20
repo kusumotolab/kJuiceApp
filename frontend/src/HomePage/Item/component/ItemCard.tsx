@@ -1,37 +1,27 @@
 import "./ItemCard.css";
 import { Item } from "types";
-import {
-  Image,
-  Stack,
-  Heading,
-  Card,
-  CardBody,
-  Text,
-  AspectRatio,
-  Box,
-} from "@chakra-ui/react";
+import { Image, Stack, Text, AspectRatio } from "@chakra-ui/react";
 
 type Props = {
-  color: string;
-  name: string;
+  selected: boolean;
   item: Item;
   onClick: () => void;
   imgSrc: string;
 };
 
-function ItemCard({ name, onClick, imgSrc, item }: Props) {
+function ItemCard({ selected, onClick, imgSrc, item }: Props) {
   return (
     <Stack spacing={1} w={32} onClick={onClick}>
       <AspectRatio ratio={1 / 1}>
         <Image
           src={imgSrc}
-          border="1px"
-          borderColor="blackAlpha.300"
+          border="2px"
+          borderColor={selected ? "teal.400" : "blackAlpha.200"}
           rounded={8}
           objectFit="cover"
         />
       </AspectRatio>
-      <Text>{name}</Text>
+      <Text>{item.name}</Text>
       <Text>{item.sellingPrice}円</Text>
     </Stack>
   );

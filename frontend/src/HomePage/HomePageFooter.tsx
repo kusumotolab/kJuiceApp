@@ -1,8 +1,42 @@
-import { Text, Box, Button, Heading, HStack, Spacer } from "@chakra-ui/react";
+import {
+  Image,
+  Text,
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Spacer,
+  AspectRatio,
+} from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { Item, Member } from "types";
+import { MemberInformation } from "./Item/MemberInformation/MemberInformation";
 
-function HomePageFooter() {
+type HomePageFooterProps = {
+  onOpenPopUp: () => void;
+  selectedUser: Member | null;
+  setSelectedUser: (member: Member | null) => void;
+  selectedItem: Item | null;
+  setSelectedItem: (item: Item | null) => void;
+};
+
+function HomePageFooter({
+  onOpenPopUp,
+  selectedUser,
+  setSelectedUser,
+  selectedItem,
+  setSelectedItem,
+}: HomePageFooterProps) {
+  function clearUserSelection() {
+    setSelectedUser(null);
+  }
+
+  function clearItemSelection() {
+    setSelectedItem(null);
+  }
+
   return (
     <Box
       pos="fixed"
@@ -18,31 +52,46 @@ function HomePageFooter() {
       px={8}
     >
       <HStack spacing={4}>
-        <FontAwesomeIcon icon={faXmarkCircle} size="lg" color="red" />
-        <Box
+        <FontAwesomeIcon
+          icon={faXmarkCircle}
+          size="lg"
+          color={selectedUser === null ? "blackAlpha.300" : "red"}
+          onClick={clearUserSelection}
+        />
+        <MemberInformation selectedMember={selectedUser} />
+        <FontAwesomeIcon
+          icon={faXmarkCircle}
+          size="lg"
+          color={selectedItem === null ? "blackAlpha.300" : "red"}
+          onClick={clearItemSelection}
+        />
+        <AspectRatio
+          ratio={1 / 1}
           w={16}
-          h={16}
           border="1px"
           borderColor="blackAlpha.300"
           rounded={8}
-        ></Box>
-        <Heading color="blackAlpha.500" size="md" w={48}>
-          ユーザを選択
-        </Heading>
-        <FontAwesomeIcon icon={faXmarkCircle} size="lg" color="red" />
-        <Box
-          w={16}
-          h={16}
-          border="1px"
-          borderColor="blackAlpha.300"
-          rounded={8}
-        ></Box>
-        <Heading color="blackAlpha.500" size="md" w={48}>
-          商品を選択
+        >
+          <Image objectFit="cover" />
+        </AspectRatio>
+        <Heading
+          color={selectedItem === null ? "blackAlpha.500" : "black"}
+          size="md"
+          w={48}
+        >
+          {selectedItem === null ? "商品を選択" : selectedItem.name}
         </Heading>
         <Spacer />
-        <Text size="lg">xxx 円</Text>
-        <Button colorScheme="teal">購入</Button>
+        <Text size="lg">
+          {selectedItem === null ? "" : selectedItem.sellingPrice + "円"}
+        </Text>
+        <Button
+          colorScheme="teal"
+          onClick={onOpenPopUp}
+          isDisabled={selectedItem === null || selectedUser === null}
+        >
+          購入
+        </Button>
       </HStack>
     </Box>
   );

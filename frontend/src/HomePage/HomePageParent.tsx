@@ -3,9 +3,10 @@ import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
-import { Flex, useToast } from "@chakra-ui/react";
+import { Flex, useDisclosure, useToast } from "@chakra-ui/react";
 import { TabIndex } from "App";
 import { HomePageFooter } from "./HomePageFooter";
+import { PopUpMenu } from "./Item/purchase/PopUpMenu";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -13,6 +14,7 @@ function HomePageParent() {
   const [memberList, setMemberList] = useState<Member[]>([]);
   const [juiceList, setJuiceList] = useState<Item[]>([]);
   const [foodList, setFoodList] = useState<Item[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   async function purchaseItem() {
@@ -88,7 +90,20 @@ function HomePageParent() {
           purchaseItem={purchaseItem}
         />
       </Flex>
-      <HomePageFooter />
+      <HomePageFooter
+        onOpenPopUp={onOpen}
+        selectedUser={selectedMember}
+        setSelectedUser={setSelectedMember}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+      />
+      <PopUpMenu
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedItem={selectedItem}
+        selectedMember={selectedMember}
+        purchaseItem={purchaseItem}
+      />
     </>
   );
 }
