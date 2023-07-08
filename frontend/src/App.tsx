@@ -1,7 +1,7 @@
-import { ChakraProvider, Box } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { createContext, useState } from "react";
 import { Header } from "Common/Header";
-import { MainPane } from "Common/MainPane";
+import { ContentPane } from "Common/ContentPane";
 
 export const TabIndex = createContext(0);
 
@@ -10,7 +10,7 @@ function App() {
   return (
     <ChakraProvider>
       <Header selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      <MainPane selectedMenu={selectedMenu} />
+      <ContentPane selectedMenu={selectedMenu} />
     </ChakraProvider>
   );
 }

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Member } from "types";
 import { MemberPanePerAttribute } from "./component/MemberPanePerAttribute";
-import { Box } from "@chakra-ui/react";
 
 type Props = {
   selectedMember: Member | null;
@@ -11,13 +10,7 @@ type Props = {
 
 function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
   return (
-    <Box
-      flex="1"
-      maxW="300px"
-      h="calc(100vh - (64px + 96px))"
-      overflowY="scroll"
-      overscroll="contain"
-    >
+    <>
       <MemberPanePerAttribute
         description="先生"
         attribute="teacher"
@@ -46,7 +39,7 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
       />
-    </Box>
+    </>
   );
 }
 

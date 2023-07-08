@@ -3,10 +3,11 @@ import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 import { Backend } from "util/Backend";
 import { Item, Member } from "types";
-import { Flex, useDisclosure, useToast } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import { TabIndex } from "App";
 import { HomePageFooter } from "./HomePageFooter";
 import { PopUpMenu } from "./Item/purchase/PopUpMenu";
+import { TwoColumnLayout } from "layout/TwoColumnLayout";
 
 function HomePageParent() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -75,21 +76,25 @@ function HomePageParent() {
 
   return (
     <>
-      <Flex w="100%" justify="center" gap={16}>
-        <MemberPane
-          selectedMember={selectedMember}
-          setSelectedMember={setSelectedMember}
-          memberList={memberList}
-        />
-        <ItemPane
-          setSelectedItem={setSelectedItem}
-          selectedItem={selectedItem}
-          juiceList={juiceList}
-          foodList={foodList}
-          selectedMember={selectedMember}
-          purchaseItem={purchaseItem}
-        />
-      </Flex>
+      <TwoColumnLayout
+        menu={
+          <MemberPane
+            selectedMember={selectedMember}
+            setSelectedMember={setSelectedMember}
+            memberList={memberList}
+          />
+        }
+        content={
+          <ItemPane
+            setSelectedItem={setSelectedItem}
+            selectedItem={selectedItem}
+            juiceList={juiceList}
+            foodList={foodList}
+            selectedMember={selectedMember}
+            purchaseItem={purchaseItem}
+          />
+        }
+      />
       <HomePageFooter
         onOpenPopUp={onOpen}
         selectedUser={selectedMember}
