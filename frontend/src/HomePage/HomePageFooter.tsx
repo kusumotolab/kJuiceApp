@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import { Item, Member } from "types";
 import { MemberInformation } from "./Item/MemberInformation/MemberInformation";
 
@@ -89,6 +88,7 @@ function HomePageFooter({
           colorScheme="teal"
           onClick={onOpenPopUp}
           isDisabled={selectedItem === null || selectedUser === null}
+          size="lg"
         >
           購入
         </Button>
