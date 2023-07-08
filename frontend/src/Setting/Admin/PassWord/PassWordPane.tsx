@@ -1,10 +1,17 @@
 import {
+  Box,
   Button,
+  Card,
+  CardBody,
+  Center,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
   Stack,
+  Text,
   useToast,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -40,23 +47,39 @@ function PasswordPane({ visible, setVisible }: Props) {
       isClosable: true,
     });
   }
-
   return (
-    <Stack spacing={4} style={{ visibility: visible ? "visible" : "hidden" }}>
-      <FormControl id="password">
-        <FormLabel>パスワード</FormLabel>
-        <Input
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <FormHelperText>ヒント: &quot;password&quot;</FormHelperText>
-      </FormControl>
-      <Button colorScheme="teal" onClick={verifyPassword}>
-        認証
-      </Button>
-    </Stack>
+    <Flex
+      justify="center"
+      alignItems="center"
+      h="calc(100vh - 64px)"
+      bg="gray.50"
+    >
+      <Stack w="50%" maxW="600px" minW="400px" spacing={4} align="center">
+        <Heading size="lg">認証が必要です</Heading>
+        <Text>パスワードを入力してください</Text>
+        <Card w="100%">
+          <CardBody>
+            <Stack spacing={4}>
+              <FormControl id="password">
+                <FormLabel>パスワード</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+                <FormHelperText>ヒント: &quot;password&quot;</FormHelperText>
+              </FormControl>
+            </Stack>
+            <Box mt={10}>
+              <Button w="full" colorScheme="teal" onClick={verifyPassword}>
+                認証
+              </Button>
+            </Box>
+          </CardBody>
+        </Card>
+      </Stack>
+    </Flex>
   );
 }
 

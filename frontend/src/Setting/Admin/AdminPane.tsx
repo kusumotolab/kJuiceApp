@@ -13,7 +13,6 @@ import {
   AccordionIcon,
   Box,
   AccordionItem,
-  Heading,
 } from "@chakra-ui/react";
 
 type Props = {
@@ -41,8 +40,7 @@ function AdminPane() {
   const [passwordPaneVisible, setPasswordPaneVisible] = useState(true);
 
   return (
-    <Box w="2xl" m="auto">
-      <Heading>管理者設定</Heading>
+    <Box>
       {passwordPaneVisible ? (
         <PasswordPane
           visible={passwordPaneVisible}
