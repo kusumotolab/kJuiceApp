@@ -44,7 +44,7 @@ function ItemIconChangePane() {
     if (!e.target.files) return;
     setFileObject(e.target.files[0]);
 
-    setProfileImage(window.URL.createObjectURL(e.target.files[0]));
+    setProfileImage(URL.createObjectURL(e.target.files[0]));
   }
   async function handleSubmit() {
     if (targetItemId === "") {
