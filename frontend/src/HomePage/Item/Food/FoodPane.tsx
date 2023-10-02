@@ -23,7 +23,6 @@ function FoodPane({ foodList, setSelectedItem, onOpen }: Props) {
                 setSelectedItem(food);
                 onOpen();
               }}
-              name={food.name}
               item={food}
               key={food.id}
             />
