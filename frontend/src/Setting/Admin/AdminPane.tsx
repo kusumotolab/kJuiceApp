@@ -56,7 +56,7 @@ function AdminPane() {
           <SettingItem title="アイテムの登録" item={<ItemAddPane />} />
           <SettingItem title="アイテムの削除" item={<ItemDeletePane />} />
           <SettingItem
-            title="アイテムのアイコンの変更"
+            title="アイテム画像の変更"
             item={<ItemIconChangePane />}
           />
           <SettingItem title="Slackへの通知" item={<SendSlack />} />
