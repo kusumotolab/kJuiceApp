@@ -96,7 +96,7 @@ public class ItemService {
     return;
   }
 
-  // ユーザーのアイコンをデータベースから取得する
+  // 商品のアイコンをデータベースから取得する
   public Optional<ItemImageEntity> getItemIcon(String id) throws NoSuchItemException {
     if (!itemRepository.existsById(id)) {
       throw new NoSuchItemException();
