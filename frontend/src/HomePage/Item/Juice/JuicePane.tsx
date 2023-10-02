@@ -23,7 +23,6 @@ function JuicePane({ juiceList, setSelectedItem, onOpen }: Props) {
                 setSelectedItem(juice);
                 onOpen();
               }}
-              name={juice.name}
               item={juice}
               key={juice.id}
             />
