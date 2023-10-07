@@ -23,10 +23,10 @@ function HomePageParent() {
       console.error("purchaseItem: failed");
 
     setSelectedMember(null);
-    showToast();
+    showPurchaseSuccessToast();
   }
 
-  function showToast() {
+  function showPurchaseSuccessToast() {
     toast({
       title: "購入完了",
       description: "購入が完了しました",

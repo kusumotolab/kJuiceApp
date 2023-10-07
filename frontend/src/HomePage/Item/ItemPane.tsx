@@ -6,7 +6,7 @@ import { PopUpMenu } from "./purchase/PopUpMenu";
 
 import { MemberInformation } from "./MemberInformation/MemberInformation";
 import { Item, Member } from "types";
-import { Divider, Stack, useDisclosure } from "@chakra-ui/react";
+import { Divider, Stack, useDisclosure, useToast } from "@chakra-ui/react";
 
 type Props = {
   setSelectedItem: Dispatch<SetStateAction<Item | null>>;
@@ -26,6 +26,25 @@ function ItemPane({
   purchaseItem,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+
+  function showMemberNotSelectedToast() {
+    toast({
+      title: "利用者未選択",
+      description: "利用者を選択してください",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
+  function onOpenSafely() {
+    if (selectedItem === null || selectedMember === null) {
+      showMemberNotSelectedToast();
+      return;
+    }
+    onOpen();
+  }
 
   return (
     <Stack
@@ -39,12 +58,12 @@ function ItemPane({
       <Divider />
       <JuicePane
         setSelectedItem={setSelectedItem}
-        onOpen={onOpen}
+        onOpen={onOpenSafely}
         juiceList={juiceList}
       />
       <FoodPane
         setSelectedItem={setSelectedItem}
-        onOpen={onOpen}
+        onOpen={onOpenSafely}
         foodList={foodList}
       />
       <HistoryPane selectedMember={selectedMember} />
