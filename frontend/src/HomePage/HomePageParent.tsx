@@ -19,10 +19,13 @@ function HomePageParent() {
       return;
     }
 
-    if (!(await Backend.purchase(selectedMember.id, selectedItem.id)))
-      console.error("purchaseItem: failed");
-
     setSelectedMember(null);
+
+    if (!(await Backend.purchase(selectedMember.id, selectedItem.id))) {
+      shwoPurchaseErrorToast();
+      return;
+    }
+
     showPurchaseSuccessToast();
   }
 
@@ -31,6 +34,16 @@ function HomePageParent() {
       title: "購入完了",
       description: "購入が完了しました",
       status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
+  function shwoPurchaseErrorToast() {
+    toast({
+      title: "購入失敗",
+      description: "購入に失敗しました",
+      status: "error",
       duration: 3000,
       isClosable: true,
     });
