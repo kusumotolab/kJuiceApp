@@ -22,7 +22,7 @@ function HomePageParent() {
     setSelectedMember(null);
 
     if (!(await Backend.purchase(selectedMember.id, selectedItem.id))) {
-      shwoPurchaseErrorToast();
+      showPurchaseErrorToast();
       return;
     }
 
@@ -39,7 +39,7 @@ function HomePageParent() {
     });
   }
 
-  function shwoPurchaseErrorToast() {
+  function showPurchaseErrorToast() {
     toast({
       title: "購入失敗",
       description: "購入に失敗しました",
