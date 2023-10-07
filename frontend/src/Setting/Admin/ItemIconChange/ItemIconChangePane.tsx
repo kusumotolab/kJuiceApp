@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FileSelect } from "Setting/User/IconSetting/FileSelect/FileSelect";
-import LogoDefaultItem from "./../../../image/default_item.svg";
+import LogoDefaultItem from "image/default_item.svg";
 
 function ItemIconChangePane() {
   const [itemList, setItemList] = useState<Item[]>([]);

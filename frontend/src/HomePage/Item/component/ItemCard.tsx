@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Backend } from "util/Backend";
-import LogoDefaultItem from "./../../../image/default_item.svg";
+import LogoDefaultItem from "image/default_item.svg";
 import { TabIndex } from "App";
 
 type Props = {
