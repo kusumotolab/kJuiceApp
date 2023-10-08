@@ -3,10 +3,10 @@ import { ReactNode } from "react";
 
 type TwoColumnLayoutProps = {
   menu: ReactNode;
-  content: ReactNode;
+  children: ReactNode;
 };
 
-function TwoColumnLayout({ menu, content }: TwoColumnLayoutProps) {
+function TwoColumnLayout({ menu, children }: TwoColumnLayoutProps) {
   return (
     <Container
       display="flex"
@@ -26,7 +26,7 @@ function TwoColumnLayout({ menu, content }: TwoColumnLayoutProps) {
         {menu}
       </Box>
       <Box flex="3" overflowY="scroll" overscroll="contain">
-        {content}
+        {children}
       </Box>
     </Container>
   );

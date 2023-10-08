@@ -84,17 +84,16 @@ function HomePageParent() {
             memberList={memberList}
           />
         }
-        content={
-          <ItemPane
-            setSelectedItem={setSelectedItem}
-            selectedItem={selectedItem}
-            juiceList={juiceList}
-            foodList={foodList}
-            selectedMember={selectedMember}
-            purchaseItem={purchaseItem}
-          />
-        }
-      />
+      >
+        <ItemPane
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          juiceList={juiceList}
+          foodList={foodList}
+          selectedMember={selectedMember}
+          purchaseItem={purchaseItem}
+        />
+      </TwoColumnLayout>
       <HomePageFooter
         onOpenPopUp={onOpen}
         selectedUser={selectedMember}
