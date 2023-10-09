@@ -103,7 +103,7 @@ function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="outside">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>商品を追加</ModalHeader>

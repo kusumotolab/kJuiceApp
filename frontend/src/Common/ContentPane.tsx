@@ -1,18 +1,18 @@
 import { Box, Container } from "@chakra-ui/react";
 import { ChatPane } from "Chat/ChatPane";
 import { GraphPane } from "Graph/GraphPane";
-import { HomePageParent } from "HomePage/HomePageParent";
+import { HistoryPane } from "History/HistoryPane";
+import { HomepagePane } from "HomePage/HomepagePane";
 import { SettingPane } from "Setting/SettingPane";
 
-type ContentPaneProps = {
-  selectedMenu: string;
-};
-
-function ContentPane({ selectedMenu }: ContentPaneProps) {
+function ContentPane({ selectedMenu }: { selectedMenu: string }) {
   var content;
   switch (selectedMenu) {
     case "home":
-      content = <HomePageParent />;
+      content = <HomepagePane />;
+      break;
+    case "history":
+      content = <HistoryPane />;
       break;
     case "settings":
       content = <SettingPane />;
@@ -24,7 +24,7 @@ function ContentPane({ selectedMenu }: ContentPaneProps) {
       content = <ChatPane />;
       break;
     default:
-      content = <HomePageParent />;
+      content = <HomepagePane />;
       break;
   }
 

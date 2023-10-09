@@ -1,32 +1,15 @@
-import { useContext, useEffect, useState } from "react";
-
 import { Member } from "types";
-import { Dispatch, SetStateAction } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import { Backend } from "util/Backend";
-import { TabIndex } from "App";
+import useMemberImage from "hooks/useMemberImage";
 
 type Props = {
   selected: boolean;
   member: Member;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+  handleClick: (member: Member) => void;
 };
 
-function MemberCard({ selected, member, setSelectedMember }: Props) {
-  const [userIcon, setUserIcon] = useState("");
-
-  const tabIndex = useContext(TabIndex);
-
-  async function getImage() {
-    const img = await Backend.getMemberImage(member.id);
-    if (img !== null) {
-      setUserIcon(URL.createObjectURL(img));
-    }
-  }
-
-  useEffect(() => {
-    getImage();
-  }, [tabIndex]);
+function MemberCard({ selected, member, handleClick }: Props) {
+  const memberImage = useMemberImage(member);
 
   return (
     <Flex
@@ -36,11 +19,9 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
       m={4}
       p={2}
       alignItems="center"
-      onClick={() => {
-        setSelectedMember(member);
-      }}
+      onClick={() => handleClick(member)}
     >
-      <Avatar src={userIcon} size="md" />
+      <Avatar src={memberImage} size="md" />
       <Text ml={4} mb={0}>
         {member.name}
       </Text>

@@ -6,23 +6,23 @@ import { Stack, Heading } from "@chakra-ui/react";
 type Props = {
   description: string;
   attribute: string;
-  memberList: Member[];
+  members: Member[];
   selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+  handleClickMemberCard: Dispatch<SetStateAction<Member | null>>;
 };
 
 function MemberPanePerAttribute({
   description,
   attribute,
-  memberList,
+  members,
   selectedMember,
-  setSelectedMember,
+  handleClickMemberCard,
 }: Props) {
   return (
     <Stack spacing={4} mb={8}>
       <Heading size="md">{description}</Heading>
-      {memberList
-        .filter((member) => member.attribute === attribute)
+      {members
+        .filter((member) => member.active === true && member.attribute === attribute)
         .sort((a, b) => {
           if (a.id > b.id) {
             return 1;
@@ -36,7 +36,7 @@ function MemberPanePerAttribute({
               selectedMember !== null && selectedMember.id === member.id
             }
             member={member}
-            setSelectedMember={setSelectedMember}
+            handleClick={handleClickMemberCard}
             key={member.id}
           />
         ))}

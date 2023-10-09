@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { UserAddPane } from "./UserAdd/UserAddPane";
-import { ItemAddPane } from "./ItemAdd/ItemAddPane";
 import { ItemManagementPane } from "./ItemManagement/ItemManagementPane";
 import { MemberManagementPane } from "./MemberManagement/MemberManagementPane";
 import { SendSlack } from "./SendSlack/SendSlack";
@@ -9,7 +7,9 @@ import { PasswordPane } from "./PassWord/PassWordPane";
 import { Box, Heading } from "@chakra-ui/react";
 import { TwoColumnLayout } from "layout/TwoColumnLayout";
 import {
-  faShoppingCart,
+    faBell,
+  faDollar,
+  faGlassWater,
   faUser,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -25,9 +25,9 @@ function AdminPane() {
     pane: JSX.Element;
   }[] = [
     { title: "利用者の管理", icon: faUser, pane: <MemberManagementPane /> },
-    { title: "商品の管理", icon: faShoppingCart, pane: <ItemManagementPane /> },
-    { title: "Slackへの通知", icon: faUser, pane: <SendSlack /> },
-    { title: "金額未払い者の管理", icon: faUser, pane: <UnpaidMember /> },
+    { title: "商品の管理", icon: faGlassWater, pane: <ItemManagementPane /> },
+    { title: "Slackへの通知", icon: faBell, pane: <SendSlack /> },
+    { title: "金額未払い者の管理", icon: faDollar, pane: <UnpaidMember /> },
   ];
 
   return (

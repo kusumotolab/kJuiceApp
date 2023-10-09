@@ -18,6 +18,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Backend } from "util/Backend";
 import { z } from "zod";
@@ -82,7 +83,7 @@ function UserAddPane({ isOpen, onClose }: Props) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="outside">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>利用者の追加</ModalHeader>

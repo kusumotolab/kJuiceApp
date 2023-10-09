@@ -1,14 +1,16 @@
+import useMembers from "hooks/useMembers";
 import { Dispatch, SetStateAction } from "react";
 import { Member } from "types";
 import { MemberPanePerAttribute } from "./component/MemberPanePerAttribute";
 
 type Props = {
   selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
-  memberList: Member[];
+  handleClickMemberCard: (member: Member) => void;
 };
 
-function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
+function MemberPane({ selectedMember, handleClickMemberCard }: Props) {
+  const members = useMembers();
+
   const attributes = [
     { description: "先生", attribute: "teacher" },
     { description: "M2", attribute: "m2" },
@@ -23,9 +25,9 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
           key={attribute.attribute}
           description={attribute.description}
           attribute={attribute.attribute}
-          memberList={memberList}
+          members={members}
           selectedMember={selectedMember}
-          setSelectedMember={setSelectedMember}
+          handleClickMemberCard={handleClickMemberCard}
         />
       ))}
     </>

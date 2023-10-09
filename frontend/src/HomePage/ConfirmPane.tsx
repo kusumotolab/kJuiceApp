@@ -11,10 +11,12 @@ import {
   IconButton,
   Center,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Item, Member } from "types";
+import { Backend } from "util/Backend";
 import { MemberInformation } from "./Item/MemberInformation/MemberInformation";
 
 function ItemInformation({selectedItem} : {selectedItem: Item | null}) {
@@ -34,31 +36,45 @@ function ItemInformation({selectedItem} : {selectedItem: Item | null}) {
   );
 }
 
-type HomePageFooterProps = {
-  selectedUser: Member | null;
-  setSelectedUser: (member: Member | null) => void;
+type ConfirmPaneProps = {
+  selectedMember: Member | null;
+  clearMemberSelection: () => void;
   selectedItem: Item | null;
-  setSelectedItem: (item: Item | null) => void;
-  purchaseItem: () => void;
+  clearItemSelection: () => void;
 };
 
-function HomePageFooter({
-  selectedUser,
-  setSelectedUser,
+function ConfirmPane({
+  selectedMember,
+  clearMemberSelection,
   selectedItem,
-  setSelectedItem,
-  purchaseItem,
-}: HomePageFooterProps) {
+  clearItemSelection,
+}: ConfirmPaneProps) {
+
+  const toast = useToast();
+  function showToast() {
+    toast({
+      title: "購入完了",
+      description: "購入が完了しました",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
+  async function purchaseItem() {
+    if (selectedMember === null || selectedItem === null) {
+      return;
+    }
+
+    if (!(await Backend.purchase(selectedMember.id, selectedItem.id)))
+      console.error("purchaseItem: failed");
+
+    clearMemberSelection();
+    clearItemSelection();
+    showToast();
+  }
+
   const bg = useColorModeValue("white", "gray.800");
-
-  function clearUserSelection() {
-    setSelectedUser(null);
-  }
-
-  function clearItemSelection() {
-    setSelectedItem(null);
-  }
-
   return (
     <Box
       pos="fixed"
@@ -81,15 +97,15 @@ function HomePageFooter({
             <FontAwesomeIcon
               icon={faXmarkCircle}
               size="lg"
-              color={selectedUser === null ? "gray" : "red"}
+              color={selectedMember === null ? "gray" : "red"}
             />
           }
-          onClick={clearUserSelection}
+          onClick={clearMemberSelection}
         />
-        <MemberInformation selectedMember={selectedUser} />
+        <MemberInformation selectedMember={selectedMember} />
         <IconButton
           variant="unstyled"
-          aria-label="商品取り消し"
+          aria-label="商品選択取り消し"
           icon={
             <FontAwesomeIcon
               icon={faXmarkCircle}
@@ -113,7 +129,7 @@ function HomePageFooter({
         <Button
           colorScheme="teal"
           onClick={purchaseItem}
-          isDisabled={selectedItem === null || selectedUser === null}
+          isDisabled={selectedItem === null || selectedMember === null}
           size="lg"
         >
           購入
@@ -123,4 +139,4 @@ function HomePageFooter({
   );
 }
 
-export { HomePageFooter };
+export { ConfirmPane };

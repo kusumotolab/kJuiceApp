@@ -2,22 +2,15 @@ import { useEffect, useState } from "react";
 import { HistoryCard } from "./card/HistoryCard";
 import { History, Member } from "types";
 import { Backend } from "util/Backend";
-import {
-  Box,
-  Heading,
-  Table,
-  TableContainer,
-  Tbody,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { Center, Heading, Text } from "@chakra-ui/react";
+import { TwoColumnLayout } from "layout/TwoColumnLayout";
+import { MemberPane } from "HomePage/Member/MemberPane";
 
-type Props = {
+function HistoryPaneContents({
+  selectedMember,
+}: {
   selectedMember: Member | null;
-};
-
-function HistoryPane({ selectedMember }: Props) {
+}) {
   const [histories, setHistories] = useState<History[]>([]);
 
   const fetchHistoryData = async () => {
@@ -44,31 +37,53 @@ function HistoryPane({ selectedMember }: Props) {
     fetchHistoryData();
   }, [selectedMember]);
 
+  if (selectedMember === null) {
+    return (
+      <Center h="100%">
+        <Heading size="md" textColor="gray">利用者を選択してください</Heading>
+      </Center>
+    );
+  }
+
+  if (histories.length === 0) {
+    return (
+      <Center>
+        <Text size="md" textColor="gray">購入履歴がありません</Text>
+      </Center>
+    );
+  }
+
   return (
-    <Box>
-      <Heading>購入履歴</Heading>
-      <TableContainer>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>日付</Th>
-              <Th>商品</Th>
-              <Th>金額</Th>
-              <Th>キャンセル</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {histories.map((history) => (
-              <HistoryCard
-                history={history}
-                updateHistory={updateHistory}
-                key={history.historyId}
-              />
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </Box>
+    <>
+      {histories.map((history) => (
+        <HistoryCard
+          key={history.historyId}
+          history={history}
+          updateHistory={updateHistory}
+        />
+      ))}
+    </>
+  );
+}
+
+function HistoryPane() {
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+
+  return (
+    <TwoColumnLayout
+      h="calc(100vh - 60px)"
+      menu={
+        <MemberPane
+          selectedMember={selectedMember}
+          handleClickMemberCard={(member) => setSelectedMember(member)}
+        />
+      }
+    >
+      <Heading size="md" mb={4}>
+        購入履歴
+      </Heading>
+      <HistoryPaneContents selectedMember={selectedMember} />
+    </TwoColumnLayout>
   );
 }
 
