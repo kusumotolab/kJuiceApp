@@ -94,6 +94,7 @@ function HomePageParent() {
           purchaseItem={purchaseItem}
         />
       </TwoColumnLayout>
+      {/*
       <HomePageFooter
         onOpenPopUp={onOpen}
         selectedUser={selectedMember}
@@ -101,6 +102,7 @@ function HomePageParent() {
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
       />
+      */}
       <PopUpMenu
         isOpen={isOpen}
         onClose={onClose}

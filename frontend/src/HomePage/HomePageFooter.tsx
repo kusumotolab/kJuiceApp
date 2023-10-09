@@ -7,6 +7,7 @@ import {
   HStack,
   Spacer,
   AspectRatio,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,6 +29,8 @@ function HomePageFooter({
   selectedItem,
   setSelectedItem,
 }: HomePageFooterProps) {
+  const bg = useColorModeValue("white", "gray.800");
+
   function clearUserSelection() {
     setSelectedUser(null);
   }
@@ -45,7 +48,7 @@ function HomePageFooter({
       h={24}
       borderTop="1px"
       borderColor="blackAlpha.300"
-      bg="white"
+      bg={bg}
       zIndex="999"
       py={4}
       px={8}
