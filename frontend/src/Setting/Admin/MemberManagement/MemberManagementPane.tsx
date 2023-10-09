@@ -32,7 +32,15 @@ function MemberItem(props: MemberItemProps) {
   const { member, switchMemberActivity, deleteMember, fetchMemberList } = props;
 
   return (
-    <Flex _first={{ borderTop: "1px", borderColor: "blackAlpha.200" }} borderBottom="1px" borderColor="blackAlpha.200" justify="space-between" alignItems="center" px={4} py={2}>
+    <Flex
+      _first={{ borderTop: "1px", borderColor: "blackAlpha.200" }}
+      borderBottom="1px"
+      borderColor="blackAlpha.200"
+      justify="space-between"
+      alignItems="center"
+      px={4}
+      py={2}
+    >
       <Avatar />
       <Box ml={4}>
         <Text fontSize="xl" fontWeight="bold">
@@ -60,16 +68,21 @@ function MemberItem(props: MemberItemProps) {
             <Stack spacing={4} p={4}>
               <Text>編集</Text>
               <Divider />
-              <Text textColor="red" onClick={async () => {
-                await deleteMember(member.id);
-                await fetchMemberList();
-              }}>削除</Text>
+              <Text
+                textColor="red"
+                onClick={async () => {
+                  await deleteMember(member.id);
+                  await fetchMemberList();
+                }}
+              >
+                削除
+              </Text>
             </Stack>
           </PopoverContent>
         </Popover>
       </HStack>
     </Flex>
-  )
+  );
 }
 
 function MemberManagementPane() {
@@ -96,7 +109,7 @@ function MemberManagementPane() {
       memberList.map((member) => {
         if (member.id === id) member.active = activity;
         return member;
-      })
+      }),
     );
   }
 
@@ -111,15 +124,29 @@ function MemberManagementPane() {
 
   return (
     <>
-      <Stack spacing={0}>
-        {memberList.map((member) => <MemberItem key={member.id} member={member} switchMemberActivity={switchMemberActivity} deleteMember={deleteMember} fetchMemberList={fetchMemberList} />)}
-      </Stack>
-      <Button leftIcon={<FontAwesomeIcon icon={faPlus} />} colorScheme="blue" variant="outline" size="lg" mx={4} my={4}>
-        ユーザを追加
+      <Button
+        leftIcon={<FontAwesomeIcon icon={faPlus} />}
+        colorScheme="blue"
+        variant="outline"
+        size="lg"
+        mx={4}
+        my={4}
+      >
+        利用者を追加
       </Button>
+      <Stack spacing={0}>
+        {memberList.map((member) => (
+          <MemberItem
+            key={member.id}
+            member={member}
+            switchMemberActivity={switchMemberActivity}
+            deleteMember={deleteMember}
+            fetchMemberList={fetchMemberList}
+          />
+        ))}
+      </Stack>
     </>
-  )
-
+  );
 }
 
 export { MemberManagementPane };
