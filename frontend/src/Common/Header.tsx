@@ -1,4 +1,13 @@
-import { Center, Flex, Heading, HStack, Spacer } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Spacer,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import {
   faChartLine,
   faComments,
@@ -24,6 +33,8 @@ const HeaderText = new Map<string, string>([
 ]);
 
 function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
+  const { toggleColorMode } = useColorMode();
+
   return (
     <>
       <Center>
@@ -40,17 +51,18 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
         justify="center"
         borderBottom="1px"
         borderColor="blackAlpha.300"
-        bg="white"
         zIndex="100"
       >
         <Center>
-          <HStack spacing={6} ml={6}>
+          <HStack spacing={2} ml={6}>
             <HeaderIcon
               icon={faHouse}
               menu="home"
+              ariaLabel="Home"
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
+            {/*
             <HeaderIcon
               icon={faChartLine}
               menu="graph"
@@ -63,9 +75,11 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
+            */}
             <HeaderIcon
               icon={faHistory}
               menu="history"
+              ariaLabel="Purchase History"
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
@@ -74,10 +88,17 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
         <Spacer />
         <Center>
           <HStack spacing={6} mr={6}>
-            <FontAwesomeIcon icon={faMoon} size="lg" />
+            {/*
+            <FontAwesomeIcon
+              icon={faMoon}
+              size="lg"
+              onClick={toggleColorMode}
+            />
+            */}
             <HeaderIcon
               icon={faGear}
               menu="settings"
+              ariaLabel="Settings"
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
@@ -91,6 +112,7 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
 type HeaderIconProps = {
   icon: IconDefinition;
   menu: string;
+  ariaLabel: string;
   selectedMenu: string;
   setSelectedMenu: (menu: string) => void;
 };
@@ -98,17 +120,25 @@ type HeaderIconProps = {
 function HeaderIcon({
   icon,
   menu,
+  ariaLabel,
   selectedMenu,
   setSelectedMenu,
 }: HeaderIconProps) {
-  const color = menu === selectedMenu ? "teal" : "black";
+  const unselectedColor = useColorModeValue("blackAlpha.300", "white");
+  const color = menu === selectedMenu ? "teal" : unselectedColor;
 
   return (
-    <FontAwesomeIcon
-      icon={icon}
-      size="lg"
-      color={color}
-      onClick={() => setSelectedMenu(menu)}
+    <IconButton
+      variant="ghost"
+      aria-label={ariaLabel}
+      icon={
+        <FontAwesomeIcon
+          icon={icon}
+          size="lg"
+          color={color}
+          onClick={() => setSelectedMenu(menu)}
+        />
+      }
     />
   );
 }
