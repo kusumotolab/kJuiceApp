@@ -27,6 +27,7 @@ function HomePageParent() {
       console.error("purchaseItem: failed");
 
     setSelectedMember(null);
+    setSelectedItem(null);
     showToast();
   }
 
@@ -77,37 +78,28 @@ function HomePageParent() {
   return (
     <>
       <TwoColumnLayout
+        h="calc(100vh - (64px + 96px))"
         menu={
           <MemberPane
+            memberList={memberList}
             selectedMember={selectedMember}
             setSelectedMember={setSelectedMember}
-            memberList={memberList}
           />
         }
       >
         <ItemPane
-          setSelectedItem={setSelectedItem}
           selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+          selectedMember={selectedMember}
           juiceList={juiceList}
           foodList={foodList}
-          selectedMember={selectedMember}
-          purchaseItem={purchaseItem}
         />
       </TwoColumnLayout>
-      {/*
       <HomePageFooter
-        onOpenPopUp={onOpen}
         selectedUser={selectedMember}
         setSelectedUser={setSelectedMember}
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
-      />
-      */}
-      <PopUpMenu
-        isOpen={isOpen}
-        onClose={onClose}
-        selectedItem={selectedItem}
-        selectedMember={selectedMember}
         purchaseItem={purchaseItem}
       />
     </>

@@ -19,11 +19,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type HeaderProps = {
-  selectedMenu: string;
-  setSelectedMenu: (menu: string) => void;
-};
-
 const HeaderText = new Map<string, string>([
   ["home", "ホーム"],
   ["graph", "売上"],
@@ -31,6 +26,39 @@ const HeaderText = new Map<string, string>([
   ["history", "購入履歴"],
   ["settings", "設定"],
 ]);
+
+type HeaderIconProps = {
+  icon: IconDefinition;
+  menu: string;
+  ariaLabel: string;
+  selectedMenu: string;
+  setSelectedMenu: (menu: string) => void;
+};
+
+function HeaderIcon({
+  icon,
+  menu,
+  ariaLabel,
+  selectedMenu,
+  setSelectedMenu,
+}: HeaderIconProps) {
+  const unselectedColor = useColorModeValue("blackAlpha.300", "white");
+  const color = menu === selectedMenu ? "teal" : unselectedColor;
+
+  return (
+    <IconButton
+      variant="unstyled"
+      aria-label={ariaLabel}
+      onClick={() => setSelectedMenu(menu)}
+      icon={<FontAwesomeIcon icon={icon} size="lg" color={color} />}
+    />
+  );
+}
+
+type HeaderProps = {
+  selectedMenu: string;
+  setSelectedMenu: (menu: string) => void;
+};
 
 function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
   const { toggleColorMode } = useColorMode();
@@ -58,7 +86,7 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
             <HeaderIcon
               icon={faHouse}
               menu="home"
-              ariaLabel="Home"
+              ariaLabel="ホーム"
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
@@ -79,7 +107,7 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
             <HeaderIcon
               icon={faHistory}
               menu="history"
-              ariaLabel="Purchase History"
+              ariaLabel="購入履歴"
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
@@ -98,7 +126,7 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
             <HeaderIcon
               icon={faGear}
               menu="settings"
-              ariaLabel="Settings"
+              ariaLabel="設定"
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
@@ -106,40 +134,6 @@ function Header({ selectedMenu, setSelectedMenu }: HeaderProps) {
         </Center>
       </Flex>
     </>
-  );
-}
-
-type HeaderIconProps = {
-  icon: IconDefinition;
-  menu: string;
-  ariaLabel: string;
-  selectedMenu: string;
-  setSelectedMenu: (menu: string) => void;
-};
-
-function HeaderIcon({
-  icon,
-  menu,
-  ariaLabel,
-  selectedMenu,
-  setSelectedMenu,
-}: HeaderIconProps) {
-  const unselectedColor = useColorModeValue("blackAlpha.300", "white");
-  const color = menu === selectedMenu ? "teal" : unselectedColor;
-
-  return (
-    <IconButton
-      variant="ghost"
-      aria-label={ariaLabel}
-      icon={
-        <FontAwesomeIcon
-          icon={icon}
-          size="lg"
-          color={color}
-          onClick={() => setSelectedMenu(menu)}
-        />
-      }
-    />
   );
 }
 

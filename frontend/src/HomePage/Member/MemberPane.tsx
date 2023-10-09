@@ -9,36 +9,25 @@ type Props = {
 };
 
 function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
+  const attributes = [
+    { description: "先生", attribute: "teacher" },
+    { description: "M2", attribute: "m2" },
+    { description: "M1", attribute: "m1" },
+    { description: "B4", attribute: "b4" },
+  ];
+
   return (
     <>
-      <MemberPanePerAttribute
-        description="先生"
-        attribute="teacher"
-        memberList={memberList}
-        selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-      />
-      <MemberPanePerAttribute
-        description="M2"
-        attribute="m2"
-        memberList={memberList}
-        selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-      />
-      <MemberPanePerAttribute
-        description="M1"
-        attribute="m1"
-        memberList={memberList}
-        selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-      />
-      <MemberPanePerAttribute
-        description="B4"
-        attribute="b4"
-        memberList={memberList}
-        selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-      />
+      {attributes.map((attribute) => (
+        <MemberPanePerAttribute
+          key={attribute.attribute}
+          description={attribute.description}
+          attribute={attribute.attribute}
+          memberList={memberList}
+          selectedMember={selectedMember}
+          setSelectedMember={setSelectedMember}
+        />
+      ))}
     </>
   );
 }

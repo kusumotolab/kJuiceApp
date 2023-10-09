@@ -39,6 +39,7 @@ function AdminPane() {
         />
       ) : (
         <TwoColumnLayout
+          h="calc(100vh - 64px)"
           menu={
             <AdminPaneMenu
               menuItems={menuItems}

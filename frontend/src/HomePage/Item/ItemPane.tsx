@@ -17,7 +17,6 @@ type Props = {
   juiceList: Item[];
   foodList: Item[];
   selectedMember: Member | null;
-  purchaseItem: () => void;
 };
 
 function ItemPane({

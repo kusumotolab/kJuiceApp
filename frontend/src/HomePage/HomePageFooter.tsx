@@ -8,26 +8,46 @@ import {
   Spacer,
   AspectRatio,
   useColorModeValue,
+  IconButton,
+  Center,
+  Stack,
 } from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Item, Member } from "types";
 import { MemberInformation } from "./Item/MemberInformation/MemberInformation";
 
+function ItemInformation({selectedItem} : {selectedItem: Item | null}) {
+  return (
+      <Center>
+        {selectedItem === null ? (
+          <Heading color="blackAlpha.500" size="md">
+            商品を選択
+          </Heading>
+        ) : (
+          <Stack>
+            <Heading size="md">{selectedItem.name}</Heading>
+            <Text>{selectedItem.sellingPrice + " 円"}</Text>
+          </Stack>
+        )}
+      </Center>
+  );
+}
+
 type HomePageFooterProps = {
-  onOpenPopUp: () => void;
   selectedUser: Member | null;
   setSelectedUser: (member: Member | null) => void;
   selectedItem: Item | null;
   setSelectedItem: (item: Item | null) => void;
+  purchaseItem: () => void;
 };
 
 function HomePageFooter({
-  onOpenPopUp,
   selectedUser,
   setSelectedUser,
   selectedItem,
   setSelectedItem,
+  purchaseItem,
 }: HomePageFooterProps) {
   const bg = useColorModeValue("white", "gray.800");
 
@@ -54,17 +74,29 @@ function HomePageFooter({
       px={8}
     >
       <HStack spacing={4}>
-        <FontAwesomeIcon
-          icon={faXmarkCircle}
-          size="lg"
-          color={selectedUser === null ? "blackAlpha.300" : "red"}
+        <IconButton
+          variant="unstyled"
+          aria-label="利用者選択取り消し"
+          icon={
+            <FontAwesomeIcon
+              icon={faXmarkCircle}
+              size="lg"
+              color={selectedUser === null ? "gray" : "red"}
+            />
+          }
           onClick={clearUserSelection}
         />
         <MemberInformation selectedMember={selectedUser} />
-        <FontAwesomeIcon
-          icon={faXmarkCircle}
-          size="lg"
-          color={selectedItem === null ? "blackAlpha.300" : "red"}
+        <IconButton
+          variant="unstyled"
+          aria-label="商品取り消し"
+          icon={
+            <FontAwesomeIcon
+              icon={faXmarkCircle}
+              size="lg"
+              color={selectedItem === null ? "gray" : "red"}
+            />
+          }
           onClick={clearItemSelection}
         />
         <AspectRatio
@@ -76,20 +108,11 @@ function HomePageFooter({
         >
           <Image objectFit="cover" />
         </AspectRatio>
-        <Heading
-          color={selectedItem === null ? "blackAlpha.500" : "black"}
-          size="md"
-          w={48}
-        >
-          {selectedItem === null ? "商品を選択" : selectedItem.name}
-        </Heading>
+        <ItemInformation selectedItem={selectedItem} />
         <Spacer />
-        <Text size="lg">
-          {selectedItem === null ? "" : selectedItem.sellingPrice + "円"}
-        </Text>
         <Button
           colorScheme="teal"
-          onClick={onOpenPopUp}
+          onClick={purchaseItem}
           isDisabled={selectedItem === null || selectedUser === null}
           size="lg"
         >

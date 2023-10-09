@@ -2,11 +2,12 @@ import { Box, Container } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 type TwoColumnLayoutProps = {
+  h: string;
   menu: ReactNode;
   children: ReactNode;
 };
 
-function TwoColumnLayout({ menu, children }: TwoColumnLayoutProps) {
+function TwoColumnLayout({ h, menu, children }: TwoColumnLayoutProps) {
   return (
     <Container
       display="flex"
@@ -15,11 +16,10 @@ function TwoColumnLayout({ menu, children }: TwoColumnLayoutProps) {
       gap={12}
       justifyContent="center"
       w="100%"
-      h="calc(100vh - 64px)"
+      h={h}
     >
       <Box
         flex="1"
-        h="calc(100vh - 64px)"
         overflowY="scroll"
         overscroll="contain"
       >

@@ -55,8 +55,7 @@ type ItemAddPaneProps = {
   onClose: () => void;
 };
 
-function ItemAddPane(props: ItemAddPaneProps) {
-  const { isOpen, onClose } = props;
+function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
 
   const {
     register,
