@@ -15,11 +15,11 @@ function TwoColumnLayout({ menu, children }: TwoColumnLayoutProps) {
       gap={12}
       justifyContent="center"
       w="100%"
-      h="calc(100vh - (64px))"
+      h="calc(100vh - 64px)"
     >
       <Box
         flex="1"
-        h="calc(100vh - (64px + 96px))"
+        h="calc(100vh - 64px)"
         overflowY="scroll"
         overscroll="contain"
       >
