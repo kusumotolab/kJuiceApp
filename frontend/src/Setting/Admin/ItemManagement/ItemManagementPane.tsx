@@ -57,14 +57,15 @@ function ItemRow(props: ItemRowProps) {
           {item.category +
             ", 定価: " +
             item.sellingPrice +
-            " 円, 原価" +
+            " 円, 原価: " +
             item.costPrice +
             " 円"}
         </Text>
       </Box>
       <Spacer />
-      <HStack spacing={8}>
+      <HStack spacing={4}>
         <Switch
+          colorScheme="teal"
           size="lg"
           isChecked={item.active}
           onChange={() => switchItemActivity(item.id, !item.active)}
@@ -72,6 +73,7 @@ function ItemRow(props: ItemRowProps) {
         <Popover>
           <PopoverTrigger>
             <IconButton
+              variant="ghost"
               aria-label="More"
               icon={<FontAwesomeIcon icon={faEllipsisVertical} />}
               size="lg"
@@ -137,7 +139,7 @@ function ItemManagementPane() {
     <>
       <Button
         leftIcon={<FontAwesomeIcon icon={faPlus} />}
-        colorScheme="blue"
+        colorScheme="teal"
         variant="outline"
         size="lg"
         mx={4}

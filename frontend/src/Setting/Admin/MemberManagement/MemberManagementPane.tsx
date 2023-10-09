@@ -17,18 +17,20 @@ import {
   Button,
   Avatar,
   IconButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { UserAddPane } from "../UserAdd/UserAddPane";
 
-type MemberItemProps = {
+type MemberRowProps = {
   member: Member;
   switchMemberActivity: (id: string, activity: boolean) => void;
   deleteMember: (id: string) => void;
   fetchMemberList: () => void;
 };
 
-function MemberItem(props: MemberItemProps) {
+function MemberRow(props: MemberRowProps) {
   const { member, switchMemberActivity, deleteMember, fetchMemberList } = props;
 
   return (
@@ -43,14 +45,20 @@ function MemberItem(props: MemberItemProps) {
     >
       <Avatar />
       <Box ml={4}>
-        <Text fontSize="xl" fontWeight="bold">
-          {member.name + " さん"}
-        </Text>
+        <HStack spacing={2} align="center">
+          <Text fontSize="xl" fontWeight="bold">
+            {member.name + " さん"}
+          </Text>
+          <Text as="sub" textColor="gray">
+            {member.id}
+          </Text>
+        </HStack>
         <Text textColor="gray.500">{member.attribute + ", (工事中)円"}</Text>
       </Box>
       <Spacer />
-      <HStack spacing={8}>
+      <HStack spacing={4}>
         <Switch
+          colorScheme="teal"
           size="lg"
           isChecked={member.active}
           onChange={() => switchMemberActivity(member.id, !member.active)}
@@ -58,6 +66,7 @@ function MemberItem(props: MemberItemProps) {
         <Popover>
           <PopoverTrigger>
             <IconButton
+              variant="ghost"
               aria-label="More"
               icon={<FontAwesomeIcon icon={faEllipsisVertical} />}
               size="lg"
@@ -70,9 +79,9 @@ function MemberItem(props: MemberItemProps) {
               <Divider />
               <Text
                 textColor="red"
-                onClick={async () => {
-                  await deleteMember(member.id);
-                  await fetchMemberList();
+                onClick={() => {
+                  deleteMember(member.id);
+                  fetchMemberList();
                 }}
               >
                 削除
@@ -87,6 +96,7 @@ function MemberItem(props: MemberItemProps) {
 
 function MemberManagementPane() {
   const [memberList, setMemberList] = useState<Member[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   async function fetchMemberList() {
     const memberList = await Backend.getMemberList();
@@ -126,17 +136,18 @@ function MemberManagementPane() {
     <>
       <Button
         leftIcon={<FontAwesomeIcon icon={faPlus} />}
-        colorScheme="blue"
+        colorScheme="teal"
         variant="outline"
         size="lg"
         mx={4}
         my={4}
+        onClick={onOpen}
       >
         利用者を追加
       </Button>
       <Stack spacing={0}>
         {memberList.map((member) => (
-          <MemberItem
+          <MemberRow
             key={member.id}
             member={member}
             switchMemberActivity={switchMemberActivity}
@@ -145,6 +156,7 @@ function MemberManagementPane() {
           />
         ))}
       </Stack>
+      <UserAddPane isOpen={isOpen} onClose={onClose} />
     </>
   );
 }
