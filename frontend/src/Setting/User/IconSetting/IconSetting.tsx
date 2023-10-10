@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { FileSelect } from "./FileSelect/FileSelect";
-import { Backend } from "util/Backend";
-import { Member } from "types";
 import {
+  Avatar,
   Box,
   Button,
+  Center,
   FormControl,
   FormLabel,
   Heading,
   Select,
   Stack,
-  Avatar,
-  Center,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Member } from "types";
+import { Backend } from "util/Backend";
+import { FileSelect } from "util/FileSelect";
 
 function IconSetting() {
   const [profileImage, setProfileImage] = useState("");
