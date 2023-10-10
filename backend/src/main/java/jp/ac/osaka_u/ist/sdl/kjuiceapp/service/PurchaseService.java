@@ -72,9 +72,7 @@ public class PurchaseService {
 
   // 請求書を発行した直近の日付を取得する．BillServiceから呼び出すと循環参照となり，うまく動作しないため新たに用意．
   private LocalDateTime getRecentBillDate() {
-    return billRepository
-        .findFirstByOrderByDateDesc()
-        .map((e) -> e.getDate())
-        .orElse(LocalDateTime.MIN);
+    final LocalDateTime oldestDay = LocalDateTime.of(0, 1, 1, 0, 0, 0);
+    return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
   }
 }

@@ -42,10 +42,8 @@ public class BillService {
 
   // 請求書を発行した直近の日付を取得する．
   public LocalDateTime getRecentBillDate() {
-    return billRepository
-        .findFirstByOrderByDateDesc()
-        .map((e) -> e.getDate())
-        .orElse(LocalDateTime.MIN);
+    final LocalDateTime oldestDay = LocalDateTime.of(0, 1, 1, 0, 0, 0);
+    return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
   }
 
   // slackに送信する文章の文面を作成する．
