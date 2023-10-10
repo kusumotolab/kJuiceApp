@@ -1,20 +1,23 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
-import com.slack.api.methods.SlackApiException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.slack.api.methods.SlackApiException;
+
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.BillEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.exceptions.NoSuchMemberException;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.util.httprequest.CommunicateSlack;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -45,7 +48,7 @@ public class BillService {
     return billRepository
         .findFirstByOrderByDateDesc()
         .map((e) -> e.getDate())
-        .orElse(LocalDateTime.of(1753, 1, 1, 0, 0, 0));
+        .orElse(LocalDateTime.MIN);
   }
 
   // slackに送信する文章の文面を作成する．
