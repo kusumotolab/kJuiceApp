@@ -217,7 +217,7 @@ export class Backend {
     return await axios
       .get(Backend.BASE + endpoint, { responseType: "blob" })
       .then((res) => {
-        if(res.status === 204) return null;
+        if (res.status === 204) return null;
         return res.data;
       })
       .catch(() => null);
