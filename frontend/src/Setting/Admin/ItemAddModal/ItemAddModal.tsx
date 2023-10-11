@@ -1,4 +1,3 @@
-import { Backend } from "util/Backend";
 import {
   Box,
   Button,
@@ -23,21 +22,14 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-type TItemAddFormInput = {
-  itemId: string;
-  itemName: string;
-  sellingPrice: number;
-  costPrice: number;
-  category: string;
-};
+import { Item } from "types";
 
 const schema = z.object({
-  itemId: z
+  id: z
     .string()
     .min(1, { message: "商品IDを入力してください" })
     .regex(/^[a-z0-9_-]+$/, { message: "使用できない文字が含まれています" }),
-  itemName: z.string().min(1, { message: "商品名を入力してください" }),
+  name: z.string().min(1, { message: "商品名を入力してください" }),
   sellingPrice: z
     .number({ invalid_type_error: "定価を入力してください" })
     .int({ message: "0以上の整数を入力してください" })
@@ -50,12 +42,13 @@ const schema = z.object({
 });
 type Schema = z.infer<typeof schema>;
 
-type ItemAddPaneProps = {
+type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onClickAddItem: (item: Item) => void;
 };
 
-function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
+function ItemAddModal({ isOpen ,onClose, onClickAddItem }: Props) {
 
   const {
     register,
@@ -67,9 +60,9 @@ function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
   });
   const toast = useToast();
 
-  async function onSubmit(data: TItemAddFormInput) {
+  async function onSubmit(item: Item) {
     try {
-      await addItem(data);
+      onClickAddItem(item);
       reset();
       showToast("商品を追加しました", "success");
     } catch (e) {
@@ -86,22 +79,6 @@ function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
     });
   }
 
-  async function addItem(data: TItemAddFormInput) {
-    const { itemId, itemName, sellingPrice, costPrice, category } = data;
-
-    if (
-      !(await Backend.addItem(
-        itemId,
-        itemName,
-        sellingPrice,
-        costPrice,
-        category,
-      ))
-    ) {
-      throw new Error();
-    }
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
@@ -114,22 +91,22 @@ function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
               <FormControl>
                 <FormLabel>アイコン（未実装）</FormLabel>
               </FormControl>
-              <FormControl isInvalid={Boolean(errors.itemId)}>
-                <FormLabel htmlFor="itemId">商品ID</FormLabel>
-                <Input id="itemId" {...register("itemId")} />
+              <FormControl isInvalid={Boolean(errors.id)}>
+                <FormLabel htmlFor="id">商品ID</FormLabel>
+                <Input id="id" {...register("id")} />
                 <FormHelperText>
                   利用可能な文字: 英字小文字 (a-z), 数字 (0-9), アンダーバー
                   (_), ハイフン (-)
                 </FormHelperText>
                 <FormErrorMessage>
-                  {errors.itemId && String(errors.itemId.message)}
+                  {errors.id && String(errors.id.message)}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={Boolean(errors.itemName)}>
+              <FormControl isInvalid={Boolean(errors.name)}>
                 <FormLabel htmlFor="itemName">商品名</FormLabel>
-                <Input id="itemName" {...register("itemName")} />
+                <Input id="itemName" {...register("name")} />
                 <FormErrorMessage>
-                  {errors.itemName && String(errors.itemName.message)}
+                  {errors.name && String(errors.name.message)}
                 </FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={Boolean(errors.sellingPrice)}>
@@ -182,4 +159,4 @@ function ItemAddPane({ isOpen ,onClose }: ItemAddPaneProps) {
   );
 }
 
-export { ItemAddPane };
+export { ItemAddModal };

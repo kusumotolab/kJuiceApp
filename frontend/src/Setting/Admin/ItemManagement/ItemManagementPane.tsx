@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Backend } from "util/Backend";
 import {
   Box,
@@ -21,18 +20,15 @@ import {
 import { Item } from "types";
 import { faEllipsisVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ItemAddPane } from "../ItemAdd/ItemAddPane";
+import { ItemAddModal } from "../ItemAddModal/ItemAddModal";
+import useItems from "hooks/useItems";
 
-type ItemRowProps = {
+type Props = {
   item: Item;
-  switchItemActivity: (id: string, activity: boolean) => void;
-  deleteItem: (id: string) => void;
-  fetchItemList: () => void;
+  onChangeSwitchActivity: (id: string, activity: boolean) => void;
+  onClickDeleteItem: (id: string) => void;
 };
-
-function ItemRow(props: ItemRowProps) {
-  const { item, switchItemActivity, deleteItem, fetchItemList } = props;
-
+function ItemRow({ item, onChangeSwitchActivity, onClickDeleteItem }: Props) {
   return (
     <Flex
       _first={{ borderTop: "1px", borderColor: "blackAlpha.200" }}
@@ -51,7 +47,9 @@ function ItemRow(props: ItemRowProps) {
           <Text fontSize="xl" fontWeight="bold">
             {item.name}
           </Text>
-          <Text as="sub" textColor="gray">{item.id}</Text>
+          <Text as="sub" textColor="gray">
+            {item.id}
+          </Text>
         </HStack>
         <Text textColor="gray">
           {item.category +
@@ -68,7 +66,7 @@ function ItemRow(props: ItemRowProps) {
           colorScheme="teal"
           size="lg"
           isChecked={item.active}
-          onChange={() => switchItemActivity(item.id, !item.active)}
+          onChange={() => onChangeSwitchActivity(item.id, !item.active)}
         />
         <Popover>
           <PopoverTrigger>
@@ -81,18 +79,16 @@ function ItemRow(props: ItemRowProps) {
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
-            <Stack spacing={4} p={4}>
+            <Stack spacing={4}>
               <Text>編集</Text>
               <Divider />
-              <Text
-                textColor="red"
-                onClick={() => {
-                  deleteItem(item.id);
-                  fetchItemList();
-                }}
+              <Button
+                variant="ghost"
+                colorScheme="red"
+                onClick={() => onClickDeleteItem(item.id)}
               >
                 削除
-              </Text>
+              </Button>
             </Stack>
           </PopoverContent>
         </Popover>
@@ -102,38 +98,41 @@ function ItemRow(props: ItemRowProps) {
 }
 
 function ItemManagementPane() {
-  const [itemList, setItemList] = useState<Item[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { items, reloadItems } = useItems();
 
-  async function fetchItemList() {
-    const itemList = await Backend.getItemList();
-    if (itemList !== null) {
-      setItemList(itemList);
-    } else {
-      console.error("fetchItemList: failed");
-    }
-  }
-
-  async function switchItemActivity(id: string, activity: boolean) {
+  async function handleChangeActivity(id: string, activity: boolean) {
     if (!(await Backend.setItemActivity(id, activity))) {
       console.error("setItemactivity: failed");
+      return;
     }
-    itemList.findIndex((item) => item.id === id);
-    setItemList(
-      itemList.map((item) => {
-        if (item.id === id) item.active = activity;
-        return item;
-      }),
-    );
+
+    reloadItems();
   }
 
-  async function deleteItem(id: string) {
-    if (!(await Backend.deleteItem(id))) console.error("deleteItem: failed");
+  async function handleClickDeleteItem(id: string) {
+    if (!(await Backend.deleteItem(id))) {
+      console.error("deleteItem: failed");
+      return;
+    }
+
+    reloadItems();
   }
 
-  useEffect(() => {
-    fetchItemList();
-  }, []);
+  async function handleClickAddItem({
+    id,
+    name,
+    sellingPrice,
+    costPrice,
+    category,
+  }: Item) {
+    if (!(await Backend.addItem(id, name, sellingPrice, costPrice, category))) {
+      console.error("addItem: failed");
+      return;
+    }
+
+    reloadItems();
+  }
 
   return (
     <>
@@ -149,17 +148,20 @@ function ItemManagementPane() {
         商品を追加
       </Button>
       <Stack spacing={0}>
-        {itemList.map((item) => (
+        {items.map((item) => (
           <ItemRow
             key={item.id}
             item={item}
-            switchItemActivity={switchItemActivity}
-            deleteItem={deleteItem}
-            fetchItemList={fetchItemList}
+            onChangeSwitchActivity={handleChangeActivity}
+            onClickDeleteItem={handleClickDeleteItem}
           />
         ))}
       </Stack>
-      <ItemAddPane isOpen={isOpen} onClose={onClose} />
+      <ItemAddModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onClickAddItem={handleClickAddItem}
+      />
     </>
   );
 }
