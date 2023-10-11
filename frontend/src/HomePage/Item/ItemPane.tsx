@@ -10,14 +10,15 @@ type Props = {
 
 function ItemPane({ selectedItem, handleClickItemCard }: Props) {
   const categories = [
-    { title: "ジュース", category: "juice" },
-    { title: "食べ物", category: "food" },
+    { id: 0, title: "ジュース", category: "juice" },
+    { id: 1, title: "食べ物", category: "food" },
   ];
 
   return (
     <Stack spacing={8}>
       {categories.map((category) => (
         <ItemPerCategory
+          key={category.id}
           title={category.title}
           category={category.category}
           selectedItem={selectedItem}
