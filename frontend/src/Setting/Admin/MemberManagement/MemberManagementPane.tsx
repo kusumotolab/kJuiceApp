@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Member } from "types";
 import { Backend } from "util/Backend";
 import {
@@ -21,18 +20,18 @@ import {
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { UserAddPane } from "../UserAdd/UserAddPane";
+import { MemberAddModal } from "../MemberAddModal/MemberAddModal";
 import useMemberImage from "hooks/useMemberImage";
+import useMembers from "hooks/useMembers";
 
 type MemberRowProps = {
   member: Member;
-  switchMemberActivity: (id: string, activity: boolean) => void;
-  deleteMember: (id: string) => void;
-  fetchMemberList: () => void;
+  onChangeSwitchActivity: (id: string, activity: boolean) => void;
+  onClickDeleteMember: (id: string) => void;
 };
 
 function MemberRow(props: MemberRowProps) {
-  const { member, switchMemberActivity, deleteMember, fetchMemberList } = props;
+  const { member, onChangeSwitchActivity, onClickDeleteMember } = props;
   const memberImage = useMemberImage(member);
 
   return (
@@ -63,7 +62,7 @@ function MemberRow(props: MemberRowProps) {
           colorScheme="teal"
           size="lg"
           isChecked={member.active}
-          onChange={() => switchMemberActivity(member.id, !member.active)}
+          onChange={() => onChangeSwitchActivity(member.id, !member.active)}
         />
         <Popover>
           <PopoverTrigger>
@@ -81,10 +80,7 @@ function MemberRow(props: MemberRowProps) {
               <Divider />
               <Text
                 textColor="red"
-                onClick={() => {
-                  deleteMember(member.id);
-                  fetchMemberList();
-                }}
+                onClick={() => onClickDeleteMember(member.id)}
               >
                 削除
               </Text>
@@ -97,42 +93,35 @@ function MemberRow(props: MemberRowProps) {
 }
 
 function MemberManagementPane() {
-  const [memberList, setMemberList] = useState<Member[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { members, reloadMembers } = useMembers();
 
-  async function fetchMemberList() {
-    const memberList = await Backend.getMemberList();
-
-    if (memberList === null) {
-      console.error("fetchMemberList: failed");
-      return;
-    }
-
-    setMemberList(memberList);
-  }
-
-  async function switchMemberActivity(id: string, activity: boolean) {
+  async function handleSwitchMemberActivity(id: string, activity: boolean) {
     if (!(await Backend.setMemberActivity(id, activity))) {
       console.error("switchMemberActivity: failed");
       return;
     }
-    memberList.findIndex((member) => member.id === id);
-    setMemberList(
-      memberList.map((member) => {
-        if (member.id === id) member.active = activity;
-        return member;
-      }),
-    );
+
+    reloadMembers();
   }
 
-  async function deleteMember(member: string) {
-    if (!(await Backend.deleteMember(member)))
+  async function handleDeleteMember(id: string) {
+    if (!(await Backend.deleteMember(id))) {
       console.error("deleteMember: failed");
+      return;
+    }
+
+    reloadMembers();
   }
 
-  useEffect(() => {
-    fetchMemberList();
-  }, []);
+  async function handleAddMember({ id, name, attribute }: Member) {
+    if (!(await Backend.addMember(id, name, attribute))) {
+      console.error("addMember: failed");
+      return;
+    }
+
+    await reloadMembers();
+  }
 
   return (
     <>
@@ -148,17 +137,20 @@ function MemberManagementPane() {
         利用者を追加
       </Button>
       <Stack spacing={0}>
-        {memberList.map((member) => (
+        {members.map((member) => (
           <MemberRow
             key={member.id}
             member={member}
-            switchMemberActivity={switchMemberActivity}
-            deleteMember={deleteMember}
-            fetchMemberList={fetchMemberList}
+            onChangeSwitchActivity={handleSwitchMemberActivity}
+            onClickDeleteMember={handleDeleteMember}
           />
         ))}
       </Stack>
-      <UserAddPane isOpen={isOpen} onClose={onClose} />
+      <MemberAddModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onClickAddMember={handleAddMember}
+      />
     </>
   );
 }

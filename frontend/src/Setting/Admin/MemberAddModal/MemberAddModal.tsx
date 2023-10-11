@@ -18,23 +18,16 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Backend } from "util/Backend";
+import { Member } from "types";
 import { z } from "zod";
 
-type TUserAddFormInput = {
-  userId: string;
-  userName: string;
-  attribute: string;
-};
-
 const schema = z.object({
-  userId: z
+  id: z
     .string()
     .min(1, { message: "ユーザIDを入力してください" })
     .regex(/^[a-z0-9_-]+$/, { message: "使用できない文字が含まれています" }),
-  userName: z.string().min(1, { message: "ユーザ名を入力してください" }),
+  name: z.string().min(1, { message: "ユーザ名を入力してください" }),
   attribute: z.string(),
 });
 type Schema = z.infer<typeof schema>;
@@ -42,9 +35,10 @@ type Schema = z.infer<typeof schema>;
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onClickAddMember: (member: Member) => void;
 };
 
-function UserAddPane({ isOpen, onClose }: Props) {
+function MemberAddModal({ isOpen, onClose, onClickAddMember }: Props) {
   const {
     register,
     handleSubmit,
@@ -55,9 +49,9 @@ function UserAddPane({ isOpen, onClose }: Props) {
   });
   const toast = useToast();
 
-  async function onSubmit(data: TUserAddFormInput) {
+  async function onSubmit(data: Member) {
     try {
-      await addUser(data);
+      onClickAddMember(data);
       reset();
       showToast("ユーザを追加しました", "success");
     } catch (e) {
@@ -74,13 +68,6 @@ function UserAddPane({ isOpen, onClose }: Props) {
     });
   }
 
-  async function addUser(data: TUserAddFormInput) {
-    const { userId, userName, attribute } = data;
-
-    if (!(await Backend.addMember(userId, userName, attribute))) {
-      throw new Error();
-    }
-  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -94,22 +81,22 @@ function UserAddPane({ isOpen, onClose }: Props) {
               <FormControl>
                 <FormLabel>アイコン（未実装）</FormLabel>
               </FormControl>
-              <FormControl isInvalid={Boolean(errors.userId)}>
-                <FormLabel htmlFor="userId">ユーザID</FormLabel>
-                <Input id="userId" {...register("userId")} />
+              <FormControl isInvalid={Boolean(errors.id)}>
+                <FormLabel htmlFor="userId">利用者ID</FormLabel>
+                <Input id="userId" {...register("id")} />
                 <FormHelperText>
                   利用可能な文字: 英字小文字 (a-z), 数字 (0-9), アンダーバー
                   (_), ハイフン (-)
                 </FormHelperText>
                 <FormErrorMessage>
-                  {errors.userId && String(errors.userId.message)}
+                  {errors.id && String(errors.id.message)}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={Boolean(errors.userName)}>
-                <FormLabel htmlFor="userName">ユーザ名</FormLabel>
-                <Input id="userName" {...register("userName")} />
+              <FormControl isInvalid={Boolean(errors.name)}>
+                <FormLabel htmlFor="userName">利用者名</FormLabel>
+                <Input id="name" {...register("name")} />
                 <FormErrorMessage>
-                  {errors.userName && String(errors.userName.message)}
+                  {errors.name && String(errors.name.message)}
                 </FormErrorMessage>
               </FormControl>
               <FormControl>
@@ -136,4 +123,4 @@ function UserAddPane({ isOpen, onClose }: Props) {
   );
 }
 
-export { UserAddPane };
+export { MemberAddModal };
