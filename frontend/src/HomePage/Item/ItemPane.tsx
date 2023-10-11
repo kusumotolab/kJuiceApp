@@ -13,7 +13,6 @@ function ItemPane({ selectedItem, handleClickItemCard }: Props) {
     { id: 0, title: "ジュース", category: "juice" },
     { id: 1, title: "食べ物", category: "food" },
   ];
-
   return (
     <Stack spacing={8}>
       {categories.map((category) => (
