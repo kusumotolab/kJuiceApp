@@ -24,7 +24,7 @@ function ItemPerCategory({
   selectedItem,
   handleClickItemCard,
 }: Props) {
-  const items = useItems();
+  const { items } = useItems();
   const logoDictionary: LogoDictionary = {
     CocaCola: LogoCola,
     Fanta: LogoFanta,
