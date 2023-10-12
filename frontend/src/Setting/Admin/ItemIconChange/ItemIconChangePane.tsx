@@ -62,7 +62,7 @@ function ItemIconChangePane() {
     } else {
       showToast(
         "ファイルの送信に失敗しました．ファイルサイズ/形式を確認してください．ファイルサイズの上限は10MBです．",
-        "error",
+        "error"
       );
     }
   }

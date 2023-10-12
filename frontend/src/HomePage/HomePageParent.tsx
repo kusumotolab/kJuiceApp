@@ -71,10 +71,10 @@ function HomePageParent() {
     }
 
     setJuiceList(
-      itemList.filter((item) => item.active && item.category === "juice"),
+      itemList.filter((item) => item.active && item.category === "juice")
     );
     setFoodList(
-      itemList.filter((item) => item.active && item.category === "food"),
+      itemList.filter((item) => item.active && item.category === "food")
     );
   }
 
