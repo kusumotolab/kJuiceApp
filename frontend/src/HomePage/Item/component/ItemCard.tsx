@@ -15,12 +15,11 @@ import LogoDefaultItem from "image/default_item.svg";
 import { TabIndex } from "App";
 
 type Props = {
-  name: string;
   item: Item;
   onClick: () => void;
 };
 
-function ItemCard({ name, onClick, item }: Props) {
+function ItemCard({onClick, item }: Props) {
   const [imgSrc, setImgSrc] = useState<string>("");
   const tabIndex = useContext(TabIndex);
 
@@ -44,7 +43,7 @@ function ItemCard({ name, onClick, item }: Props) {
           <AspectRatio ratio={1 / 1}>
             <Image src={imgSrc} w="100%" objectFit="cover" />
           </AspectRatio>
-          <Heading size="md">{name}</Heading>
+          <Heading size="md">{item.name}</Heading>
           <Text>{item.sellingPrice}円</Text>
         </Stack>
       </CardBody>
