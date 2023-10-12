@@ -1,5 +1,6 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.MemberRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.PurchaseRepository;
@@ -25,6 +27,7 @@ public class PurchaseService {
   @Autowired private ItemRepository itemRepository;
   @Autowired private PurchaseRepository purchaseRepository;
   @Autowired private EntityManager entityManager;
+  @Autowired private BillRepository billRepository;
 
   public List<PurchaseEntity> getAllPurchases() {
     return purchaseRepository.findAll();
@@ -52,11 +55,24 @@ public class PurchaseService {
     return;
   }
 
+  // 直近の請求書発行日以降にユーザが利用した金額の合計を取得する．
+  public int getPurchasedAmountByMemberAfterLastBillDate(String memberId) {
+    return purchaseRepository.findByMemberIdAndDateAfter(memberId, getRecentBillDate()).stream()
+        .mapToInt(e -> e.getPrice())
+        .sum();
+  }
+
   public HashMap<String, Integer> getPaymentSummaryOrderedByPayment() {
     return purchaseRepository.getPaymentSummary().entrySet().stream()
         .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
         .collect(
             Collectors.toMap(
                 Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+  }
+
+  // 請求書を発行した直近の日付を取得する．BillServiceから呼び出すと循環参照となり，うまく動作しないため新たに用意．
+  private LocalDateTime getRecentBillDate() {
+    final LocalDateTime oldestDay = LocalDateTime.of(0, 1, 1, 0, 0, 0);
+    return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
   }
 }

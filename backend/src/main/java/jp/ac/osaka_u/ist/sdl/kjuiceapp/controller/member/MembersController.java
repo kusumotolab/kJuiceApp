@@ -121,6 +121,10 @@ public class MembersController {
 
   private static MemberResponseBody convert(MemberEntity origin) {
     return new MemberResponseBody(
-        origin.getId(), origin.getName(), origin.getAttribute(), origin.isActive());
+        origin.getId(),
+        origin.getName(),
+        origin.getAttribute(),
+        origin.isActive(),
+        origin.getPayment());
   }
 }

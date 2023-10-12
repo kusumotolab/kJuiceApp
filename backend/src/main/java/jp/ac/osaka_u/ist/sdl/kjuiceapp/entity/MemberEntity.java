@@ -4,8 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -13,7 +13,6 @@ import lombok.Setter;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE) // for JPA
 @Table(name = "member")
 public class MemberEntity {
@@ -29,4 +28,13 @@ public class MemberEntity {
   @NonNull private String attribute;
 
   private boolean active;
+
+  @Transient private int payment;
+
+  public MemberEntity(String id, String name, String attribute, boolean active) {
+    this.id = id;
+    this.name = name;
+    this.attribute = attribute;
+    this.active = active;
+  }
 }

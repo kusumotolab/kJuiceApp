@@ -35,7 +35,7 @@ public class MembersControllerTest extends DBTestBase {
   @Test
   @DataSet(value = "MembersController/normalGetAllMembers/before.yaml")
   public void normalGetAllMembers() throws Exception {
-    var expectedResponseParams = List.of(new MemberResponseBody("h-takesg", "竹重", "m1", true));
+    var expectedResponseParams = List.of(new MemberResponseBody("h-takesg", "竹重", "m1", true, 0));
     String expectedJson = objectMapper.writeValueAsString(expectedResponseParams);
 
     this.mockMvc
@@ -51,7 +51,7 @@ public class MembersControllerTest extends DBTestBase {
     var requestParams = new MemberAddRequestBody("h-takesg", "竹重", "m1");
     String requestBody = objectMapper.writeValueAsString(requestParams);
 
-    var expectedResponseParams = new MemberResponseBody("h-takesg", "竹重", "m1", false);
+    var expectedResponseParams = new MemberResponseBody("h-takesg", "竹重", "m1", false, 0);
     String expectedResponseBody = objectMapper.writeValueAsString(expectedResponseParams);
 
     this.mockMvc
@@ -81,7 +81,7 @@ public class MembersControllerTest extends DBTestBase {
         new MemberUpdateRequestBody(Optional.empty(), Optional.of("m2"), Optional.of(false));
     String requestBody = objectMapper.writeValueAsString(requestParams);
 
-    var expectedResponseParams = new MemberResponseBody("h-takesg", "竹重", "m2", false);
+    var expectedResponseParams = new MemberResponseBody("h-takesg", "竹重", "m2", false, 0);
     String expectedResponseBody = objectMapper.writeValueAsString(expectedResponseParams);
 
     this.mockMvc
