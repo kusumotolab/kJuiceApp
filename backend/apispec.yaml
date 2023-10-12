@@ -744,6 +744,8 @@ components:
           $ref: "#/components/schemas/MemberAttribute"
         active:
           type: boolean
+        payment:
+          type: integer
     ## purchases
     PurchasePost:
       type: object

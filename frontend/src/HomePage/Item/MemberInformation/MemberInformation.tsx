@@ -7,7 +7,7 @@ type Props = {
 
 function MemberInformation({ selectedMember }: Props) {
   const memberName = (selectedMember?.name ?? "---") + "さん";
-  const memberUnpaidAmount = "工事中";
+  const memberUnpaidAmount = (selectedMember?.payment ?? "---") + "円";
 
   return (
     <Flex my={8} justifyContent="center" gap={4}>

@@ -12,6 +12,7 @@ export type Member = {
   name: string;
   attribute: string;
   active: boolean;
+  payment: number;
 };
 
 export type Chat = {
