@@ -36,7 +36,7 @@ function UserDeletePane() {
       memberList.map((member) => {
         if (member.id === id) member.active = activity;
         return member;
-      })
+      }),
     );
   }
 

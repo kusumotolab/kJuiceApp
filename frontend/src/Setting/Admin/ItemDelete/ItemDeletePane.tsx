@@ -33,7 +33,7 @@ function ItemDeletePane() {
       itemList.map((item) => {
         if (item.id === id) item.active = activity;
         return item;
-      })
+      }),
     );
   }
 

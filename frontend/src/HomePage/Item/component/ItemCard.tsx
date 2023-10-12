@@ -19,7 +19,7 @@ type Props = {
   onClick: () => void;
 };
 
-function ItemCard({onClick, item }: Props) {
+function ItemCard({ onClick, item }: Props) {
   const [imgSrc, setImgSrc] = useState<string>("");
   const tabIndex = useContext(TabIndex);
 
