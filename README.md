@@ -32,6 +32,8 @@ http://localhost:80 にアクセス．
 # How to Contribute
 Devcontainerで開発環境を立ち上げられます．
 VScodeなどの対応エディタで開いてください．
+`frontend`の開発には`npm install`の実行が必要です．
+コマンドが正常に完了しない場合には`chown vscode npm_modules`を用いて適宜`node_modules`の所有者を更新してください．
 
 ## SSH
 Devcontainer内からSSH（例：GitHubにpush）する際，`ssh-agent`を用いるとホストの鍵を使用できます．
