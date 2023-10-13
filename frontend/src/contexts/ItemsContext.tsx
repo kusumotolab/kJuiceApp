@@ -9,7 +9,9 @@ import { Item, ItemId } from "types";
 import { Backend } from "util/Backend";
 
 export const ItemsContext = createContext<Item[]>([]);
-export const ItemsDispatchContext = createContext<Dispatch<Action>>({} as Dispatch<Action>);
+export const ItemsDispatchContext = createContext<Dispatch<Action>>(
+  {} as Dispatch<Action>,
+);
 
 export function ItemsProvider({ children }: { children: React.ReactNode }) {
   const [items, dispatch] = useReducer(itemsReducer, []);
@@ -54,7 +56,14 @@ export function useItemsDispatch() {
 
 type Action =
   | { type: "initialized"; items: Item[] }
-  | { type: "added"; id: ItemId; name: string; sellingPrice: number; costPrice: number; category: string }
+  | {
+      type: "added";
+      id: ItemId;
+      name: string;
+      sellingPrice: number;
+      costPrice: number;
+      category: string;
+    }
   | { type: "deleted"; id: ItemId }
   | { type: "switchedActivity"; id: ItemId; active: boolean };
 
