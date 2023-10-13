@@ -15,8 +15,8 @@ function HomePageParent() {
   const members = useMembers();
   const items = useItems();
 
-  const juices = items.filter((item) => item.category === "juice");
-  const foods = items.filter((item) => item.category === "food");
+  const juices = items.filter((item) => item.category === "juice" && item.active);
+  const foods = items.filter((item) => item.category === "food" && item.active);
 
   async function purchaseItem() {
     if (selectedMember === null || selectedItem === null) {
