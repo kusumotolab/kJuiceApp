@@ -64,6 +64,7 @@ function HomePageParent() {
 
   async function fetchItemList() {
     const itemList = await Backend.getItemList();
+    itemList?.sort(compareItemFunction);
 
     if (itemList === null) {
       console.error("fetchItemList: failed");
@@ -76,6 +77,16 @@ function HomePageParent() {
     setFoodList(
       itemList.filter((item) => item.active && item.category === "food")
     );
+  }
+
+  function compareItemFunction(a: Item, b: Item) {
+    if (a.id === b.id) {
+      return 0;
+    } else if (a.id > b.id) {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 
   useEffect(() => {
