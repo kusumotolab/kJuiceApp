@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FileSelect } from "./FileSelect/FileSelect";
 import { Backend } from "util/Backend";
-import { Member } from "types";
 import {
   Box,
   Button,
