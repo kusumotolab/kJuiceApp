@@ -13,23 +13,13 @@ import {
   Avatar,
   Center,
 } from "@chakra-ui/react";
+import { useMembers } from "contexts/MembersContext";
 
 function IconSetting() {
   const [profileImage, setProfileImage] = useState("");
   const [userId, setUserId] = useState<string>("");
-  const [memberList, setMemberList] = useState<Member[]>([]);
+  const members = useMembers();
   const [fileObject, setFileObject] = useState<File>();
-
-  async function fetchMemberList() {
-    const memberList = await Backend.getMemberList();
-
-    if (memberList === null) {
-      console.error("fetchMemberList: failed");
-      return;
-    }
-
-    setMemberList(memberList.filter((member) => member.active));
-  }
 
   function onFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
@@ -58,10 +48,6 @@ function IconSetting() {
     }
   }
 
-  useEffect(() => {
-    fetchMemberList();
-  }, []);
-
   return (
     <Box w="2xl" margin="auto">
       <Stack spacing={4}>
@@ -73,7 +59,7 @@ function IconSetting() {
               setUserId(e.target?.value ?? "");
             }}
           >
-            {memberList.map(({ id, name }) => {
+            {members.map(({ id, name }) => {
               return (
                 <option key={id} value={id}>
                   {name}
