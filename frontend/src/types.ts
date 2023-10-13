@@ -42,7 +42,7 @@ export type LabeledHistory = {
 };
 
 export type ItemId =
-  string
+  | string
   | "CocaCola"
   | "Fanta"
   | "Water"

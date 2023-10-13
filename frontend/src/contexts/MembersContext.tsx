@@ -9,7 +9,9 @@ import { Member } from "types";
 import { Backend } from "util/Backend";
 
 export const MembersContext = createContext<Member[]>([]);
-export const MembersDispatchContext = createContext<Dispatch<Action>>({} as Dispatch<Action>);
+export const MembersDispatchContext = createContext<Dispatch<Action>>(
+  {} as Dispatch<Action>
+);
 
 export function MembersProvider({ children }: { children: React.ReactNode }) {
   const [members, dispatch] = useReducer(membersReducer, []);
