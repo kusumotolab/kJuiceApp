@@ -7,8 +7,8 @@ type Props = {
   description: string;
   attribute: string;
   memberList: Member[];
-  selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+  selectedMember: Member | undefined;
+  handleClickMemberCard: Dispatch<SetStateAction<string | null>>;
 };
 
 function MemberPanePerAttribute({
@@ -16,7 +16,7 @@ function MemberPanePerAttribute({
   attribute,
   memberList,
   selectedMember,
-  setSelectedMember,
+  handleClickMemberCard,
 }: Props) {
   return (
     <Stack spacing={4} mb={8}>
@@ -24,7 +24,7 @@ function MemberPanePerAttribute({
         {description}
       </Heading>
       {memberList
-        .filter((member) => member.attribute === attribute)
+        .filter((member) => member.attribute === attribute && member.active)
         .sort((a, b) => {
           if (a.id > b.id) {
             return 1;
@@ -35,10 +35,10 @@ function MemberPanePerAttribute({
         .map((member) => (
           <MemberCard
             selected={
-              selectedMember !== null && selectedMember.id === member.id
+              selectedMember !== undefined && selectedMember.id === member.id
             }
             member={member}
-            setSelectedMember={setSelectedMember}
+            onClick={handleClickMemberCard}
             key={member.id}
           />
         ))}

@@ -9,10 +9,10 @@ import { TabIndex } from "App";
 type Props = {
   selected: boolean;
   member: Member;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+  onClick: Dispatch<SetStateAction<string | null>>;
 };
 
-function MemberCard({ selected, member, setSelectedMember }: Props) {
+function MemberCard({ selected, member, onClick}: Props) {
   const [userIcon, setUserIcon] = useState("");
 
   const tabIndex = useContext(TabIndex);
@@ -36,7 +36,7 @@ function MemberCard({ selected, member, setSelectedMember }: Props) {
       alignItems="center"
       bg={selected ? "whiteAlpha.200" : "none"}
       onClick={() => {
-        setSelectedMember(member);
+        onClick(member.id);
       }}
     >
       <Avatar src={userIcon} />

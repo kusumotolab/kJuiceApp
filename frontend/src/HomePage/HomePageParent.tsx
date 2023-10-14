@@ -1,37 +1,50 @@
 import { Flex, useToast } from "@chakra-ui/react";
 import { useItems } from "contexts/ItemsContext";
-import { useMembers } from "contexts/MembersContext";
+import { useMembers, useMembersDispatch } from "contexts/MembersContext";
 import { useState } from "react";
-import { Item, Member } from "types";
 import { Backend } from "util/Backend";
 import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 
 function HomePageParent() {
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const toast = useToast();
-
   const members = useMembers();
-  const items = useItems();
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const selectedMember = members.find(
+    (member) => member.id === selectedMemberId,
+  );
 
-  const juices = items.filter((item) => item.category === "juice" && item.active);
+  const items = useItems();
+  const juices = items.filter(
+    (item) => item.category === "juice" && item.active,
+  );
   const foods = items.filter((item) => item.category === "food" && item.active);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const selectedItem = items.find((item) => item.id === selectedItemId);
+
+  const toast = useToast();
+  const dispatch = useMembersDispatch();
 
   async function purchaseItem() {
-    if (selectedMember === null || selectedItem === null) {
+    if (selectedMember === undefined || selectedItem === undefined) {
       return;
     }
-
-    setSelectedMember(null);
 
     if (!(await Backend.purchase(selectedMember.id, selectedItem.id))) {
       showPurchaseErrorToast();
       return;
     }
 
+    dispatch({
+      type: "purchased",
+      id: selectedMember.id,
+      purchase_amount: selectedItem.sellingPrice,
+    });
+
     showPurchaseSuccessToast();
+
+    setSelectedMemberId(null);
   }
+
 
   function showPurchaseSuccessToast() {
     toast({
@@ -57,15 +70,15 @@ function HomePageParent() {
     <Flex h="calc(100vh - 40px)" overflowX="scroll">
       <MemberPane
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
+        handleClickMemberCard={(id: string) => setSelectedMemberId(id)}
         memberList={members}
       />
       <ItemPane
-        setSelectedItem={setSelectedItem}
         selectedItem={selectedItem}
+        handleClickItemCard={(id: string) => setSelectedItemId(id)}
+        selectedMember={selectedMember}
         juiceList={juices}
         foodList={foods}
-        selectedMember={selectedMember}
         purchaseItem={purchaseItem}
       />
     </Flex>

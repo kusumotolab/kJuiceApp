@@ -58,7 +58,8 @@ type Action =
   | { type: "initialized"; members: Member[] }
   | { type: "added"; id: string; name: string; attribute: string }
   | { type: "deleted"; id: string }
-  | { type: "switchedActivity"; id: string; active: boolean };
+  | { type: "switchedActivity"; id: string; active: boolean }
+  | { type: "purchased"; id: string; purchase_amount: number };
 
 function membersReducer(members: Member[], action: Action) {
   switch (action.type) {
@@ -83,6 +84,16 @@ function membersReducer(members: Member[], action: Action) {
           return {
             ...member,
             active: action.active,
+          };
+        }
+        return member;
+      });
+    case "purchased":
+      return members.map((member) => {
+        if (member.id === action.id) {
+          return {
+            ...member,
+            payment: member.payment + action.purchase_amount,
           };
         }
         return member;
