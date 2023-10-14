@@ -53,7 +53,7 @@ function ItemPane({
   }
 
   function onOpenSafely() {
-    if (selectedItem === null || selectedMember === null) {
+    if (selectedMember === undefined) {
       showMemberNotSelectedToast();
       return;
     }
