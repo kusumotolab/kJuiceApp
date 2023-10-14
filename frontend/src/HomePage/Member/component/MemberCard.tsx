@@ -12,7 +12,7 @@ type Props = {
   onClick: Dispatch<SetStateAction<string | null>>;
 };
 
-function MemberCard({ selected, member, onClick}: Props) {
+function MemberCard({ selected, member, onClick }: Props) {
   const [userIcon, setUserIcon] = useState("");
 
   const tabIndex = useContext(TabIndex);

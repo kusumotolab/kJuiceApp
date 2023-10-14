@@ -10,12 +10,12 @@ function HomePageParent() {
   const members = useMembers();
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
   const selectedMember = members.find(
-    (member) => member.id === selectedMemberId,
+    (member) => member.id === selectedMemberId
   );
 
   const items = useItems();
   const juices = items.filter(
-    (item) => item.category === "juice" && item.active,
+    (item) => item.category === "juice" && item.active
   );
   const foods = items.filter((item) => item.category === "food" && item.active);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -44,7 +44,6 @@ function HomePageParent() {
 
     setSelectedMemberId(null);
   }
-
 
   function showPurchaseSuccessToast() {
     toast({
