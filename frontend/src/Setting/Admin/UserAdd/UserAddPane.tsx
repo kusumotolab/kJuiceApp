@@ -42,6 +42,7 @@ function UserAddPane() {
     resolver: zodResolver(schema),
   });
   const toast = useToast();
+  const dispatch = useMembersDispatch();
 
   async function onSubmit(data: TUserAddFormInput) {
     try {
@@ -69,7 +70,6 @@ function UserAddPane() {
       throw new Error("addMember: failed");
     }
 
-    const dispatch = useMembersDispatch();
     dispatch({
       type: "added",
       id: userId,

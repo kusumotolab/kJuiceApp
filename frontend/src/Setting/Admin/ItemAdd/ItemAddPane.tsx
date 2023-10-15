@@ -55,6 +55,7 @@ function ItemAddPane() {
     resolver: zodResolver(schema),
   });
   const toast = useToast();
+  const dispatch = useItemsDispatch();
 
   async function onSubmit(data: TItemAddFormInput) {
     try {
@@ -90,7 +91,6 @@ function ItemAddPane() {
       throw new Error("addItem: failed");
     }
 
-    const dispatch = useItemsDispatch();
     dispatch({
       type: "added",
       id: itemId,
