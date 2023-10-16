@@ -2,7 +2,7 @@ import { Avatar, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Member } from "types";
 
 type Props = {
-  selectedMember: Member | null;
+  selectedMember: Member | undefined;
 };
 
 function MemberInformation({ selectedMember }: Props) {

@@ -20,6 +20,8 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import { createContext, useState } from "react";
+import { MembersProvider } from "contexts/MembersContext";
+import { ItemsProvider } from "contexts/ItemsContext";
 
 export const TabIndex = createContext(0);
 
@@ -28,42 +30,46 @@ function App() {
   const [tabIndex, setTabIndex] = useState(0);
   return (
     <ChakraProvider>
-      <Tabs onChange={(index) => setTabIndex(index)}>
-        <TabList>
-          <Tab>
-            Home
-            <FontAwesomeIcon style={iconStyle} icon={faHouse} />
-          </Tab>
-          <Tab>
-            Graph
-            <FontAwesomeIcon style={iconStyle} icon={faChartGantt} />
-          </Tab>
-          <Tab>
-            Settings
-            <FontAwesomeIcon style={iconStyle} icon={faHammer} />
-          </Tab>
-          <Tab>
-            Chat
-            <FontAwesomeIcon style={iconStyle} icon={faMessage} />
-          </Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel p={0}>
-            <TabIndex.Provider value={tabIndex}>
-              <HomePageParent />
-            </TabIndex.Provider>
-          </TabPanel>
-          <TabPanel>
-            <GraphPane />
-          </TabPanel>
-          <TabPanel>
-            <SettingPane />
-          </TabPanel>
-          <TabPanel>
-            <ChatPane />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <MembersProvider>
+        <ItemsProvider>
+          <Tabs onChange={(index) => setTabIndex(index)}>
+            <TabList>
+              <Tab>
+                Home
+                <FontAwesomeIcon style={iconStyle} icon={faHouse} />
+              </Tab>
+              <Tab>
+                Graph
+                <FontAwesomeIcon style={iconStyle} icon={faChartGantt} />
+              </Tab>
+              <Tab>
+                Settings
+                <FontAwesomeIcon style={iconStyle} icon={faHammer} />
+              </Tab>
+              <Tab>
+                Chat
+                <FontAwesomeIcon style={iconStyle} icon={faMessage} />
+              </Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel p={0}>
+                <TabIndex.Provider value={tabIndex}>
+                  <HomePageParent />
+                </TabIndex.Provider>
+              </TabPanel>
+              <TabPanel>
+                <GraphPane />
+              </TabPanel>
+              <TabPanel>
+                <SettingPane />
+              </TabPanel>
+              <TabPanel>
+                <ChatPane />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </ItemsProvider>
+      </MembersProvider>
     </ChakraProvider>
   );
 }

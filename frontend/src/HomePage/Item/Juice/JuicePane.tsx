@@ -8,14 +8,14 @@ import { Flex, Box, Heading } from "@chakra-ui/react";
 type Props = {
   juiceList: Item[];
   selected?: boolean;
-  setSelectedItem: Dispatch<SetStateAction<Item | null>>;
+  handleClickItemCard: Dispatch<SetStateAction<string | null>>;
   onOpen: () => void;
   logoDictionary: LogoDictionary;
 };
 
 function JuicePane({
   juiceList,
-  setSelectedItem,
+  handleClickItemCard,
   onOpen,
   logoDictionary,
 }: Props) {
@@ -28,7 +28,7 @@ function JuicePane({
             <ItemCard
               color="#FFC039"
               onClick={() => {
-                setSelectedItem(juice);
+                handleClickItemCard(juice.id);
                 onOpen();
               }}
               name={juice.name}

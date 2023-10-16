@@ -10,6 +10,7 @@ import {
   CardBody,
   useToast,
 } from "@chakra-ui/react";
+import { useMembers } from "contexts/MembersContext";
 import { useEffect, useState } from "react";
 import { Member } from "types";
 import { Backend } from "util/Backend";
@@ -17,8 +18,8 @@ import { Backend } from "util/Backend";
 function SendSlack() {
   const [issuer, setIssuer] = useState<Member>();
   const [issuerIcon, setIssuerIcon] = useState("");
-  const [memberList, setMemberList] = useState<Member[]>([]);
   const toast = useToast();
+  const members = useMembers();
 
   async function setDefaultIssuer() {
     const billsList = await Backend.getBillList();
@@ -26,15 +27,11 @@ function SendSlack() {
       return;
     }
     const issuerId = billsList?.at(-1)?.issuerId;
-    const membersList = await Backend.getMemberList();
-    if (membersList === null) {
-      return;
-    }
 
     try {
       const issuer =
-        membersList.find((member) => member.active && member.id === issuerId) ||
-        membersList[0];
+        members.find((member) => member.active && member.id === issuerId) ||
+        members[0];
       setImage(issuer);
       setIssuer(issuer);
     } catch (e) {
@@ -51,20 +48,9 @@ function SendSlack() {
     }
   }
 
-  async function getMemberList() {
-    const memberList = await Backend.getMemberList();
-
-    if (memberList === null) {
-      console.error("fetchMemberList: failed");
-      return;
-    }
-
-    setMemberList(memberList.filter((member) => member.active));
-  }
-
   function updateIssuer(memberId: string) {
     if (memberId !== "") {
-      setIssuer(memberList.find((member) => member.id === memberId));
+      setIssuer(members.find((member) => member.id === memberId));
     }
   }
 
@@ -95,7 +81,6 @@ function SendSlack() {
 
   useEffect(() => {
     setDefaultIssuer();
-    getMemberList();
   }, []);
 
   useEffect(() => {
@@ -114,7 +99,7 @@ function SendSlack() {
               <Avatar bg="gray.400" src={issuerIcon} size="lg" />
               <Center h="1fr" fontSize="2xl">
                 <Select size="lg" onChange={handleChangeIssuer}>
-                  {memberList.map(({ id, name }) => (
+                  {members.map(({ id, name }) => (
                     <option key={id} value={id} selected={issuer?.id === id}>
                       {name}
                     </option>

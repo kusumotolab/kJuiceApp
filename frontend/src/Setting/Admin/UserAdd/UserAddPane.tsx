@@ -11,6 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMembersDispatch } from "contexts/MembersContext";
 import { useForm } from "react-hook-form";
 import { Backend } from "util/Backend";
 import { z } from "zod";
@@ -41,10 +42,11 @@ function UserAddPane() {
     resolver: zodResolver(schema),
   });
   const toast = useToast();
+  const dispatch = useMembersDispatch();
 
   async function onSubmit(data: TUserAddFormInput) {
     try {
-      await addUser(data);
+      await handleAddMember(data);
       reset();
       showToast("ユーザを追加しました", "success");
     } catch (e) {
@@ -61,12 +63,19 @@ function UserAddPane() {
     });
   }
 
-  async function addUser(data: TUserAddFormInput) {
+  async function handleAddMember(data: TUserAddFormInput) {
     const { userId, userName, attribute } = data;
 
     if (!(await Backend.addMember(userId, userName, attribute))) {
-      throw new Error();
+      throw new Error("addMember: failed");
     }
+
+    dispatch({
+      type: "added",
+      id: userId,
+      name: userName,
+      attribute: attribute,
+    });
   }
 
   return (

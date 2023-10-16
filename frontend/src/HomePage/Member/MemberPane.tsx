@@ -4,12 +4,16 @@ import { MemberPanePerAttribute } from "./component/MemberPanePerAttribute";
 import { Box, Heading } from "@chakra-ui/react";
 
 type Props = {
-  selectedMember: Member | null;
-  setSelectedMember: Dispatch<SetStateAction<Member | null>>;
+  selectedMember: Member | undefined;
+  handleClickMemberCard: Dispatch<SetStateAction<string | null>>;
   memberList: Member[];
 };
 
-function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
+function MemberPane({
+  selectedMember,
+  handleClickMemberCard,
+  memberList,
+}: Props) {
   return (
     <Box
       flex="1"
@@ -28,28 +32,28 @@ function MemberPane({ selectedMember, setSelectedMember, memberList }: Props) {
         attribute="teacher"
         memberList={memberList}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
+        handleClickMemberCard={handleClickMemberCard}
       />
       <MemberPanePerAttribute
         description="M2"
         attribute="m2"
         memberList={memberList}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
+        handleClickMemberCard={handleClickMemberCard}
       />
       <MemberPanePerAttribute
         description="M1"
         attribute="m1"
         memberList={memberList}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
+        handleClickMemberCard={handleClickMemberCard}
       />
       <MemberPanePerAttribute
         description="B4"
         attribute="b4"
         memberList={memberList}
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
+        handleClickMemberCard={handleClickMemberCard}
       />
     </Box>
   );

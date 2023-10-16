@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { Backend } from "util/Backend";
-import { Item } from "types";
 import {
   Button,
   Switch,
@@ -11,39 +8,29 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useItems, useItemsDispatch } from "contexts/ItemsContext";
+import { ItemId } from "types";
+import { Backend } from "util/Backend";
 
 function ItemDeletePane() {
-  const [itemList, setItemList] = useState<Item[]>([]);
+  const items = useItems();
+  const dispatch = useItemsDispatch();
 
-  async function fetchItemList() {
-    const itemList = await Backend.getItemList();
-    if (itemList !== null) {
-      setItemList(itemList);
-    } else {
-      console.error("fetchItemList: failed");
+  function handleDeleteItem(id: ItemId) {
+    if (!Backend.deleteItem(id)) {
+      console.error("deleteItem: failed");
+      return;
     }
+    dispatch({ type: "deleted", id: id });
   }
 
-  async function switchItemActivity(id: string, activity: boolean) {
-    if (!(await Backend.setItemActivity(id, activity))) {
-      console.error("setItemactivity: failed");
+  function handleSwitchItemActivity(id: ItemId, active: boolean) {
+    if (!Backend.setItemActivity(id, active)) {
+      console.error("setItemActivity: failed");
+      return;
     }
-    itemList.findIndex((item) => item.id === id);
-    setItemList(
-      itemList.map((item) => {
-        if (item.id === id) item.active = activity;
-        return item;
-      })
-    );
+    dispatch({ type: "switchedActivity", id: id, active: active });
   }
-
-  async function deleteItem(id: string) {
-    if (!(await Backend.deleteItem(id))) console.error("deleteItem: failed");
-  }
-
-  useEffect(() => {
-    fetchItemList();
-  }, []);
 
   return (
     <TableContainer>
@@ -57,24 +44,23 @@ function ItemDeletePane() {
           </Tr>
         </Thead>
         <Tbody>
-          {itemList.map((item) => (
+          {items.map((item) => (
             <Tr key={item.name}>
               <Th>{item.name}</Th>
               <Th>{item.category}</Th>
               <Th>
                 <Switch
                   isChecked={item.active}
-                  onChange={() => switchItemActivity(item.id, !item.active)}
+                  onChange={() =>
+                    handleSwitchItemActivity(item.id, !item.active)
+                  }
                 />
               </Th>
               <Th>
                 <Button
                   size="sm"
                   colorScheme="red"
-                  onClick={async () => {
-                    await deleteItem(item.id);
-                    await fetchItemList();
-                  }}
+                  onClick={() => handleDeleteItem(item.id)}
                 >
                   削除
                 </Button>

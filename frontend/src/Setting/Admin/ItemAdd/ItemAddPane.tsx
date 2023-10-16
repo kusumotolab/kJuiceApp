@@ -16,9 +16,11 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useItemsDispatch } from "contexts/ItemsContext";
+import { ItemId } from "types";
 
 type TItemAddFormInput = {
-  itemId: string;
+  itemId: ItemId;
   itemName: string;
   sellingPrice: number;
   costPrice: number;
@@ -53,10 +55,11 @@ function ItemAddPane() {
     resolver: zodResolver(schema),
   });
   const toast = useToast();
+  const dispatch = useItemsDispatch();
 
   async function onSubmit(data: TItemAddFormInput) {
     try {
-      await addItem(data);
+      await handleAddItem(data);
       reset();
       showToast("アイテムを追加しました", "success");
     } catch (e) {
@@ -73,7 +76,7 @@ function ItemAddPane() {
     });
   }
 
-  async function addItem(data: TItemAddFormInput) {
+  async function handleAddItem(data: TItemAddFormInput) {
     const { itemId, itemName, sellingPrice, costPrice, category } = data;
 
     if (
@@ -85,8 +88,17 @@ function ItemAddPane() {
         category
       ))
     ) {
-      throw new Error();
+      throw new Error("addItem: failed");
     }
+
+    dispatch({
+      type: "added",
+      id: itemId,
+      name: itemName,
+      sellingPrice: sellingPrice,
+      costPrice: costPrice,
+      category: category,
+    });
   }
 
   return (

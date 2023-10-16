@@ -1,32 +1,48 @@
 import { Flex, useToast } from "@chakra-ui/react";
-import { TabIndex } from "App";
-import { useContext, useEffect, useState } from "react";
-import { Item, Member } from "types";
+import { useItems } from "contexts/ItemsContext";
+import { useMembers, useMembersDispatch } from "contexts/MembersContext";
+import { useState } from "react";
 import { Backend } from "util/Backend";
 import { ItemPane } from "./Item/ItemPane";
 import { MemberPane } from "./Member/MemberPane";
 
 function HomePageParent() {
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const [memberList, setMemberList] = useState<Member[]>([]);
-  const [juiceList, setJuiceList] = useState<Item[]>([]);
-  const [foodList, setFoodList] = useState<Item[]>([]);
+  const members = useMembers();
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const selectedMember = members.find(
+    (member) => member.id === selectedMemberId
+  );
+
+  const items = useItems();
+  const juices = items.filter(
+    (item) => item.category === "juice" && item.active
+  );
+  const foods = items.filter((item) => item.category === "food" && item.active);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const selectedItem = items.find((item) => item.id === selectedItemId);
+
   const toast = useToast();
+  const dispatch = useMembersDispatch();
 
   async function purchaseItem() {
-    if (selectedMember === null || selectedItem === null) {
+    if (selectedMember === undefined || selectedItem === undefined) {
       return;
     }
-
-    setSelectedMember(null);
 
     if (!(await Backend.purchase(selectedMember.id, selectedItem.id))) {
       showPurchaseErrorToast();
       return;
     }
 
+    dispatch({
+      type: "purchased",
+      id: selectedMember.id,
+      purchase_amount: selectedItem.sellingPrice,
+    });
+
     showPurchaseSuccessToast();
+
+    setSelectedMemberId(null);
   }
 
   function showPurchaseSuccessToast() {
@@ -49,68 +65,19 @@ function HomePageParent() {
     });
   }
 
-  async function fetchMemberList() {
-    const memberList = await Backend.getMemberList();
-
-    if (memberList === null) {
-      console.error("fetchMemberList: failed");
-      return;
-    }
-
-    setMemberList(memberList.filter((member) => member.active));
-  }
-
-  const tabIndex = useContext(TabIndex);
-
-  async function fetchItemList() {
-    const itemList = await Backend.getItemList();
-    itemList?.sort(compareItemFunction);
-
-    if (itemList === null) {
-      console.error("fetchItemList: failed");
-      return;
-    }
-
-    setJuiceList(
-      itemList.filter((item) => item.active && item.category === "juice")
-    );
-    setFoodList(
-      itemList.filter((item) => item.active && item.category === "food")
-    );
-  }
-
-  function compareItemFunction(a: Item, b: Item) {
-    if (a.id === b.id) {
-      return 0;
-    } else if (a.id > b.id) {
-      return 1;
-    } else {
-      return -1;
-    }
-  }
-
-  useEffect(() => {
-    fetchMemberList();
-    fetchItemList();
-  }, [tabIndex]);
-
-  useEffect(() => {
-    fetchMemberList();
-  }, [selectedMember]);
-
   return (
     <Flex h="calc(100vh - 40px)" overflowX="scroll">
       <MemberPane
         selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-        memberList={memberList}
+        handleClickMemberCard={(id: string) => setSelectedMemberId(id)}
+        memberList={members}
       />
       <ItemPane
-        setSelectedItem={setSelectedItem}
         selectedItem={selectedItem}
-        juiceList={juiceList}
-        foodList={foodList}
+        handleClickItemCard={(id: string) => setSelectedItemId(id)}
         selectedMember={selectedMember}
+        juiceList={juices}
+        foodList={foods}
         purchaseItem={purchaseItem}
       />
     </Flex>

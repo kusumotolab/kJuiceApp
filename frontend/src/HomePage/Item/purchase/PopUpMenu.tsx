@@ -15,8 +15,8 @@ import {
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  selectedItem: Item | null;
-  selectedMember: Member | null;
+  selectedItem: Item | undefined;
+  selectedMember: Member | undefined;
   purchaseItem: () => void;
 };
 

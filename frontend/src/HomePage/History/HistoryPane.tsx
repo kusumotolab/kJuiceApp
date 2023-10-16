@@ -14,14 +14,14 @@ import {
 } from "@chakra-ui/react";
 
 type Props = {
-  selectedMember: Member | null;
+  selectedMember: Member | undefined;
 };
 
 function HistoryPane({ selectedMember }: Props) {
   const [histories, setHistories] = useState<History[]>([]);
 
   const fetchHistoryData = async () => {
-    if (selectedMember === null) {
+    if (selectedMember === undefined) {
       setHistories([]);
       return;
     }
