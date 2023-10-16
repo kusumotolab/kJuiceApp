@@ -6,12 +6,7 @@ import {
   IconButton,
   Spacer,
 } from "@chakra-ui/react";
-import {
-  faGear,
-  faHistory,
-  faHouse,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type HeaderIconProps = {
@@ -44,7 +39,13 @@ function HeaderIcon({
 type HeaderProps = {
   selectedMenu: string;
   onClickMenu: (menu: string) => void;
-  contents: { item: string, displayText: string, icon: IconDefinition, iconPosition: "left" | "right", contents: JSX.Element }[];
+  contents: {
+    item: string;
+    displayText: string;
+    icon: IconDefinition;
+    iconPosition: "left" | "right";
+    contents: JSX.Element;
+  }[];
 };
 
 function Header({ contents, selectedMenu, onClickMenu }: HeaderProps) {
@@ -53,7 +54,10 @@ function Header({ contents, selectedMenu, onClickMenu }: HeaderProps) {
       <Center>
         {/* ヘッダ内の要素幅に影響されずに上部中央に固定するためにFlexから切り離した */}
         <Heading pos="fixed" top={5} zIndex="101" size="md">
-          {contents.find((content) => content.item === selectedMenu)?.displayText}
+          {
+            contents.find((content) => content.item === selectedMenu)
+              ?.displayText
+          }
         </Heading>
       </Center>
       <Flex
@@ -73,14 +77,14 @@ function Header({ contents, selectedMenu, onClickMenu }: HeaderProps) {
               .filter((content) => content.iconPosition === "left")
               .map((content) => (
                 <HeaderIcon
+                  key={content.item}
                   icon={content.icon}
                   menu={content.item}
                   ariaLabel={content.displayText}
                   selectedMenu={selectedMenu}
                   onClickMenu={onClickMenu}
                 />
-              ))
-            }
+              ))}
           </HStack>
         </Center>
         <Spacer />
@@ -90,14 +94,14 @@ function Header({ contents, selectedMenu, onClickMenu }: HeaderProps) {
               .filter((content) => content.iconPosition === "right")
               .map((content) => (
                 <HeaderIcon
+                  key={content.item}
                   icon={content.icon}
                   menu={content.item}
                   ariaLabel={content.displayText}
                   selectedMenu={selectedMenu}
                   onClickMenu={onClickMenu}
                 />
-              ))
-            }
+              ))}
           </HStack>
         </Center>
       </Flex>

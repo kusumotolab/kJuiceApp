@@ -1,5 +1,5 @@
 import { HomePageParent } from "./HomePage/HomePageParent";
-import { faGear, faHouse, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faHouse, faUserEdit, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import { createContext, useState } from "react";
 import { MembersProvider } from "contexts/MembersContext";
@@ -16,7 +16,7 @@ function App() {
   type ContentsType = {
     item: string;
     displayText: string;
-    icon: any;
+    icon: IconDefinition;
     iconPosition: "left" | "right";
     contents: JSX.Element;
   }[];
