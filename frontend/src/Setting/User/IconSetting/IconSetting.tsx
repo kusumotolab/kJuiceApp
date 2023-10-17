@@ -9,8 +9,7 @@ import {
   Select,
   Stack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Member } from "types";
+import { useState } from "react";
 import { Backend } from "util/Backend";
 import { FileSelect } from "util/FileSelect";
 import { useMembers } from "contexts/MembersContext";
@@ -43,7 +42,7 @@ function IconSetting() {
       alert("送信に成功しました");
     } else {
       alert(
-        "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．"
+        "ファイルの送信に失敗しました．ファイルサイズ/ファイル形式を確認してください．ファイルサイズは10MB以下である必要があります．",
       );
     }
   }
