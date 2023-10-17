@@ -11,11 +11,7 @@ type Props = {
   onOpen: () => void;
 };
 
-function JuicePane({
-  juiceList,
-  handleClickItemCard,
-  onOpen,
-}: Props) {
+function JuicePane({ juiceList, handleClickItemCard, onOpen }: Props) {
   return (
     <Box>
       <Heading>ジュース</Heading>

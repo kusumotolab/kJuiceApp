@@ -11,11 +11,7 @@ type Props = {
   onOpen: () => void;
 };
 
-function FoodPane({
-  foodList,
-  handleClickItemCard,
-  onOpen,
-}: Props) {
+function FoodPane({ foodList, handleClickItemCard, onOpen }: Props) {
   return (
     <Box>
       <Heading>食品</Heading>

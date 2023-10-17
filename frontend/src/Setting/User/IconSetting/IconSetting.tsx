@@ -9,8 +9,7 @@ import {
   Select,
   Stack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Member } from "types";
+import { useState } from "react";
 import { Backend } from "util/Backend";
 import { FileSelect } from "util/FileSelect";
 import { useMembers } from "contexts/MembersContext";
