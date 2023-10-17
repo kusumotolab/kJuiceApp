@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { Member } from "types";
 import { Backend } from "util/Backend";
 import {
   Table,
@@ -11,43 +9,29 @@ import {
   Tr,
   Button,
 } from "@chakra-ui/react";
+import { useMembers, useMembersDispatch } from "contexts/MembersContext";
 
 function UserDeletePane() {
-  const [memberList, setMemberList] = useState<Member[]>([]);
+  const members = useMembers();
+  const dispatch = useMembersDispatch();
 
-  async function fetchMemberList() {
-    const memberList = await Backend.getMemberList();
-
-    if (memberList === null) {
-      console.error("fetchMemberList: failed");
-      return;
-    }
-
-    setMemberList(memberList);
-  }
-
-  async function switchMemberActivity(id: string, activity: boolean) {
-    if (!(await Backend.setMemberActivity(id, activity))) {
+  async function handleSwitchMemberActivity(id: string, active: boolean) {
+    if (!(await Backend.setMemberActivity(id, active))) {
       console.error("switchMemberActivity: failed");
       return;
     }
-    memberList.findIndex((member) => member.id === id);
-    setMemberList(
-      memberList.map((member) => {
-        if (member.id === id) member.active = activity;
-        return member;
-      })
-    );
+    dispatch({ type: "switchedActivity", id: id, active: active });
   }
 
-  async function deleteMember(member: string) {
-    if (!(await Backend.deleteMember(member)))
+  async function handleDeleteMember(member: string) {
+    if (!(await Backend.deleteMember(member))) {
       console.error("deleteMember: failed");
+      return;
+    }
+
+    dispatch({ type: "deleted", id: member });
   }
 
-  useEffect(() => {
-    fetchMemberList();
-  }, []);
   return (
     <TableContainer>
       <Table variant="simple">
@@ -60,7 +44,7 @@ function UserDeletePane() {
           </Tr>
         </Thead>
         <Tbody>
-          {memberList.map((member) => (
+          {members.map((member) => (
             <Tr key={member.name}>
               <Th>{member.name}</Th>
               <Th>{member.attribute}</Th>
@@ -68,7 +52,7 @@ function UserDeletePane() {
                 <Switch
                   isChecked={member.active}
                   onChange={() =>
-                    switchMemberActivity(member.id, !member.active)
+                    handleSwitchMemberActivity(member.id, !member.active)
                   }
                 />
               </Th>
@@ -76,10 +60,7 @@ function UserDeletePane() {
                 <Button
                   colorScheme="red"
                   size="sm"
-                  onClick={async () => {
-                    await deleteMember(member.id);
-                    await fetchMemberList();
-                  }}
+                  onClick={() => handleDeleteMember(member.id)}
                 >
                   削除
                 </Button>

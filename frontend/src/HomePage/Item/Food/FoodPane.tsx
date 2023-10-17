@@ -7,11 +7,15 @@ import { Box, Heading, Flex } from "@chakra-ui/react";
 
 type Props = {
   foodList: Item[];
-  setSelectedItem: Dispatch<SetStateAction<Item>>;
+  handleClickItemCard: Dispatch<SetStateAction<string | null>>;
   onOpen: () => void;
 };
 
-function FoodPane({ foodList, setSelectedItem, onOpen }: Props) {
+function FoodPane({
+  foodList,
+  handleClickItemCard,
+  onOpen,
+}: Props) {
   return (
     <Box>
       <Heading>食品</Heading>
@@ -20,7 +24,7 @@ function FoodPane({ foodList, setSelectedItem, onOpen }: Props) {
           return (
             <ItemCard
               onClick={() => {
-                setSelectedItem(food);
+                handleClickItemCard(food.id);
                 onOpen();
               }}
               item={food}

@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { Member } from "types";
-import { Backend } from "util/Backend";
 import {
   Button,
   Table,
@@ -10,24 +7,10 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useMembers } from "contexts/MembersContext";
 
 function UnpaidMember() {
-  const [memberList, setMemberList] = useState<Member[]>([]);
-
-  const fetchMemberList = async () => {
-    const memberList = await Backend.getMemberList();
-
-    if (memberList === null) {
-      console.error("fetchMemberList: failed");
-      return;
-    }
-
-    setMemberList(memberList);
-  };
-
-  useEffect(() => {
-    fetchMemberList();
-  }, []);
+  const members = useMembers();
 
   return (
     <TableContainer>
@@ -40,7 +23,7 @@ function UnpaidMember() {
           </Tr>
         </Thead>
         <Tbody>
-          {memberList.map((member) => (
+          {members.map((member) => (
             <Tr key={member.name}>
               <Th>{member.name}</Th>
               <Th>工事中</Th>

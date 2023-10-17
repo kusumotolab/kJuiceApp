@@ -9,16 +9,16 @@ import { Item, Member } from "types";
 import { Divider, Stack, useDisclosure, useToast } from "@chakra-ui/react";
 
 type Props = {
-  setSelectedItem: Dispatch<SetStateAction<Item | null>>;
-  selectedItem: Item | null;
+  handleClickItemCard: Dispatch<SetStateAction<string | null>>;
+  selectedItem: Item | undefined;
   juiceList: Item[];
   foodList: Item[];
-  selectedMember: Member | null;
+  selectedMember: Member | undefined;
   purchaseItem: () => void;
 };
 
 function ItemPane({
-  setSelectedItem,
+  handleClickItemCard,
   selectedItem,
   juiceList,
   foodList,
@@ -39,7 +39,7 @@ function ItemPane({
   }
 
   function onOpenSafely() {
-    if (selectedItem === null || selectedMember === null) {
+    if (selectedMember === undefined) {
       showMemberNotSelectedToast();
       return;
     }
@@ -57,12 +57,12 @@ function ItemPane({
       <MemberInformation selectedMember={selectedMember} />
       <Divider />
       <JuicePane
-        setSelectedItem={setSelectedItem}
+        handleClickItemCard={handleClickItemCard}
         onOpen={onOpenSafely}
         juiceList={juiceList}
       />
       <FoodPane
-        setSelectedItem={setSelectedItem}
+        handleClickItemCard={handleClickItemCard}
         onOpen={onOpenSafely}
         foodList={foodList}
       />
