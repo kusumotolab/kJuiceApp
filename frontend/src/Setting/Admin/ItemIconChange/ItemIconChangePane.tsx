@@ -59,9 +59,6 @@ function ItemIconChangePane() {
     }
   }
 
-  useEffect(() => {
-    fetchItemList();
-  }, []);
 
   return (
     <Box w="xl" margin="auto">
