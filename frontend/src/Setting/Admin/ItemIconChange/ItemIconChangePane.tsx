@@ -79,7 +79,7 @@ function ItemIconChangePane() {
             placeholder="アイコンを変更するアイテムの選択"
             onChange={(e) => setTargetItemId(e.target?.value)}
           >
-            {itemList.map(({ id, name }) => {
+            {items.map(({ id, name }) => {
               return (
                 <option key={id} value={id}>
                   {name}
