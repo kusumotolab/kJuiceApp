@@ -22,7 +22,6 @@ function ItemIconChangePane() {
   const [fileObject, setFileObject] = useState<File>();
   const toast = useToast();
 
-
   function showToast(title: string, status: "success" | "error") {
     toast({
       title: title,
@@ -54,11 +53,10 @@ function ItemIconChangePane() {
     } else {
       showToast(
         "ファイルの送信に失敗しました．ファイルサイズ/形式を確認してください．ファイルサイズの上限は10MBです．",
-        "error"
+        "error",
       );
     }
   }
-
 
   return (
     <Box w="xl" margin="auto">
