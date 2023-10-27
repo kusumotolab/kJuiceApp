@@ -22,14 +22,6 @@ function ItemIconChangePane() {
   const [fileObject, setFileObject] = useState<File>();
   const toast = useToast();
 
-  async function fetchItemList() {
-    const itemList = await Backend.getItemList();
-    if (itemList !== null) {
-      setItemList(itemList);
-    } else {
-      console.error("fetchItemList: failed");
-    }
-  }
 
   function showToast(title: string, status: "success" | "error") {
     toast({
