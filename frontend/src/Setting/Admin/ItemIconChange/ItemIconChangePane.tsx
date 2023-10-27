@@ -16,7 +16,7 @@ import { Backend } from "util/Backend";
 import { FileSelect } from "util/FileSelect";
 
 function ItemIconChangePane() {
-  const [itemList, setItemList] = useState<Item[]>([]);
+  const items = useItems();
   const [profileImage, setProfileImage] = useState(LogoDefaultItem);
   const [targetItemId, setTargetItemId] = useState<string>("");
   const [fileObject, setFileObject] = useState<File>();
