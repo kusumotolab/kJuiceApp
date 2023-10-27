@@ -9,9 +9,9 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
+import { useItems } from "contexts/ItemsContext";
 import LogoDefaultItem from "image/default_item.svg";
-import { useEffect, useState } from "react";
-import { Item } from "types";
+import { useState } from "react";
 import { Backend } from "util/Backend";
 import { FileSelect } from "util/FileSelect";
 
