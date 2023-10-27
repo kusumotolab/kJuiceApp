@@ -10,7 +10,7 @@ import { Backend } from "util/Backend";
 
 export const ItemsContext = createContext<Item[]>([]);
 export const ItemsDispatchContext = createContext<Dispatch<Action>>(
-  {} as Dispatch<Action>,
+  {} as Dispatch<Action>
 );
 
 export function ItemsProvider({ children }: { children: React.ReactNode }) {

@@ -9,7 +9,7 @@ export class Backend {
     name: string,
     sellingPrice: number,
     costPrice: number,
-    category: string,
+    category: string
   ) {
     const endpoint = "items";
     const data = {

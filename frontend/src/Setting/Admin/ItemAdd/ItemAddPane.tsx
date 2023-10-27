@@ -85,7 +85,7 @@ function ItemAddPane() {
         itemName,
         sellingPrice,
         costPrice,
-        category,
+        category
       ))
     ) {
       throw new Error("addItem: failed");
