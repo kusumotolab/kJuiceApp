@@ -33,6 +33,17 @@ function HistoryPane({ selectedMember }: Props) {
       return;
     }
 
+    // 時間降順にソート
+    histories.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (dateA < dateB) {
+        return 1;
+      }
+      return -1;
+    });
+
     setHistories(histories);
   };
 

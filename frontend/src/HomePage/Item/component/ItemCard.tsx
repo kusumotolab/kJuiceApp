@@ -9,16 +9,33 @@ import {
   Text,
   AspectRatio,
 } from "@chakra-ui/react";
+import { useContext, useEffect, useState } from "react";
+import { Backend } from "util/Backend";
+import LogoDefaultItem from "image/default_item.svg";
+import { TabIndex } from "App";
 
 type Props = {
-  color: string;
-  name: string;
   item: Item;
   onClick: () => void;
-  imgSrc: string;
 };
 
-function ItemCard({ name, onClick, imgSrc, item }: Props) {
+function ItemCard({ onClick, item }: Props) {
+  const [imgSrc, setImgSrc] = useState<string>("");
+  const tabIndex = useContext(TabIndex);
+
+  async function getImage() {
+    const img = await Backend.getItemImage(item.id);
+    if (img !== null) {
+      setImgSrc(URL.createObjectURL(img));
+    } else {
+      setImgSrc(LogoDefaultItem);
+    }
+  }
+
+  useEffect(() => {
+    getImage();
+  }, [tabIndex]);
+
   return (
     <Card width="10em" flexShrink="0" onClick={onClick}>
       <CardBody>
@@ -26,7 +43,7 @@ function ItemCard({ name, onClick, imgSrc, item }: Props) {
           <AspectRatio ratio={1 / 1}>
             <Image src={imgSrc} w="100%" objectFit="cover" />
           </AspectRatio>
-          <Heading size="md">{name}</Heading>
+          <Heading size="md">{item.name}</Heading>
           <Text>{item.sellingPrice}円</Text>
         </Stack>
       </CardBody>

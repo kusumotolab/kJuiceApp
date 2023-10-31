@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Chat, Item, Member, History, Bill } from "types";
+import { Bill, Chat, History, Item, Member } from "types";
 
 export class Backend {
   private static readonly BASE = "./backend/";
@@ -194,8 +194,31 @@ export class Backend {
     return await axios
       .get(Backend.BASE + endpoint, { responseType: "blob" })
       .then((res) => {
-        if (res.status === 200) return res.data;
-        else return null;
+        if (res.status === 204) return null;
+        return res.data;
+      })
+      .catch(() => null);
+  }
+
+  public static async setItemImage(itemId: string, image: File) {
+    const endpoint = `items/${itemId}/image`;
+    const data = new FormData();
+    data.append("image", image);
+
+    return await axios
+      .put(Backend.BASE + endpoint, data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  public static async getItemImage(itemId: string): Promise<Blob | null> {
+    const endpoint = `items/${itemId}/image`;
+
+    return await axios
+      .get(Backend.BASE + endpoint, { responseType: "blob" })
+      .then((res) => {
+        if (res.status === 204) return null;
+        return res.data;
       })
       .catch(() => null);
   }
