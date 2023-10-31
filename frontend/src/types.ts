@@ -41,13 +41,4 @@ export type LabeledHistory = {
   [label: string]: number;
 };
 
-export type ItemId =
-  | string
-  | "CocaCola"
-  | "Fanta"
-  | "Water"
-  | "GogoTea"
-  | "PotatoChips"
-  | "Dagashi";
-
-export type LogoDictionary = Record<ItemId, string>;
+export type ItemId = string;
