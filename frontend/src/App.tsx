@@ -1,73 +1,74 @@
 import { HomePageParent } from "./HomePage/HomePageParent";
-import { SettingPane } from "./Setting/SettingPane";
-import { GraphPane } from "./Graph/GraphPane";
-import { ChatPane } from "./Chat/ChatPane";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChartGantt,
-  faHammer,
+  faGear,
   faHouse,
-  faMessage,
+  faUserEdit,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  ChakraProvider,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-} from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import { createContext, useState } from "react";
 import { MembersProvider } from "contexts/MembersContext";
 import { ItemsProvider } from "contexts/ItemsContext";
+import { Header } from "components/Header";
+import { UserSetting } from "Setting/User/UserSetting";
+import { AdminPane } from "Setting/Admin/AdminPane";
 
 export const TabIndex = createContext(0);
 
 function App() {
-  const iconStyle: React.CSSProperties = { marginLeft: "0.4em" };
-  const [tabIndex, setTabIndex] = useState(0);
+  const [selectedMenu, setSelectedMenu] = useState("home");
+
+  type ContentsType = {
+    item: string;
+    displayText: string;
+    icon: IconDefinition;
+    iconPosition: "left" | "right";
+    contents: JSX.Element;
+  }[];
+
+  const contents: ContentsType = [
+    {
+      item: "home",
+      displayText: "ホーム",
+      icon: faHouse,
+      iconPosition: "left",
+      contents: <HomePageParent />,
+    },
+    {
+      item: "memberSettings",
+      displayText: "利用者設定",
+      icon: faUserEdit,
+      iconPosition: "right",
+      contents: <UserSetting />,
+    },
+    {
+      item: "settings",
+      displayText: "管理者設定",
+      icon: faGear,
+      iconPosition: "right",
+      contents: <AdminPane />,
+    },
+  ];
+
+  function handleClickMenu(menu: string) {
+    setSelectedMenu(menu);
+  }
+
   return (
     <ChakraProvider>
       <MembersProvider>
         <ItemsProvider>
-          <Tabs onChange={(index) => setTabIndex(index)}>
-            <TabList>
-              <Tab>
-                Home
-                <FontAwesomeIcon style={iconStyle} icon={faHouse} />
-              </Tab>
-              <Tab>
-                Graph
-                <FontAwesomeIcon style={iconStyle} icon={faChartGantt} />
-              </Tab>
-              <Tab>
-                Settings
-                <FontAwesomeIcon style={iconStyle} icon={faHammer} />
-              </Tab>
-              <Tab>
-                Chat
-                <FontAwesomeIcon style={iconStyle} icon={faMessage} />
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel p={0}>
-                <TabIndex.Provider value={tabIndex}>
-                  <HomePageParent />
-                </TabIndex.Provider>
-              </TabPanel>
-              <TabPanel>
-                <GraphPane />
-              </TabPanel>
-              <TabPanel>
-                <SettingPane />
-              </TabPanel>
-              <TabPanel>
-                <ChatPane />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+          <Header
+            contents={contents}
+            selectedMenu={selectedMenu}
+            onClickMenu={handleClickMenu}
+          />
+          <Box mt={16} h="calc(100vh - 64px)">
+            {
+              contents.find((content) => content.item === selectedMenu)
+                ?.contents
+            }
+          </Box>
         </ItemsProvider>
       </MembersProvider>
     </ChakraProvider>
