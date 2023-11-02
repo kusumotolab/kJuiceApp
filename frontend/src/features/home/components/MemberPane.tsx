@@ -7,10 +7,7 @@ type Props = {
   onClickMemberCard: (id: string) => void;
 };
 
-function MemberPane({
-  selectedMemberId,
-  onClickMemberCard,
-}: Props) {
+function MemberPane({ selectedMemberId, onClickMemberCard }: Props) {
   const members = useMembers();
   const attributes = [
     {
