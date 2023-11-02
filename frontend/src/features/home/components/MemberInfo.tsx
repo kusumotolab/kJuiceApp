@@ -18,7 +18,7 @@ type Props = {
   onClickClearButton: () => void;
 };
 
-export default function MemberInfo({ member, onClickClearButton }: Props) {
+function MemberInfo({ member, onClickClearButton }: Props) {
   const [imageURL, setImageURL] = useState<string>("");
 
   // TODO: 画像処理の共通化
@@ -83,3 +83,5 @@ export default function MemberInfo({ member, onClickClearButton }: Props) {
     </>
   );
 }
+
+export { MemberInfo };

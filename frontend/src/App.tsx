@@ -11,7 +11,7 @@ import { ItemsProvider } from "contexts/ItemsContext";
 import { Header } from "components/Header";
 import { UserSetting } from "Setting/User/UserSetting";
 import { AdminPane } from "Setting/Admin/AdminPane";
-import Home from "features/home/Home";
+import {Home} from "features/home/Home";
 
 export const TabIndex = createContext(0);
 

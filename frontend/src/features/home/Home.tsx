@@ -4,11 +4,11 @@ import {
   LeftColumn,
   RightColumn,
 } from "components/TwoColumnLayout";
-import ItemPane from "./components/ItemPane";
-import MemberPane from "./components/MemberPane";
-import Confrim from "./components/Confirm";
+import { ItemPane } from "./components/ItemPane";
+import { MemberPane } from "./components/MemberPane";
+import { Confrim } from "./components/Confirm";
 
-export default function Home() {
+function Home() {
   const [selectedItemId, setSelectedItemId] = useState<string>("");
   const [selectedMemberId, setSelectedMemberId] = useState<string>("");
 
@@ -39,3 +39,5 @@ export default function Home() {
     </>
   );
 }
+
+export { Home };

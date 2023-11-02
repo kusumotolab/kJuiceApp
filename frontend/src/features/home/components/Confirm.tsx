@@ -2,8 +2,8 @@ import { Box, Button, HStack, Spacer, useToast } from "@chakra-ui/react";
 import { useItems } from "contexts/ItemsContext";
 import { useMembers, useMembersDispatch } from "contexts/MembersContext";
 import { Backend } from "util/Backend";
-import ItemInfo from "./ItemInfo";
-import MemberInfo from "./MemberInfo";
+import { ItemInfo } from "./ItemInfo";
+import { MemberInfo } from "./MemberInfo";
 
 type Props = {
   selectedMemberId: string;
@@ -12,7 +12,7 @@ type Props = {
   clearItemSelection: () => void;
 };
 
-export default function Confrim({
+function Confrim({
   selectedMemberId,
   clearMemberSelection,
   selectedItemId,
@@ -96,3 +96,5 @@ export default function Confrim({
     </Box>
   );
 }
+
+export { Confrim };

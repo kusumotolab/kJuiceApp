@@ -19,7 +19,7 @@ type Props = {
   onClickClearButton: () => void;
 };
 
-export default function ItemInfo({ item, onClickClearButton }: Props) {
+function ItemInfo({ item, onClickClearButton }: Props) {
   // TODO: 画像処理の共通化
   const [imageURL, setImageURL] = useState<string>("");
   useEffect(() => {
@@ -88,3 +88,5 @@ export default function ItemInfo({ item, onClickClearButton }: Props) {
     </>
   );
 }
+
+export { ItemInfo };

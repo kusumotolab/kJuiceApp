@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Stack } from "@chakra-ui/react";
+import { Flex, Heading, Stack } from "@chakra-ui/react";
 import { useItems } from "contexts/ItemsContext";
 import { ItemCard } from "./ItemCard";
 
@@ -7,7 +7,7 @@ type Props = {
   onClickItemCard: (id: string) => void;
 };
 
-export default function ItemPane({ selectedItemId, onClickItemCard }: Props) {
+function ItemPane({ selectedItemId, onClickItemCard }: Props) {
   const items = useItems();
   const juices = items.filter(
     (item) => item.category === "juice" && item.active
@@ -38,3 +38,5 @@ export default function ItemPane({ selectedItemId, onClickItemCard }: Props) {
     </>
   );
 }
+
+export { ItemPane };

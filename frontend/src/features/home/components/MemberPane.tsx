@@ -7,7 +7,7 @@ type Props = {
   onClickMemberCard: (id: string) => void;
 };
 
-export default function MemberPane({
+function MemberPane({
   selectedMemberId,
   onClickMemberCard,
 }: Props) {
@@ -65,3 +65,5 @@ export default function MemberPane({
     </>
   );
 }
+
+export { MemberPane };
