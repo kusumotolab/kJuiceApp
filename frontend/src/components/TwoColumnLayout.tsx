@@ -22,9 +22,17 @@ export function TwoColumnLayout({ children, h = "100%" }: Props) {
 }
 
 export function LeftColumn({ children }: { children: ReactNode }) {
-  return <Box flex="1" overflowY="auto">{children}</Box>;
+  return (
+    <Box flex="1" overflowY="auto">
+      {children}
+    </Box>
+  );
 }
 
 export function RightColumn({ children }: { children: ReactNode }) {
-  return <Box flex="3" overflowY="auto">{children}</Box>;
+  return (
+    <Box flex="3" overflowY="auto">
+      {children}
+    </Box>
+  );
 }

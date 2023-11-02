@@ -20,7 +20,7 @@ export default function Confrim({
 }: Props) {
   const members = useMembers();
   const selectedMember = members.find(
-    (member) => member.id === selectedMemberId,
+    (member) => member.id === selectedMemberId
   );
 
   const items = useItems();

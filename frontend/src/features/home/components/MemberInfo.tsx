@@ -1,4 +1,12 @@
-import { Avatar, Center, Flex, Heading, IconButton, Stack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Center,
+  Flex,
+  Heading,
+  IconButton,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -27,7 +35,7 @@ export default function MemberInfo({ member, onClickClearButton }: Props) {
       if (!ignore) {
         if (res === null) {
           console.log(
-            member.id + ": Custom image not found. So use default image.",
+            member.id + ": Custom image not found. So use default image."
           );
           setImageURL("");
           return;
@@ -75,4 +83,3 @@ export default function MemberInfo({ member, onClickClearButton }: Props) {
     </>
   );
 }
-

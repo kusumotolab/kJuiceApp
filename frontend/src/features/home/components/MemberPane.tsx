@@ -18,7 +18,7 @@ export default function MemberPane({
       attribute: "teacher",
       name: "先生",
       members: members.filter(
-        (member) => member.attribute === "teacher" && member.active === true,
+        (member) => member.attribute === "teacher" && member.active === true
       ),
     },
     {
@@ -26,7 +26,7 @@ export default function MemberPane({
       attribute: "m2",
       name: "M2",
       members: members.filter(
-        (member) => member.attribute === "m2" && member.active === true,
+        (member) => member.attribute === "m2" && member.active === true
       ),
     },
     {
@@ -34,7 +34,7 @@ export default function MemberPane({
       attribute: "m1",
       name: "M1",
       members: members.filter(
-        (member) => member.attribute === "m1" && member.active === true,
+        (member) => member.attribute === "m1" && member.active === true
       ),
     },
     {
@@ -42,7 +42,7 @@ export default function MemberPane({
       attribute: "b4",
       name: "B4",
       members: members.filter(
-        (member) => member.attribute === "b4" && member.active === true,
+        (member) => member.attribute === "b4" && member.active === true
       ),
     },
   ];

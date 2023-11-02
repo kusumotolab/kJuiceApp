@@ -20,7 +20,9 @@ function ItemCard({ item, selected, onClick }: Props) {
       const res = await Backend.getItemImage(item.id);
       if (!ignore) {
         if (res === null) {
-          console.log(item.id + ": Custom image not found. So use default image.");
+          console.log(
+            item.id + ": Custom image not found. So use default image."
+          );
           setImageURL(LogoDefaultItem);
           return;
         }
@@ -52,4 +54,3 @@ function ItemCard({ item, selected, onClick }: Props) {
 }
 
 export { ItemCard };
-

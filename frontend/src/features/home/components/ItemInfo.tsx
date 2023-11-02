@@ -1,4 +1,12 @@
-import { AspectRatio, Center, Heading, IconButton, Image, Stack, Text } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Center,
+  Heading,
+  IconButton,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -12,7 +20,6 @@ type Props = {
 };
 
 export default function ItemInfo({ item, onClickClearButton }: Props) {
-
   // TODO: 画像処理の共通化
   const [imageURL, setImageURL] = useState<string>("");
   useEffect(() => {
@@ -27,7 +34,9 @@ export default function ItemInfo({ item, onClickClearButton }: Props) {
       const res = await Backend.getItemImage(item.id);
       if (!ignore) {
         if (res === null) {
-          console.log(item.id + ": Custom image not found. So use default image.");
+          console.log(
+            item.id + ": Custom image not found. So use default image."
+          );
           setImageURL(LogoDefaultItem);
           return;
         }
@@ -79,4 +88,3 @@ export default function ItemInfo({ item, onClickClearButton }: Props) {
     </>
   );
 }
-

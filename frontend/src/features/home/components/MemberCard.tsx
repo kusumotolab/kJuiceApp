@@ -20,7 +20,7 @@ function MemberCard({ selected, member, onClick }: Props) {
       if (!ignore) {
         if (res === null) {
           console.log(
-            member.id + ": Custom image not found. So use default image.",
+            member.id + ": Custom image not found. So use default image."
           );
           setImageURL("");
           return;

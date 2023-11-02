@@ -10,7 +10,7 @@ type Props = {
 export default function ItemPane({ selectedItemId, onClickItemCard }: Props) {
   const items = useItems();
   const juices = items.filter(
-    (item) => item.category === "juice" && item.active,
+    (item) => item.category === "juice" && item.active
   );
   const foods = items.filter((item) => item.category === "food" && item.active);
   const categories = [
