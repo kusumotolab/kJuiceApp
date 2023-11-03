@@ -72,9 +72,11 @@ function ItemInfo({ item, onClickClearButton }: Props) {
         borderColor="blackAlpha.300"
         rounded={8}
       >
-        {item === undefined ? <Box /> : 
-        <Image src={imageURL} objectFit="cover" />
-        }
+        {item === undefined ? (
+          <Box />
+        ) : (
+          <Image src={imageURL} objectFit="cover" />
+        )}
       </AspectRatio>
       <Center>
         {item === undefined ? (
