@@ -1,17 +1,17 @@
-import { HomePageParent } from "./HomePage/HomePageParent";
 import {
   faGear,
   faHouse,
   faUserEdit,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider, Flex } from "@chakra-ui/react";
 import { createContext, useState } from "react";
 import { MembersProvider } from "contexts/MembersContext";
 import { ItemsProvider } from "contexts/ItemsContext";
 import { Header } from "components/Header";
 import { UserSetting } from "Setting/User/UserSetting";
 import { AdminPane } from "Setting/Admin/AdminPane";
+import { Home } from "features/home/Home";
 
 export const TabIndex = createContext(0);
 
@@ -32,7 +32,7 @@ function App() {
       displayText: "ホーム",
       icon: faHouse,
       iconPosition: "left",
-      contents: <HomePageParent />,
+      contents: <Home />,
     },
     {
       item: "memberSettings",
@@ -58,17 +58,19 @@ function App() {
     <ChakraProvider>
       <MembersProvider>
         <ItemsProvider>
-          <Header
-            contents={contents}
-            selectedMenu={selectedMenu}
-            onClickMenu={handleClickMenu}
-          />
-          <Box mt={16} h="calc(100vh - 64px)">
-            {
-              contents.find((content) => content.item === selectedMenu)
-                ?.contents
-            }
-          </Box>
+          <Flex flexDir="column">
+            <Header
+              contents={contents}
+              selectedMenu={selectedMenu}
+              onClickMenu={handleClickMenu}
+            />
+            <Box mt={16} h="calc(100vh - 64px)">
+              {
+                contents.find((content) => content.item === selectedMenu)
+                  ?.contents
+              }
+            </Box>
+          </Flex>
         </ItemsProvider>
       </MembersProvider>
     </ChakraProvider>

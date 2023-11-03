@@ -62,7 +62,7 @@ function Header({ contents, selectedMenu, onClickMenu }: HeaderProps) {
       </Center>
       <Flex
         pos="fixed"
-        top="0"
+        top={0}
         w="100%"
         h={16}
         justify="center"
