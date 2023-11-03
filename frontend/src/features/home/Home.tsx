@@ -6,7 +6,7 @@ import {
 } from "components/TwoColumnLayout";
 import { ItemPane } from "./components/ItemPane";
 import { MemberPane } from "./components/MemberPane";
-import { Confrim } from "./components/Confirm";
+import { ConfrimPane } from "./components/ConfirmPane";
 
 function Home() {
   const [selectedItemId, setSelectedItemId] = useState<string>("");
@@ -30,7 +30,7 @@ function Home() {
           />
         </RightColumn>
       </TwoColumnLayout>
-      <Confrim
+      <ConfrimPane
         selectedMemberId={selectedMemberId}
         clearMemberSelection={() => setSelectedMemberId("")}
         selectedItemId={selectedItemId}

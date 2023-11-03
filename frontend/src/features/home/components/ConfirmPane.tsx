@@ -12,7 +12,7 @@ type Props = {
   clearItemSelection: () => void;
 };
 
-function Confrim({
+function ConfrimPane({
   selectedMemberId,
   clearMemberSelection,
   selectedItemId,
@@ -97,4 +97,4 @@ function Confrim({
   );
 }
 
-export { Confrim };
+export { ConfrimPane };

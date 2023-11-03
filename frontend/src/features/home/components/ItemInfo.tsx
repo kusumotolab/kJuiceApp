@@ -1,5 +1,6 @@
 import {
   AspectRatio,
+  Box,
   Center,
   Heading,
   IconButton,
@@ -71,7 +72,9 @@ function ItemInfo({ item, onClickClearButton }: Props) {
         borderColor="blackAlpha.300"
         rounded={8}
       >
+        {item === undefined ? <Box /> : 
         <Image src={imageURL} objectFit="cover" />
+        }
       </AspectRatio>
       <Center>
         {item === undefined ? (
