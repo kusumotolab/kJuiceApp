@@ -1,12 +1,14 @@
 package jp.ac.osaka_u.ist.sdl.kjuiceapp.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.item.responsebody.ItemStatResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
@@ -74,5 +76,28 @@ public class PurchaseService {
   private LocalDateTime getRecentBillDate() {
     final LocalDateTime oldestDay = LocalDateTime.of(0, 1, 1, 0, 0, 0);
     return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
+  }
+
+  // 全商品について商品ごとの売上金額の合計を取得する．
+  public List<ItemStatResponseBody> getSalesStatsOnItem(
+      boolean active, LocalDateTime start, LocalDateTime end) {
+    List<ItemStatResponseBody> itemStats = new ArrayList<>();
+
+    List<ItemEntity> items =
+        itemRepository.findAll().stream()
+            // activeがtrueな場合にはactiveな要素だけ抽出
+            .filter(l -> l.isActive() || !active)
+            .toList();
+
+    for (ItemEntity item : items) {
+      String itemId = item.getId();
+      int sales =
+          purchaseRepository.findByItemIdAndDateBetween(itemId, start, end).stream()
+              .mapToInt(p -> p.getPrice())
+              .sum();
+      itemStats.add(new ItemStatResponseBody(itemId, sales));
+    }
+
+    return itemStats;
   }
 }
