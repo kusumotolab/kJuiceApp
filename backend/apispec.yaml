@@ -609,6 +609,7 @@ paths:
           name: active
           schema:
             type: boolean
+          description: trueに指定されている場合，アクティブな商品のデータのみをレスポンスに加える．
         - in: query
           name: start
           schema:
