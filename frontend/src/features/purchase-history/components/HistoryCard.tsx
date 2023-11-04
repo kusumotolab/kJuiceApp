@@ -40,7 +40,7 @@ function HistoryCard({ history, deleteHistory }: Props) {
       if (!ignore) {
         if (res === null) {
           console.log(
-            history.itemId + ": Custom image not found. So use default image.",
+            history.itemId + ": Custom image not found. So use default image."
           );
           setImageURL(LogoDefaultItem);
           return;

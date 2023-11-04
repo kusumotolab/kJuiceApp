@@ -9,7 +9,7 @@ function HistoryList({ selectedMemberId }: { selectedMemberId: string }) {
   const [histories, setHistories] = useState<History[]>([]);
   const members = useMembers();
   const selectedMember = members.find(
-    (member: Member) => member.id === selectedMemberId,
+    (member: Member) => member.id === selectedMemberId
   );
 
   function deleteHistory(history: History) {
@@ -61,7 +61,7 @@ function HistoryList({ selectedMemberId }: { selectedMemberId: string }) {
         <HistoryCard
           key={history.historyId}
           history={history}
-          deleteHistory={deleteHistory} 
+          deleteHistory={deleteHistory}
         />
       ))}
     </>
