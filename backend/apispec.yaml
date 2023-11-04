@@ -606,19 +606,21 @@ paths:
       description: 全商品について商品ごとの売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
       parameters:
         - in: query
-          name: isActive
+          name: active
           schema:
-            type: string
+            type: boolean
         - in: query
           name: start
           schema:
             type: string
             format: date
+            example: "2019-07-13T18:32:00"
         - in: query
           name: end
           schema:
             type: string
             format: date
+            example: "2019-07-13T18:32:00"
       responses:
         "200":
           description: 取得成功
