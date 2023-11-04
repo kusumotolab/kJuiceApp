@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.item.responsebody.ItemStatResponseBody;
@@ -78,15 +79,15 @@ public class PurchaseService {
     return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
   }
 
-  // 全商品について商品ごとの売上金額の合計を取得する．
+  // 特定の期間におけるアクティブな商品の売上を個々に取得する．
   public List<ItemStatResponseBody> getSalesStatsOnItem(
-      boolean active, LocalDateTime start, LocalDateTime end) {
+      Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
     List<ItemStatResponseBody> itemStats = new ArrayList<>();
-
     List<ItemEntity> items =
         itemRepository.findAll().stream()
             // activeがtrueな場合にはactiveな要素だけ抽出
-            .filter(l -> l.isActive() || !active)
+            // activeが指定されていない場合にはすべての要素を返す
+            .filter(l -> l.isActive() || !active.orElse(false))
             .toList();
 
     for (ItemEntity item : items) {
