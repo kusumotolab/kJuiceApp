@@ -1,5 +1,6 @@
 import {
   faGear,
+  faHistory,
   faHouse,
   faUserEdit,
   IconDefinition,
@@ -12,6 +13,7 @@ import { Header } from "components/Header";
 import { UserSetting } from "Setting/User/UserSetting";
 import { AdminPane } from "Setting/Admin/AdminPane";
 import { Home } from "features/home/Home";
+import { PurchaseHistory } from "features/purchase-history/PurchaseHistory";
 
 export const TabIndex = createContext(0);
 
@@ -33,6 +35,13 @@ function App() {
       icon: faHouse,
       iconPosition: "left",
       contents: <Home />,
+    },
+    {
+      item: "history",
+      displayText: "購入履歴",
+      icon: faHistory,
+      iconPosition: "left",
+      contents: <PurchaseHistory />,
     },
     {
       item: "memberSettings",

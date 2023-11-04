@@ -59,7 +59,8 @@ type Action =
   | { type: "added"; id: string; name: string; attribute: string }
   | { type: "deleted"; id: string }
   | { type: "switchedActivity"; id: string; active: boolean }
-  | { type: "purchased"; id: string; price: number };
+  | { type: "purchased"; id: string; price: number }
+  | { type: "purchaseCanceled"; id: string; price: number };
 
 function membersReducer(members: Member[], action: Action) {
   switch (action.type) {
@@ -94,6 +95,16 @@ function membersReducer(members: Member[], action: Action) {
           return {
             ...member,
             payment: Number(member.payment) + Number(action.price), // TODO: 明示的にNumberに変換しないとなぜかNaNになる
+          };
+        }
+        return member;
+      });
+    case "purchaseCanceled":
+      return members.map((member) => {
+        if (member.id === action.id) {
+          return {
+            ...member,
+            payment: Number(member.payment) - Number(action.price), // TODO: 明示的にNumberに変換しないとなぜかNaNになる
           };
         }
         return member;
