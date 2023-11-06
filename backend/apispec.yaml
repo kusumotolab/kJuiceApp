@@ -598,49 +598,45 @@ paths:
   #       "404":
   #         description: 指定されたIDが存在しない
 
-  # /stats/items:
-  #   get:
-  #     tags:
-  #       - stats
-  #     summary: Get sales stats on item
-  #     description: 全商品について商品ごとの売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
-  #     parameters:
-  #       - in: query
-  #         name: isActive
-  #         schema:
-  #           type: string
-  #       - in: query
-  #         name: start
-  #         schema:
-  #           type: string
-  #           format: date
-  #       - in: query
-  #         name: end
-  #         schema:
-  #           type: string
-  #           format: date
-  #     responses:
-  #       "200":
-  #         description: 取得成功
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 totalAmount:
-  #                   type: string
-  #                 totalCount:
-  #                   type: string
-  #                 statistics:
-  #                   type: array
-  #                   items:
-  #                     $ref: "#/components/schemas/StatisticsOnId"
-  #       "400":
-  #         description: 不正なパラメータ
-  #         content:
-  #           application/problem+json:
-  #             schema:
-  #               $ref: "#/components/schemas/Error"
+  /stats/items:
+    get:
+      tags:
+        - stats
+      summary: Get sales stats on item
+      description: 全商品について商品ごとの売上金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+      parameters:
+        - in: query
+          name: active
+          schema:
+            type: boolean
+          description: trueに指定されている場合，アクティブな商品のデータのみをレスポンスに加える．
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+            example: "2019-07-13T18:32:00"
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+            example: "2019-07-13T18:32:00"
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StatisticsOnItemSale"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   # /stats/items/{itemId}:
   #   get:
@@ -857,6 +853,18 @@ components:
           example: h-yosiok
         date:
           $ref: "#/components/schemas/Date"
+
+    ## stat
+    StatisticsOnItemSale:
+      type: object
+      properties:
+        itemId:
+          type: string
+          example: coca-cola
+        sales:
+          type: integer
+          example: 200
+
 
     ## error
     Error:
