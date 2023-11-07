@@ -162,8 +162,8 @@ public class PurchaseService {
   // 各メンバーが購入した商品の合計金額と点数をリスト形式で返す
   private List<StatisticsOnMemberPurchase> getStatisticsOnMemberPurchase(
       Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
-    List<StatisticsOnMemberPurchase> statistics = new ArrayList<>();
-    List<MemberEntity> members =
+    final List<StatisticsOnMemberPurchase> statistics = new ArrayList<>();
+    final List<MemberEntity> members =
         memberRepository.findAll().stream()
             // activeがtrueな場合にはactiveな要素だけ抽出
             // activeが指定されていない場合にはすべての要素を返す
@@ -171,12 +171,13 @@ public class PurchaseService {
             .toList();
 
     for (MemberEntity member : members) {
-      String memberId = member.getId();
-      int sales =
-          purchaseRepository.findByMemberIdAndDateBetween(memberId, start, end).stream()
-              .mapToInt(p -> p.getPrice())
-              .sum();
-      statistics.add(new StatisticsOnMemberPurchase(memberId, sales, 0));
+      final String memberId = member.getId();
+
+      final List<PurchaseEntity> purchases =
+          purchaseRepository.findByMemberIdAndDateBetween(memberId, start, end);
+      final int sales = purchases.stream().mapToInt(p -> p.getPrice()).sum();
+      final int count = purchases.size();
+      statistics.add(new StatisticsOnMemberPurchase(memberId, sales, count));
     }
     return statistics;
   }
