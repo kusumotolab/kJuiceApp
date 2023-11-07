@@ -10,7 +10,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.item.responsebody.ItemStatResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.member.responsebody.MemberStatResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.member.responsebody.StatisticsOnMemberPurchase;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.ItemEntity;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.MemberEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.entity.PurchaseEntity;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.BillRepository;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.repository.ItemRepository;
@@ -79,7 +82,7 @@ public class PurchaseService {
     return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
   }
 
-  // 特定の期間におけるアクティブな商品の売上を個々に取得する．
+  // 特定の期間における商品の売上を個々に取得する．
   public List<ItemStatResponseBody> getSalesStatsOnItem(
       Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
     List<ItemStatResponseBody> itemStats = new ArrayList<>();
@@ -100,5 +103,81 @@ public class PurchaseService {
     }
 
     return itemStats;
+  }
+
+  // 特定の期間における以下の要素を取得する．
+  // totalAmount: 購入された金額の合計
+  // totalCount: 購入された商品点数の合計
+  // statistics: {各メンバーが購入した商品の合計金額と点数}
+  public MemberStatResponseBody getPurchasesStatsOnMember(
+      Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
+    final int totalAmount = getTotalPurchaseAmountByDateBetween(active, start, end);
+    final int totalCount = getTotalPurchaseCountByDateBetween(active, start, end);
+    final List<StatisticsOnMemberPurchase> statistics =
+        getStatisticsOnMemberPurchase(active, start, end);
+
+    return new MemberStatResponseBody(totalAmount, totalCount, statistics);
+  }
+
+  // 特定の期間におけるメンバーの購入金額合計を取得する．
+  private int getTotalPurchaseAmountByDateBetween(
+      Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
+    final List<String> memberIds =
+        memberRepository.findAll().stream()
+            // activeがtrueな場合にはactiveな要素だけ抽出
+            // activeが指定されていない場合にはすべての要素を返す
+            .filter(m -> m.isActive() || !active.orElse(false))
+            .map(m -> m.getId())
+            .toList();
+
+    final List<PurchaseEntity> purchases =
+        purchaseRepository.findByDateBetween(start, end).stream()
+            .filter(p -> memberIds.contains(p.getMemberId()))
+            .toList();
+
+    final int amount = purchases.stream().mapToInt(p -> p.getPrice()).sum();
+
+    return amount;
+  }
+
+  // 特定の期間におけるメンバーの購入点数合計を取得する．
+  private int getTotalPurchaseCountByDateBetween(
+      Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
+    final List<String> memberIds =
+        memberRepository.findAll().stream()
+            // activeがtrueな場合にはactiveな要素だけ抽出
+            // activeが指定されていない場合にはすべての要素を返す
+            .filter(m -> m.isActive() || !active.orElse(false))
+            .map(m -> m.getId())
+            .toList();
+
+    final List<PurchaseEntity> purchases =
+        purchaseRepository.findByDateBetween(start, end).stream()
+            .filter(p -> memberIds.contains(p.getMemberId()))
+            .toList();
+
+    return purchases.size();
+  }
+
+  // 各メンバーが購入した商品の合計金額と点数をリスト形式で返す
+  private List<StatisticsOnMemberPurchase> getStatisticsOnMemberPurchase(
+      Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
+    List<StatisticsOnMemberPurchase> statistics = new ArrayList<>();
+    List<MemberEntity> members =
+        memberRepository.findAll().stream()
+            // activeがtrueな場合にはactiveな要素だけ抽出
+            // activeが指定されていない場合にはすべての要素を返す
+            .filter(m -> m.isActive() || !active.orElse(false))
+            .toList();
+
+    for (MemberEntity member : members) {
+      String memberId = member.getId();
+      int sales =
+          purchaseRepository.findByMemberIdAndDateBetween(memberId, start, end).stream()
+              .mapToInt(p -> p.getPrice())
+              .sum();
+      statistics.add(new StatisticsOnMemberPurchase(memberId, sales, 0));
+    }
+    return statistics;
   }
 }

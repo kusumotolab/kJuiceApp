@@ -14,6 +14,11 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Intege
 
   public List<PurchaseEntity> findByMemberIdAndDateAfter(String memberId, LocalDateTime date);
 
+  public List<PurchaseEntity> findByMemberIdAndDateBetween(
+      String memberId, LocalDateTime start, LocalDateTime end);
+
+  public List<PurchaseEntity> findByDateBetween(LocalDateTime start, LocalDateTime end);
+
   public List<PurchaseEntity> findByItemIdAndDateBetween(
       String itemId, LocalDateTime start, LocalDateTime end);
 
