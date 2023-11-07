@@ -526,7 +526,7 @@ paths:
         - in: query
           name: isActive
           schema:
-            type: string
+            type: boolean
         - in: query
           name: start
           schema:
@@ -546,9 +546,9 @@ paths:
                 type: object
                 properties:
                   totalAmount:
-                    type: string
+                    type: integer
                   totalCount:
-                    type: string
+                    type: integer
                   statistics:
                     type: array
                     items:
@@ -874,6 +874,11 @@ components:
         purchaseAmount:
           type: integer
           example: 200
+          description: 購入金額の合計
+        purchaseCount:
+          type: integer
+          example: 12
+          description: 購入点数の合計
 
 
     ## error
