@@ -82,7 +82,9 @@ public class PurchaseService {
     return billRepository.findFirstByOrderByDateDesc().map((e) -> e.getDate()).orElse(oldestDay);
   }
 
-  // 特定の期間における商品の売上を個々に取得する．
+  // 特定の期間における商品毎の売上を取得する．
+  // activeがtrueの場合，アクティブな商品毎の売上を取得する．
+  // activeがfalseの場合，非アクティブな商品も含む商品毎の売上を取得する．
   public List<ItemStatResponseBody> getSalesStatsOnItem(
       Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
     List<ItemStatResponseBody> itemStats = new ArrayList<>();
@@ -106,7 +108,7 @@ public class PurchaseService {
   }
 
   // 特定の期間における以下の要素を取得する．
-  // totalAmount: 購入された金額の合計
+  // totalAmount: 総売上
   // totalCount: 購入された商品点数の合計
   // statistics: {各メンバーが購入した商品の合計金額と点数}
   public MemberStatResponseBody getPurchasesStatsOnMember(
@@ -119,16 +121,12 @@ public class PurchaseService {
     return new MemberStatResponseBody(totalAmount, totalCount, statistics);
   }
 
-  // 特定の期間におけるメンバーの購入金額合計を取得する．
+  // 特定の期間における商品の総売上を取得する．
+  // activeがtrueの場合，アクティブなメンバー全員における総売上を取得する．
+  // activeがfalseの場合，非アクティブなメンバーも含むメンバー全員における総売上を取得する．
   private int getTotalPurchaseAmountByDateBetween(
       Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
-    final List<String> memberIds =
-        memberRepository.findAll().stream()
-            // activeがtrueな場合にはactiveな要素だけ抽出
-            // activeが指定されていない場合にはすべての要素を返す
-            .filter(m -> m.isActive() || !active.orElse(false))
-            .map(m -> m.getId())
-            .toList();
+    final List<String> memberIds = getMemberIds(active);
 
     final List<PurchaseEntity> purchases =
         purchaseRepository.findByDateBetween(start, end).stream()
@@ -140,16 +138,12 @@ public class PurchaseService {
     return amount;
   }
 
-  // 特定の期間におけるメンバーの購入点数合計を取得する．
+  // 特定の期間における商品の売上数量の合計を取得する．
+  // activeがtrueの場合，アクティブなメンバー全員における売上数量の合計を取得する．
+  // activeがfalseの場合，非アクティブなメンバーも含むメンバー全員における売上数量を取得する．
   private int getTotalPurchaseCountByDateBetween(
       Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
-    final List<String> memberIds =
-        memberRepository.findAll().stream()
-            // activeがtrueな場合にはactiveな要素だけ抽出
-            // activeが指定されていない場合にはすべての要素を返す
-            .filter(m -> m.isActive() || !active.orElse(false))
-            .map(m -> m.getId())
-            .toList();
+    final List<String> memberIds = getMemberIds(active);
 
     final List<PurchaseEntity> purchases =
         purchaseRepository.findByDateBetween(start, end).stream()
@@ -159,26 +153,37 @@ public class PurchaseService {
     return purchases.size();
   }
 
-  // 各メンバーが購入した商品の合計金額と点数をリスト形式で返す
+  // メンバー毎の売上金額と売上数量をリスト形式で返す
   private List<StatisticsOnMemberPurchase> getStatisticsOnMemberPurchase(
       Optional<Boolean> active, LocalDateTime start, LocalDateTime end) {
     final List<StatisticsOnMemberPurchase> statistics = new ArrayList<>();
-    final List<MemberEntity> members =
-        memberRepository.findAll().stream()
-            // activeがtrueな場合にはactiveな要素だけ抽出
-            // activeが指定されていない場合にはすべての要素を返す
-            .filter(m -> m.isActive() || !active.orElse(false))
-            .toList();
-
+    final List<MemberEntity> members = getMembers(active);
     for (MemberEntity member : members) {
-      final String memberId = member.getId();
-
-      final List<PurchaseEntity> purchases =
-          purchaseRepository.findByMemberIdAndDateBetween(memberId, start, end);
-      final int sales = purchases.stream().mapToInt(p -> p.getPrice()).sum();
-      final int count = purchases.size();
-      statistics.add(new StatisticsOnMemberPurchase(memberId, sales, count));
+      statistics.add(getStatisticsOnMemberPurchaseForEachMember(member, start, end));
     }
     return statistics;
+  }
+
+  private StatisticsOnMemberPurchase getStatisticsOnMemberPurchaseForEachMember(
+      MemberEntity member, LocalDateTime start, LocalDateTime end) {
+    final String memberId = member.getId();
+
+    final List<PurchaseEntity> purchases =
+        purchaseRepository.findByMemberIdAndDateBetween(memberId, start, end);
+    final int sales = purchases.stream().mapToInt(p -> p.getPrice()).sum();
+    final int count = purchases.size();
+    return new StatisticsOnMemberPurchase(memberId, sales, count);
+  }
+
+  // TODO: 適切なファイルに本関数を切り出す．
+  // MemberService.javaに切り出すと循環参照が発生するため不可．
+  private List<MemberEntity> getMembers(Optional<Boolean> active) {
+    return active.orElse(false) ? memberRepository.findByActive(true) : memberRepository.findAll();
+  }
+
+  // TODO: 適切なファイルに本関数を切り出す．
+  // MemberService.javaに切り出すと循環参照が発生するため不可．
+  private List<String> getMemberIds(Optional<Boolean> active) {
+    return getMembers(active).stream().map(m -> m.getId()).toList();
   }
 }
