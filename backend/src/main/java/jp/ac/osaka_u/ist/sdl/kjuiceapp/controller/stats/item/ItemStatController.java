@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.item.responsebody.ItemStatResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.PurchaseService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/stats/items")
 public class ItemStatController {
-  @Autowired private PurchaseService purchaseService;
+  @Autowired private StatService statService;
 
   @GetMapping
   public List<ItemStatResponseBody> getSalesStatsOnItem(
@@ -29,6 +29,6 @@ public class ItemStatController {
     if (start.isAfter(end)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
-    return purchaseService.getSalesStatsOnItem(active, start, end);
+    return statService.getSalesStatsOnItem(active, start, end);
   }
 }

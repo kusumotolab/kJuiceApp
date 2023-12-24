@@ -3,7 +3,7 @@ package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.member;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.member.responsebody.MemberStatResponseBody;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.PurchaseService;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/stats/members")
 public class MemberStatController {
-  @Autowired private PurchaseService purchaseService;
+  @Autowired private StatService statService;
 
   @GetMapping
   public MemberStatResponseBody getSalesStatsOnItem(
@@ -28,6 +28,6 @@ public class MemberStatController {
     if (start.isAfter(end)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
-    return purchaseService.getPurchasesStatsOnMember(active, start, end);
+    return statService.getPurchasesStatsOnMember(active, start, end);
   }
 }
