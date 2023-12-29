@@ -1,41 +1,16 @@
 import { Center, Heading, Text } from "@chakra-ui/react";
-import { useMembers } from "contexts/MembersContext";
-import { useEffect, useState } from "react";
-import { Member, History } from "types";
-import { Backend } from "util/Backend";
+import { History } from "types";
 import { HistoryCard } from "./HistoryCard";
 
-function HistoryList({ selectedMemberId }: { selectedMemberId: string }) {
-  const [histories, setHistories] = useState<History[]>([]);
-  const members = useMembers();
-  const selectedMember = members.find(
-    (member: Member) => member.id === selectedMemberId
-  );
+type Props = {
+  histories: History[];
+  isMemberSelected: boolean;
+  onDeleteHistory: (history: History) => void;
+};
 
-  function deleteHistory(history: History) {
-    setHistories(histories.filter((h) => h.historyId !== history.historyId));
-  }
+function HistoryList({ histories, isMemberSelected, onDeleteHistory }: Props) {
 
-  useEffect(() => {
-    async function fetchHistories() {
-      if (selectedMember === undefined) {
-        setHistories([]);
-        return;
-      }
-
-      const histories = await Backend.getUserHistory(selectedMember.id);
-      if (histories === null) {
-        console.error("getUserHistory: failed");
-        return;
-      }
-
-      setHistories(histories);
-    }
-
-    fetchHistories();
-  }, [selectedMemberId]);
-
-  if (selectedMemberId === "") {
+  if (isMemberSelected === false) {
     return (
       <Center h="100%">
         <Heading size="md" textColor="gray">
@@ -61,7 +36,7 @@ function HistoryList({ selectedMemberId }: { selectedMemberId: string }) {
         <HistoryCard
           key={history.historyId}
           history={history}
-          deleteHistory={deleteHistory}
+          onDeleteHistory={onDeleteHistory}
         />
       ))}
     </>

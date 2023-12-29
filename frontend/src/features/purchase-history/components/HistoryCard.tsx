@@ -19,10 +19,10 @@ import { useMembersDispatch } from "contexts/MembersContext";
 
 type Props = {
   history: History;
-  deleteHistory: (history: History) => void;
+  onDeleteHistory: (history: History) => void;
 };
 
-function HistoryCard({ history, deleteHistory }: Props) {
+function HistoryCard({ history, onDeleteHistory: deleteHistory }: Props) {
   // TODO: 画像処理の共通化
   const [imageURL, setImageURL] = useState<string>("");
   const dispatch = useMembersDispatch();
