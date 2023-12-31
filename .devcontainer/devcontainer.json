@@ -11,7 +11,9 @@
 		}
 	],
 	"features": {
-		"ghcr.io/devcontainers/features/java:1": {},
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "17"
+		},
 		"ghcr.io/devcontainers/features/node:1": {
 			"version": "18"
 		},
