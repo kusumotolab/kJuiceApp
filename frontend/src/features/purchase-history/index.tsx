@@ -23,6 +23,7 @@ function PurchaseHistory() {
       console.error("getUserHistory: failed");
       return;
     }
+    console.log("histories", histories);
     setHistories(histories);
   }
 
@@ -64,9 +65,10 @@ function PurchaseHistory() {
       <LeftColumn>
         <MemberPane
           selectedMemberId={selectedMemberId}
-          onClickMemberCard={(memberId) => {
+          onClickMemberCard={async (memberId) => {
+            // 購入履歴の取得が完了するまでmemberIdをセットしない
+            await fetchHistories(memberId);
             setSelectedMemberId(memberId);
-            fetchHistories(memberId);
           }}
         />
       </LeftColumn>
