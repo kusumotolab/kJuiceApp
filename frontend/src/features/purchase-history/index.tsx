@@ -23,13 +23,10 @@ function PurchaseHistory() {
       console.error("getUserHistory: failed");
       return;
     }
-    console.log("histories", histories);
     setHistories(histories);
   }
 
   async function deleteHistory(history: History) {
-    // TODO: ここで確認ダイアログを出す
-
     if (!(await Backend.recall(history.historyId))) {
       console.error("recall: failed");
       toast({
@@ -79,7 +76,7 @@ function PurchaseHistory() {
         <HistoryList
           histories={histories}
           isMemberSelected={selectedMemberId !== ""}
-          onDeleteHistory={(history) => deleteHistory(history)}
+          onDeleteHistory={deleteHistory}
         />
       </RightColumn>
     </TwoColumnLayout>
