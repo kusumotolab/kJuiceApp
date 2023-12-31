@@ -27,7 +27,6 @@ function PurchaseHistory() {
   }
 
   async function deleteHistory(history: History) {
-
     // TODO: ここで確認ダイアログを出す
 
     if (!(await Backend.recall(history.historyId))) {
@@ -58,7 +57,6 @@ function PurchaseHistory() {
       duration: 2000,
       isClosable: true,
     });
-    
   }
 
   return (
