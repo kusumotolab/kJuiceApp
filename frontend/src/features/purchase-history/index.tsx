@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Heading } from "@chakra-ui/react";
+import { useState } from "react";
+import { Heading, useToast } from "@chakra-ui/react";
 import {
   LeftColumn,
   RightColumn,
@@ -14,7 +14,8 @@ import { useMembersDispatch } from "contexts/MembersContext";
 function PurchaseHistory() {
   const [selectedMemberId, setSelectedMemberId] = useState<string>("");
   const [histories, setHistories] = useState<History[]>([]);
-  const dispatch = useMembersDispatch();
+  const dispatchMembers = useMembersDispatch();
+  const toast = useToast();
 
   async function fetchHistories(memberId: string) {
     const histories = await Backend.getUserHistory(memberId);
@@ -26,13 +27,22 @@ function PurchaseHistory() {
   }
 
   async function deleteHistory(history: History) {
+
+    // TODO: ここで確認ダイアログを出す
+
     if (!(await Backend.recall(history.historyId))) {
       console.error("recall: failed");
+      toast({
+        title: "購入履歴の削除に失敗しました",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
       return;
     }
 
     // memberの利用金額を更新
-    dispatch({
+    dispatchMembers({
       type: "purchaseCanceled",
       id: history.memberId,
       price: history.price,
@@ -40,6 +50,15 @@ function PurchaseHistory() {
 
     // historyを更新
     setHistories(histories.filter((h) => h.historyId !== history.historyId));
+
+    // toastを表示
+    toast({
+      title: "購入履歴を削除しました",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+    
   }
 
   return (

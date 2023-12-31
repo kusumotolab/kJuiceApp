@@ -12,8 +12,8 @@ import { ItemsProvider } from "contexts/ItemsContext";
 import { Header } from "components/Header";
 import { UserSetting } from "Setting/User/UserSetting";
 import { AdminPane } from "Setting/Admin/AdminPane";
-import { Home } from "features/home/Home";
-import { PurchaseHistory } from "features/purchase-history/PurchaseHistory";
+import { Home } from "features/home";
+import { PurchaseHistory } from "features/purchase-history";
 
 export const TabIndex = createContext(0);
 

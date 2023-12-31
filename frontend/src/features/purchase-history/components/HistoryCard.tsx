@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import LogoDefaultItem from "image/default_item.svg";
-import { useMembersDispatch } from "contexts/MembersContext";
 
 type Props = {
   history: History;
@@ -25,7 +24,6 @@ type Props = {
 function HistoryCard({ history, onDeleteHistory: deleteHistory }: Props) {
   // TODO: 画像処理の共通化
   const [imageURL, setImageURL] = useState<string>("");
-  const dispatch = useMembersDispatch();
 
   useEffect(() => {
     let ignore = false;
@@ -95,7 +93,7 @@ function HistoryCard({ history, onDeleteHistory: deleteHistory }: Props) {
       <IconButton
         variant="unstyled"
         aria-label="購入履歴を削除"
-        onClick={() => deletePurchaseHistory(history)}
+        onClick={() => deleteHistory(history)}
         icon={<FontAwesomeIcon icon={faTrash} color="red" />}
       />
     </Flex>
