@@ -9,7 +9,6 @@ type Props = {
 };
 
 function HistoryList({ histories, isMemberSelected, onDeleteHistory }: Props) {
-
   if (isMemberSelected === false) {
     return (
       <Center h="100%">

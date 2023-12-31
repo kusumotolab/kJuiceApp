@@ -42,7 +42,6 @@ function PurchaseHistory() {
     setHistories(histories.filter((h) => h.historyId !== history.historyId));
   }
 
-
   return (
     <TwoColumnLayout>
       <LeftColumn>

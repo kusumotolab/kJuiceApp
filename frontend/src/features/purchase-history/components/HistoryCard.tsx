@@ -55,23 +55,6 @@ function HistoryCard({ history, onDeleteHistory: deleteHistory }: Props) {
     };
   }, []);
 
-  async function deletePurchaseHistory(history: History) {
-    if (!(await Backend.recall(history.historyId))) {
-      console.error("recall: failed");
-      return;
-    }
-
-    // memberの利用金額を更新
-    dispatch({
-      type: "purchaseCanceled",
-      id: history.memberId,
-      price: history.price,
-    });
-
-    // historyを更新
-    deleteHistory(history);
-  }
-
   return (
     <Flex
       _first={{ borderTop: "1px", borderColor: "blackAlpha.200" }}
