@@ -14,6 +14,9 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Intege
 
   public List<PurchaseEntity> findByMemberIdAndDateAfter(String memberId, LocalDateTime date);
 
+  public List<PurchaseEntity> findByItemIdAndDateBetween(
+      String itemId, LocalDateTime start, LocalDateTime end);
+
   // 請求書を発行した直近の日時を取得し，それ以降に購入された金額をメンバーごとに集計する．
   @Query(
       value =

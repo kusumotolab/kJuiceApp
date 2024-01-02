@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { FileSelect } from "./FileSelect/FileSelect";
-import { Backend } from "util/Backend";
 import {
+  Avatar,
   Box,
   Button,
+  Center,
   FormControl,
   FormLabel,
   Heading,
   Select,
   Stack,
-  Avatar,
-  Center,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { Backend } from "util/Backend";
+import { FileSelect } from "util/FileSelect";
 import { useMembers } from "contexts/MembersContext";
 
 function IconSetting() {
