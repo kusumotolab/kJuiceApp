@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  h: string;
+  h?: string;
 };
 
 export function TwoColumnLayout({ children, h = "100%" }: Props) {

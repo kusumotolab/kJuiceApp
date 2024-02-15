@@ -1,6 +1,6 @@
 import { Heading, Stack } from "@chakra-ui/react";
 import { useMembers } from "contexts/MembersContext";
-import { MemberCard } from "./MemberCard";
+import { MemberCard } from "features/home/components/MemberCard";
 
 type Props = {
   selectedMemberId: string;

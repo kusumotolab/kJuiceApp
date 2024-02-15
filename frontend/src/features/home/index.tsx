@@ -5,7 +5,7 @@ import {
   RightColumn,
 } from "components/TwoColumnLayout";
 import { ItemPane } from "./components/ItemPane";
-import { MemberPane } from "./components/MemberPane";
+import { MemberPane } from "components/MemberPane";
 import { ConfrimPane } from "./components/ConfirmPane";
 
 function Home() {
