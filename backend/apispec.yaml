@@ -516,49 +516,49 @@ paths:
                 $ref: "#/components/schemas/Error"
 
 
-  # /stats/members:
-  #   get:
-  #     tags:
-  #       - stats
-  #     summary: Get purchase stats on member
-  #     description: 全メンバーについてメンバーごとの購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
-  #     parameters:
-  #       - in: query
-  #         name: isActive
-  #         schema:
-  #           type: string
-  #       - in: query
-  #         name: start
-  #         schema:
-  #           type: string
-  #           format: date
-  #       - in: query
-  #         name: end
-  #         schema:
-  #           type: string
-  #           format: date
-  #     responses:
-  #       "200":
-  #         description: 取得成功
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 totalAmount:
-  #                   type: string
-  #                 totalCount:
-  #                   type: string
-  #                 statistics:
-  #                   type: array
-  #                   items:
-  #                     $ref: "#/components/schemas/StatisticsOnId"
-  #       "400":
-  #         description: 不正なパラメータ
-  #         content:
-  #           application/problem+json:
-  #             schema:
-  #               $ref: "#/components/schemas/Error"
+  /stats/members:
+    get:
+      tags:
+        - stats
+      summary: Get purchase stats on member
+      description: 全メンバーについてメンバーごとの購入金額の合計を取得する．パラメータによって集計期間や集計単位を指定できる.
+      parameters:
+        - in: query
+          name: isActive
+          schema:
+            type: boolean
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalAmount:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  statistics:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/StatisticsOnMembers"
+        "400":
+          description: 不正なパラメータ
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   # /stats/members/{memberId}:
   #   get:
@@ -864,6 +864,21 @@ components:
         sales:
           type: integer
           example: 200
+
+    StatisticsOnMembers:
+      type: object
+      properties:
+        id:
+          type: string
+          example: h-yosiok
+        purchaseAmount:
+          type: integer
+          example: 200
+          description: 購入金額の合計
+        purchaseCount:
+          type: integer
+          example: 12
+          description: 購入点数の合計
 
 
     ## error

@@ -1,9 +1,8 @@
-package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.item;
+package jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.member;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.item.responsebody.ItemStatResponseBody;
+import jp.ac.osaka_u.ist.sdl.kjuiceapp.controller.stats.member.responsebody.MemberStatResponseBody;
 import jp.ac.osaka_u.ist.sdl.kjuiceapp.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/stats/items")
-public class ItemStatController {
+@RequestMapping("/stats/members")
+public class MemberStatController {
   @Autowired private StatService statService;
 
   @GetMapping
-  public List<ItemStatResponseBody> getSalesStatsOnItem(
+  public MemberStatResponseBody getSalesStatsOnItem(
       @RequestParam(required = false) Optional<Boolean> active,
       @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
           LocalDateTime start,
@@ -29,6 +28,6 @@ public class ItemStatController {
     if (start.isAfter(end)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
-    return statService.getSalesStatsOnItem(active, start, end);
+    return statService.getPurchasesStatsOnMember(active, start, end);
   }
 }
